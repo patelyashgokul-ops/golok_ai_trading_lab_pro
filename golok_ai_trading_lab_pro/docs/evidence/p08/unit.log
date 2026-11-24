@@ -41,9 +41,11 @@ test_causal_targets_and_cost_veto (unit_p07.P07Tests.test_causal_targets_and_cos
 test_rank_all_strategies_and_instruments_before_reserving (unit_p07.P07Tests.test_rank_all_strategies_and_instruments_before_reserving) ... ok
 test_udiff_validates_venue_date_and_series (unit_p07.P07Tests.test_udiff_validates_venue_date_and_series) ... ok
 test_calendar_phase_uses_explicit_windows (unit_p08.P08Tests.test_calendar_phase_uses_explicit_windows) ... ok
+test_gate_context_cannot_override_a_veto (unit_p08.P08Tests.test_gate_context_cannot_override_a_veto) ... ok
 test_historical_intake_requires_affirmative_evidence_and_prior_publication (unit_p08.P08Tests.test_historical_intake_requires_affirmative_evidence_and_prior_publication) ... ok
+test_intraday_contract_never_executes_at_or_before_publication (unit_p08.P08Tests.test_intraday_contract_never_executes_at_or_before_publication) ... ok
 
 ----------------------------------------------------------------------
-Ran 44 tests in 0.281s
+Ran 46 tests in 0.186s
 
 OK

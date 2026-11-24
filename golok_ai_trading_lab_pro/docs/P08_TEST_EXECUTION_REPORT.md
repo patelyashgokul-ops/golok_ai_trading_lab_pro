@@ -27,3 +27,8 @@ P08.1 reran the full local workflow after adding holdout read protections and se
 
     ./scripts/verify_odoo.ps1 -Browser -ClusterDir .local-test/pg-p08 -EvidenceDir docs/evidence/p08/completion -PostgresPort 55498 -HttpPort 18098 -Database golok_p08_fresh_d
     ./scripts/verify_p01_upgrade.ps1 -SourceDatabase golok_p07_fresh_a -TargetDatabase golok_p05_migration_p08c -SourceVersion 20.0.7.0.0 -TargetVersion 20.0.8.1.0 -EvidenceDir docs/evidence/p08/migration-completion -ClusterDir .local-test/pg-p06 -PostgresPort 55497
+
+The subsequent historical-contract revision adds two standalone tests, bringing the suite to 46. It separates market close, publication and execution on authored fixtures, rejects missing provenance and ensures audit context cannot override decision gates. Local regression and upgrade evidence for this revision is under replay-contract and migration-replay.
+
+    ./scripts/verify_odoo.ps1 -Browser -ClusterDir .local-test/pg-p08 -EvidenceDir docs/evidence/p08/replay-contract -PostgresPort 55498 -HttpPort 18098 -Database golok_p08_fresh_e
+    ./scripts/verify_p01_upgrade.ps1 -SourceDatabase golok_p07_fresh_a -TargetDatabase golok_p05_migration_p08d -SourceVersion 20.0.7.0.0 -TargetVersion 20.0.8.1.0 -EvidenceDir docs/evidence/p08/migration-replay -ClusterDir .local-test/pg-p06 -PostgresPort 55497

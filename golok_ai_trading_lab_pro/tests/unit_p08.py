@@ -3,7 +3,7 @@ from dataclasses import replace
 from datetime import datetime, timedelta, timezone
 
 from scripts.reproduce_p05 import fixture
-from services import replay_contract, session_clock
+from services import decision, portfolio, replay_contract, session_clock
 
 
 class P08Tests(unittest.TestCase):
@@ -38,3 +38,34 @@ class P08Tests(unittest.TestCase):
         self.assertEqual(assess(replace(p, mode="live")), "UNSUPPORTED_MODE_OR_PUBLICATION")
         self.assertEqual(assess(replace(p, mode="historical_daily", interval="1d",
                                         publication_basis="first_observed_receipt")), "DESCRIPTIVE_ONLY")
+
+    def test_intraday_contract_never_executes_at_or_before_publication(self):
+        data, day, costs = fixture()
+        base = data[0]
+        bars = list(base.bars)
+        bars[3] = replace(bars[3], available_at=bars[4].open_time + timedelta(seconds=1))
+        asset = replace(base, origin="historical_contract", bars=tuple(bars))
+        proof = replay_contract.Provenance("historical_intraday", "5m", replay_contract.fingerprint(asset),
+                                           "verified_publication", True, True, True, True)
+        result = replay_contract.replay_fixture([asset], {asset.key: proof}, day, day, 300,
+                                                ("ST-01",), costs, target_policy="fixed_4r")
+        self.assertEqual(len(result["trades"]), 1)
+        self.assertGreater(result["trades"][0]["time"], bars[3].available_at)
+        self.assertEqual(result["scope"], "HISTORICAL_CONTRACT_FIXTURE_ONLY")
+        self.assertEqual(result["decisions"][0]["live_actionability"], "BLOCKED")
+        for invalid in (replace(proof, permission=False), replace(proof, fingerprint="0" * 64),
+                        replace(proof, publication_basis="first_observed_receipt")):
+            with self.assertRaisesRegex(ValueError, "provenance"):
+                replay_contract.replay_fixture([asset], {asset.key: invalid}, day, day, 300, ("ST-01",), costs)
+        with self.assertRaisesRegex(ValueError, "Synthetic portfolio source"):
+            portfolio.replay([asset], day, day, 300, ("ST-01",), costs)
+
+    def test_gate_context_cannot_override_a_veto(self):
+        checks = dict.fromkeys(decision.GATES, True)
+        checks["G01"] = ("unverified", "verified", "yes")
+        blocked = decision.evaluate(checks, mode="synthetic_replay",
+                                    context={"passed": True, "status": "PASSED", "mode": "live"})
+        self.assertEqual(blocked["state"], "NO_TRADE")
+        self.assertFalse(blocked["gates"]["G01"]["passed"])
+        self.assertEqual(blocked["gates"]["G01"]["status"], "FAILED")
+        self.assertEqual(blocked["gates"]["G01"]["mode"], "synthetic_replay")

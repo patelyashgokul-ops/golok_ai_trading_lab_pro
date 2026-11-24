@@ -15,13 +15,14 @@ def evaluate(checks, *, mode, context=None):
         evidence = checks.get(key)
         if isinstance(evidence, tuple):
             observed, threshold, passed = evidence
+            passed = passed is True
         else:
             observed, threshold, passed = evidence, True, evidence is True
         if key == "G14":
-            passed = passed and mode == "synthetic_replay"
-        results[key] = {"id": key, "label": name, "required_evidence": name, "observed": observed,
+            passed = passed and mode in ("synthetic_replay", "historical_contract_replay")
+        results[key] = {**(context or {}), "id": key, "label": name, "required_evidence": name, "observed": observed,
                         "threshold": threshold, "passed": passed, "status": "PASSED" if passed else "FAILED",
-                        "reason": "SATISFIED" if passed else "EVIDENCE_VETO", "mode": mode, **(context or {})}
+                        "reason": "SATISFIED" if passed else "EVIDENCE_VETO", "mode": mode}
     allowed = all(result["passed"] for result in results.values())
     return {"state": "SIMULATION_CANDIDATE" if allowed else "NO_TRADE", "gates": results,
             "financial_validation": "NOT_RUN", "live_actionability": "BLOCKED"}

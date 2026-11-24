@@ -3,7 +3,7 @@
 | Priority | Open scope | Effect |
 | --- | --- | --- |
 | High | Genuine source entitlement and permitted archive | No real-data smoke test or financial performance claim |
-| High | Generalized replay production integration and actual costs | Intraday financial execution stays disabled |
+| High | Authorized historical production integration and actual costs | Intraday contract executes on authored fixtures. Real-data replay stays disabled. |
 | High | Trusted fixture provenance and holdout trust boundary | P08.1 blocks covered Odoo queries and outputs. Database administrators and filesystem access remain outside its boundary. |
 | High | Physical retention and nested export restrictions | New access controls protect the covered routes |
 | Medium | Cross-source conflict promotion and complete dataset revisions | Local ingestion validates mapped daily observations |

@@ -30,10 +30,12 @@ class Series:
     quarantined: bool = False
 
 
-def _events(series, starts, ends, seconds):
+def _events(series, starts, ends, seconds, *, historical=False):
     events = []
     for asset in series:
-        if not eligibility.evaluate(asset.origin, "synthetic_replay", quarantined=asset.quarantined)[1]:
+        if (historical and (asset.origin != "historical_contract" or asset.quarantined)
+                or not historical and not eligibility.evaluate(
+                    asset.origin, "synthetic_replay", quarantined=asset.quarantined)[1]):
             raise ValueError("Synthetic portfolio source eligibility failed.")
         if asset.exchange not in ("NSE", "BSE") or not simulation.finite(asset.tick) or asset.tick <= 0:
             raise ValueError("Each instrument requires a supported exchange and a positive tick.")
@@ -52,19 +54,28 @@ def _events(series, starts, ends, seconds):
         for bar, (start, end, session) in zip(asset.bars, expected):
             values = (bar.open, bar.high, bar.low, bar.close)
             if (
-                (bar.open_time, bar.close_time, bar.available_at) != (start, end, end)
+                (bar.open_time, bar.close_time) != (start, end)
+                or (not historical and bar.available_at != end)
+                or (historical and not end <= bar.available_at <= session.closing)
                 or not all(simulation.finite(p) and p > 0 and p % asset.tick == 0 for p in values)
                 or not (bar.low <= min(bar.open, bar.close) <= max(bar.open, bar.close) <= bar.high)
                 or type(bar.volume) is not int or bar.volume < 0
             ):
-                raise ValueError("Replay requires valid tick-aligned OHLCV and availability exactly at synthetic close.")
+                raise ValueError("Replay requires a complete tick-aligned grid and compatible publication timestamps.")
             # Complete closes before new opens at the same timestamp. Stable key breaks ties.
             events.extend(((start, 1, asset.key, bar, session), (end, 0, asset.key, bar, session)))
+            if historical:
+                events.append((bar.available_at, 2, asset.key, bar, session))
     return sorted(events, key=lambda event: event[:3])
 
 
 def replay(series, starts, ends, seconds, codes, costs, *, capital=Decimal("50000"),
            portfolio_policy=PortfolioPolicy(), target_policy="structure"):
+    return _replay(series, starts, ends, seconds, codes, costs, capital=capital,
+                   portfolio_policy=portfolio_policy, target_policy=target_policy, historical=False)
+
+
+def _replay(series, starts, ends, seconds, codes, costs, *, capital, portfolio_policy, target_policy, historical):
     if (not 1 <= len(series) <= MAX_INSTRUMENTS or len({asset.key for asset in series}) != len(series)
             or sum(len(asset.bars) for asset in series) > MAX_BARS
             or not starts <= ends < starts + timedelta(days=31) or seconds not in (60, 180, 300, 900)
@@ -75,7 +86,8 @@ def replay(series, starts, ends, seconds, codes, costs, *, capital=Decimal("5000
             or any(type(value) is not int or value <= 0 for value in (
                 portfolio_policy.daily_entries, portfolio_policy.consecutive_losses, portfolio_policy.max_positions))):
         raise ValueError("Invalid portfolio risk policy.")
-    events = _events(series, starts, ends, seconds)
+    events = _events(series, starts, ends, seconds, historical=historical)
+    mode = "historical_contract_replay" if historical else "synthetic_replay"
     assets = {asset.key: asset for asset in series}
     cash = capital
     day = None
@@ -115,6 +127,8 @@ def replay(series, starts, ends, seconds, codes, costs, *, capital=Decimal("5000
             and sizing.loss <= risk_room and daily_realized > -daily_open * portfolio_policy.daily_loss
         )
         source, eligible = eligibility.evaluate(asset.origin, "synthetic_replay", quarantined=asset.quarantined)
+        if historical:
+            source, eligible = "VERIFIED_CONTRACT_FIXTURE", asset.origin == "historical_contract" and not asset.quarantined
         history = histories[key]
         checks = {
             "G01": (source, "eligible synthetic source", eligible),
@@ -125,16 +139,18 @@ def replay(series, starts, ends, seconds, codes, costs, *, capital=Decimal("5000
             "G06": (target_reason, "causal level and entry within 1% of signal close",
                     target is not None and stop < bar.open <= observed.close * Decimal("1.01")),
             "G07": (code, "registered strategy", code in strategies.REGISTRY),
-            "G08": (asset.origin, "synthetic experiment permission only", eligible and code in strategies.REGISTRY),
+            "G08": (asset.origin, "research-mode permission only" if historical else "synthetic experiment permission only",
+                    eligible and code in strategies.REGISTRY),
             "G09": (cost_available, "complete hypothetical tariff", cost_available),
             "G10": ((sizing.quantity, sizing.reward, sizing.loss), "positive quantity and at least 2:1 net", sizing.quantity > 0),
             "G11": ((risk_room, entries, suspended), "shared risk and cash available; no duplicate position", independent),
             "G12": (when - observed.available_at, "later open within one interval and cutoff", valid_time),
-            "G13": (observed.close_time, "validated source observation available at close",
-                    observed.available_at == observed.close_time and observed in history),
-            "G14": (source, "synthetic simulation only", eligible),
+            "G13": (observed.close_time, "publication verified" if historical else "validated source observation available at close",
+                    (observed.available_at >= observed.close_time if historical else observed.available_at == observed.close_time)
+                    and observed in history),
+            "G14": (source, "historical contract simulation only" if historical else "synthetic simulation only", eligible),
         }
-        outcome = decision.evaluate(checks, mode="synthetic_replay", context={
+        outcome = decision.evaluate(checks, mode=mode, context={
             "evaluated_at": when, "strategy_version": strategies.VERSION, "dataset_version": asset.key,
             "source_record": observed.close_time})
         decisions.append({"asset": key, "strategy": code, "time": when, "sizing": sizing.reason,
@@ -175,7 +191,7 @@ def replay(series, starts, ends, seconds, codes, costs, *, capital=Decimal("5000
         for key, candidates in sorted(pending.items()):
             for code, bar, _ in candidates:
                 outcome = decision.evaluate({"G12": ("no later open", "strictly later open", False)},
-                                            mode="synthetic_replay", context={"evaluated_at": bar.available_at,
+                                            mode=mode, context={"evaluated_at": bar.available_at,
                                             "dataset_version": key, "source_record": bar.close_time,
                                             "strategy_version": strategies.VERSION})
                 decisions.append({"asset": key, "strategy": code, "time": bar.available_at,
@@ -192,7 +208,7 @@ def replay(series, starts, ends, seconds, codes, costs, *, capital=Decimal("5000
                 raise ValueError("Unresolved overnight position; no fictional closing value.")
             day, daily_open, daily_realized, entries = session.day, cash, Decimal(0), 0
             histories, pending = {}, {}
-        if phase:
+        if phase == 1:
             competing = []
             for _, _, key, bar, session in batch:
                 position = positions.get(key)
@@ -211,13 +227,15 @@ def replay(series, starts, ends, seconds, codes, costs, *, capital=Decimal("5000
             continue
         for _, _, key, bar, session in batch:
             position = positions.get(key)
-            if position:
+            if position and phase == 0:
                 if bar.low <= position["stop"]:
                     close(key, when, position["stop"], "STOP_FIRST")
                 elif bar.high > position["target"]:
                     close(key, when, position["target"], "TRADE_THROUGH_TARGET")
                 elif when >= session.exit_cutoff or when - position["time"] >= timedelta(seconds=12 * seconds):
                     close(key, when, bar.close, "TIME_EXIT")
+            if historical and phase == 0:
+                continue
             history = histories.setdefault(key, [])
             history.append(bar)
             if key not in positions and key not in pending and when < session.entry_cutoff:
@@ -237,7 +255,8 @@ def replay(series, starts, ends, seconds, codes, costs, *, capital=Decimal("5000
         drawdown = max(drawdown, peak - row["cash"])
     net = cash - capital
     return {
-        "scope": "SYNTHETIC_SOFTWARE_ONLY", "initial_cash": capital, "ending_cash": cash,
+        "scope": "HISTORICAL_CONTRACT_FIXTURE_ONLY" if historical else "SYNTHETIC_SOFTWARE_ONLY",
+        "initial_cash": capital, "ending_cash": cash,
         "policy": asdict(portfolio_policy), "trades": trades, "ledger": ledger, "decisions": decisions, "days": daily,
         "suspended": suspended, "net": net, "gross": sum((t["gross"] for t in trades), Decimal(0)),
         "fees": sum((t["fees"] for t in trades), Decimal(0)), "daily_closed_drawdown": drawdown,

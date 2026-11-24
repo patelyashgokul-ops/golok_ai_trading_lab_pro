@@ -1,0 +1,9 @@
+{
+  "scope": "HISTORICAL_CONTRACT_FIXTURE_ONLY",
+  "fixture_fingerprint": "2a3b04f356fe4b2c0dc17f0e3f837b00bc4f5046a317bf9556b4c950a6c7b0aa",
+  "market_close": "2024-01-02 04:05:00+00:00",
+  "simulated_publication": "2024-01-02 04:05:01+00:00",
+  "simulated_entry": "2024-01-02 04:10:00+00:00",
+  "trade_count": 1,
+  "live_actionability": "BLOCKED"
+}
