@@ -523,6 +523,42 @@ class TestLab(TransactionCase):
         self.assertGreater(missing.position_cost, 0)
         self.assertEqual(missing.realized, 0)
 
+    def test_p09_walk_forward_persists_reproducible_separated_folds(self):
+        files = Path(__file__).parent / "fixtures/p02"
+        spec = json.loads((files / "spec.json").read_text())
+        schedule = [{**spec["schedule"][0], "date": f"2024-01-{number:02d}"} for number in range(2, 12)]
+        setup = self.env(user=self.admin.id)
+        calendar = setup["golok.lab.calendar"].create({
+            "name": "Walk-forward fixture", "source": "Authored fixture", "exchange": "NSE", "verification": "fixture",
+            "verified_on": "2024-01-01", "schedule": json.dumps(schedule),
+        })
+        tariff = setup["golok.lab.tariff"].create({"name": "Walk-forward costs", "lines": json.dumps(spec["tariffs"])})
+        analyst = self.env(user=self.analyst.id)
+        data = analyst["golok.lab.dataset"].create({
+            "name": "Walk-forward sample", "source": "Authored sample", "origin": "synthetic", "interval": "5m",
+            "instrument_id": self.instrument.id, "calendar_id": calendar.id,
+        })
+        header, rows = (files / "candles.csv").read_bytes().split(b"\n", 1)
+        rows = rows.strip().replace(b",102,120,98,101,", b",102,120,100,101,")
+        payload = header + b"\n" + b"\n".join(rows.replace(b"2024-01-02", item["date"].encode()) for item in schedule)
+        analyst["golok.lab.import"].create({"dataset_id": data.id, "upload": BinaryBytes(payload)}).action_import()
+        wizard = analyst["golok.lab.portfolio.wizard"].create({
+            "dataset_ids": [(6, 0, data.ids)], "tariff_id": tariff.id, "starts": "2024-01-02",
+            "ends": "2024-01-11", "validation_sessions": 2, "target_policy": "fixed_4r",
+        })
+        result = wizard.action_experiment()
+        self.assertEqual(result["res_id"], wizard.action_experiment()["res_id"])
+        record = analyst[result["res_model"]].browse(result["res_id"])
+        self.assertEqual(record.fold_count, 4)
+        rows = json.loads(record.report)["folds"]
+        for fold in rows:
+            self.assertEqual(len(fold["training_trials"]), 5)
+            windows = fold["windows"]
+            self.assertLess(windows["training"][-1], windows["validation"][0])
+            self.assertLess(windows["validation"][-1], windows["evaluation"][0])
+            self.assertEqual(fold["evaluation"]["strategy"], fold["selected"])
+            self.assertEqual(fold["status"], "EVALUATED")
+
     def test_p08_source_conflict_blocks_research_and_is_idempotent(self):
         files = Path(__file__).parent / "fixtures/p02"
         schedule = json.loads((files / "spec.json").read_text())["schedule"]

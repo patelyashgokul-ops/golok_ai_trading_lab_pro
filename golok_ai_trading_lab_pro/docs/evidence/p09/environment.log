@@ -3,3 +3,4 @@ Processor: Intel64 Family 6 Model 142 Stepping 12, GenuineIntel
 Logical CPUs: 8
 Physical memory bytes: 16918601728
 Python: 3.11.9
+CPU model: Intel(R) Core(TM) i5-10210U CPU @ 1.60GHz

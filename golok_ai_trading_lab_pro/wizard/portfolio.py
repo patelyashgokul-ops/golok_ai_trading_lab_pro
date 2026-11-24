@@ -3,9 +3,10 @@ from datetime import timedelta
 from decimal import Decimal
 
 from odoo import fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import AccessError, ValidationError
 
-from ..models.portfolio import STRATEGIES
+from ..models.portfolio import STRATEGIES, digest
+from ..services import backtest, performance, walk_forward
 
 
 class PortfolioWizard(models.TransientModel):
@@ -23,6 +24,11 @@ class PortfolioWizard(models.TransientModel):
         ("structure", "Completed market structure"), ("fixed_4r", "Fixed 4R benchmark")],
         required=True, default="structure")
     training_id = fields.Many2one("golok.lab.portfolio", string="Training replay for sealing")
+    training_sessions = fields.Integer(default=2)
+    validation_sessions = fields.Integer(default=1)
+    evaluation_sessions = fields.Integer(default=1)
+    embargo_sessions = fields.Integer(default=1)
+    expanding_window = fields.Boolean()
 
     def action_seal(self):
         self.ensure_one()
@@ -110,3 +116,72 @@ class PortfolioWizard(models.TransientModel):
         return {"type": "ir.actions.act_window", "name": "Walk-forward Validation Replays",
                 "res_model": "golok.lab.portfolio", "domain": [("id", "in", folds)],
                 "views": [(False, "list"), (False, "form")], "target": "current"}
+
+    def action_experiment(self):
+        self.ensure_one()
+        self.check_access("read")
+        datasets = self.dataset_ids
+        datasets.check_access("read")
+        company = self.env.company
+        if (not self.env.user.has_group("golok_ai_trading_lab_pro.group_analyst") or not datasets
+                or len(datasets) > 16 or any(data.company_id != company or data.origin != "synthetic"
+                                            or not data.calendar_id for data in datasets)):
+            raise AccessError("Use active-company, calendar-bound synthetic datasets.")
+        if not self.starts or not self.ends or not 0 <= (self.ends - self.starts).days <= 30:
+            raise ValidationError("Use up to 31 calendar dates.")
+        requested = [self.starts + timedelta(days=offset) for offset in range((self.ends - self.starts).days + 1)]
+        schedules = [data.calendar_id._sessions() for data in datasets]
+        if any(not all(day in schedule for day in requested) for schedule in schedules):
+            raise ValidationError("Each date needs explicit calendar coverage.")
+        days = [day for day in requested if all(schedule[day].kind == "regular" for schedule in schedules)]
+        try:
+            partitions = list(walk_forward.folds(
+                days, training=self.training_sessions, validation=self.validation_sessions,
+                evaluation=self.evaluation_sessions, embargo=self.embargo_sessions, expanding=self.expanding_window))
+            if not 1 <= len(partitions) <= 6:
+                raise ValueError("Select a window producing one to six bounded folds.")
+        except ValueError as exc:
+            raise ValidationError(str(exc)) from None
+        self.env["golok.lab.replay.guard"]._lock(datasets.instrument_id)
+        if self.env["golok.lab.holdout"].search_count([
+                ("company_id", "=", company.id), ("starts", "<=", self.ends), ("ends", ">=", self.starts),
+                ("dataset_ids.instrument_id", "in", datasets.instrument_id.ids)], limit=1):
+            raise ValidationError("This experiment overlaps a sealed holdout.")
+        request = {"dataset_ids": sorted(datasets.ids), "tariff_id": self.tariff_id.id, "capital": self.capital,
+                   "tick": self.tick, "target_policy": self.target_policy}
+        portfolios = self.env["golok.lab.portfolio"]
+        codes = sorted(code for code, _label in STRATEGIES if code != "all")
+        results = []
+
+        def replay(window, code):
+            portfolio = portfolios.create({**request, "starts": window[0], "ends": window[-1], "strategy": code})
+            metrics = performance.summarize(json.loads(portfolio.result))
+            return {"strategy": code, "fingerprint": portfolio.fingerprint, "portfolio": portfolio.id, "metrics": metrics}
+
+        for windows in partitions:
+            trials = [replay(windows["training"], code) for code in codes]
+            scored = [(walk_forward.rank_summary(trial["metrics"]), trial["strategy"]) for trial in trials]
+            available = [(ranking, code) for ranking, code in scored if ranking is not None]
+            fold = {"windows": windows, "training_trials": trials, "status": "INSUFFICIENT_TRAINING"}
+            if available:
+                _, selected = max(available, key=lambda item: item[0])
+                validation = replay(windows["validation"], selected)
+                fold.update(selected=selected, validation=validation, status="VALIDATION_VETO")
+                if walk_forward.rank_summary(validation["metrics"]) is not None:
+                    fold.update(evaluation=replay(windows["evaluation"], selected), status="EVALUATED")
+            results.append(fold)
+        report = {"version": walk_forward.VERSION, "scope": "SYNTHETIC_SOFTWARE_ONLY", "folds": results,
+                  "selection": "Positive net expectancy with at least two trades, then lower closed-trade drawdown, trade count and fees",
+                  "parameters": {**request, "training_sessions": self.training_sessions, "validation_sessions": self.validation_sessions,
+                                 "evaluation_sessions": self.evaluation_sessions, "embargo_sessions": self.embargo_sessions,
+                                 "expanding": self.expanding_window}}
+        key = digest(report)
+        stored = self.env["golok.lab.walk.experiment"]
+        record = stored.search([("company_id", "=", company.id), ("fingerprint", "=", key)], limit=1)
+        if not record:
+            record = stored.with_context({}).sudo().create({
+                "company_id": company.id, "fingerprint": key, "version": walk_forward.VERSION,
+                "fold_count": len(results), "report": backtest.canonical(report),
+            })
+        return {"type": "ir.actions.act_window", "res_model": stored._name, "res_id": record.id,
+                "views": [(False, "form")], "target": "current"}

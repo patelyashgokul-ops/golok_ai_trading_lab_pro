@@ -1,108 +1,109 @@
-# Golok AI Trading Lab Pro — P08 development report
+# Golok AI Trading Lab Pro — P09 development report
 
-**P08 TECHNICAL ACCEPTANCE VERIFIED — GENUINE DATA VALIDATION BLOCKED**
+**P09 DEVELOPMENT PARTIAL — TECHNICAL OR EXTERNAL BLOCKERS REMAIN**
 
-24 November 2026, Asia/Kolkata. P08.7 adds an Odoo route for authorized intraday simulation alongside named source permissions, reviewed daily revisions and server-generated timing fixtures. It retains holdout isolation, historical-report recovery and fixture intraday replay.
+24 November 2026, Asia/Kolkata. P09 snapshot version 20.0.9.0.0 adds recurring fixture research, manually advanced prospective fixture accounts, synthetic performance reports, and embargoed walk-forward experiments. It keeps original P08 tables and scopes. The acceptance matrix has 35 PASSED, 13 PARTIAL, 2 BLOCKED.
 
-## Baseline and actual execution
+## Verified work
 
-The P07 handoff passed CRC, both manifests and external SHA-256 verification. The archived release and matrix remain recoverable, all prior identifiers were retained, and both target-policy outcomes reproduced. P08.7 ran 47 standalone tests, 20 Odoo cases each on fresh and update, and 17 Edge scenarios. The populated P07 upgrade retained 802 XML IDs and earlier record hashes. The database benchmark processed 3,750 synthetic observations over 50 instruments in 6.15 seconds. [Execution report](docs/P08_TEST_EXECUTION_REPORT.md)
-
-## Vertical slices
-
-| Workstream | Verified software and scope |
+| Area | Result |
 | --- | --- |
-| Authorization | Manual CSV requires an exact company-scoped upstream grant. Bound rights are rechecked for descriptive research and queued jobs. Active revocation, fixed-retention expiry and recursive export denial passed. Physical archive disposition requires actual source terms. |
-| Unified dataset | Legacy and targeted UDiFF cash files normalize into the same mapped daily dataset. The workflow detects a missing middle session and verifies backfill without rewriting the older research snapshot. Authored fixture tests verified a linked correction, preservation of the original and idempotent normalization. |
-| Dataset lineage | Only the server can declare generated provenance. The dataset records a reserved synthetic instrument, seed, generator version and hash. Generated observations are protected against ordinary import. The populated P07 clone verified six preserved simulation datasets. An ORM case representing an unbound legacy market dataset verified that metadata remains available while candles and research are denied. |
-| Source integrity | Operator-triggered comparison records equivalent OHLCV and lineage evidence. A material mismatch blocks the affected datasets from new use. Independent legitimate market sources remain unverified. |
-| Free source discovery | NSE documentation reviewed. Actual authorized market coverage is zero. No real data, subscription, trial or accounts used. |
-| Automatic research | Native Odoo scheduled action processes bounded fixture watches at explicit session phases. The pre-market, intraday, post-market and closed-day cases execute, deduplicate and persist status. No live acquisition or daily paper execution activated. |
-| Recovery | The cron commits a bounded five-minute lease. Recovery after expiry rejects obsolete worker tokens. A subprocess interruption and the committed-state tests each recovered a single result. Missed post-market report recovery preserves the original cutoff within seven calendar days. |
-| Replay | Holdout partitions are excluded from application candle and research access. The historical contract now simulates intraday fills on authored fixtures, separating close, publication and execution, and verifies frozen provenance and fees. Odoo exercised both the generated timing fixture and the authorized route using authored test input and a test grant. The actual licensed-data smoke test remains blocked. |
-| Dashboard | Native research schedule controls and persisted Daily Research Operations are available. Edge confirmed the fixture label and NO TRADE status. The original nine-workspace scope remains broader. |
+| Offline research and historical replay | Both archived target policies reproduced exactly. Source permissions, holdout restrictions and P08 replay regression passed. |
+| Continuous research | One phase summary remains per watch and phase. Newly visible completed candles schedule durable recurring research, and evidence carries the actual input SHA-256. |
+| Prospective fixture paper | Risk manager can reserve, process an authored entry and exit, close or leave an unresolved fixture position. Duplicate entry and exit, account contention and interruption recovery exercised. |
+| Capital protection | Opening ₹50,000, paise arithmetic, 0.5% planned risk, 1% daily limit, three entries, suspension after two losses and minimum 2:1 planned net sizing. |
+| Financial metrics and validation | Versioned synthetic portfolio metrics, net expectancy and separate sampled drawdowns. Four authored walk-forward folds retain losing and winning trial evidence and enforce embargo dates. |
+| Providers and genuine data | Upstox and FYERS documented no-static-IP market-data options in scope. No actual account or source authorization established, no genuine session acquired, no financial strategy validation and no verified prospective delayed or live data. |
+| Native Odoo workspace | Fixture cycles, risk-managed fixture accounts and their journal, synthetic performance reports and walk-forward reports. |
+| Release and recovery | 51 standalone, 23 Odoo tests on fresh installation, 23 on update and 19 Edge checks. Populated P08 clone retained 945 XML IDs and hashed historical rows. The 50-instrument synthetic ingestion and research benchmark took 4.11 seconds. |
 
-The authorization domain initially failed at install and later at a direct-record read because Odoo used a normalized search value and a separate record evaluator. The final implementation supplies both a searchable authorization expression and an equivalent computed record value. These failures and the final run are retained.
+## Readiness by capability
 
-P08.3's first retry test found a stale ORM state after a privileged write. The retry and cancellation paths now invalidate the affected fields before returning. The failed test and passing rerun are included.
-
-The 50-instrument reference benchmark measures the existing bounded ingestion and research route. Holdout checks and replay serialization add database work. Worst-case holdout cardinality and scheduler throughput remain unmeasured.
-
-## Readiness
-
-| Capability | Status |
+| Capability | Readiness |
 | --- | --- |
-| Offline research | Verified for the tested fixture paths |
-| Unified dataset ingestion | Verified for the legacy synthetic end-to-end workflow. Other sources remain limited. |
-| Authorization enforcement | Verified on covered dataset, research, queue, replay, read and nested export paths |
-| Historical replay technical readiness | Odoo verifies reviewed inputs and current replay rights. The authorization path was exercised with authored contract data. |
-| Actual authorized market acquisition | Blocked by missing specific use rights and real data |
-| Session scheduler and automatic research | Fixture phase workflows verified |
-| Job recovery | Transaction interruption, durable claim expiry, single result and stale-token rejection verified. |
-| Operational dashboard | Native persisted fixture operations verified in Edge |
-| Financial validation | Not established |
-| Prospective paper trading | Not established |
-| Verified live market data | Unavailable |
-| Actionable live recommendations | NO TRADE |
+| Offline research | Available for fixture and already authorized P08 inputs. |
+| Continuous research cycles | Verified for recurring fixture checks. |
+| Historical data authorization | Existing P08 permission controls passed regression. |
+| Historical replay | Available under the P08 proof and permission checks. |
+| Prospective fixture paper trading | Manually advanced authored scenarios verified. |
+| Prospective genuine delayed-data simulation | Unavailable. |
+| Prospective verified-live paper trading | Unavailable. |
+| Financial metrics | Synthetic completed trades and end-of-day equity verified. Intraday marks unavailable. |
+| Transaction-cost evidence | Official rates reviewed. Per-fill estimate reconciled. Account-specific cost validation remains pending. |
+| Walk-forward validation | Synthetic rolling and expanding partitions, immutable trials and embargoed folds verified. |
+| Strategy financial validation | Blocked pending genuine licensed data and sufficient independent evidence. |
+| Portfolio risk protection | Single fixture account limits verified. Broader portfolio limits remain open. |
+| Paper trading dashboard | Native fixture account and journal verified in Edge. |
+| System recovery | Research lease recovery and committed-state rollback and retry tested. |
+| Security | Company isolation and protected records verified in local regression. |
+| Verified live market data | Unavailable. |
+| Actionable live recommendations | NO TRADE. |
 
-The fixture scheduler requires Odoo and the computer to be running. The package retains published P07 outcomes without rewriting historical records. See the detailed authorization, scheduler and replay reports for outstanding controls and tests.
+## Technical gates
 
-| Completion gate | Result |
+| Gate | Result |
 | --- | --- |
-| A Authorization | Covered publisher-bound research, active revocation, expiry and nested export passed. Old unbound datasets stay restricted. |
-| B Unified pipeline | Passed on authored Legacy CM and UDiFF through gap detection and backfill in Odoo. |
-| C Automatic research | Passed in fixture mode for pre-market, intraday and post-market. |
-| D Recovery | Passed for database worker contention, forced process termination and committed lease recovery. |
-| E Safe replay | Synthetic replay, a separately scoped timing fixture, publication causality, replay authorization and holdout controls verified. Genuine historical execution requires licensed data and publication evidence. |
-| F Release integrity | Fresh and populated upgrade, browser checks and manifest verification passed within the documented test scope. |
+| A Continuous research | Fixture recurrence, idempotence and lock contention verified. Full missed interval tracking and sustained authorized feeds remain open. |
+| B Prospective paper | Cash, state transitions and recovery pass on authored manual fixtures. Candidate-to-order conversion and continuous observation-driven execution remain open. |
+| C Capital protection | Account control and suspension pass on test scenarios. Cross-instrument portfolio checks remain open. |
+| D Financial intelligence | Completed-trade metrics and chronological experiment lineage pass on authored data. Complete marks, broad stress testing and promotion governance remain open. |
+| E Operational UI | Fixture paper and synthetic metrics workspaces passed Edge. General risk and strategy workspaces remain open. |
+| F Release | Fresh installation, populated upgrade, browser and checksummed handoff verified. |
 
-## P08 acceptance
-
-39 PASSED, 0 PARTIAL, 1 BLOCKED across 40 criteria.
+The development ZIP and its two internal manifests contain the implemented source and actual test evidence. The original P08 review ZIP remains independently verifiable. No live recommendation or broker order feature is enabled. [Owner actions](docs/OWNER_ACTION_REQUIRED.md) · [Tests](docs/P09_TEST_EXECUTION_REPORT.md) · [Open scope](docs/P09_ISSUE_REGISTER.md)
 
 
+## Acceptance
 
-
-
-| ID | Required outcome | Status | Verified scope and remaining work | Evidence below docs/evidence/p08 |
+| ID | Requirement | Status | Verified scope or gap | Evidence |
 | --- | --- | --- | --- | --- |
-| P08-AC-001 | P07 baseline and historical results preserved | PASSED | Archive and source SHA-256, historical reports, both strategy results reproduced. | baseline/verification.log |
-| P08-AC-002 | Existing regression tests executed | PASSED | 47 standalone, 20 fresh, 20 update and 17 Edge scenarios. | unit.log · sealed-publication/ |
-| P08-AC-003 | All prior requirement identifiers preserved | PASSED | Prior row identities retained. Five old status rows updated with verified scope. | ../../REQUIREMENTS_TRACEABILITY.md |
-| P08-AC-004 | Central purpose-specific authorization implemented | PASSED | Named purposes use source capabilities, publisher-bound grants and lifecycle. Tested real-data routes fail closed without replay rights or publication evidence; unrelated use and nested export remain denied. | sealed-publication/installation/fresh.log |
-| P08-AC-005 | Existing dataset authorization lineage implemented | PASSED | Prior review references and publication assertions preserved. A simulated legacy market record without lineage retains its metadata and denies candle access and research. | migration-authorized-replay/upgrade/dataset-lineage.log · sealed-publication/installation/fresh.log |
-| P08-AC-006 | Expired authorization blocks prohibited research | PASSED | A superseding expired grant blocks research and queued job execution. | sealed-publication/installation/fresh.log |
-| P08-AC-007 | Revoked authorization blocks prohibited operations | PASSED | An active grant was revoked. Subsequent research and snapshot reads were denied. | sealed-publication/installation/fresh.log |
-| P08-AC-008 | Unauthorized read and export paths protected | PASSED | Restricted search, read, nested market export and direct export with base Odoo privilege verified. | sealed-publication/installation/fresh.log |
-| P08-AC-009 | Synthetic provenance controls verified | PASSED | Reserved instrument, deterministic generation, immutable fingerprint, duplicate generation and provenance forgery tested. | sealed-publication/installation/fresh.log · sealed-publication/browser/edge.log |
-| P08-AC-010 | Unified import-to-dataset pipeline implemented | PASSED | Legacy and targeted UDiFF fixtures reached the same mapped daily dataset and authorized fixture research. | sealed-publication/installation/fresh.log |
-| P08-AC-011 | Legacy daily import regression passed | PASSED | Legacy accepted, quarantined and idempotent retries passed. | sealed-publication/installation/fresh.log |
-| P08-AC-012 | UDiFF profile verified within documented scope | PASSED | Targeted UDiFF profile parsed and normalized in Odoo with authored fixtures. Official market file verification remains external. | unit.log |
-| P08-AC-013 | Dataset revision and duplicate protection verified | PASSED | Controlled daily file revision links its predecessor, reuses retries and creates immutable fingerprinted data alongside the original. | sealed-publication/installation/fresh.log |
-| P08-AC-014 | Multi-session completeness and quarantine verified | PASSED | Mixed-format daily normalization detected a missing middle session. Backfill produced a new complete snapshot and retained the old gap audit. | sealed-publication/installation/fresh.log |
-| P08-AC-015 | Cross-source conflict eligibility integrated | PASSED | A persisted OHLCV mismatch blocked both mapped fixture datasets from new research. Operator-triggered. | sealed-publication/installation/fresh.log |
-| P08-AC-016 | Retention policy enforcement verified | PASSED | Fixed-term expiry blocked reads and imports. Transient-only denied persistence. Protected rows remained intact. | ../../P08_AUTHORIZATION_AND_DATASET_REPORT.md |
-| P08-AC-017 | Practical free-data provider investigation completed | PASSED | NSE academic use restrictions and eligibility reviewed. | ../../FREE_MARKET_DATA_PROVIDER_EVALUATION.md |
-| P08-AC-018 | Genuine authorized data smoke test passed or explicitly blocked | BLOCKED | Source-specific real rights unavailable. Zero genuine sessions acquired. | ../../HISTORICAL_DATA_VALIDATION_REPORT.md |
-| P08-AC-019 | Generalized historical replay contract implemented | PASSED | Odoo executed the authorized path on authored contract inputs, required a matching verified publication digest and denied access after revocation. Genuine-data validation is recorded separately. | sealed-publication/installation/fresh.log · sealed-publication/browser/edge.log |
-| P08-AC-020 | Historical and synthetic replay eligibility separated | PASSED | Intake assessment distinguishes daily and intraday. Portfolio keeps its synthetic-only boundary. | unit.log |
-| P08-AC-021 | Publication-time causality tests passed | PASSED | Strict publication-before-decision, missing and unverified evidence cases passed. | unit.log |
-| P08-AC-022 | Application-level holdout isolation improved | PASSED | Application search, record reads and exports block sealed candles. Single-use consumption and holdout contention reran. | sealed-publication/installation/fresh.log · sealed-publication/security/contention.log |
-| P08-AC-023 | G01–G14 protected evidence handling verified | PASSED | Gate veto and metadata poisoning regression. Scope is software-only. | unit.log |
-| P08-AC-024 | Session-aware native scheduler implemented | PASSED | Native fixture cron, explicit exchange calendar and persisted operations. | sealed-publication/installation/fresh.log |
-| P08-AC-025 | Pre-market workflow tested | PASSED | Deterministic pre-market dispatch verified. | sealed-publication/installation/fresh.log |
-| P08-AC-026 | Intraday orchestration tested in explicit fixture mode | PASSED | Fixture intraday produced descriptive research and NO TRADE. | sealed-publication/installation/fresh.log |
-| P08-AC-027 | Post-market report workflow tested | PASSED | Post-market research and persisted report verified. | sealed-publication/installation/fresh.log |
-| P08-AC-028 | Closed-day and exceptional-session behavior tested | PASSED | Closed day and maintenance between exceptional split sessions verified through Odoo. | sealed-publication/installation/fresh.log |
-| P08-AC-029 | Durable job states implemented | PASSED | Committed claim, lease expiry, attempt bound, worker token and terminal state verified. | ../../P08_SCHEDULER_AND_RECOVERY_REPORT.md |
-| P08-AC-030 | True concurrent job claiming verified | PASSED | Independent client held row and the competing worker skipped it. | sealed-publication/security/contention.log |
-| P08-AC-031 | Retry and cancellation idempotency verified | PASSED | Repeated retry and cancellation preserve the same request. Recovery produces one result. | sealed-publication/installation/fresh.log · sealed-publication/security/contention.log |
-| P08-AC-032 | Actual forced process interruption and recovery verified | PASSED | Actual process kill with rolled-back mutation and one recovered result. | sealed-publication/security/contention.log |
-| P08-AC-033 | Missed-session recovery preserves historical classification | PASSED | Bounded post-market recovery tested. Keeps the original cutoff and creates one historical fixture report. | sealed-publication/installation/fresh.log |
-| P08-AC-034 | Authorization expiry between job creation and execution tested | PASSED | Job submitted with granted access. Superseded and expired rights caused a blocked execution. | sealed-publication/installation/fresh.log |
-| P08-AC-035 | Operational dashboard backed by actual database records | PASSED | Native database-backed research operations list verified. | sealed-publication/browser/edge.log |
-| P08-AC-036 | Persistent daily report and owner controls verified | PASSED | Administrator role, manual check, pause/resume and idempotent phase reports verified. | sealed-publication/installation/fresh.log · sealed-publication/browser/edge.log |
-| P08-AC-037 | Security and financial-safety regression passed | PASSED | Covered ACL, source, paper, holdout and read-only boundaries passed. | sealed-publication/ · source-check.log |
-| P08-AC-038 | Fresh installation and populated P07 upgrade verified | PASSED | Disposable P08.7 fresh/follow-up update and populated P07 clone passed. | sealed-publication/installation · migration-authorized-replay/ |
-| P08-AC-039 | Current traceability and Gujarati documentation delivered | PASSED | Gujarati owner guide and current status reconciliation included. | ../../OWNER_SETUP_GUJARATI.md |
-| P08-AC-040 | Final evidence package and SHA-256 independently verified | PASSED | CRC, source manifest, all entries and independent external digest checked. | manifest.sha256 · source.sha256 |
+| P09-AC-001 | P08 baseline and manifests verified | PASSED | P08 ZIP checksum, CRC and both manifests checked. Source checkpoint frozen. | baseline.log |
+| P09-AC-002 | Existing standalone regression executed | PASSED | 47 baseline and 51 current standalone tests passed. | baseline-unit.log · unit.log |
+| P09-AC-003 | Prior identifiers and historical results preserved | PASSED | Prior matrix preserved verbatim. Populated P08 rows and XML IDs survived; target outputs reproduced. | baseline.log · migration-final/upgrade/retention.log |
+| P09-AC-004 | Phase summaries separated from recurring research cycles | PASSED | One phase summary and independent observation cycles. | final/installation/fresh.log |
+| P09-AC-005 | Multiple intraday cycles verified | PASSED | Multiple cycles produced distinct completed observation snapshots in one phase. | final/installation/fresh.log |
+| P09-AC-006 | Unchanged observations cannot produce duplicate cycles | PASSED | Rechecking unchanged data and the same phase created no duplicate. | final/installation/fresh.log |
+| P09-AC-007 | Newly available observations trigger appropriate research | PASSED | Imported new fixture observations scheduled the next cycle during checks. | final/installation/fresh.log |
+| P09-AC-008 | Concurrent cycle execution protected | PASSED | Independent PostgreSQL scheduler skipped the locked watch, leaving one cycle. | final/security/contention.log |
+| P09-AC-009 | Missed research and restart recovery verified | PARTIAL | Committed job recovery and bounded missed-cycle estimates verified. Full missed-slot journaling remains open. | final/security/contention.log |
+| P09-AC-010 | Dataset fingerprints and candidate evidence verified | PASSED | Cycle candidate stores snapshot hash. New replay gates carry the immutable frozen observation hash. | final/installation/fresh.log |
+| P09-AC-011 | Prospective virtual accounts implemented | PASSED | Persistent INR fixture account and separate whole-paise balances verified. | final/installation/fresh.log |
+| P09-AC-012 | Simulation operating modes strictly separated | PASSED | Fixture accounts, historical replay and authorized historical simulation have separate scopes; live and delayed prospective modes remain unavailable. | final/installation/fresh.log |
+| P09-AC-013 | Persistent candidate lifecycle implemented | PARTIAL | Immutable descriptive NO TRADE outcome exists. Full strategy candidate lifecycle remains open. | final/installation/fresh.log |
+| P09-AC-014 | Virtual order lifecycle verified | PARTIAL | Authored reserve, open, close, cancel, and unresolved covered. Candidate-to-order and general event-driven transition remain open. | final/installation/fresh.log |
+| P09-AC-015 | Atomic cash and risk reservation verified | PASSED | Server reserves cash and planned risk together with the journal inside an account lock. | final/security/contention.log |
+| P09-AC-016 | Conservative entry simulation verified | PARTIAL | Authored fixed fixture entry with size and fee checks. General observation-driven execution remains open. | final/installation/fresh.log |
+| P09-AC-017 | Stop-loss simulation verified | PARTIAL | Adverse authored scenario closes at its prior specified gap price. General bar-based stop processing remains open. | final/installation/fresh.log |
+| P09-AC-018 | Target-exit simulation verified | PARTIAL | Authored target scenario closes and reconciles. General market-observation trigger remains open. | final/installation/fresh.log |
+| P09-AC-019 | Cancellation and reservation release verified | PASSED | Pause cancels pending entry and releases reserved cash and risk. | final/installation/fresh.log |
+| P09-AC-020 | Session cutoff and unresolved-position handling verified | PARTIAL | Pending order cancels after day changes. Missing exit becomes unresolved without pricing. Real session square-off remains open. | final/installation/fresh.log |
+| P09-AC-021 | Virtual ledger reconciliation verified | PASSED | Append-only journal and exact paise reconciliation after state changes. | final/installation/fresh.log |
+| P09-AC-022 | Duplicate event and duplicate fill protection verified | PASSED | Duplicate entry and exit are ignored and unique order events remain enforced. | final/security/contention.log |
+| P09-AC-023 | True concurrent virtual cash reservation tested | PASSED | Independent reservation transactions contended for the same account. | final/security/contention.log |
+| P09-AC-024 | True concurrent virtual position closure tested | PASSED | Independent exit workers left a single close. | final/security/contention.log |
+| P09-AC-025 | Actual prospective worker interruption and recovery tested | PASSED | Separate Odoo fixture exit worker terminated after uncommitted writes; retry reconciled. | final/security/contention.log |
+| P09-AC-026 | Owner-approved risk defaults preserved | PASSED | ₹50,000, 0.5% planned trade risk, 1% daily limit, three entries, two losses and 2:1 net sizing retained. | final/installation/fresh.log |
+| P09-AC-027 | Aggregate portfolio risk veto verified | PARTIAL | Account-level cash, single exposure and aggregate reserve checks. Cross-instrument and sector limits remain open. | final/installation/fresh.log |
+| P09-AC-028 | Daily loss and entry-count protection verified | PARTIAL | Daily threshold and count are enforced. Independent limit-edge tests are incomplete. | final/installation/fresh.log |
+| P09-AC-029 | Consecutive-loss suspension verified | PASSED | Two consecutive scenario losses caused persistent risk suspension. | final/installation/fresh.log |
+| P09-AC-030 | Paper kill switch and controlled resume verified | PASSED | Risk-manager pause, reservation release, controlled resume and audited operator. | final/installation/fresh.log |
+| P09-AC-031 | Effective-dated cost evidence reviewed | PASSED | Dated NSE and published broker cost evidence with account-specific gaps. | ../../FINANCIAL_COST_MODEL_REPORT.md |
+| P09-AC-032 | Independent cost calculations reconciled | PASSED | Decimal per-fill reference reconciled entry, exit, GST and final net. Contract-note rounding remains distinct. | unit.log |
+| P09-AC-033 | Financial metrics engine verified | PARTIAL | Reusable versioned completed-trade metrics. Intraday exposure and risk ratios require mark series. | unit.log · final/browser/edge.log |
+| P09-AC-034 | Net expectancy and zero-trade handling verified | PASSED | Breakeven and no-trade evidence with fees counted once. | unit.log |
+| P09-AC-035 | Drawdown classifications verified | PASSED | Realized-trade and end-of-day equity drawdowns separated. Intraday marks unavailable. | unit.log |
+| P09-AC-036 | Generalized multi-fold walk-forward verified | PASSED | Four chronological folds executed on authored sessions. Rolling and expanding windows verified. | unit.log · final/installation/fresh.log |
+| P09-AC-037 | Persistent experiment and fold lineage verified | PASSED | Five immutable training trials per fold, result references and reproducible experiment hash persisted. | final/installation/fresh.log |
+| P09-AC-038 | Parameter-selection contamination prevented | PASSED | Embargo, explicit dates, sealed-window rejection and selection before evaluation. | unit.log · final/installation/fresh.log |
+| P09-AC-039 | Stress scenarios executed | PARTIAL | Doubled-cost case reconciled. Comprehensive market-regime, missed-entry and parameter stress remain open. | synthetic-stress.json |
+| P09-AC-040 | Holdout and promotion governance verified | PARTIAL | Existing single-use holdout and concurrency verified. Multi-stage promotion workflow remains open. | final/security/contention.log |
+| P09-AC-041 | Practical free-provider decision matrix completed | PASSED | Bounded provider matrix, hotspot-specific options and owner prerequisites documented. | ../../FREE_MARKET_DATA_PROVIDER_EVALUATION.md |
+| P09-AC-042 | Genuine market-data smoke test passed or explicitly blocked | BLOCKED | Zero genuine sessions. Owner-approved data and verified applicable rights absent. | ../../HISTORICAL_DATA_VALIDATION_REPORT.md |
+| P09-AC-043 | Genuine financial validation passed or explicitly blocked | BLOCKED | No genuine research, out-of-sample, cost and real prospective sample. | ../../P09_FINANCIAL_VALIDATION_REPORT.md |
+| P09-AC-044 | Prospective paper portfolio workspace verified | PASSED | Fixture portfolio account, controls and journal executed through native Edge forms. | final/browser/edge.log |
+| P09-AC-045 | Strategy performance and risk workspaces verified | PARTIAL | Native synthetic metrics and account-level risk controls. General strategy and cross-portfolio risk workspaces incomplete. | final/browser/edge.log |
+| P09-AC-046 | Real browser workflows executed | PASSED | 19 actual Edge checks on a disposable Odoo database. | final/browser/edge.log |
+| P09-AC-047 | Security, company isolation and real-order prohibition verified | PASSED | Company-scoped read ACLs, protected journal and no broker-order routes. | source-check.log · final/installation/fresh.log |
+| P09-AC-048 | Fresh install and populated P08 upgrade verified | PASSED | Fresh and update passed. Populated P08 clone retained 945 XML IDs and checked rows. | final/installation · migration-final/upgrade |
+| P09-AC-049 | Current traceability and Gujarati documentation delivered | PASSED | Prior trace rows preserved, current acceptance and Gujarati setup delivered. | ../../REQUIREMENTS_TRACEABILITY.md · ../../OWNER_SETUP_GUJARATI.md |
+| P09-AC-050 | Final archive, manifests and SHA-256 verified | PASSED | ZIP CRC, entry manifests, checkpoint and external SHA-256 checked. | manifest.sha256 · source.sha256 |

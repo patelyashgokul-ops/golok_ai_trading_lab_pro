@@ -302,3 +302,18 @@ class PerformanceReport(models.Model):
     report = fields.Text(required=True)
 
     _unique_version = models.Constraint("UNIQUE(portfolio_id,version)", "This metric version already exists for the replay.")
+
+
+class WalkForwardExperiment(models.Model):
+    _name = "golok.lab.walk.experiment"
+    _description = "Frozen synthetic walk-forward experiment"
+    _rec_name = "fingerprint"
+    _order = "id desc"
+
+    company_id = fields.Many2one("res.company", required=True, index=True)
+    fingerprint = fields.Char(required=True)
+    version = fields.Char(required=True)
+    fold_count = fields.Integer(required=True)
+    report = fields.Text(required=True)
+
+    _identity = models.Constraint("UNIQUE(company_id,fingerprint)", "This experiment already exists.")

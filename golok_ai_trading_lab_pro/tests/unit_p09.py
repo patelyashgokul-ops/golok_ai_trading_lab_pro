@@ -1,8 +1,8 @@
 import unittest
-from datetime import date
+from datetime import date, timedelta
 from decimal import Decimal
 
-from services import performance, simulation
+from services import performance, simulation, walk_forward
 
 
 class PerformanceTests(unittest.TestCase):
@@ -58,3 +58,14 @@ class PerformanceTests(unittest.TestCase):
                          Decimal("30.34"))
         with self.assertRaises(ValueError):
             schedule.fees(date(2026, 2, 28), "NSE", "buy", Decimal(100), 1000)
+
+    def test_walk_forward_uses_disjoint_trading_windows_and_embargo(self):
+        days = [date(2024, 1, 2) + timedelta(days=value) for value in (0, 1, 3, 4, 5, 8, 9, 10)]
+        options = {"training": 2, "validation": 1, "evaluation": 1, "embargo": 1}
+        rolling = list(walk_forward.folds(days, **options, expanding=False))
+        expanding = list(walk_forward.folds(days, **options, expanding=True))
+        self.assertEqual(len(rolling), 3)
+        self.assertEqual(rolling[0], {"training": days[:2], "validation": days[3:4], "evaluation": days[5:6]})
+        self.assertEqual(rolling[1]["training"], days[1:3])
+        self.assertEqual(expanding[1]["training"], days[:3])
+        self.assertEqual(expanding[-1]["evaluation"], days[-1:])

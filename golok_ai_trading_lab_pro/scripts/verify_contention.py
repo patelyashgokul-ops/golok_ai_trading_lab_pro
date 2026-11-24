@@ -229,7 +229,7 @@ def _p09_races(env, runner, dataset, tariff):
 
 
 def _interrupt_fixture_exit(env, account):
-    import odoo
+    from odoo.cli import shell
 
     account.action_reserve_fixture()
     account.action_open_fixture()
@@ -237,7 +237,7 @@ def _interrupt_fixture_exit(env, account):
     env.cr.execute("SELECT inet_server_port()")
     port = str(env.cr.fetchone()[0])
     env.cr.commit()
-    root = Path(odoo.__file__).resolve().parent.parent
+    root = Path(shell.__file__).resolve().parents[2]
     addons = Path(__file__).resolve().parents[2]
     process = subprocess.Popen([
         sys.executable, "-B", str(root / "odoo-bin"), "shell", "--no-http", "-d", env.cr.dbname,

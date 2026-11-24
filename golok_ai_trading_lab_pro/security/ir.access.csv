@@ -85,3 +85,5 @@ fixture_order_viewer,Fixture paper order reader,golok.lab.fixture.order,golok_ai
 fixture_order_company,Fixture order company,golok.lab.fixture.order,,crud,"[('company_id','in',company_ids)]"
 fixture_journal_viewer,Fixture paper journal reader,golok.lab.fixture.journal,golok_ai_trading_lab_pro.group_viewer,r,
 fixture_journal_company,Fixture journal company,golok.lab.fixture.journal,,crud,"[('company_id','in',company_ids)]"
+walk_experiment_viewer,Walk-forward experiment reader,golok.lab.walk.experiment,golok_ai_trading_lab_pro.group_viewer,r,
+walk_experiment_company,Walk-forward experiment company,golok.lab.walk.experiment,,crud,"[('company_id','in',company_ids)]"

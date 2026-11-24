@@ -1,5 +1,7 @@
 # Historical data validation — P06
 
+P09 evaluated the owner's current no-static-IP options. Upstox market-data Analytics and a FYERS non-trading app are documented options. No account access, source entitlement, market file or genuine market session was established. The candidate and paper journal evidence in the P09 package uses authored fixtures. [P09 provider decision](FREE_MARKET_DATA_PROVIDER_EVALUATION.md)
+
 P08 normalizes accepted legacy and targeted UDiFF audits into the same research dataset with a matching NSE mapping, exact ISIN and conservative local receipt. Odoo tests detected and backfilled a missing daily session. The workflow used project-authored fixtures. Authorized genuine acquisition remains blocked. [P08 authorization and datasets](P08_AUTHORIZATION_AND_DATASET_REPORT.md)
 
 P07 acquired zero authorized market sessions. The reader now validates a bounded modern NSE cash UDiFF profile for date, venue, identity, series and OHLCV. The tests used authored CSV rows. Official exchange-file comparison and integration into the candle research panel remain open. [P07 provider review](FREE_MARKET_DATA_PROVIDER_EVALUATION.md)

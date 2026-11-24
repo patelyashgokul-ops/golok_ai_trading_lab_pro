@@ -47,9 +47,10 @@ test_intraday_contract_never_executes_at_or_before_publication (unit_p08.P08Test
 test_storage_disposition_is_bounded_by_declared_rights (unit_p08.P08Tests.test_storage_disposition_is_bounded_by_declared_rights) ... ok
 test_net_expectancy_counts_breakevens_and_costs_once (unit_p09.PerformanceTests.test_net_expectancy_counts_breakevens_and_costs_once) ... ok
 test_nse_cash_reference_reconciles_provisional_per_fill_estimate (unit_p09.PerformanceTests.test_nse_cash_reference_reconciles_provisional_per_fill_estimate) ... ok
+test_walk_forward_uses_disjoint_trading_windows_and_embargo (unit_p09.PerformanceTests.test_walk_forward_uses_disjoint_trading_windows_and_embargo) ... ok
 test_zero_trades_remain_insufficient (unit_p09.PerformanceTests.test_zero_trades_remain_insufficient) ... ok
 
 ----------------------------------------------------------------------
-Ran 50 tests in 0.146s
+Ran 51 tests in 0.166s
 
 OK
