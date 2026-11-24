@@ -1,6 +1,6 @@
 # Golok AI Trading Lab Pro
 
-P09 adds recurring **Fixture Research Cycles**, **Prospective Fixture Paper Accounts**, **Synthetic Strategy Performance** and **Synthetic Walk-forward Experiments**. Review the implemented scope and open work in the milestone report. [P09 development report](DEVELOPMENT_REPORT.md) · [ગુજરાતી સેટઅપ](docs/OWNER_SETUP_GUJARATI.md)
+P09.1 connects **Fixture Research Cycles** to **Prospective Fixture Paper Accounts**. Bound schedules share one risk budget and process later authored candles. **Synthetic Strategy Performance** reports frozen marks, and **Synthetic Walk-forward Experiments** records promotion evidence. [P09 development report](DEVELOPMENT_REPORT.md) · [ગુજરાતી સેટઅપ](docs/OWNER_SETUP_GUJARATI.md)
 
 P08 adds **Research Schedules**, **Daily Research Operations**, **Compare Sources** and publisher-specific data authorization. The local fixture workflow works without a broker account. **Run Synthetic Portfolio** uses shared virtual capital and records input hashes, fees and decision gates. [Owner actions](docs/OWNER_ACTION_REQUIRED.md)
 
@@ -28,7 +28,7 @@ Run the synthetic [ST-01 replay](docs/BACKTEST_EXECUTION_POLICY.md) with the pro
 python -B scripts/run_backtest.py tests/fixtures/p02/spec.json tests/fixtures/p02/candles.csv
 ```
 
-Trading Risk Managers can use **Post Replay** to post a completed synthetic experiment to a historical virtual account. The separate prospective fixture workspace processes authored entry and exit steps. Real trading remains disabled. [Historical ledger](docs/PAPER_LEDGER_INVARIANTS.md) · [Prospective fixtures](docs/P09_PAPER_TRADING_REPORT.md)
+Trading Risk Managers can use **Post Replay** to post a completed synthetic experiment to a historical virtual account. The separate prospective fixture workspace processes authored observations automatically when bound to schedules and also supports manual scenarios. Real trading remains disabled. [Historical ledger](docs/PAPER_LEDGER_INVARIANTS.md) · [Prospective fixtures](docs/P09_PAPER_TRADING_REPORT.md)
 
 The [SmartAPI diagnostics](docs/SMARTAPI_SETUP.md) are offline by default. Authorized broker verification is pending.
 

@@ -1,11 +1,30 @@
 import unittest
+from dataclasses import replace
 from datetime import date, timedelta
 from decimal import Decimal
 
-from services import performance, simulation, walk_forward
+from scripts.reproduce_p05 import fixture
+from services import fixture_execution, performance, simulation, walk_forward
 
 
 class PerformanceTests(unittest.TestCase):
+    def test_fixture_execution_uses_conservative_limits_and_ambiguous_stops(self):
+        series, day, _costs = fixture()
+        asset = series[0]
+        cutoff = asset.sessions[day].exit_cutoff
+        bar = asset.bars[5]
+        self.assertIsNone(fixture_execution.entry_price(bar, Decimal("101"), Decimal("99"), 10))
+        self.assertIsNone(fixture_execution.entry_price(bar, Decimal("102"), Decimal("99"), 11))
+        self.assertEqual(fixture_execution.entry_price(bar, Decimal("102"), Decimal("99"), 10), Decimal("102"))
+        self.assertEqual(fixture_execution.exit_result(bar, Decimal("99"), Decimal("114"), cutoff),
+                         (Decimal("99"), "STOP_FIRST"))
+        gap = replace(bar, open=Decimal("95"), low=Decimal("94"))
+        self.assertEqual(fixture_execution.exit_result(gap, Decimal("99"), Decimal("114"), cutoff),
+                         (Decimal("95"), "GAP_STOP"))
+        target = replace(bar, low=Decimal("100"))
+        self.assertEqual(fixture_execution.exit_result(target, Decimal("99"), Decimal("114"), cutoff),
+                         (Decimal("114"), "TARGET"))
+
     def test_net_expectancy_counts_breakevens_and_costs_once(self):
         trades = [
             {"gross": gross, "fees": "2", "net": net, "quantity": 1, "entry": "100", "exit": price,

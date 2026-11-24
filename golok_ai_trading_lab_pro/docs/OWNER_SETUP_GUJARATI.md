@@ -1,5 +1,7 @@
 # Golok AI Trading Lab Pro ચલાવવાની રીત
 
+P09.1માં administrator **Prospective Fixture Paper Accounts**માં એક અથવા વધુ **Automated Fixture Research Schedules** પસંદ કરી શકે છે. તેની સાથે strategy, target policy અને hypothetical tariff પસંદ કરો. યોગ્ય બનાવટી signal મળે ત્યારે reservation આપમેળે થશે. એક જ ખાતાની schedules એક capital balance વાપરે છે અને એક સમયે એક જ exposure મંજૂર છે. નવા completed candles મળતાં **Orders and Positions** તથા **Journal (paise)**માં પરિણામ દેખાશે. **Fixture Risk Monitor**માં બાકી દૈનિક risk budget જુઓ. આ પ્રવાહ માટે Odoo અને સ્થાનિક scheduler ચાલુ હોવા જોઈએ.
+
 P09માં **Research Schedules**માં fixture dataset પસંદ કરો અને 2થી 60 મિનિટનો interval સેટ કરો. નવો completed candle ઉપલબ્ધ થાય ત્યારે **Fixture Research Cycles**માં cutoff, jobની સ્થિતિ અને research fingerprint જુઓ. આ ચક્રનો પરિણામ **NO TRADE** છે.
 
 **Prospective Fixture Paper Accounts**માં Risk Manager એક hypothetical tariff અને scenario પસંદ કરી ખાતું બનાવી શકે છે. **Reserve Fixture Order**, **Process Fixture Entry** અને **Process Fixture Exit** અનુક્રમે ચલાવો. **Journal (paise)**માં virtual cash અને riskના ફેરફારો જુઓ. **Pause and Cancel Pending Entries** બાકી reservation છોડે છે. આ બનાવટી workflowમાં broker જોડાતો નથી.

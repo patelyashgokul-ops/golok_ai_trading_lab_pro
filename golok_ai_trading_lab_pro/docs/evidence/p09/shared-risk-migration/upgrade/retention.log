@@ -1,0 +1,19 @@
+PASS: upgraded populated clone from 20.0.9.0.0 to 20.0.9.1.0 in 17.3458926 s
+PASS: retained 1156 existing XML IDs and record-level hashes with immutable snapshot digests
+candles:105:72fe5d22542196436e213a8a70f036cb
+datasets:7:3714ace8f9dc1b5333850e35768fd282
+instruments:4:bf7ef91e7839c766ac6feaee5f76a1a2
+runs:4:4634ccca4b4f77041fdb70b698642a08
+fixture_account:2:68e1c9abfb2c9a47ed4e0d74457770d5
+fixture_journal:9:4c43f9a1942306abca135a1bdd80d58c
+fixture_order:3:27fbaf4a342b973324c839f2cc895f17
+holdout:2:24bd22ae18c8fae5b737f603c7b7d67d
+performance_report:1:2f94f730498f39f73757c284713a21c1
+portfolio:5:b477eca95363aea64483e760ab053404
+research_candidate:0:empty
+research_cycle:1:b32c3ad6e5e8b0c300946e56f43aba54
+research_job:3:698a3004bb3c57b51439b9978ce255f0
+session_event:3:57986db4871b366324a233f90b950014
+session_watch:2:d0b4684de79afbdba2f743bbebb67cbd
+source_review:0:empty
+walk_experiment:0:empty

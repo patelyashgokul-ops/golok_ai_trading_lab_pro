@@ -341,12 +341,14 @@ class Dataset(models.Model):
             if candle._to_bar() != rows.pop(candle.close_time):
                 raise ValidationError(_("A stored candle differs from the import. No candles were imported."))
         # The unique index is the final arbiter if two transactions race.
+        receipt = fields.Datetime.now()
         model.with_context({}).sudo().create([
             {
                 "dataset_id": self.id,
                 "close_time": timestamp,
                 "open_time": bar.open_time.replace(tzinfo=None) if bar.open_time else False,
                 "available_at": bar.available_at.replace(tzinfo=None) if bar.available_at else False,
+                "ingested_at": receipt,
                 "open_price": str(bar.open),
                 "high_price": str(bar.high),
                 "low_price": str(bar.low),

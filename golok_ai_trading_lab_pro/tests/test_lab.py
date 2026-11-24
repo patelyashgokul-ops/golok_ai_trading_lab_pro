@@ -459,6 +459,7 @@ class TestLab(TransactionCase):
         self.assertEqual(cycle.state, "completed")
         self.assertEqual(cycle.candidate_ids.input_digest, cycle.run_id.input_digest)
         self.assertEqual(cycle.candidate_ids.evidence["decision"]["state"], "NO_TRADE")
+        self.assertEqual(cycle.candidate_ids.lifecycle, "experimental")
         watch._dispatch(session.opening + timedelta(minutes=8))
         self.assertEqual(cycles.search_count(domain), 1)
         importer.create({"dataset_id": dataset.id, "upload": BinaryBytes(b"\n".join((header, second)))}).action_import()
@@ -476,6 +477,116 @@ class TestLab(TransactionCase):
         self.assertEqual(cycles.search(domain, limit=1).state, "blocked")
         self.assertEqual(cycles.search_count(domain), 3)
         self.assertEqual(watch.event_ids.filtered(lambda event: event.phase == "intraday"), summary)
+
+    def test_p09_candidate_drives_observation_based_fixture_position(self):
+        from datetime import timezone
+        from unittest.mock import patch
+
+        from odoo import fields
+
+        files = Path(__file__).parent / "fixtures/p02"
+        spec = json.loads((files / "spec.json").read_text())
+        admin = self.env(user=self.admin.id)
+        calendar = admin["golok.lab.calendar"].create({
+            "name": "Automated paper calendar", "source": "Authored fixture", "exchange": "NSE",
+            "verification": "fixture", "verified_on": "2024-01-01",
+            "schedule": json.dumps([*spec["schedule"], {**spec["schedule"][0], "date": "2024-01-03"}]),
+        })
+        tariff = admin["golok.lab.tariff"].create({"name": "Automated paper tariff", "lines": json.dumps(spec["tariffs"])})
+        dataset = admin["golok.lab.dataset"].create({
+            "name": "Causal paper fixture", "source": "Authored fixture", "origin": "synthetic", "interval": "5m",
+            "calendar_id": calendar.id, "instrument_id": self.instrument.id,
+        })
+        watch = admin["golok.lab.session.watch"].create({"dataset_id": dataset.id})
+        second_instrument = admin["golok.lab.instrument"].create({
+            "name": "Alternative paper asset", "symbol": "PAPERALT", "exchange": "NSE",
+        })
+        second_data = admin["golok.lab.dataset"].create({
+            "name": "Competing paper fixture", "source": "Authored fixture", "origin": "synthetic", "interval": "5m",
+            "calendar_id": calendar.id, "instrument_id": second_instrument.id,
+        })
+        second_watch = admin["golok.lab.session.watch"].create({"dataset_id": second_data.id})
+        account = admin["golok.lab.fixture.account"].create({
+            "name": "Automated fixture", "watch_ids": [(6, 0, (watch | second_watch).ids)],
+            "tariff_id": tariff.id, "target_policy": "fixed_4r",
+        })
+        self.assertFalse(account.order_ids)
+        header, *rows = (files / "candles.csv").read_bytes().splitlines()
+        rows[5] = rows[5].replace(b",102,120,98,101,1000,", b",102,120,100,101,4000,")
+        rows[6] = rows[6].replace(b",100,101,99,100,1000,", b",102,120,100,110,4000,")
+        session = calendar._sessions()[datetime(2024, 1, 2, tzinfo=timezone.utc).date()]
+        jobs = self.env["golok.lab.research.job"].sudo()
+
+        def check(minutes, observations=(), *, work=False, selected_watch=watch, source_session=session):
+            at = source_session.opening + timedelta(minutes=minutes)
+            with patch.object(fields.Datetime, "now", return_value=at.replace(tzinfo=None)):
+                if observations:
+                    admin["golok.lab.import"].create({
+                        "dataset_id": selected_watch.dataset_id.id, "upload": BinaryBytes(b"\n".join((header, *observations))),
+                    }).action_import()
+                selected_watch._dispatch(at)
+                if work:
+                    jobs._cron_run_next()
+
+        check(20, rows[:4], work=True)
+        account.invalidate_recordset()
+        order = account.order_ids
+        self.assertEqual(order.state, "pending", watch.cycle_ids.mapped("candidate_ids.reason"))
+        self.assertEqual(order.candidate_id.lifecycle, "pending")
+        self.assertEqual(order.candidate_id.evidence["decision"]["state"], "SIMULATION_CANDIDATE")
+        self.assertGreater(account.reserved, 0)
+        self.assertEqual(len(order.candidate_id.evidence["fixture_plan"]["signal_sha256"]), 64)
+        check(20, rows[:4], work=True, selected_watch=second_watch)
+        self.assertEqual(second_watch.cycle_ids.candidate_ids.reason, "EXPOSURE_EXISTS")
+        self.assertEqual(second_watch.cycle_ids.candidate_ids.lifecycle, "rejected")
+        self.assertEqual(len(account.order_ids), 1)
+        with self.assertRaises(AccessError):
+            watch.write({"paper_account_id": False})
+        check(25, rows[4:5], work=True)
+        self.assertEqual(order.state, "pending")
+        check(30, rows[5:6], work=True)
+        self.assertEqual(order.state, "open")
+        self.assertEqual(order.entry_paise, 10200)
+        self.assertGreater(order.entry_candle_id.open_time, order.candidate_id.generated_at)
+        check(35, rows[6:7], work=True)
+        self.assertEqual((order.state, order.exit_reason, order.candidate_id.lifecycle), ("closed", "TARGET", "closed"))
+        self.assertGreater(order.net, 0)
+        check(35, work=True)
+        self.assertEqual((len(account.order_ids), account.entries), (1, 1))
+        self.assertEqual(account.journal_ids.mapped("kind"), ["reserved", "opened", "closed"])
+        self.assertEqual(account.available, account.opening + account.realized)
+        check(50, rows[7:])
+        self.assertEqual(watch.gap_ids[:1].missed, 1)
+        self.assertEqual(watch.gap_ids[:1].resumed_at, (session.opening + timedelta(minutes=50)).replace(tzinfo=None))
+        with self.assertRaises(ValidationError):
+            account.action_reserve_fixture()
+        following = calendar._sessions()[datetime(2024, 1, 3, tzinfo=timezone.utc).date()]
+        following_rows = [row.replace(b"2024-01-02", b"2024-01-03") for row in rows]
+        check(20, following_rows[:4], work=True, source_session=following)
+        check(30, following_rows[4:6], work=True, source_session=following)
+        outstanding = account.order_ids[:1]
+        self.assertEqual(outstanding.state, "open")
+        check(50, source_session=following)
+        self.assertEqual(outstanding.state, "unresolved")
+        self.assertEqual(outstanding.exit_reason, "MISSING_SQUARE_OFF_OBSERVATION")
+        self.assertFalse(outstanding.exit_candle_id)
+        self.assertGreater(account.position_cost, 0)
+
+        expiry_data = admin["golok.lab.dataset"].create({
+            "name": "Paper expiry fixture", "source": "Independent expiry fixture", "origin": "synthetic", "interval": "5m",
+            "calendar_id": calendar.id, "instrument_id": self.instrument.id,
+        })
+        expiry_watch = admin["golok.lab.session.watch"].create({"dataset_id": expiry_data.id})
+        expiry_account = admin["golok.lab.fixture.account"].create({
+            "name": "Expiry fixture account", "watch_ids": [(6, 0, expiry_watch.ids)], "tariff_id": tariff.id,
+            "target_policy": "fixed_4r",
+        })
+        check(20, following_rows[:4], work=True, source_session=following, selected_watch=expiry_watch)
+        expired = expiry_account.order_ids
+        self.assertEqual(expired.state, "pending")
+        check(31, source_session=following, selected_watch=expiry_watch)
+        self.assertEqual((expired.state, expired.candidate_id.lifecycle), ("cancelled", "expired"))
+        self.assertEqual((expiry_account.available, expiry_account.reserved), (expiry_account.opening, 0))
 
     def test_p09_fixture_account_reservation_risk_and_journal(self):
         spec = json.loads((Path(__file__).parent / "fixtures/p02/spec.json").read_text())
@@ -522,6 +633,19 @@ class TestLab(TransactionCase):
         self.assertEqual(missing.order_ids.state, "unresolved")
         self.assertGreater(missing.position_cost, 0)
         self.assertEqual(missing.realized, 0)
+        for _ in range(2):
+            account.action_reserve_fixture()
+            account.action_open_fixture()
+            account.action_close_fixture()
+        self.assertEqual(account.entries, 3)
+        with self.assertRaises(ValidationError):
+            account.action_reserve_fixture()
+        gap = accounts.create({"name": "Daily loss fixture", "tariff_id": tariff.id, "scenario": "severe_gap"})
+        gap.action_reserve_fixture()
+        gap.action_open_fixture()
+        gap.action_close_fixture()
+        self.assertEqual((gap.state, gap.loss_streak, gap.remaining_daily_risk), ("risk", 1, 0))
+        self.assertLessEqual(gap.daily_realized, -50000)
 
     def test_p09_walk_forward_persists_reproducible_separated_folds(self):
         files = Path(__file__).parent / "fixtures/p02"
@@ -558,6 +682,12 @@ class TestLab(TransactionCase):
             self.assertLess(windows["validation"][-1], windows["evaluation"][0])
             self.assertEqual(fold["evaluation"]["strategy"], fold["selected"])
             self.assertEqual(fold["status"], "EVALUATED")
+        with self.assertRaises(AccessError):
+            record.action_review_promotion()
+        approval = record.with_user(self.admin).action_review_promotion()
+        review = setup[approval["res_model"]].browse(approval["res_id"])
+        self.assertEqual(review.evidence["financial_validation"], "BLOCKED")
+        self.assertEqual(review.frozen_sha256, record.fingerprint)
 
     def test_p08_source_conflict_blocks_research_and_is_idempotent(self):
         files = Path(__file__).parent / "fixtures/p02"
@@ -975,7 +1105,8 @@ class TestLab(TransactionCase):
         summary = json.loads(metrics.report)
         self.assertEqual(summary["trade_count"], record.trade_count)
         self.assertEqual(Decimal(summary["net"]), Decimal(result["net"]))
-        self.assertIsNone(summary["intraday_mark_to_market_drawdown"])
+        self.assertGreater(summary["mark_samples"], 0)
+        self.assertIn("amount", summary["intraday_mark_to_market_drawdown"])
         fingerprints = {item["asset"]: item["input_digest"] for item in json.loads(record.specification)["inputs"]}
         self.assertTrue(all(row["gates"]["G01"]["dataset_version"] == fingerprints[row["asset"]]
                             for row in result["decisions"]))

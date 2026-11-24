@@ -87,3 +87,8 @@ fixture_journal_viewer,Fixture paper journal reader,golok.lab.fixture.journal,go
 fixture_journal_company,Fixture journal company,golok.lab.fixture.journal,,crud,"[('company_id','in',company_ids)]"
 walk_experiment_viewer,Walk-forward experiment reader,golok.lab.walk.experiment,golok_ai_trading_lab_pro.group_viewer,r,
 walk_experiment_company,Walk-forward experiment company,golok.lab.walk.experiment,,crud,"[('company_id','in',company_ids)]"
+research_gap_viewer,Fixture research gap reader,golok.lab.research.gap,golok_ai_trading_lab_pro.group_viewer,r,
+research_gap_company,Fixture research gap company,golok.lab.research.gap,,crud,"[('company_id','in',company_ids)]"
+session_watch_viewer,Fixture research schedule reader,golok.lab.session.watch,golok_ai_trading_lab_pro.group_viewer,r,
+promotion_review_viewer,Strategy promotion evidence reader,golok.lab.promotion.review,golok_ai_trading_lab_pro.group_viewer,r,
+promotion_review_company,Strategy promotion review company,golok.lab.promotion.review,,crud,"[('company_id','in',company_ids)]"

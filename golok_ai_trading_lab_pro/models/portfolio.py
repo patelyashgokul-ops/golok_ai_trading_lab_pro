@@ -81,7 +81,9 @@ class Portfolio(models.Model):
         report = reports.search([("portfolio_id", "=", self.id), ("version", "=", performance.VERSION)], limit=1)
         if not report:
             try:
-                metrics = performance.summarize(json.loads(self.result))
+                outcome = json.loads(self.result)
+                marks = self._frozen_mark_series()
+                metrics = performance.summarize(outcome, marks=performance.mark_portfolio(outcome, marks) if marks else None)
             except (KeyError, TypeError, ValueError, ArithmeticError) as exc:
                 raise ValidationError(_("The replay could not be reconciled: %s", str(exc))) from None
             record = reports.with_context({}).sudo().create({
@@ -93,6 +95,25 @@ class Portfolio(models.Model):
             report = reports.browse(record.id)
         return {"type": "ir.actions.act_window", "res_model": report._name, "res_id": report.id,
                 "views": [(False, "form")], "target": "current"}
+
+    def _frozen_mark_series(self):
+        """If current visible rows differ from the replay input, withhold mark-based metrics."""
+        self.env["golok.lab.replay.guard"]._lock(self.dataset_ids.instrument_id)
+        start = datetime.combine(self.starts, time.min, calendar.IST).astimezone(timezone.utc).replace(tzinfo=None)
+        end = datetime.combine(self.ends + timedelta(days=1), time.min, calendar.IST).astimezone(timezone.utc).replace(tzinfo=None)
+        model = self.env["golok.lab.candle"]
+        holds = self.env["golok.lab.holdout"]._observation_domain("close_time", "close_time", "instrument_id")
+        inputs = json.loads(self.specification)["inputs"]
+        series = {}
+        for item in inputs:
+            rows = model.search(Domain([
+                ("dataset_id", "=", item["dataset"]), ("close_time", ">=", start), ("close_time", "<", end),
+            ]) & holds, order="close_time", limit=portfolio.MAX_BARS + 1)
+            bars = [row._to_bar() for row in rows]
+            if len(bars) != item["bars"] or digest([asdict(bar) for bar in bars]) != item["input_digest"]:
+                return {}
+            series[item["asset"]] = bars
+        return series
 
     def _run_request(self, vals_list, *, training=None, seal=None, contract_fixture=False, historical=False):
         self.check_access("create")
@@ -315,5 +336,52 @@ class WalkForwardExperiment(models.Model):
     version = fields.Char(required=True)
     fold_count = fields.Integer(required=True)
     report = fields.Text(required=True)
+    promotion_ids = fields.One2many("golok.lab.promotion.review", "experiment_id")
 
     _identity = models.Constraint("UNIQUE(company_id,fingerprint)", "This experiment already exists.")
+
+    def action_review_promotion(self):
+        self.ensure_one()
+        self.check_access("read")
+        if self.company_id != self.env.company or not self.env.user.has_group("golok_ai_trading_lab_pro.group_risk"):
+            raise AccessError(_("An active-company risk manager must review promotion."))
+        self.env["golok.lab.replay.guard"]._lock(self.env["golok.lab.dataset"].browse(
+            json.loads(self.report)["parameters"]["dataset_ids"]).instrument_id)
+        reviews = self.env["golok.lab.promotion.review"]
+        review = reviews.search([("experiment_id", "=", self.id)], limit=1)
+        if not review:
+            record = reviews.with_context({}).sudo().create({
+                "company_id": self.company_id.id, "experiment_id": self.id, "reviewed_by": self.env.uid,
+                "frozen_sha256": self.fingerprint,
+                "evidence": {
+                    "source_scope": "SYNTHETIC_SOFTWARE_ONLY",
+                    "historical_license_and_coverage": "MISSING",
+                    "independent_genuine_out_of_sample_and_holdout": "MISSING",
+                    "broker_cost_and_uncertainty": "MISSING",
+                    "prospective_operating_evidence": "MISSING",
+                    "financial_validation": "BLOCKED",
+                },
+            })
+            review = reviews.browse(record.id)
+        return {"type": "ir.actions.act_window", "res_model": review._name, "res_id": review.id,
+                "views": [(False, "form")], "target": "current"}
+
+
+class PromotionReview(models.Model):
+    _name = "golok.lab.promotion.review"
+    _description = "Strategy Promotion Evidence Review"
+    _rec_name = "experiment_id"
+
+    company_id = fields.Many2one("res.company", required=True, index=True)
+    experiment_id = fields.Many2one("golok.lab.walk.experiment", required=True, ondelete="restrict")
+    reviewed_by = fields.Many2one("res.users", required=True, ondelete="restrict")
+    frozen_sha256 = fields.Char(required=True)
+    evidence = fields.Json(required=True)
+    evidence_text = fields.Text(compute="_compute_evidence_text")
+
+    _one_review = models.Constraint("UNIQUE(experiment_id)", "This fixture experiment was already reviewed.")
+
+    @api.depends("evidence")
+    def _compute_evidence_text(self):
+        for review in self:
+            review.evidence_text = json.dumps(review.evidence, indent=2, sort_keys=True)

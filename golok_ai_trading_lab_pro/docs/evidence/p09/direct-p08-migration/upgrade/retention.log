@@ -1,0 +1,25 @@
+PASS: upgraded populated clone from 20.0.8.7.0 to 20.0.9.1.0 in 14.0152208 s
+PASS: retained 945 existing XML IDs and record-level hashes with immutable snapshot digests
+candles:105:48b9195b200469476701b092b14bafbf
+datasets:7:f545f6e7c58df44122d04f3a1df7deb2
+instruments:4:54905f746223837ca1dff4f895b25105
+runs:3:ee0ae43dd847f352994edbd265012c89
+calendar:3:08aa197770e6f1f8c602261178478811
+daily_import:0:empty
+experiment:1:940b47ce6fd0cd138c97dfff6e9b2f1a
+findings:1:1e37d25c2d1025b5fb0ff484dcb067db
+holdout:2:1b909e07d33d3f34bdff9a48230c6119
+mapping:1:13350ef90738320b048ae1044d1f1897
+paper_account:1:a6dc6a91727427400a79bb63f9b43aa9
+paper_batch:1:2e7dc64d7fa9c3e2cccaf0de943735c6
+paper_event:3:076a4dfa0d335461107ccaaa6f5e9caa
+portfolio:5:cabf4bf11594c5e664a31214d7ea7e01
+research_job:2:1c2f96871fe762686a2c4c91ac094891
+session_event:1:7631da8ef61e22a18140e2a553d677fa
+session_watch:1:bcc2aa5dddde2e692fe5f088a31f6f90
+source_comparison:0:empty
+source_review:0:empty
+sync:0:empty
+sync_plan:0:empty
+sync_task:0:empty
+tariff:2:0bb05e4459481a6a857203fa24f83d73

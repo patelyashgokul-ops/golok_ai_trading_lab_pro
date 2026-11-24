@@ -79,7 +79,30 @@ select md5(string_agg(row(id, to_jsonb(d)->>'source_review_id', to_jsonb(d)->>'p
             foreach ($table in @('calendar','mapping','tariff','experiment','paper_account','paper_batch','paper_event',
                                  'findings','sync','sync_plan','sync_task','research_job','holdout','source_review',
                                  'daily_import','portfolio','session_event','source_comparison','session_watch')) {
-                $digestSql = "select count(*) || ':' || coalesce(md5(string_agg((to_jsonb(t)-'cycle_minutes')::text,';' order by id)), 'empty') from golok_lab_$table t"
+                $digestSql = "select count(*) || ':' || coalesce(md5(string_agg((to_jsonb(t)-array['cycle_minutes','paper_account_id'])::text,';' order by id)), 'empty') from golok_lab_$table t"
+                $p08RecordDigests[$table] = @{ Sql = $digestSql; Before = (Query $digestSql) }
+            }
+        }
+        if ($SourceVersion -eq '20.0.9.0.0') {
+            $p09Tables = @{
+                session_watch = @('paper_account_id')
+                session_event = @()
+                research_cycle = @()
+                research_candidate = @('generated_at')
+                fixture_account = @('strategy','target_policy')
+                fixture_order = @('candidate_id','dataset_id','expires','limit_price','stop_price','target_price',
+                                  'entry_paise','entry_candle_id','last_entry_check_id','exit_candle_id','exit_reason')
+                fixture_journal = @()
+                performance_report = @()
+                walk_experiment = @()
+                research_job = @()
+                portfolio = @()
+                holdout = @()
+                source_review = @()
+            }
+            foreach ($table in $p09Tables.Keys) {
+                $exclude = if ($p09Tables[$table].Count) { "-array['" + ($p09Tables[$table] -join "','") + "']" } else { "" }
+                $digestSql = "select count(*) || ':' || coalesce(md5(string_agg((to_jsonb(t)$exclude)::text,';' order by id)), 'empty') from golok_lab_$table t"
                 $p08RecordDigests[$table] = @{ Sql = $digestSql; Before = (Query $digestSql) }
             }
         }

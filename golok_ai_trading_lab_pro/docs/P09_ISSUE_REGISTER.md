@@ -3,9 +3,10 @@
 | Area | Open work |
 | --- | --- |
 | Genuine data | Confirm provider entitlement and applicable rights and acquire one permitted closed-session sample. |
-| Prospective simulation | Convert applicable research candidates into paper orders and drive them from a continuous authorized or authored event stream. |
-| Candidate lifecycle | Add strategy-specific validation, expiry, regime and cost evidence, and approved transition states beyond the current NO TRADE outcome. |
-| Continuity | Implement complete missed-slot journaling and bounded reprocessing of late data while retaining the production cutoff. |
-| Financial validation | Extend parameter search, stress and promotion governance, and evaluate genuine out-of-sample results. |
-| Equity marks | Add complete mark series for unrealized performance, excursions and mark-to-market drawdown. |
+| Prospective simulation | Authored observation-driven orders are supported. Genuine delayed/live inputs and partial fills remain unavailable. |
+| Candidate lifecycle | Fixture evidence, expiry, invalidation and paper transitions are persisted. Genuine market lifecycle use requires applicable rights. |
+| Continuity | Lost intervals are logged over seven days. Immediate acquisition triggers and replay of every missed research slot remain open. |
+| Financial validation | Broader genuine market regimes, independent out-of-sample validation and expectancy uncertainty require a suitable authorized dataset. |
+| Equity marks | Synthetic frozen closes support sampled excursions and intraday drawdown. True intrabar extremes and live marks remain unavailable. |
 | Tariffs | Verify broker-specific rounding and aggregation on a permitted statement or documented account tariff. |
+| Multi-instrument fixture risk | Bound watches share one budget and one allowed exposure. Sector and correlation are unmeasured. |

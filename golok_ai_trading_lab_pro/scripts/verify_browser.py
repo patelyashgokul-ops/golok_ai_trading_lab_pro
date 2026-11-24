@@ -247,7 +247,7 @@ def verify(base_url, database, edge):
         page.locator(".o_list_view").get_by_role("row").filter(has_text="ST-01").filter(
             has_not_text="2024-01-05").last.click()
         page.get_by_role("button", name="Calculate Performance").click()
-        expect(page.locator(".o_form_view [name=report]")).to_contain_text("p09-performance-1")
+        expect(page.locator(".o_form_view [name=report]")).to_contain_text("p09-performance-2")
         print("UI-18 synthetic performance report persisted with its calculation version", flush=True)
         call("golok.lab.fixture.account", "create", {
             "name": "Browser prospective fixture", "scenario": "target", "tariff_id": tariff})
@@ -263,6 +263,10 @@ def verify(base_url, database, edge):
         expect(page.locator(".o_form_view [name=mode]")).to_contain_text("Prospective fixture simulation")
         assert not errors, errors
         print("UI-19 fixture-only reservation, entry, exit and journal through native forms", flush=True)
+        page.goto(f"{base_url}/odoo/action-{xml_id('action_fixture_risk')}")
+        expect(page.locator(".o_list_view")).to_contain_text("Browser prospective fixture")
+        expect(page.locator(".o_list_view")).to_contain_text("Remaining Daily Risk")
+        print("UI-20 account risk monitor displays the native remaining budget", flush=True)
         browser.close()
 
 

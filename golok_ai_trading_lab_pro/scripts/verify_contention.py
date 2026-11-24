@@ -226,13 +226,48 @@ def _p09_races(env, runner, dataset, tariff):
     assert account.available == account.opening + account.realized
     print("PASS: independent fixture reservation and closure races left one order, one fill per side and a reconciled journal")
     _interrupt_fixture_exit(env, account)
+    _interrupt_automatic_fixture_exit(env, administrator, dataset, tariff)
 
 
-def _interrupt_fixture_exit(env, account):
+def _interrupt_automatic_fixture_exit(env, administrator, dataset, tariff):
+    from unittest.mock import patch
+
+    from odoo import fields
+
+    worker = env(user=administrator.id, context={"allowed_company_ids": [dataset.company_id.id]})
+    fixture = worker["golok.lab.dataset"].create({
+        "name": "Observation-driven worker fixture", "source": "Authored process test", "origin": "synthetic",
+        "interval": "5m", "calendar_id": dataset.calendar_id.id, "instrument_id": dataset.instrument_id.id,
+    })
+    watch = worker["golok.lab.session.watch"].create({"dataset_id": fixture.id})
+    account = worker["golok.lab.fixture.account"].create({
+        "name": "Observation-driven interruption fixture", "tariff_id": tariff.id,
+        "watch_ids": [(6, 0, watch.ids)], "target_policy": "fixed_4r",
+    })
+    files = Path(__file__).resolve().parents[1] / "tests/fixtures/p02"
+    header, *lines = (files / "candles.csv").read_bytes().splitlines()
+    lines[5] = lines[5].replace(b",102,120,98,101,1000,", b",102,120,100,101,4000,")
+    lines[6] = lines[6].replace(b",100,101,99,100,1000,", b",102,120,100,110,4000,")
+    start = datetime(2024, 1, 2, 3, 45, tzinfo=timezone.utc)
+    for offset, selected in ((20, lines[:4]), (30, lines[4:6]), (35, lines[6:7])):
+        at = start + timedelta(minutes=offset)
+        with patch.object(fields.Datetime, "now", return_value=at.replace(tzinfo=None)):
+            payload = b"\n".join((header, *selected))
+            fixture._import_bars(parse_csv(payload, as_of=at, temporal=True))
+            if offset < 35:
+                watch._dispatch(at)
+            if offset == 20:
+                watch.cycle_ids.job_id.sudo()._complete_claim()
+    assert account.order_ids.state == "open" and account.order_ids.candidate_id
+    _interrupt_fixture_exit(env, account, watch=watch, at=start + timedelta(minutes=35))
+
+
+def _interrupt_fixture_exit(env, account, *, watch=None, at=None):
     from odoo.cli import shell
 
-    account.action_reserve_fixture()
-    account.action_open_fixture()
+    if not watch:
+        account.action_reserve_fixture()
+        account.action_open_fixture()
     order = account.order_ids[:1]
     env.cr.execute("SELECT inet_server_port()")
     port = str(env.cr.fetchone()[0])
@@ -246,11 +281,16 @@ def _interrupt_fixture_exit(env, account):
         "--logfile=.local-test/p09-fixture-worker.log",
     ], stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True)
     try:
+        scope = f"env(user={account.env.uid}, context={{'allowed_company_ids': [{account.company_id.id}]}})"
+        execute = "account.action_close_fixture()\n"
+        if watch:
+            execute = (f"from datetime import datetime\n"
+                       f"{scope}['{watch._name}'].browse({watch.id})._dispatch(datetime.fromisoformat({at.isoformat()!r}))\n")
         process.stdin.write(
             f"from time import sleep\n"
-            f"account = env(user={account.env.uid}, context={{'allowed_company_ids': [{account.company_id.id}]}})"
-            f"['{account._name}'].browse({account.id})\n"
-            "account.action_close_fixture()\n"
+            f"account = {scope}['{account._name}'].browse({account.id})\n"
+            + execute +
+            f"assert account.order_ids.filtered(lambda row: row.id == {order.id}).state == 'closed'\n"
             "env.flush_all()\n"
             "print('PAPER_EXIT_WRITTEN', flush=True)\n"
             "sleep(45)\n"
@@ -269,12 +309,16 @@ def _interrupt_fixture_exit(env, account):
         process.stdout.close()
     env.invalidate_all()
     assert order.state == "open" and "closed" not in account.journal_ids.filtered(lambda event: event.order_id == order).mapped("kind")
-    account.action_close_fixture()
+    if watch:
+        watch._dispatch(at)
+    else:
+        account.action_close_fixture()
     assert order.state == "closed"
     assert account.journal_ids.filtered(lambda event: event.order_id == order).mapped("kind") == ["reserved", "opened", "closed"]
     assert account.available == account.opening + account.realized
     env.cr.commit()
-    print("PASS: actual fixture closing worker was terminated after uncommitted writes and one retry reconciled the exit")
+    label = "observation-driven" if watch else "fixture"
+    print(f"PASS: actual {label} closing worker was terminated after uncommitted writes and one retry reconciled the exit")
 
 
 def _interrupt_job(env, runner, dataset):

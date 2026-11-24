@@ -26,3 +26,17 @@ Reproduction commands
     ./scripts/verify_p01_upgrade.ps1 -SourceDatabase golok_p08_fresh_s -TargetDatabase golok_p09_migration_b -SourceVersion 20.0.8.7.0 -TargetVersion 20.0.9.0.0 -EvidenceDir docs/evidence/p09/migration-final -ClusterDir .local-test/pg-p08 -PostgresPort 55498
 
 The first populated P08 clone retained all checked records and XML IDs. The synthetic benchmark rejected the new disposable database name until its own allowlist was extended to match the migration harness. Both migration attempts remain documented.
+
+## P09.1 continuation
+
+The first automatic candidate test exposed the captured Odoo ingestion-default callable. Imports now write the server receipt explicitly, so the same effective clock governs both scheduling and receipt checks. The revised test verifies one reservation, a later modeled entry, target exit, persistence across a second schedule on the same capital and an unresolved missing square-off. The original run is retained under `automatic-paper`. The final checks cover the shared account and its native risk monitor.
+
+    ./scripts/verify_odoo.ps1 -Browser -ClusterDir .local-test/pg-p06 -EvidenceDir docs/evidence/p09/shared-risk-final -PostgresPort 55497 -HttpPort 18097 -Database golok_p09_fresh_i
+    ./scripts/verify_p01_upgrade.ps1 -SourceDatabase golok_p09_fresh_e -TargetDatabase golok_p09_migration_d -SourceVersion 20.0.9.0.0 -TargetVersion 20.0.9.1.0 -EvidenceDir docs/evidence/p09/shared-risk-migration -ClusterDir .local-test/pg-p08 -PostgresPort 55498
+    python -B scripts/reproduce_p09_stress.py
+
+Final lifecycle tests verify experimental, risk-rejected, paper and expired states. They include shared exposure rejection, release after expiry, target close and an unresolved missing square-off. The independent observation-driven worker wrote an uncommitted exit, was terminated, and recovered once without a duplicate on retry.
+
+    ./scripts/verify_odoo.ps1 -Browser -ClusterDir .local-test/pg-p08 -EvidenceDir docs/evidence/p09/lifecycle-final -PostgresPort 55498 -HttpPort 18098 -Database golok_p09_fresh_j
+    ./scripts/verify_p01_upgrade.ps1 -SourceDatabase golok_p08_fresh_s -TargetDatabase golok_p09_migration_e -SourceVersion 20.0.8.7.0 -TargetVersion 20.0.9.1.0 -EvidenceDir docs/evidence/p09/direct-p08-migration -ClusterDir .local-test/pg-p08 -PostgresPort 55498
+    ./scripts/verify_p01_upgrade.ps1 -SourceDatabase golok_p09_fresh_e -TargetDatabase golok_p09_migration_f -SourceVersion 20.0.9.0.0 -TargetVersion 20.0.9.1.0 -EvidenceDir docs/evidence/p09/lifecycle-migration -ClusterDir .local-test/pg-p08 -PostgresPort 55498

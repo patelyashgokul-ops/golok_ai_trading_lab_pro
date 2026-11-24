@@ -1,10 +1,11 @@
 from datetime import timedelta, timezone
+from decimal import Decimal
 
 from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.fields import Domain
 
-from ..services import calendar, decision, market_data, session_clock
+from ..services import calendar, decision, market_data, session_clock, strategies
 
 
 PHASES = [(value, label) for value, label in (
@@ -25,9 +26,24 @@ class SessionWatch(models.Model):
     event_ids = fields.One2many("golok.lab.session.event", "watch_id")
     cycle_minutes = fields.Integer(default=5, required=True)
     cycle_ids = fields.One2many("golok.lab.research.cycle", "watch_id")
+    gap_ids = fields.One2many("golok.lab.research.gap", "watch_id")
+    paper_account_id = fields.Many2one("golok.lab.fixture.account", readonly=True, ondelete="restrict",
+                                       groups="golok_ai_trading_lab_pro.group_admin")
 
     _dataset_watch = models.Constraint("UNIQUE(dataset_id)", "A dataset may have only one session watch.")
     _cycle_interval = models.Constraint("CHECK(cycle_minutes BETWEEN 2 AND 60)", "Set a cycle interval of 2–60 minutes.")
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        if not self.env.su and any("paper_account_id" in values for values in vals_list):
+            raise AccessError(_("Bind a research schedule through the fixture account configuration."))
+        return super(SessionWatch, self.with_context(default_paper_account_id=False)).create(vals_list)
+
+    def write(self, vals):
+        if not self.env.su and ("paper_account_id" in vals or (
+                {"company_id", "dataset_id"} & vals.keys() and self.sudo().mapped("paper_account_id"))):
+            raise AccessError(_("The bound fixture schedule and company are immutable."))
+        return super().write(vals)
 
     @api.constrains("dataset_id")
     def _fixture_only(self):
@@ -48,11 +64,19 @@ class SessionWatch(models.Model):
         if not self.env.cr.fetchone():
             return self.env["golok.lab.session.event"]
         self.invalidate_recordset(["active", "dataset_id", "checked_at", "cycle_minutes"])
+        operator = self._operator()
+        if operator:
+            account = self._fixture_account(operator)
+            if account:
+                self.env["golok.lab.replay.guard"]._lock(self.dataset_id.instrument_id)
+                account._settle_observations(self, at)
         if not self.active:
             return self.env["golok.lab.session.event"]
         dataset = self.dataset_id
         day = at.astimezone(calendar.IST).date()
         sessions = dataset.calendar_id._sessions()
+        if self.checked_at:
+            self._record_missed_intervals(sessions, at)
         previous_day = self.checked_at.replace(tzinfo=timezone.utc).astimezone(calendar.IST).date() if self.checked_at else day
         # Recover only explicit completed sessions, within the last seven calendar days.
         lower_bound = max(previous_day, day - timedelta(days=7))
@@ -68,6 +92,25 @@ class SessionWatch(models.Model):
         if phase in ("market_opening", "intraday"):
             self._schedule_cycle(day, session, phase, at, previous_check)
         return event
+
+    def _record_missed_intervals(self, sessions, at):
+        previous = self.checked_at.replace(tzinfo=timezone.utc)
+        since = max(previous, at - timedelta(days=7))
+        if since >= at:
+            return
+        interval = timedelta(minutes=self.cycle_minutes)
+        gaps = []
+        for day, session in sessions.items():
+            for opening, closing in session.windows():
+                start, end = max(opening, since), min(closing, at)
+                count = max(0, (end - start) // interval - 1)
+                if count:
+                    gaps.append({"watch_id": self.id, "company_id": self.company_id.id, "day": day,
+                                 "starts_at": start.replace(tzinfo=None), "ends_at": end.replace(tzinfo=None),
+                                 "resumed_at": at.replace(tzinfo=None), "interval_minutes": self.cycle_minutes,
+                                 "missed": count})
+        if gaps:
+            self.env["golok.lab.research.gap"].with_context({}).sudo().create(gaps)
 
     def _schedule_cycle(self, day, session, phase, at, previous_check):
         dataset = self.dataset_id
@@ -89,9 +132,8 @@ class SessionWatch(models.Model):
         ]) & isolation, order="available_at desc, id desc", limit=1)
         if not latest or cycles.search_count([("watch_id", "=", self.id), ("observation_id", "=", latest.id)], limit=1):
             return
-        requester = self.create_uid
-        if (not requester.active or self.company_id not in requester.company_ids
-                or not requester.has_group("golok_ai_trading_lab_pro.group_admin")):
+        requester = self._operator()
+        if not requester:
             return
         job = self.env["golok.lab.research.job"].with_user(requester).with_company(self.company_id).create({
             "dataset_id": dataset.id, "cutoff": cutoff,
@@ -102,6 +144,17 @@ class SessionWatch(models.Model):
             "observation_at": latest.close_time, "available_at": latest.available_at,
             "missed_intervals": missed,
         })
+
+    def _operator(self):
+        user = self.create_uid
+        if user.active and self.company_id in user.company_ids and user.has_group("golok_ai_trading_lab_pro.group_admin"):
+            return user
+        return self.env["res.users"]
+
+    def _fixture_account(self, operator):
+        return self.env["golok.lab.fixture.account"].with_user(operator).with_company(self.company_id).search([
+            ("id", "=", self.sudo().paper_account_id.id), ("company_id", "=", self.company_id.id),
+        ], limit=1)
 
     def _record_phase(self, day, session, phase, at, *, recovery=False):
         dataset = self.dataset_id
@@ -224,12 +277,49 @@ class ResearchCycle(models.Model):
             "G04": bool(run.bar_count and not run.gap_count),
             "G05": self.available_at <= self.cutoff,
         }
-        evaluation = decision.evaluate(checks, mode="fixture_research", context={"dataset_version": run.input_digest})
-        self.env["golok.lab.research.candidate"].with_context({}).sudo().create({
+        account = self.watch_id._fixture_account(run.env.user)
+        generated = fields.Datetime.now()
+        scope = {}
+        reserved = None
+        reason = "Descriptive fixture research has no bound paper account."
+        if account:
+            scope, reserved, reason = account._assess_candidate(self, run, generated)
+        if reserved:
+            plan, settings = reserved
+            checks.update({
+                "G06": Decimal(plan["stop_price"]) < Decimal(plan["limit_price"]) < Decimal(plan["target_price"]),
+                "G07": scope["strategy"] in strategies.REGISTRY,
+                "G08": account.mode == "fixture" and run.dataset_id.origin == "synthetic",
+                "G09": scope["tariff"] == account.tariff_id.id and plan["entry_fee"] >= 0,
+                "G10": plan["quantity"] > 0 and Decimal(scope["reward_to_risk"]) >= 2,
+                "G11": plan["reserved"] <= account.available and account.planned_risk == 0 and settings["entries"] < 3,
+                "G12": generated < plan["expires"],
+                "G13": scope["observation"] == self.observation_id.id and len(scope["signal_sha256"]) == 64,
+                "G14": self.watch_id in account.bound_watch_ids and account.company_id == self.company_id,
+            })
+        permitted = bool(reserved) and all(checks.values())
+        evaluation = decision.evaluate(checks, mode="synthetic_replay" if permitted else "fixture_research",
+                                       context={"dataset_version": scope.get("signal_sha256", run.input_digest),
+                                                "execution_scope": "PROSPECTIVE_FIXTURE" if account else "DESCRIPTIVE_FIXTURE"})
+        state = "paper_eligible" if permitted else "no_trade"
+        if not account:
+            state = "experimental"
+        elif not permitted:
+            if reason in ("NO_CAUSAL_SIGNAL_OR_TARGET", "INCOMPLETE_OR_UNAVAILABLE_CANDLES"):
+                state = "watch"
+            elif reason in ("STALE_OBSERVATION", "STALE_TRADING_DAY"):
+                state = "expired"
+            elif reason != "SUSPENDED_STALE_OR_OUTSIDE_SESSION":
+                state = "rejected"
+        candidate = self.env["golok.lab.research.candidate"].with_context({}).sudo().create({
             "cycle_id": self.id, "company_id": self.company_id.id, "input_digest": run.input_digest,
-            "engine_version": run.engine_version, "evidence": {"research": run.evidence, "decision": evaluation},
-            "reason": "Descriptive fixture research has no validated entry, tariff and risk approval.",
+            "engine_version": run.engine_version,
+            "evidence": {"research": run.evidence, "decision": evaluation, "fixture_plan": scope},
+            "reason": reason, "generated_at": generated,
+            "state": state,
         })
+        if permitted:
+            account._reserve_candidate(candidate, *reserved)
 
 
 class ResearchCandidate(models.Model):
@@ -244,6 +334,43 @@ class ResearchCandidate(models.Model):
     engine_version = fields.Char(required=True)
     evidence = fields.Json(required=True)
     reason = fields.Char(required=True)
-    state = fields.Selection([("no_trade", "NO TRADE")], required=True, default="no_trade")
+    state = fields.Selection([("no_trade", "NO TRADE"), ("experimental", "Experimental"),
+                              ("watch", "Watch"), ("rejected", "Rejected"), ("expired", "Expired"),
+                              ("paper_eligible", "Fixture paper eligible")], required=True, default="no_trade")
+    generated_at = fields.Datetime()
+    order_ids = fields.One2many("golok.lab.fixture.order", "candidate_id")
+    lifecycle = fields.Selection([("no_trade", "NO TRADE"), ("experimental", "Experimental"),
+                                  ("watch", "Watch"), ("rejected", "Rejected"), ("expired", "Expired"),
+                                  ("invalidated", "Invalidated"), ("wait", "Waiting for entry"),
+                                  ("paper_eligible", "Fixture paper eligible"),
+                                  ("pending", "Paper pending"), ("open", "Paper open"), ("closed", "Paper closed"),
+                                  ("cancelled", "Paper cancelled"), ("unresolved", "Reconciliation required")],
+                                 compute="_compute_lifecycle")
+
+    @api.depends("state", "order_ids.state", "order_ids.exit_reason", "order_ids.last_entry_check_id")
+    def _compute_lifecycle(self):
+        for item in self:
+            order = item.order_ids[:1]
+            if order.state == "cancelled" and order.exit_reason in ("DATA_INTEGRITY", "ENTRY_WINDOW_EXPIRED"):
+                item.lifecycle = "invalidated" if order.exit_reason == "DATA_INTEGRITY" else "expired"
+            elif order.state == "pending" and order.last_entry_check_id:
+                item.lifecycle = "wait"
+            else:
+                item.lifecycle = order.state or item.state
 
     _cycle_once = models.Constraint("UNIQUE(cycle_id)", "Research outcome already published.")
+
+
+class ResearchGap(models.Model):
+    _name = "golok.lab.research.gap"
+    _description = "Elapsed fixture research operating interval"
+    _order = "starts_at desc, id desc"
+
+    watch_id = fields.Many2one("golok.lab.session.watch", required=True, ondelete="restrict", index=True)
+    company_id = fields.Many2one("res.company", required=True, index=True)
+    day = fields.Date(required=True)
+    starts_at = fields.Datetime(required=True)
+    ends_at = fields.Datetime(required=True)
+    resumed_at = fields.Datetime(required=True)
+    interval_minutes = fields.Integer(required=True)
+    missed = fields.Integer(required=True)
