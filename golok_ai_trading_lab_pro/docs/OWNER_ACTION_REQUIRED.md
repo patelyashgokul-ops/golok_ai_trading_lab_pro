@@ -1,8 +1,26 @@
-# Owner actions for P08
+# Owner actions for P09
 
 ## P09 owner action
 
-For one historical smoke test, provide one completed-session file and the publisher's permission for local retention and private descriptive research. Upstox documents market-data access without the account-sensitive static-IP requirement. Because the owner reported inactive-segment restrictions, confirm with Upstox whether the existing account can issue a market-data Analytics Token under its current plan. Keep any token and login material local. FYERS documents a non-trading app without static IP, subject to account onboarding and source terms. [Provider decision matrix](FREE_MARKET_DATA_PROVIDER_EVALUATION.md)
+**First route.** Ask Upstox Support to confirm historical NSE cash-equity access for the existing account. Upstox documents a free, read-only Analytics Token and historical data access without a static IP. The reported inactive-segment issue still needs an account-specific answer. Request an approved one-session export as a fallback if the current account cannot generate the token. [Analytics Token documentation](https://upstox.com/developer/api-documentation/analytics-token/) · [Upstox support](https://upstox.com/contact-us/)
+
+### Message to Upstox Support
+
+**Subject** — Read-only NSE cash-equity historical sample and local research permission
+
+> I have an Upstox account and use a dynamic-IP mobile hotspot. I am testing Golok AI Trading Lab Pro on a single local workstation. Can my existing account obtain an Analytics Token for the NSE cash-equity Historical Data API if the segment is inactive? If it cannot, can you provide one completed-session cash-equity OHLCV sample through an approved download or export?
+>
+> Please confirm whether I may retain the sample in a private local database and use it for internal descriptive research. In a separate answer, please specify whether a longer intraday sample may be retained and used for offline backtesting and virtual paper trading. Please include the applicable retention terms, any fee, and the documentation for candle timestamps and publication delays. The proposed workflow will keep the raw data private and has no broker order execution.
+
+**Fallback route.** Request a bounded NSE Capital Market sample directly from NSE Data & Analytics at `marketdata@nse.co.in`. Request one completed-session UDiFF/Bhavcopy CSV or ZIP, ask whether they can provide it at no charge, and ask for the permitted use and storage terms in writing. For study beyond the import check, ask separately about permissible historical intraday data, publication-time evidence and backtesting. [NSE official contact](https://www.nseindia.com/static/contact/corporate-office) · [NSE historical-data policy](https://www.nseindia.in/static/market-data/nse-data-policy)
+
+### Use the provider's answer
+
+- **P09-AC-042** needs one approved completed session plus local retention and descriptive research permission. Import an NSE Cash UDiFF/Bhavcopy sample through **End-of-day File Imports**, then normalize to an effective mapped daily dataset. Record sanitized row totals, session date and research result in the review evidence. A provider-specific historical CSV requires the published schema and timestamp semantics for the existing authorized CSV route.
+- **P09-AC-043** needs a separate permitted intraday sample with genuine out-of-sample coverage, documented publication timing, applicable costs and validation evidence. One end-of-day file closes only the import check. Access to an API, permission to store data and permission to run backtests or prospective simulation are separate parts of the grant.
+- Keep credentials and raw data local. The handoff should contain the sanitized entitlement and verification outcome.
+
+FYERS documents a no-static-IP non-trading app, but its current API terms explicitly restrict using exchange data for paper trading and other technical tools. Do not select it for this workflow without provider clarification of the actual permitted scope. [FYERS API terms](https://fyers.in/terms-and-conditions-api) · [Provider decision matrix](FREE_MARKET_DATA_PROVIDER_EVALUATION.md)
 
 Offline research needs no external subscription. In **Research Schedules**, select a fixture-calendar dataset, pause it or check its phase. **Daily Research Operations** displays the saved event. Local scheduling requires the laptop and Odoo to be running.
 
