@@ -140,6 +140,9 @@ class SimulationTests(unittest.TestCase):
             run(bars, "imported")
         with self.assertRaisesRegex(ValueError, "complete"):
             run(bars[:2] + bars[3:])
+        delayed = replace(bars[0], available_at=bars[2].available_at)
+        with self.assertRaisesRegex(ValueError, "publication in candle order"):
+            run([delayed, *bars[1:]])
 
 
 class ReferenceTests(unittest.TestCase):
@@ -203,3 +206,6 @@ class ProviderTests(unittest.TestCase):
         client = smartapi.SmartAPI(fail)
         with self.assertRaisesRegex(smartapi.ProviderError, "^DISCONNECTED$"):
             client.authenticate("fixture", "fixture", "fixture")
+        limited = smartapi.SmartAPI(lambda *_: {"status": False, "errorcode": "AB1021", "message": "fixture-sensitive-payload"})
+        with self.assertRaisesRegex(smartapi.ProviderError, "^RATE_LIMITED$"):
+            limited.authenticate("fixture", "fixture", "fixture")

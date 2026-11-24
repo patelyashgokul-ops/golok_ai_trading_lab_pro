@@ -58,3 +58,63 @@ DETAIL:  Key (dataset_id, close_time)=(4, 2024-01-02 03:50:00) already exists.
 2026-11-24 11:22:08,407 25484 INFO golok_p02_final odoo.service.server.ThreadedServer: Hit CTRL-C again or send a second signal to force the shutdown.
 2026-11-24 11:22:08,407 25484 INFO golok_p02_final odoo.addons.bus.websocket: Disconnecting 0 websockets
 2026-11-24 11:22:08,520 25484 INFO golok_p02_final odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 2 connections 
+2026-11-24 11:30:46,317 12956 WARNING ? odoo.tools.config: option --without-demo: since 19.0, invalid boolean value: 'all', assume True
+2026-11-24 11:30:46,317 12956 INFO ? odoo: Odoo version 20.0
+2026-11-24 11:30:46,318 12956 INFO ? odoo: Using configuration file at c:\pycharmprojects\odoo20\odoo-20.0\odoo.conf
+2026-11-24 11:30:46,318 12956 INFO ? odoo: addons paths: _NamespacePath(['C:\\PycharmProjects\\odoo20\\odoo-20.0\\odoo\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons\\golok_ai_trading_lab_pro\\.local-test\\odoo-data\\addons\\20.0', 'c:\\pycharmprojects\\odoo20\\odoo-20.0\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons'])
+2026-11-24 11:30:46,318 12956 INFO ? odoo: database: golok_test@127.0.0.1:55489
+2026-11-24 11:30:48,632 12956 INFO ? odoo.service.server: HTTP service running on 127.0.0.1:18089
+2026-11-24 11:30:48,685 12956 INFO golok_p02_isolated odoo.tests.common: Importing test framework
+2026-11-24 11:30:48,841 12956 INFO golok_p02_isolated odoo.modules.loading: loading 1 modules...
+2026-11-24 11:30:48,849 12956 INFO golok_p02_isolated odoo.modules.loading: 1 modules loaded in 0.01s, 0 queries (+0 extra)
+2026-11-24 11:30:48,903 12956 INFO golok_p02_isolated odoo.tools.version_tag_reset: Detected tp_versions_used at offset 410, reset enabled
+2026-11-24 11:30:48,903 12956 INFO golok_p02_isolated odoo.modules.loading: updating modules list
+2026-11-24 11:30:48,910 12956 INFO golok_p02_isolated odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via n/a
+2026-11-24 11:30:50,152 12956 WARNING golok_p02_isolated odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-24 11:30:50,153 12956 WARNING golok_p02_isolated odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-24 11:30:50,245 12956 WARNING golok_p02_isolated odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-24 11:30:50,245 12956 WARNING golok_p02_isolated odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-24 11:30:50,246 12956 WARNING golok_p02_isolated odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-24 11:30:50,246 12956 WARNING golok_p02_isolated odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-24 11:30:50,435 12956 INFO golok_p02_isolated odoo.addons.base.models.ir_module: ALLOW access to module.button_upgrade on ['Golok AI Trading Lab Pro'] to user __system__ #1 via n/a
+2026-11-24 11:30:50,435 12956 INFO golok_p02_isolated odoo.addons.base.models.ir_module: ALLOW access to module.update_list on ['Golok AI Trading Lab Pro'] to user __system__ #1 via n/a
+2026-11-24 11:30:51,319 12956 WARNING golok_p02_isolated odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-24 11:30:51,358 12956 WARNING golok_p02_isolated odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-24 11:30:51,358 12956 WARNING golok_p02_isolated odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-24 11:30:51,423 12956 INFO golok_p02_isolated odoo.addons.base.models.ir_module: ALLOW access to module.button_install on [] to user __system__ #1 via n/a
+2026-11-24 11:30:51,571 12956 INFO golok_p02_isolated odoo.modules.loading: loading 17 modules...
+2026-11-24 11:30:51,812 12956 INFO golok_p02_isolated odoo.modules.loading: Loading module golok_ai_trading_lab_pro (11/17)
+2026-11-24 11:30:51,917 12956 INFO golok_p02_isolated odoo.registry: module golok_ai_trading_lab_pro: creating or updating database tables
+2026-11-24 11:30:52,046 12956 INFO golok_p02_isolated odoo.modules.loading: loading golok_ai_trading_lab_pro/security/groups.xml
+2026-11-24 11:30:52,221 12956 INFO golok_p02_isolated odoo.modules.loading: loading golok_ai_trading_lab_pro/security/ir.access.csv
+2026-11-24 11:30:52,315 12956 INFO golok_p02_isolated odoo.modules.loading: loading golok_ai_trading_lab_pro/views/lab.xml
+2026-11-24 11:30:52,598 12956 INFO golok_p02_isolated odoo.registry: Registry changed, signaling through the database
+2026-11-24 11:30:52,856 12956 INFO golok_p02_isolated odoo.addons.base.models.res_users: Group change: user 1 with IP n/a changed groups of user 1 who belonged to [10, 9, 5, 15] with changes [(<Command.LINK: 4>, 6, 0)]
+2026-11-24 11:30:53,058 12956 INFO golok_p02_isolated odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_database_duplicate_constraint ...
+2026-11-24 11:30:53,137 12956 ERROR golok_p02_isolated odoo.sql_db: bad query: b'INSERT INTO "golok_lab_candle" ("available_at", "close_price", "close_time", "create_date", "create_uid", "dataset_id", "high_price", "ingested_at", "low_price", "open_price", "open_time", "processing_version", "quality", "volume", "write_date", "write_uid") VALUES (NULL, \'101\', \'2024-01-02T03:50:00\'::timestamp, \'2026-11-24T11:30:52.674073\'::timestamp, 1, 4, \'103\', \'2026-11-24T11:30:53\'::timestamp, \'99\', \'100\', NULL, \'1\', \'validated\', 100, \'2026-11-24T11:30:52.674073\'::timestamp, 1) RETURNING "id"'
+ERROR: duplicate key value violates unique constraint "golok_lab_candle_unique_bar"
+DETAIL:  Key (dataset_id, close_time)=(4, 2024-01-02 03:50:00) already exists.
+
+2026-11-24 11:30:53,138 12956 INFO golok_p02_isolated odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_gap_disables_findings ...
+2026-11-24 11:30:53,179 12956 INFO golok_p02_isolated odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_import_retry_and_atomic_conflict ...
+2026-11-24 11:30:53,216 12956 INFO golok_p02_isolated odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_permissions_and_company_scope ...
+2026-11-24 11:30:53,296 12956 INFO golok_p02_isolated odoo.addons.base.models.ir_access: Access Denied for operation: read on record ids: [5], uid: 10, model: golok.lab.dataset
+2026-11-24 11:30:53,367 12956 INFO golok_p02_isolated odoo.addons.base.models.ir_access: Access Denied for operation: write on record ids: [5], uid: 9, model: golok.lab.dataset
+2026-11-24 11:30:53,389 12956 INFO golok_p02_isolated odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_point_in_time_calendar_quarantine_and_chart ...
+2026-11-24 11:30:53,540 12956 INFO golok_p02_isolated odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_research_cutoff_evidence_and_no_trade ...
+2026-11-24 11:30:53,643 12956 INFO golok_p02_isolated odoo.addons.base.models.ir_attachment: filestore gc 7 checked, 3 removed
+2026-11-24 11:30:53,656 12956 INFO golok_p02_isolated odoo.modules.loading: Module golok_ai_trading_lab_pro loaded in 1.84s (incl. 1.04s test), 490 queries (+393 test, +490 other)
+2026-11-24 11:30:54,125 12956 WARNING golok_p02_isolated odoo.addons.mail.controllers.attachment: markdown2 is not installed, markdown will not be rendered
+2026-11-24 11:30:54,366 12956 INFO golok_p02_isolated odoo.modules.loading: 17 modules loaded in 2.79s, 490 queries (+883 extra)
+2026-11-24 11:30:54,782 12956 INFO golok_p02_isolated odoo.registry: verifying fields for every extended model
+2026-11-24 11:30:56,014 12956 INFO golok_p02_isolated odoo.modules.loading: Modules loaded.
+2026-11-24 11:30:56,025 12956 INFO golok_p02_isolated odoo.registry: Registry changed, signaling through the database
+2026-11-24 11:30:56,031 12956 INFO golok_p02_isolated odoo.registry: Registry loaded in 7.392s
+2026-11-24 11:30:56,032 12956 INFO golok_p02_isolated odoo.service.server: Starting post tests
+2026-11-24 11:30:56,033 12956 INFO golok_p02_isolated odoo.service.server: 0 post-tests in 0.00s, 0 queries
+2026-11-24 11:30:56,033 12956 INFO golok_p02_isolated odoo.tests.stats: golok_ai_trading_lab_pro: 8 tests 1.04s 393 queries
+2026-11-24 11:30:56,034 12956 INFO golok_p02_isolated odoo.tests.result: 0 failed, 0 error(s) of 6 tests when loading database 'golok_p02_isolated'
+2026-11-24 11:30:56,034 12956 INFO golok_p02_isolated odoo.service.server.ThreadedServer: Initiating shutdown
+2026-11-24 11:30:56,034 12956 INFO golok_p02_isolated odoo.service.server.ThreadedServer: Hit CTRL-C again or send a second signal to force the shutdown.
+2026-11-24 11:30:56,034 12956 INFO golok_p02_isolated odoo.addons.bus.websocket: Disconnecting 0 websockets
+2026-11-24 11:30:56,144 12956 INFO golok_p02_isolated odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 2 connections 

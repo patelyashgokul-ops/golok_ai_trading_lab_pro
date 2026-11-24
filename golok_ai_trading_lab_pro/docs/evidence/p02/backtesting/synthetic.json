@@ -11,7 +11,7 @@
       "reason": "DAILY_ENTRY_LIMIT"
     }
   ],
-  "experiment": "e3ed346ea5b7fc5975590bd17f23bb8975281df0e12cbac4c4c5c583a4d2dbca",
+  "experiment": "779296f9802e2a95891959cf31c7f11d880053a244e555e3a3dfc751a33b5d0d",
   "metrics": {
     "costs": "2.02",
     "drawdown_closed_equity": "62.02",
@@ -301,7 +301,7 @@
     ],
     "exchange": "NSE",
     "implementation_digests": {
-      "backtest.py": "1ff0dd8982120959f5f3967472ffbe41fdca8a51f72798d600a17d51bd125c1a",
+      "backtest.py": "c0d0ee7cbfccc62d6f01dda9dde3eb336f7fa058525ba4be161b0a09e5085a57",
       "calendar.py": "2fcfc8b36412cf043cc75fb48acdc3a5c44670209f3011d6df42c5fc7fa16e1b",
       "simulation.py": "ce25880b8e830bf451df13041a2b54d6d23b41bdc1d2dccf71d85ecb08006fb5"
     },

@@ -119,12 +119,12 @@ class SmartAPI:
             raise ProviderError(self.state) from None
         if not isinstance(response, dict) or response.get("status") is not True or "data" not in response:
             code = response.get("errorcode") if isinstance(response, dict) else None
-            if operation == "authenticate" or code in ("AG8001", "AG8002", "AG8003"):
-                self._token = None
-                self.state = "AUTH_REQUIRED"
-            elif code == "AB1021":
+            if code == "AB1021":
                 self._next_request = now + 60
                 self.state = "RATE_LIMITED"
+            elif operation == "authenticate" or code in ("AG8001", "AG8002", "AG8003"):
+                self._token = None
+                self.state = "AUTH_REQUIRED"
             else:
                 self.state = "DEGRADED"
             raise ProviderError(self.state)

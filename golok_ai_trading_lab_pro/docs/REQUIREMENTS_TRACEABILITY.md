@@ -1,8 +1,8 @@
 # Requirements traceability
 
-IDs Sxx-nnn identify items by section and original order. The brief supplies RE, ST, INV and AC identifiers. Once issued, IDs should be retained across later revisions. COMPLETE means confirmed for the stated scope. A PARTIAL row can also represent an ongoing design constraint or a requirement with only one covered vertical slice.
+Original identifiers remain stable. The archived report preserves the historical 72/1,236 value. CONSTRAINT_VERIFIED identifies an enforced prohibition. GUARD_ONLY means a condition currently holds within the restricted feature set. OPTIONAL marks a technology choice. TRACKED preserves detailed P02 wording and points to group-level P02 acceptance without claiming completion.
 
-| Requirement ID | Requirement | Status | Implementation Path | Test ID | Evidence | Remaining Work |
+| Requirement ID | Requirement | Status | Implementation | Test ID | Evidence | Remaining Work |
 | --- | --- | --- | --- | --- | --- | --- |
 | S01-001 | Principal Odoo 20 Community Architect | PARTIAL | See milestone report | — | Evidence and scope in report | Preserve as an operating and quality requirement. |
 | S01-002 | Senior Python Software Engineer | PARTIAL | See milestone report | — | Evidence and scope in report | Preserve as an operating and quality requirement. |
@@ -74,15 +74,15 @@ IDs Sxx-nnn identify items by section and original order. The brief supplies RE,
 | S04-011 | Generate exit alerts | NOT_STARTED | — | — | — | Implement remaining research, paper and monitoring features, preserving the product boundary. |
 | S04-012 | Simulate paper trades | NOT_STARTED | — | — | — | Implement remaining research, paper and monitoring features, preserving the product boundary. |
 | S04-013 | Calculate hypothetical trading performance | NOT_STARTED | — | — | — | Implement remaining research, paper and monitoring features, preserving the product boundary. |
-| S04-014 | Place real broker orders | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
-| S04-015 | Modify real broker orders | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
-| S04-016 | Cancel real broker orders | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
-| S04-017 | Automatically buy real shares | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
-| S04-018 | Automatically sell real shares | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
-| S04-019 | Transfer funds | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
-| S04-020 | Allocate real account capital automatically | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
-| S04-021 | Implement autonomous real-money trading | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
-| S04-022 | Do not implement hidden or dormant real-order execution code | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
+| S04-014 | Prohibited and absent — place real broker orders | CONSTRAINT_VERIFIED | `services/smartapi.py` | P02-SEC-01 | `docs/evidence/p02/unit/python.log` | Recheck when new paths are introduced. |
+| S04-015 | Prohibited and absent — modify real broker orders | CONSTRAINT_VERIFIED | `services/smartapi.py` | P02-SEC-01 | `docs/evidence/p02/unit/python.log` | Recheck when new paths are introduced. |
+| S04-016 | Prohibited and absent — cancel real broker orders | CONSTRAINT_VERIFIED | `services/smartapi.py` | P02-SEC-01 | `docs/evidence/p02/unit/python.log` | Recheck when new paths are introduced. |
+| S04-017 | Prohibited and absent — automatically buy real shares | CONSTRAINT_VERIFIED | `services/smartapi.py` | P02-SEC-01 | `docs/evidence/p02/unit/python.log` | Recheck when new paths are introduced. |
+| S04-018 | Prohibited and absent — automatically sell real shares | CONSTRAINT_VERIFIED | `services/smartapi.py` | P02-SEC-01 | `docs/evidence/p02/unit/python.log` | Recheck when new paths are introduced. |
+| S04-019 | Prohibited and absent — transfer funds | CONSTRAINT_VERIFIED | `services/smartapi.py` | P02-SEC-01 | `docs/evidence/p02/unit/python.log` | Recheck when new paths are introduced. |
+| S04-020 | Prohibited and absent — allocate real account capital automatically | CONSTRAINT_VERIFIED | `services/smartapi.py` | P02-SEC-01 | `docs/evidence/p02/unit/python.log` | Recheck when new paths are introduced. |
+| S04-021 | Prohibited and absent — implement autonomous real-money trading | CONSTRAINT_VERIFIED | `services/smartapi.py` | P02-SEC-01 | `docs/evidence/p02/unit/python.log` | Recheck when new paths are introduced. |
+| S04-022 | Hidden or dormant real-order execution is prohibited and absent | CONSTRAINT_VERIFIED | `services/smartapi.py` | P02-SEC-01 | `docs/evidence/p02/unit/python.log` | Recheck when new paths are introduced. |
 | S05-001 | Inspect the existing repository | PARTIAL | `__manifest__.py`, `models/lab.py` | O01–O02 | `docs/evidence/installation/{fresh,upgrade}.log` | — |
 | S05-002 | Locate the actual Odoo installation | PARTIAL | See milestone report | — | Evidence and scope in report | Verify and document as subsequent slices land. |
 | S05-003 | Identify Odoo version and edition | PARTIAL | `__manifest__.py`, `models/lab.py` | O01–O02 | `docs/evidence/installation/{fresh,upgrade}.log` | — |
@@ -140,15 +140,15 @@ IDs Sxx-nnn identify items by section and original order. The brief supplies RE,
 | S07-008 | No unnecessary deep learning framework | COMPLETE | `__manifest__.py`, `services/` | U01–U08 | `docs/evidence/tests/unit.log` | — |
 | S07-009 | No uncontrolled parallel execution | NOT_STARTED | — | — | — | Measure and bound persistence, jobs, cache and system resources. |
 | S07-010 | No unbounded memory consumption | PARTIAL | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | U04, P01 | `docs/evidence/performance/services.csv` | Current paths are bounded and manual. Add bounded scheduling when implemented. |
-| S07-011 | NumPy | NOT_STARTED | — | — | — | Measure and bound persistence, jobs, cache and system resources. |
-| S07-012 | Pandas | NOT_STARTED | — | — | — | Measure and bound persistence, jobs, cache and system resources. |
-| S07-013 | SciPy | NOT_STARTED | — | — | — | Measure and bound persistence, jobs, cache and system resources. |
-| S07-014 | Scikit-learn | NOT_STARTED | — | — | — | Measure and bound persistence, jobs, cache and system resources. |
-| S07-015 | XGBoost with controlled CPU resources | NOT_STARTED | — | — | — | Measure and bound persistence, jobs, cache and system resources. |
-| S07-016 | Python standard library | NOT_STARTED | — | — | — | Measure and bound persistence, jobs, cache and system resources. |
-| S07-017 | PostgreSQL | NOT_STARTED | — | — | — | Measure and bound persistence, jobs, cache and system resources. |
-| S07-018 | Lightweight financial NLP dictionaries | NOT_STARTED | — | — | — | Measure and bound persistence, jobs, cache and system resources. |
-| S07-019 | Native Odoo scheduled actions | NOT_STARTED | — | — | — | Measure and bound persistence, jobs, cache and system resources. |
+| S07-011 | NumPy | OPTIONAL | — | — | — | Technology option, excluded from functional coverage. |
+| S07-012 | Pandas | OPTIONAL | — | — | — | Technology option, excluded from functional coverage. |
+| S07-013 | SciPy | OPTIONAL | — | — | — | Technology option, excluded from functional coverage. |
+| S07-014 | Scikit-learn | OPTIONAL | — | — | — | Technology option, excluded from functional coverage. |
+| S07-015 | XGBoost with controlled CPU resources | OPTIONAL | — | — | — | Technology option, excluded from functional coverage. |
+| S07-016 | Python standard library | OPTIONAL | — | — | — | Technology option, excluded from functional coverage. |
+| S07-017 | PostgreSQL | OPTIONAL | — | — | — | Technology option, excluded from functional coverage. |
+| S07-018 | Lightweight financial NLP dictionaries | OPTIONAL | — | — | — | Technology option, excluded from functional coverage. |
+| S07-019 | Native Odoo scheduled actions | OPTIONAL | — | — | — | Technology option, excluded from functional coverage. |
 | S07-020 | Bounded batch processing | PARTIAL | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | U04, P01 | `docs/evidence/performance/services.csv` | Current paths are bounded and manual. Add bounded scheduling when implemented. |
 | S07-021 | Configurable worker limits | NOT_STARTED | — | — | — | Measure and bound persistence, jobs, cache and system resources. |
 | S07-022 | CPU thread limits | NOT_STARTED | — | — | — | Measure and bound persistence, jobs, cache and system resources. |
@@ -314,7 +314,7 @@ IDs Sxx-nnn identify items by section and original order. The brief supplies RE,
 | S11-029 | Never generate misleading values from insufficient historical observations | NOT_STARTED | — | — | — | Implement and test remaining indicators and time/session behavior. |
 | S11-030 | Prevent look-ahead bias in every indicator and feature calculation | PARTIAL | `services/research.py`, `models/lab.py` | U07, O05 | `docs/evidence/tests/unit.log` | Close-time cutoff proven by snapshot assertion if ORM passes. Point-in-time vendor availability, survivorship and future execution tests remain. |
 | S12-001 | Implement a versioned and extensible strategy framework | NOT_STARTED | — | — | — | Implement and independently validate a versioned research-only candidate. |
-| ST-01 | Opening Range Breakout | NOT_STARTED | — | — | — | Implement and independently validate a versioned research-only candidate. |
+| ST-01 | Opening Range Breakout | PARTIAL | `services/backtest.py` | P02-BT-01 | `docs/evidence/p02/backtesting/synthetic.json` | Synthetic only. No financial validation. |
 | ST-02 | VWAP Pullback | NOT_STARTED | — | — | — | Implement and independently validate a versioned research-only candidate. |
 | ST-03 | VWAP Reclaim | NOT_STARTED | — | — | — | Implement and independently validate a versioned research-only candidate. |
 | ST-04 | Trend Following | NOT_STARTED | — | — | — | Implement and independently validate a versioned research-only candidate. |
@@ -797,8 +797,8 @@ IDs Sxx-nnn identify items by section and original order. The brief supplies RE,
 | INV-01 | No real broker order execution | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
 | INV-02 | No mandatory paid AI dependency | COMPLETE | `__manifest__.py`, `services/` | U01–U08 | `docs/evidence/tests/unit.log` | — |
 | INV-03 | No GPU dependency | COMPLETE | `__manifest__.py`, `services/` | U01–U08 | `docs/evidence/tests/unit.log` | — |
-| INV-04 | No fabricated live market data | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
-| INV-05 | No actionable signal from stale required data | PARTIAL | `services/research.py`, `models/lab.py` | O05–O06 | `docs/evidence/installation/{fresh,upgrade}.log` | NO TRADE blocks actionable historical signals. Implement live freshness or expiry gates before enabling actionable signals. |
+| INV-04 | No fabricated live market data | GUARD_ONLY | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Scope guard holds for existing paths. Future features need their own enforcement and tests. |
+| INV-05 | No actionable signal from stale required data | GUARD_ONLY | `services/research.py`, `models/lab.py` | O05–O06 | `docs/evidence/installation/{fresh,upgrade}.log` | Scope guard holds for existing paths. Future features need their own enforcement and tests. |
 | INV-06 | No look-ahead bias | PARTIAL | `services/research.py`, `models/lab.py` | U07, O05 | `docs/evidence/tests/unit.log` | Close-time cutoff proven by snapshot assertion if ORM passes. Point-in-time vendor availability, survivorship and future execution tests remain. |
 | INV-07 | No future information in historical decisions | PARTIAL | `services/research.py`, `models/lab.py` | U07, O05 | `docs/evidence/tests/unit.log` | Close-time cutoff proven by snapshot assertion if ORM passes. Point-in-time vendor availability, survivorship and future execution tests remain. |
 | INV-08 | No duplicate market data records | COMPLETE | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | O03–O04, O08 | `docs/evidence/installation/{fresh,upgrade}.log`, `docs/evidence/security/contention.log` | — |
@@ -806,21 +806,21 @@ IDs Sxx-nnn identify items by section and original order. The brief supplies RE,
 | INV-10 | No misleading profit guarantees | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
 | INV-11 | No uncalibrated score represented as probability | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
 | INV-12 | No unauthorized broker credential exposure | PARTIAL | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | No credential field or adapter exists. Add real sensitive-field and logging tests when integration is implemented. |
-| INV-13 | No strategy promotion without validation | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
+| INV-13 | No strategy promotion without validation | GUARD_ONLY | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Scope guard holds for existing paths. Future features need their own enforcement and tests. |
 | INV-14 | No retrospective performance manipulation | PARTIAL | `services/research.py`, `models/lab.py` | O05, O07 | `docs/evidence/installation/{fresh,upgrade}.log` | Snapshot input hashes and role-level immutability exist. Add experiment parameters, amendments and prospective outcomes. |
 | INV-15 | No silent synthetic-data substitution | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
 | INV-16 | No ignoring material transaction costs in net returns | NOT_STARTED | — | — | — | Required when virtual execution, costs and sizing are implemented. |
 | INV-17 | No invalid position sizing | NOT_STARTED | — | — | — | Required when virtual execution, costs and sizing are implemented. |
 | INV-18 | No cross-company unauthorized access | COMPLETE | `security/ir.access.csv`, `models/lab.py` | O07 | `docs/evidence/installation/{fresh,upgrade}.log` | Add regression checks for future features and independent API calls. |
-| INV-19 | No risk veto overridden by signal score | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
+| INV-19 | No risk veto overridden by signal score | GUARD_ONLY | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Scope guard holds for existing paths. Future features need their own enforcement and tests. |
 | INV-20 | No forced daily trading recommendation | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
-| INV-21 | No experimental strategy presented as validated | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
+| INV-21 | No experimental strategy presented as validated | GUARD_ONLY | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Scope guard holds for existing paths. Future features need their own enforcement and tests. |
 | INV-22 | No real account capital allocation | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
 | INV-23 | No unbounded background processing | COMPLETE | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | U04, P01 | `docs/evidence/performance/services.csv` | Current paths are bounded and manual. Add bounded scheduling when implemented. |
-| INV-24 | No paper profit represented as real profit | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
+| INV-24 | No paper profit represented as real profit | GUARD_ONLY | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Scope guard holds for existing paths. Future features need their own enforcement and tests. |
 | INV-25 | No test marked PASSED without execution evidence | COMPLETE | `DEVELOPMENT_REPORT.md` | D01 | Sections 10–15 and 22 | No financial performance or production readiness claimed. |
-| INV-26 | No unsupported market data entitlement bypass | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
-| INV-27 | No missing required data treated as positive evidence | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
+| INV-26 | No unsupported market data entitlement bypass | GUARD_ONLY | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Scope guard holds for existing paths. Future features need their own enforcement and tests. |
+| INV-27 | No missing required data treated as positive evidence | GUARD_ONLY | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Scope guard holds for existing paths. Future features need their own enforcement and tests. |
 | INV-28 | No historical signal deletion to hide losses | PARTIAL | `services/research.py`, `models/lab.py` | O05, O07 | `docs/evidence/installation/{fresh,upgrade}.log` | Snapshot input hashes and role-level immutability exist. Add experiment parameters, amendments and prospective outcomes. |
 | INV-29 | No dashboard KPI without a defined data source | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
 | INV-30 | No production-readiness claim with unresolved critical blockers | COMPLETE | `DEVELOPMENT_REPORT.md` | D01 | Sections 10–15 and 22 | No financial performance or production readiness claimed. |
@@ -933,33 +933,33 @@ IDs Sxx-nnn identify items by section and original order. The brief supplies RE,
 | AC-001 | Odoo 20 Community compatibility verified | COMPLETE | `__manifest__.py`, `models/lab.py` | O01–O02 | `docs/evidence/installation/{fresh,upgrade}.log` | — |
 | AC-002 | Fresh installation successful | COMPLETE | `__manifest__.py`, `models/lab.py` | O01–O02 | `docs/evidence/installation/{fresh,upgrade}.log` | — |
 | AC-003 | Module upgrades safely | COMPLETE | `__manifest__.py`, `models/lab.py` | O01–O02 | `docs/evidence/installation/{fresh,upgrade}.log` | — |
-| AC-004 | Zero mandatory paid AI APIs | COMPLETE | `__manifest__.py`, `services/` | U01–U08 | `docs/evidence/tests/unit.log` | — |
-| AC-005 | CPU-only operation | COMPLETE | `__manifest__.py`, `services/` | U01–U08 | `docs/evidence/tests/unit.log` | — |
-| AC-006 | 16 GB hardware optimization measured | PARTIAL | `scripts/measure_services.py` | P01 | `docs/evidence/performance/services.csv` | Measure full Odoo and PostgreSQL workloads and validate limits on the target host. |
-| AC-007 | Secure provider configuration | BLOCKED | — | B01 | Decision and sources in §08 | Verify account terms, static egress and authorized credentials. Implement a read-only adapter. |
+| AC-004 | Zero mandatory paid AI APIs | COMPLETE | `__manifest__.py`, `services/` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Runtime manifest and expanded standard-library services verified. |
+| AC-005 | CPU-only operation | COMPLETE | `__manifest__.py`, `services/` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | CPU-only synthetic ORM benchmark. |
+| AC-006 | 16 GB hardware optimization measured | PARTIAL | `scripts/measure_services.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | 50 instruments measured in P02. Larger workloads pending. |
+| AC-007 | Secure provider configuration | PARTIAL | — | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Opt-in environment configuration tested offline; account authorization pending. |
 | AC-008 | Instrument master synchronization | NOT_STARTED | `models/lab.py` | — | Manual registration only | Add verified provider instrument master sync and token mapping. |
-| AC-009 | Historical market data ingestion | PARTIAL | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | U01–U05, O03–O04 | `docs/evidence/tests/unit.log` | CSV workflow exists. Provider-backed history and independent source validation remain. |
+| AC-009 | Historical market data ingestion | PARTIAL | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Calendar-aware CSV implemented, broker history verified in fixtures. |
 | AC-010 | Authorized live market data integration | BLOCKED | — | B01 | Decision and sources in §08 | Verify account terms, static egress and authorized credentials. Implement a read-only adapter. |
 | AC-011 | Market data freshness enforcement | PARTIAL | `services/research.py`, `models/lab.py` | O05–O06 | `docs/evidence/installation/{fresh,upgrade}.log` | NO TRADE blocks actionable historical signals. Implement live freshness or expiry gates before enabling actionable signals. |
 | AC-012 | Duplicate-data prevention | COMPLETE | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | O03–O04, O08 | `docs/evidence/installation/{fresh,upgrade}.log`, `docs/evidence/security/contention.log` | — |
 | AC-013 | Historical data provenance | COMPLETE | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | O03, O05 | `docs/evidence/installation/{fresh,upgrade}.log` | External verification of operator-supplied provenance remains. |
-| AC-014 | Correct indicator calculations | PARTIAL | `services/research.py`, `models/lab.py` | U06–U08, O05–O06 | `docs/evidence/tests/unit.log` | Three descriptive findings exist. Complete the remaining indicator set, evidence contract and engine methods. |
-| AC-015 | Research engine interface operational | PARTIAL | `services/research.py`, `models/lab.py` | U06–U08, O05–O06 | `docs/evidence/tests/unit.log` | Three descriptive findings exist. Complete the remaining indicator set, evidence contract and engine methods. |
+| AC-014 | Correct indicator calculations | PARTIAL | `services/research.py`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | 19 causal series implemented. Full independent reference verification pending. |
+| AC-015 | Research engine interface operational | PARTIAL | `services/research.py`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Version 2 contract implemented for three results. |
 | AC-016 | Applicable research capabilities functional | PARTIAL | `services/research.py`, `models/lab.py` | U06–U08, O05–O06 | `docs/evidence/tests/unit.log` | Three descriptive findings exist. Complete the remaining indicator set, evidence contract and engine methods. |
-| AC-017 | Versioned strategy framework | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
+| AC-017 | Versioned strategy framework | PARTIAL | — | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | ST-01 version and code hashes; general strategy lifecycle pending. |
 | AC-018 | Market regime detection | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
-| AC-019 | Explainable master decision engine | PARTIAL | `services/research.py`, `models/lab.py` | O05–O06 | `docs/evidence/installation/{fresh,upgrade}.log` | Stored NO TRADE reason is implemented. Add eligibility, costs, sizing, ranking and expiry. |
+| AC-019 | Explainable master decision engine | PARTIAL | `services/research.py`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | NO TRADE with temporal and quarantine gates. Master gates pending. |
 | AC-020 | Transparent quality scoring | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
 | AC-021 | Risk veto enforcement | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
-| AC-022 | Transaction cost calculation | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
-| AC-023 | Expected net return calculation | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
-| AC-024 | Position sizing validation | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
+| AC-022 | Transaction cost calculation | PARTIAL | — | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Effective-dated cost engine works with documented hypothetical tariffs. |
+| AC-023 | Expected net return calculation | PARTIAL | — | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Synthetic net results v1. Validated evidence and calibration remain. |
+| AC-024 | Position sizing validation | PARTIAL | — | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Fee-aware sizing and stop risk verified for the synthetic slice. |
 | AC-025 | Signal freshness and expiry | PARTIAL | `services/research.py`, `models/lab.py` | O05–O06 | `docs/evidence/installation/{fresh,upgrade}.log` | NO TRADE blocks actionable historical signals. Implement live freshness or expiry gates before enabling actionable signals. |
-| AC-026 | Historical backtesting | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
-| AC-027 | Look-ahead bias prevention | PARTIAL | `services/research.py`, `models/lab.py` | U07, O05 | `docs/evidence/tests/unit.log` | Close-time cutoff proven by snapshot assertion if ORM passes. Point-in-time vendor availability, survivorship and future execution tests remain. |
+| AC-026 | Historical backtesting | PARTIAL | — | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Complete synthetic session replay. Authorized market and multi-session datasets pending. |
+| AC-027 | Look-ahead bias prevention | PARTIAL | `services/research.py`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Cutoff, prefix invariance and next-opening rules tested; real data lineage pending. |
 | AC-028 | Out-of-sample validation | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
 | AC-029 | Walk-forward testing | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
-| AC-030 | Reproducible research experiments | PARTIAL | `services/research.py`, `models/lab.py` | O05, O07 | `docs/evidence/installation/{fresh,upgrade}.log` | Snapshot input hashes and role-level immutability exist. Add experiment parameters, amendments and prospective outcomes. |
+| AC-030 | Reproducible research experiments | PARTIAL | `services/research.py`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Synthetic code and data hashes verified. Holdout workflow pending. |
 | AC-031 | Automatic paper trading | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
 | AC-032 | Virtual cash integrity | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
 | AC-033 | Paper execution idempotency | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
@@ -968,18 +968,18 @@ IDs Sxx-nnn identify items by section and original order. The brief supplies RE,
 | AC-036 | Recommendation monitoring | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
 | AC-037 | Automatic research scheduling | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
 | AC-038 | Scheduler concurrency protection | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
-| AC-039 | Premium dashboard operational | PARTIAL | `static/src/`, `views/lab.xml`, `models/lab.py` | UI-01–UI-04 | `docs/evidence/browser/edge.log` | Historical overview and native lists exist. Dashboards A–I remain incomplete. |
-| AC-040 | Dashboard KPI correctness | COMPLETE | `static/src/`, `views/lab.xml`, `models/lab.py` | O07, UI-03 | `docs/evidence/browser/edge.log` | Future dashboard KPIs require their own verification. |
-| AC-041 | Real browser UI verified | PARTIAL | `scripts/verify_browser.py` | UI-01–UI-05 | `docs/evidence/browser/edge.log` | Expand to themes, stale market data, scanner filters and chart features. |
-| AC-042 | Security permissions verified | COMPLETE | `security/ir.access.csv`, `models/lab.py` | O07 | `docs/evidence/installation/{fresh,upgrade}.log` | Add regression checks for future features and independent API calls. |
-| AC-043 | Company isolation verified | COMPLETE | `security/ir.access.csv`, `models/lab.py` | O07 | `docs/evidence/installation/{fresh,upgrade}.log` | Add regression checks for future features and independent API calls. |
-| AC-044 | Credential redaction verified | PARTIAL | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | No credential field or adapter exists. Add real sensitive-field and logging tests when integration is implemented. |
-| AC-045 | Recovery behavior verified | PARTIAL | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | O03, O08 | `docs/evidence/installation/{fresh,upgrade}.log`, `docs/evidence/security/contention.log` | Concurrent jobs, network interruption and paper recovery remain. |
-| AC-046 | No real-order functionality | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
-| AC-047 | NO TRADE behavior verified | COMPLETE | `services/research.py`, `models/lab.py` | O05–O06 | `docs/evidence/installation/{fresh,upgrade}.log` | — |
-| AC-048 | No fabricated performance results | COMPLETE | `DEVELOPMENT_REPORT.md` | D01 | Sections 10–15 and 22 | No financial performance or production readiness claimed. |
+| AC-039 | Premium dashboard operational | PARTIAL | `static/src/`, `views/lab.xml`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Native historical plot and company KPI additions. Full dashboards A–I incomplete. |
+| AC-040 | Dashboard KPI correctness | COMPLETE | `static/src/`, `views/lab.xml`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Current overview KPI/fixture chart values verified in Edge. |
+| AC-041 | Real browser UI verified | PARTIAL | `scripts/verify_browser.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Six focused real-browser checks. Full chart/filters/themes coverage incomplete. |
+| AC-042 | Security permissions verified | COMPLETE | `security/ir.access.csv`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Current ACLs reverified, including calendar administration and forged research creation. |
+| AC-043 | Company isolation verified | COMPLETE | `security/ir.access.csv`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Company isolation regression passed. |
+| AC-044 | Credential redaction verified | PARTIAL | `__manifest__.py`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Credential redaction checked with offline failure fixtures. No actual credential run. |
+| AC-045 | Recovery behavior verified | PARTIAL | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Independent conflicting imports and retry verified. |
+| AC-046 | No real-order functionality | COMPLETE | `__manifest__.py`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Mandatory prohibition verified by runtime endpoint rejection and source scan. |
+| AC-047 | NO TRADE behavior verified | COMPLETE | `services/research.py`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | NO TRADE verified in ORM and browser. |
+| AC-048 | No fabricated performance results | COMPLETE | `DEVELOPMENT_REPORT.md` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Only synthetic correctness evidence reported. |
 | AC-049 | Complete setup and user documentation | PARTIAL | `README.md` | D01 | README and §21 | Document setup for functionalities as they are implemented. |
-| AC-050 | Evidence-backed development report generated | COMPLETE | `DEVELOPMENT_REPORT.md` | D01 | `docs/evidence/manifest.sha256` | — |
+| AC-050 | Evidence-backed development report generated | COMPLETE | `DEVELOPMENT_REPORT.md` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | P02 handoff and manifest verified. |
 | S30-001 | Do not mark acceptance criteria as passed solely because corresponding code exists | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
 | S31-001 | Repository inspection | PARTIAL | See milestone report | — | Evidence and scope in report | Continue in the priority order in the brief. |
 | S31-002 | Actual environment verification | PARTIAL | See milestone report | — | Evidence and scope in report | Continue in the priority order in the brief. |
@@ -1240,3 +1240,849 @@ IDs Sxx-nnn identify items by section and original order. The brief supplies RE,
 | S35-003 | The complete DEVELOPMENT_REPORT.md will be submitted to an independent technical reviewer who will prepare the next development prompt based on the actual development state | PARTIAL | See milestone report | — | Evidence and scope in report | Preserve as an operating and quality requirement. |
 | S35-004 | Build the strongest possible foundation | PARTIAL | See milestone report | — | Evidence and scope in report | Preserve as an operating and quality requirement. |
 | S35-005 | Prioritize mathematical correctness, trustworthy data, realistic simulations, capital protection, explainability, premium user experience, and verified engineering quality | PARTIAL | See milestone report | — | Evidence and scope in report | Preserve as an operating and quality requirement. |
+
+## P02 acceptance
+
+| Criterion | Requirement | Status | Outcome | Evidence or source |
+| --- | --- | --- | --- | --- |
+| P02-AC-001 | P01 baseline preserved | PASSED | Migration and populated retention | verify_p01_upgrade.ps1; upgrade/retention.log |
+| P02-AC-002 | Previous defects independently revalidated | PASSED | P01 reruns and P02 browser/ORM regression | baseline/audit.log; baseline/browser.log |
+| P02-AC-003 | Traceability semantics corrected | PASSED | Semantic guards, prohibitions and optional technologies separated | REQUIREMENTS_TRACEABILITY.md |
+| P02-AC-004 | Evidence integrity verified | PASSED | P01 and P02 manifest verification | baseline/audit.log; manifest.sha256 |
+| P02-AC-005 | Source checkpoint established | PASSED | Verified recovery archive | history/P01-source.zip; baseline/source.sha256 |
+| P02-AC-006 | Exchange calendar service implemented | PASSED | Explicit versioned NSE and BSE calendar records | services/calendar.py; unit/python.log |
+| P02-AC-007 | Session-aware candle validation | PASSED | Grid mismatch, closed days, cutoffs and missing observations | installation/fresh.log; unit/python.log |
+| P02-AC-008 | Point-in-time data contract | PASSED | Opening, closing, publication, ingestion and cutoff semantics | models/lab.py; installation/fresh.log |
+| P02-AC-009 | Instrument reference mapping integrity | PARTIAL | Independent reference resolver; ORM persistence and provider wiring pending | services/reference.py; unit/python.log |
+| P02-AC-010 | Data quality eligibility enforcement | PARTIAL | Temporal and quarantine guards; source verification and unified eligibility incomplete | models/lab.py; installation/fresh.log |
+| P02-AC-011 | Synthetic-data isolation | PASSED | Fixtures have explicit origin and calendar constraints | models/lab.py; unit/python.log |
+| P02-AC-012 | Read-only provider interface | PASSED | Fixed REST allowlist and disabled default transport | services/smartapi.py; unit/python.log |
+| P02-AC-013 | SmartAPI adapter fixture tests | PASSED | Deterministic fixture login, history and quote | tests/unit_p02.py; unit/python.log |
+| P02-AC-014 | Provider timeout and rate-limit protection | PASSED | Client-local timeout, pacing and response limits | services/smartapi.py; unit/python.log |
+| P02-AC-015 | Secure credential handling | PASSED | Environment and process-local tokens with sanitized fixture failures | services/smartapi.py; unit/python.log |
+| P02-AC-016 | Live verification correctly classified | PASSED | No authenticated live request made | SMARTAPI_SETUP.md |
+| P02-AC-017 | Technical indicator mathematical verification | PARTIAL | All 19 indicators implemented; full independent numerical cross-verification is incomplete | INDICATOR_FORMULAS.md; unit/python.log |
+| P02-AC-018 | Indicator prefix invariance | PASSED | All 19 series checked at five prefixes of a reference fixture | tests/unit_p02.py; unit/python.log |
+| P02-AC-019 | Versioned research engine contract | PARTIAL | Version 2 contract covers three ORM engines. Other engines remain pending. | models/lab.py; installation/fresh.log |
+| P02-AC-020 | Effective-dated transaction costs | PASSED | Decimal, per-side and effective-dated tariffs with hypothetical inputs | services/simulation.py; unit/python.log |
+| P02-AC-021 | Fee-aware position sizing | PASSED | Fee-adjusted capital, risk and liquidity constraints | services/simulation.py; unit/python.log |
+| P02-AC-022 | Independent risk veto | PASSED | Independent net reward-to-risk veto | services/simulation.py; unit/python.log |
+| P02-AC-023 | Versioned strategy framework | PARTIAL | Code-hashed ST-01 specification. Persistent framework and approval workflow pending. | services/backtest.py; backtesting/synthetic.json |
+| P02-AC-024 | ST-01 research strategy implementation | PARTIAL | Research-only synthetic single-session candidate. Full historical strategy cycle pending. | services/backtest.py; backtesting/synthetic.json |
+| P02-AC-025 | Conservative historical simulation | PASSED | Later openings, stop-first ambiguity and conservative exits in one-session replay | services/backtest.py; unit/python.log |
+| P02-AC-026 | Backtest reproducibility | PASSED | Frozen parameters, code and dataset digests; deterministic replay | services/backtest.py; backtesting/synthetic.json |
+| P02-AC-027 | Holdout isolation | PARTIAL | Partition label exists; temporal split and one-time holdout enforcement are missing | docs/BACKTEST_EXECUTION_POLICY.md |
+| P02-AC-028 | Financial performance provenance | PASSED | Synthetic provenance is explicit; no validated-market sample or reported market performance | backtesting/synthetic.json |
+| P02-AC-029 | Structured NO TRADE enforcement | PARTIAL | Existing NO TRADE and individual reasons; fourteen-gate pipeline incomplete | models/lab.py; installation/fresh.log |
+| P02-AC-030 | No actionable real-market recommendation leakage | PASSED | Historical/fixture-only decisions, no executable path | unit/python.log; security/source-scan.log |
+| P02-AC-031 | Virtual ledger integrity | NOT_RUN | Virtual ledger deferred pending broader validation | docs/DEVELOPMENT_PLAN.md |
+| P02-AC-032 | Virtual execution idempotency | NOT_RUN | Virtual fill idempotency deferred with ledger | docs/DEVELOPMENT_PLAN.md |
+| P02-AC-033 | Premium OWL dashboard improvements | PARTIAL | Overview, chart, quarantine and data provenance; remaining terminal areas incomplete | static/src; browser/edge.log |
+| P02-AC-034 | Actual database-backed chart values | PASSED | Actual bounded chart values tested through the browser and ORM | browser/edge.log; installation/fresh.log |
+| P02-AC-035 | Authorized dashboard drill-downs | PASSED | Company and permission checked chart and existing native drill-down | browser/edge.log; installation/fresh.log |
+| P02-AC-036 | Real browser verification | PARTIAL | Six real Edge checks passed; requested full theme, pagination and stale coverage remains | browser/edge.log |
+| P02-AC-037 | End-to-end performance measurement | PASSED | Measured 50 instruments through ORM import and research | performance/orm.json |
+| P02-AC-038 | Resource-bound execution | PARTIAL | Core paths bounded; job constraints and configured deadlines pending | services; performance/orm.json |
+| P02-AC-039 | Complete security regression | PARTIAL | Targeted ACL, company, forged create, quarantine and endpoint checks; complete program pending | installation/fresh.log; unit/python.log |
+| P02-AC-040 | Updated evidence-backed development report | PASSED | Updated 22-section handoff, matrices and validated checksums | DEVELOPMENT_REPORT.md; manifest.sha256 |
+
+## Additional P02 requirements
+
+| Requirement ID | Requirement | Status | Implementation | Test ID | Evidence | Remaining Work |
+| --- | --- | --- | --- | --- | --- | --- |
+| P02-S01-001 | Principal Odoo 20 Community architecture. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S01-002 | Financial market data engineering. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S01-003 | Quantitative trading research. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S01-004 | Mathematical and statistical correctness. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S01-005 | Python performance engineering. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S01-006 | Angel One SmartAPI integration. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S01-007 | Financial risk management. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S01-008 | Historical strategy validation. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S01-009 | Native OWL frontend development. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S01-010 | Professional financial dashboard design. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S01-011 | PostgreSQL integrity and concurrency. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S01-012 | Application security. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S01-013 | Automated testing. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S01-014 | Evidence-driven quality assurance. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S02-001 | `DEVELOPMENT_REPORT.md` | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S02-002 | `docs/MASTER_REQUIREMENTS.md` | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S02-003 | `docs/REQUIREMENTS_TRACEABILITY.md` | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S02-004 | `docs/ARCHITECTURE.md` | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S02-005 | `docs/DEVELOPMENT_PLAN.md` | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S02-006 | `docs/DECISION_LOG.md` | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S02-007 | `docs/RISK_REGISTER.md` | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S02-008 | `README.md` | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S02-009 | RE-01 through RE-25 research capability identifier. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S02-010 | ST-01 through ST-20 strategy identifier. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S02-011 | INV-01 through INV-30 business invariant. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S02-012 | AC-001 through AC-050 acceptance criterion. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S02-013 | Existing S-series traceability identifier. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S02-014 | Previously implemented and verified behavior. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S03-001 | Readiness: FOUNDATION VERIFIED for the historical descriptive research slice. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S03-002 | Applicable requirements: 1,236. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S03-003 | Complete requirements: 72. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S03-004 | Requirements coverage: approximately 5.83%. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S03-005 | Acceptance criteria passed: 14 of 50. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S03-006 | Named test inventory: 24 PASSED, 0 FAILED, 1 BLOCKED, 70 NOT_RUN and 29 grouped coverage references. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S03-007 | Research engines: RE-01, RE-05 and RE-18 partially implemented. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S03-008 | Other research engines: not started. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S03-009 | Trading strategies: none implemented. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S03-010 | Financial research experiments: none completed. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S03-011 | Existing decision output: historical NO TRADE. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S03-012 | Broker adapter: not implemented. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S03-013 | Paper trading: not implemented. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S03-014 | Dashboard: initial OWL overview and native record views. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S04-001 | Windows NT 10.0.26300.0. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S04-002 | Intel Core i5-10210U. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S04-003 | Four physical CPU cores. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S04-004 | Eight logical processors. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S04-005 | Approximately 16 GB RAM. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S04-006 | Approximately 3.4 GiB available RAM at inspection. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S04-007 | Intel UHD integrated graphics. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S04-008 | No dedicated GPU. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S04-009 | Python 3.14.6 in the Odoo virtual environment. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S04-010 | PostgreSQL 18.4. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S04-011 | Odoo 20 Community. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S04-012 | Module path: `C:/PycharmProjects/odoo20/custom_addons/golok_ai_trading_lab_pro`. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S04-013 | Paid AI APIs. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S04-014 | Local LLMs. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S04-015 | Ollama. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S04-016 | GPU acceleration. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S04-017 | Paid cloud computing. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S04-018 | Mandatory paid analytics subscriptions. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S05-001 | Real order placement. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S05-002 | Real order modification. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S05-003 | Real order cancellation. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S05-004 | Automatic real-money buying. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S05-005 | Automatic real-money selling. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S05-006 | Automatic allocation of real account balances. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S05-007 | Fund transfer functionality. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S05-008 | Hidden real-order execution services. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S05-009 | Dormant autonomous trading code. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S06-001 | Inspect the complete module source. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S06-002 | Inspect all existing database models and constraints. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S06-003 | Verify existing security groups and company domains. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S06-004 | Review every existing public RPC-callable method. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S06-005 | Inspect the previous evidence manifest. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S06-006 | Verify referenced evidence paths and hashes. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S06-007 | Inspect historical failure logs and subsequent repairs. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S06-008 | Re-execute the previous standalone tests. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S06-009 | Re-execute the Odoo integration tests. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S06-010 | Re-execute the independent database contention test. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S06-011 | Re-execute the real browser test suite. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S06-012 | Identify regressions and hidden incomplete implementations. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S06-013 | Repair confirmed defects before building dependent features. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S06-014 | BUG-01: Odoo 20 `ir.access` migration. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S06-015 | BUG-02: Odoo 20 BinaryValue handling. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S06-016 | BUG-03: Sass compatibility. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S06-017 | BUG-04: OWL 3 reactivity and template scope. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S06-018 | ENV-01: Isolated PostgreSQL harness execution. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S07-001 | Create a non-destructive source baseline manifest with SHA-256 hashes. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S07-002 | Establish a recoverable local source checkpoint. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S07-003 | Exclude credentials, test database contents, virtual environments, runtime logs and private market data. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S07-004 | Document an appropriate version-control setup. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S08-001 | Place real broker orders — COMPLETE. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S08-002 | Modify real broker orders — COMPLETE. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S08-003 | Automatically buy real shares — COMPLETE. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S08-004 | Real broker order placement is prohibited and absent. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S08-005 | Real broker order modification is prohibited and absent. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S08-006 | Automatic real-money buying is prohibited and absent. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S08-007 | A working verified capability. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S08-008 | A partially implemented capability. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S08-009 | A mandatory prohibition. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S08-010 | An unavailable external dependency. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S08-011 | An optional technology. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S08-012 | A future out-of-scope feature. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S08-013 | A guard that currently holds only because the underlying feature does not exist. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S08-014 | Functional capability coverage. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S08-015 | Mandatory constraint compliance. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S08-016 | Acceptance criteria verification. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S08-017 | Test execution coverage. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S08-018 | External integration verification. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S08-019 | Financial strategy validation. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S09-001 | Exchange identifiers. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S09-002 | Trading dates. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S09-003 | Standard trading sessions. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S09-004 | Pre-open session distinctions. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S09-005 | Market holidays. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S09-006 | Weekends. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S09-007 | Special trading sessions. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S09-008 | Session opening and closing timestamps. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S09-009 | Intraday entry cutoff configuration. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S09-010 | Intraday exit cutoff configuration. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S09-011 | Session versioning. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S09-012 | Calendar source provenance. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S09-013 | Calendar verification date. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S09-014 | Asia/Kolkata display semantics. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S09-015 | UTC storage semantics. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S09-016 | Candles outside authorized sessions. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S09-017 | Candles spanning invalid session boundaries. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S09-018 | Future-dated closed candles. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S09-019 | Research from incomplete candles. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S09-020 | Incorrect aggregation across overnight boundaries. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S09-021 | Incorrect daily candle assignment. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S09-022 | Incorrect holiday gap classification. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S09-023 | Market event time. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S09-024 | Candle opening time. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S09-025 | Candle closing time. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S09-026 | Source publication or availability time. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S09-027 | Application ingestion time. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S09-028 | Research decision time. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S10-001 | Exchange. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S10-002 | Trading symbol. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S10-003 | Provider-specific token mapping. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S10-004 | ISIN where available. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S10-005 | Instrument type. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S10-006 | Trading segment. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S10-007 | Tick size. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S10-008 | Lot size. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S10-009 | Listing status. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S10-010 | Effective date. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S10-011 | Suspension status. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S10-012 | Delisting status. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S10-013 | Sector classification. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S10-014 | Reference data source. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S10-015 | Mapping version. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S10-016 | Mapping verification state. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S11-001 | Decimal price precision. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S11-002 | Immutable candle records. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S11-003 | Existing conflict detection. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S11-004 | Existing idempotent import behavior. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S11-005 | Historical research snapshot digests. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S11-006 | Company isolation. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S11-007 | Explicit source classifications. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S11-008 | Historical versus live data classification. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S11-009 | Delayed data classification. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S11-010 | Synthetic fixture classification. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S11-011 | Dataset authorization status. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S11-012 | Source verification status. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S11-013 | Session-aware missing candle detection. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S11-014 | Candle completeness checks. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S11-015 | Data freshness checks. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S11-016 | Quote age checks. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S11-017 | Sequence or timestamp ordering checks. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S11-018 | Provider schema validation. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S11-019 | Data quality issue records. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S11-020 | Dataset quarantine. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S11-021 | Provider outage detection. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S11-022 | Controlled recovery. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S11-023 | Structurally valid data. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S11-024 | Calendar-valid data. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S11-025 | Source-verified data. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S11-026 | Point-in-time eligible data. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S11-027 | Research-only data. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S11-028 | Live decision-eligible data. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-001 | https://smartapi.angelone.in/ | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-002 | https://smartapi.angelone.in/docs | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-003 | https://github.com/angel-one/smartapi-python | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-004 | Account-specific pricing. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-005 | Market data entitlements. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-006 | Static IP requirements. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-007 | Personal use restrictions. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-008 | Data storage and redistribution restrictions. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-009 | Authentication requirements. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-010 | Session expiration. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-011 | REST rate limits. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-012 | WebSocket limits. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-013 | Historical lookback limits. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-014 | Supported instrument types. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-015 | Protected provider configuration. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-016 | Authentication. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-017 | Session lifecycle. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-018 | Controlled reauthentication. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-019 | Instrument master synchronization. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-020 | Historical candle retrieval. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-021 | Live quote retrieval. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-022 | Read-only WebSocket subscriptions. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-023 | Heartbeat monitoring. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-024 | Connection state management. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-025 | Exponential backoff. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-026 | Bounded retries. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-027 | Timeout handling. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-028 | Rate-limit enforcement. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-029 | Schema error handling. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-030 | Connectivity diagnostics. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-031 | Last successful request tracking. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-032 | Subscription count monitoring. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-033 | Data lag tracking. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-034 | Database-readable configuration fields. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-035 | Browser responses. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-036 | HTTP diagnostics. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-037 | Screenshots. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-038 | Test artifacts. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-039 | Source code. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-040 | Exceptions. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-041 | Development reports. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-042 | Implement and execute deterministic fixture integration tests. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-043 | Keep real network integration disabled. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-044 | Mark live smoke tests BLOCKED. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S12-045 | Continue developing independent functionality. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S13-001 | NOT_CONFIGURED. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S13-002 | AUTH_REQUIRED. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S13-003 | CONNECTING. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S13-004 | CONNECTED. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S13-005 | DEGRADED. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S13-006 | RATE_LIMITED. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S13-007 | STALE. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S13-008 | DISCONNECTED. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S13-009 | BLOCKED. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S13-010 | ERROR. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S13-011 | Block new actionable recommendations. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S13-012 | Invalidate affected recommendations where applicable. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S13-013 | Stop generating simulated fills from stale prices. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S13-014 | Preserve existing records. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S13-015 | Allow authorized historical research to continue independently. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S13-016 | Clearly display the failure on the dashboard. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-001 | SMA. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-002 | EMA. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-003 | RSI. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-004 | MACD. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-005 | ATR. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-006 | VWAP. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-007 | ADX. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-008 | Bollinger Bands. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-009 | Stochastic Oscillator. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-010 | Relative Volume. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-011 | Rate of Change. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-012 | On-Balance Volume. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-013 | Historical Volatility. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-014 | Rolling Highs and Lows. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-015 | Opening Range. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-016 | Relative Strength. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-017 | Price Gaps. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-018 | Volume Spikes. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-019 | Trend Slopes. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-020 | Mathematical formula. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-021 | Algorithm version. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-022 | Input requirements. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-023 | Warm-up period. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-024 | Null and missing-value policy. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-025 | Numerical precision. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-026 | Timeframe semantics. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-027 | Session behavior. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-028 | Expected output. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-029 | Invalid-input behavior. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-030 | VWAP resets per applicable session. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-031 | Opening range cannot be known before its configured window closes. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-032 | Breakout levels must exclude future bars. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-033 | Relative volume must use a documented baseline. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-034 | Relative strength requires a properly aligned benchmark. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-035 | Rolling statistics must not include future observations. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-036 | Zero-volume and zero-denominator cases must be handled explicitly. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-037 | ATR and RSI smoothing must match documented conventions. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-038 | Standard deviation conventions must be declared. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S14-039 | Warm-up values must remain unavailable rather than silently defaulting to zero. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-001 | Engine ID. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-002 | Engine version. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-003 | Instrument. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-004 | Dataset identity. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-005 | Research timestamp. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-006 | Decision cutoff. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-007 | Required input fields. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-008 | Data source and freshness. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-009 | Findings. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-010 | Supporting evidence. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-011 | Contradictory evidence. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-012 | Missing inputs. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-013 | Limitations. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-014 | Applicable strategies. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-015 | Execution duration. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-016 | Result status. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-017 | Input digest. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-018 | COMPLETED. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-019 | NOT_APPLICABLE. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-020 | INSUFFICIENT_DATA. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-021 | STALE_DATA. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-022 | ERROR. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-023 | RE-01 Technical Analysis. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-024 | RE-03 Price Action. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-025 | RE-04 Candlestick Patterns. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-026 | RE-05 Volume Intelligence. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-027 | RE-06 Support and Resistance. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-028 | RE-07 Breakout Detection. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-029 | RE-08 False Breakout Detection. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-030 | RE-09 Market Trend. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-031 | RE-15 Historical Patterns. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-032 | RE-17 Liquidity Analysis, explicitly limited to available proxies. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-033 | RE-18 Volatility. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-034 | RE-19 Momentum. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S15-035 | RE-20 Abnormal Market Activity. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-001 | Brokerage. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-002 | Securities Transaction Tax. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-003 | Exchange transaction charges. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-004 | Applicable SEBI charges. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-005 | GST. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-006 | Stamp duty. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-007 | Bid-ask spread. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-008 | Slippage. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-009 | Other verified applicable charges. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-010 | Effective start date. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-011 | Effective end date when applicable. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-012 | Exchange. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-013 | Trading segment. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-014 | Transaction side. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-015 | Charge basis. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-016 | Rate or fixed amount. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-017 | Minimum or maximum charge if applicable. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-018 | Rounding method. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-019 | Official source. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-020 | Verification status. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-021 | Gross trading P&L. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-022 | Brokerage. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-023 | Statutory charges. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-024 | Execution friction. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-025 | Net trading P&L. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-026 | Small trades. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-027 | Large trades. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-028 | Different buy/sell charges. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-029 | Tariff effective-date boundaries. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-030 | Rounding. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-031 | Zero and invalid quantities. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-032 | Missing tariff information. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S16-033 | Negative net profit despite positive gross profit. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S17-001 | Virtual reference capital: INR 50,000. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S17-002 | Planned per-trade risk: 0.5%. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S17-003 | Planned daily loss threshold: 1%. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S17-004 | Minimum net planned reward-to-risk ratio: 2:1. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S17-005 | Preferred candidate reward-to-risk: 3:1. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S17-006 | Maximum daily paper entries: 3. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S17-007 | Consecutive loss pause threshold: 2. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S17-008 | No leverage. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S17-009 | No averaging losing positions. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S17-010 | No martingale. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S17-011 | No short strategy activation at this milestone. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S17-012 | Capital-aware position sizing. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S17-013 | Fee-aware position sizing. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S17-014 | Stop-loss validation. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S17-015 | Target validation. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S17-016 | Tick-size validation. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S17-017 | Quantity validation. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S17-018 | Liquidity-based sizing restrictions. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S17-019 | Maximum planned risk validation. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S17-020 | Estimated adverse execution allowance. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S17-021 | Minimum net reward-to-risk validation. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S17-022 | Independent risk veto. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S17-023 | Structured risk rejection reasons. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S18-001 | Strategy ID. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S18-002 | Version. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S18-003 | Code or implementation digest. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S18-004 | Parameter configuration. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S18-005 | Applicable market regime. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S18-006 | Required indicators. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S18-007 | Required data. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S18-008 | Entry conditions. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S18-009 | Exit conditions. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S18-010 | Stop methodology. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S18-011 | Target methodology. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S18-012 | Risk policy. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S18-013 | Expiry policy. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S18-014 | Research validation state. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S18-015 | DRAFT. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S18-016 | RESEARCH_ONLY. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S18-017 | BACKTESTED. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S18-018 | VALIDATION_FAILED. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S18-019 | VALIDATION_BLOCKED. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S18-020 | PAPER_EVALUATION. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S18-021 | SUSPENDED. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S19-001 | Opening range duration. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S19-002 | Eligible trading session. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S19-003 | Breakout confirmation method. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S19-004 | Volume confirmation method. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S19-005 | Optional trend confirmation. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S19-006 | Maximum acceptable entry deviation. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S19-007 | Entry cutoff. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S19-008 | Stop-loss methodology. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S19-009 | Target methodology. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S19-010 | Maximum holding period. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S19-011 | Session exit policy. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S19-012 | False-breakout invalidation. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S19-013 | Risk restrictions. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S19-014 | Cost restrictions. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S19-015 | Qualifying breakout. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S19-016 | Unconfirmed breakout. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S19-017 | Insufficient opening range data. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S19-018 | Low-volume rejection. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S19-019 | Excessive volatility rejection. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S19-020 | Late-session rejection. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S19-021 | Invalid data rejection. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S19-022 | Risk rejection. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S19-023 | Cost rejection. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S19-024 | Expired candidate rejection. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S20-001 | Load an explicitly identified dataset. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S20-002 | Validate dataset eligibility. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S20-003 | Iterate observations chronologically. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S20-004 | Generate a decision using available information. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S20-005 | Simulate entry only after decision availability. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S20-006 | Apply capital and risk checks. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S20-007 | Apply realistic execution assumptions. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S20-008 | Monitor stop and target conditions. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S20-009 | Close simulated positions according to policy. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S20-010 | Record gross and net outcomes. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S20-011 | Calculate reproducible experiment results. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S20-012 | Price gaps through stops. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S20-013 | Gap openings beyond target prices. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S20-014 | Same-candle target/stop ambiguity. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S20-015 | Entry and exit ambiguity. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S20-016 | Missing market data. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S20-017 | Incomplete candles. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S20-018 | Illiquid observations. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S20-019 | Suspended instruments. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S20-020 | Session closing. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S20-021 | Insufficient capital. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S20-022 | Transaction costs. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S20-023 | Slippage. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S21-001 | Total simulated trades. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S21-002 | Winning trades. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S21-003 | Losing trades. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S21-004 | Neutral trades. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S21-005 | Gross profit. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S21-006 | Gross loss. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S21-007 | Total costs. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S21-008 | Net P&L. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S21-009 | Average net trade. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S21-010 | Win rate. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S21-011 | Profit factor. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S21-012 | Maximum drawdown. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S21-013 | Equity curve. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S21-014 | Consecutive losses. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S21-015 | Net expectancy. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S21-016 | Maximum adverse excursion where supported. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S21-017 | Maximum favorable excursion where supported. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S22-001 | Dataset identifiers and hashes. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S22-002 | Universe selection rules. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S22-003 | Strategy version. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S22-004 | Parameter configuration. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S22-005 | Cost schedule. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S22-006 | Risk configuration. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S22-007 | Execution model. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S22-008 | Training period. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S22-009 | Validation period. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S22-010 | Final holdout period. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S22-011 | Benchmark. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S22-012 | Predeclared performance acceptance rules. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S22-013 | Random splitting that leaks future market information. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S22-014 | Parameter tuning on the final holdout. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S22-015 | Survivorship bias misrepresentation. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S22-016 | Corporate action contamination. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S22-017 | Repeated holdout selection. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S22-018 | Selective omission of failed experiments. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S22-019 | Execute deterministic synthetic correctness tests. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S22-020 | Mark financial validation as BLOCKED. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S22-021 | Do not publish win-rate or profitability claims. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S23-001 | G01: Source eligibility. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S23-002 | G02: Instrument eligibility. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S23-003 | G03: Trading session validity. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S23-004 | G04: Candle completeness. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S23-005 | G05: Market data freshness. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S23-006 | G06: Research input sufficiency. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S23-007 | G07: Strategy implementation status. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S23-008 | G08: Strategy validation status. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S23-009 | G09: Cost model availability. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S23-010 | G10: Position sizing. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S23-011 | G11: Independent risk veto. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S23-012 | G12: Decision expiry. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S23-013 | G13: Evidence integrity. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S23-014 | G14: Research-mode restrictions. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S23-015 | Historical descriptive results. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S23-016 | WATCH observations. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S23-017 | RESEARCH CANDIDATE results. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S23-018 | BACKTEST CANDIDATE results. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S23-019 | Explicit simulation candidates. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S23-020 | NO TRADE. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S23-021 | INVALIDATED. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S23-022 | EXPIRED. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S24-001 | Virtual account creation. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S24-002 | Opening balance. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S24-003 | Available cash. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S24-004 | Reserved virtual cash. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S24-005 | Simulated order lifecycle. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S24-006 | Simulated fill lifecycle. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S24-007 | Long virtual positions. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S24-008 | Closed virtual positions. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S24-009 | Transaction costs. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S24-010 | Realized virtual P&L. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S24-011 | Unrealized virtual P&L. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S24-012 | Immutable virtual ledger events. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S24-013 | Trading journal. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S24-014 | Available cash cannot become negative. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S24-015 | Reserved cash cannot become negative. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S24-016 | Filled quantity cannot exceed permitted quantity. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S24-017 | Closed quantity cannot exceed open quantity. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S24-018 | Duplicate fills cannot change balances twice. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S24-019 | The virtual ledger must reconcile with cash, positions and realized P&L. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S24-020 | All material balance changes must be auditable. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S24-021 | Failed database transactions must not leave partial state. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-001 | Clean professional typography. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-002 | Compact financial KPI cards. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-003 | Consistent spacing and alignment. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-004 | Responsive desktop and mobile layout. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-005 | Professional light and dark theme compatibility. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-006 | Subtle neutral surfaces. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-007 | Blue accent for research and navigation. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-008 | Green and red for actual positive and negative financial outcomes. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-009 | Amber for uncertainty, staleness and warnings. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-010 | Accessible status labels. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-011 | Clear data timestamps. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-012 | Fast and bounded chart rendering. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-013 | Golok AI Trading Lab Pro. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-014 | Current company. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-015 | Current research mode. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-016 | Market session state. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-017 | Market data provider state. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-018 | Last successful update. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-019 | Data freshness. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-020 | Research readiness state. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-021 | Registered instruments. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-022 | Eligible instruments. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-023 | Active datasets. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-024 | Stored candles. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-025 | Validated candles. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-026 | Quarantined datasets. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-027 | Data quality issues. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-028 | Missing observations. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-029 | Provider connectivity. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-030 | Last ingestion time. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-031 | Searchable stock table. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-032 | Exchange filter. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-033 | Dataset filter. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-034 | Research state filter. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-035 | Timeframe filter. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-036 | Data quality filter. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-037 | Strategy candidate filter. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-038 | Last research timestamp. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-039 | Research duration. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-040 | Rejection reasons. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-041 | OHLC candlestick chart. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-042 | Volume chart. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-043 | Available SMA and EMA overlays. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-044 | VWAP overlay when applicable. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-045 | Opening range visualization. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-046 | Support and resistance observations where implemented. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-047 | Indicator values. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-048 | Research result cards. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-049 | Supporting and contradictory evidence. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-050 | Data quality information. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-051 | Historical decision cutoff. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-052 | Dataset provenance. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-053 | Registered strategy versions. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-054 | Implemented strategies. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-055 | Research-only status. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-056 | Backtest experiments. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-057 | Validation status. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-058 | Sample sizes. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-059 | Dataset provenance. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-060 | Net experiment results. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-061 | Drawdown. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-062 | Costs. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-063 | Rejection reasons. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-064 | Virtual starting capital. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-065 | Available virtual cash. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-066 | Reserved virtual cash. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-067 | Open virtual positions. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-068 | Virtual equity. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-069 | Realized virtual P&L. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-070 | Unrealized virtual P&L. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-071 | Trade history. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-072 | Provider connection state. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-073 | Last successful synchronization. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-074 | API error state. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-075 | Data lag. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-076 | Research job state. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-077 | CPU usage. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-078 | RAM usage. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-079 | Storage usage. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-080 | Last research duration. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-081 | Data quality. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-082 | Provider integration. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-083 | Research engines. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-084 | Cost engine. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-085 | Risk engine. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-086 | Backtesting. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-087 | Paper trading. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-088 | Security. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S25-089 | Real-market recommendation eligibility. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S26-001 | Bounded dataset reads. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S26-002 | Chunked ingestion. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S26-003 | Bounded indicator windows. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S26-004 | Efficient indexes. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S26-005 | Configurable batch sizes. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S26-006 | Limited worker concurrency. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S26-007 | Bounded caching. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S26-008 | Research timeouts. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S26-009 | Memory-pressure checks. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S26-010 | Safe job cancellation. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S26-011 | Persistent checkpoints where scheduling is implemented. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S26-012 | Number of instruments. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S26-013 | Candles per instrument. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S26-014 | Dataset size. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S26-015 | Database operations. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S26-016 | Query latency. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S26-017 | Total research duration. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S26-018 | Process memory. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S26-019 | System memory. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S26-020 | CPU utilization. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S26-021 | Browser response latency. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S27-001 | Unique job identity. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S27-002 | Job type. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S27-003 | Company scope. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S27-004 | Requested timestamp. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S27-005 | Execution status. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S27-006 | Start and completion timestamps. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S27-007 | Retry count. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S27-008 | Failure reason. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S27-009 | Checkpoint. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S27-010 | Maximum runtime. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S27-011 | Cancellation state. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S27-012 | Database-backed duplicate prevention. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S27-013 | Independent transaction locking. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S27-014 | Bounded job execution. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S27-015 | Recovery of interrupted jobs. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S27-016 | Controlled retry policy. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S28-001 | Trading Research Viewer. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S28-002 | Trading Research Analyst. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S28-003 | Trading Risk Manager. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S28-004 | Trading System Administrator. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S28-005 | Unauthorized model creation. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S28-006 | Unauthorized record modification. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S28-007 | Unauthorized record deletion. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S28-008 | Cross-company relational references. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S28-009 | Company switching. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S28-010 | Forged RPC arguments. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S28-011 | Direct API calls. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S28-012 | Unauthorized dashboard data access. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S28-013 | Unauthorized provider configuration. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S28-014 | Credential redaction. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S28-015 | Unauthorized dataset import. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S28-016 | Unauthorized research execution. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S28-017 | Immutable historical record protection. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S28-018 | Virtual ledger manipulation. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S28-019 | Strategy status manipulation. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S30-001 | Fresh module installation. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S30-002 | Same-version upgrade. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S30-003 | Upgrade from the preserved P01 source baseline. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S30-004 | Upgrade of a populated P01 test database. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S30-005 | Data retention checks. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S30-006 | XML ID retention checks. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S30-007 | Immutable snapshot retention checks. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S31-001 | Audit. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S31-002 | Baseline regression. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S31-003 | Traceability correction. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S31-004 | Evidence integrity. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S31-005 | Security preservation. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S31-006 | Exchange calendar. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S31-007 | Reference data. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S31-008 | Point-in-time data. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S31-009 | Market data quality. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S31-010 | Read-only provider foundation. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S31-011 | Indicator library. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S31-012 | Research engine contract. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S31-013 | Cost engine. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S31-014 | Independent risk calculations. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S31-015 | ST-01. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S31-016 | Historical backtesting. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S31-017 | Financial research metrics. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S31-018 | Validation infrastructure. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S31-019 | Initial virtual ledger. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S31-020 | Background jobs. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S31-021 | Expanded research capabilities. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S32-001 | `README.md` | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S32-002 | `docs/MASTER_REQUIREMENTS.md` only through clearly identified additions, preserving the original requirements. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S32-003 | `docs/ARCHITECTURE.md` | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S32-004 | `docs/REQUIREMENTS_TRACEABILITY.md` | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S32-005 | `docs/DEVELOPMENT_PLAN.md` | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S32-006 | `docs/DECISION_LOG.md` | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S32-007 | `docs/RISK_REGISTER.md` | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S32-008 | `docs/MARKET_DATA_SOURCES.md` | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S32-009 | `docs/SMARTAPI_SETUP.md` | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S32-010 | `docs/EXCHANGE_CALENDAR.md` | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S32-011 | `docs/INDICATOR_FORMULAS.md` | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S32-012 | `docs/STRATEGY_SPECIFICATIONS.md` | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S32-013 | `docs/TRANSACTION_COST_MODEL.md` | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S32-014 | `docs/RISK_POLICY.md` | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S32-015 | `docs/BACKTEST_EXECUTION_POLICY.md` | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S32-016 | `docs/DASHBOARD_KPI_DEFINITIONS.md` | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S32-017 | `docs/PAPER_LEDGER_INVARIANTS.md` | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S32-018 | `docs/VALIDATION_PROTOCOL.md` | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S33-001 | baseline/ | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S33-002 | installation/ | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S33-003 | upgrade/ | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S33-004 | unit/ | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S33-005 | integration/ | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S33-006 | provider/ | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S33-007 | calendar/ | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S33-008 | quantitative/ | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S33-009 | financial/ | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S33-010 | backtesting/ | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S33-011 | paper/ | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S33-012 | browser/ | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S33-013 | screenshots/ | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S33-014 | concurrency/ | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S33-015 | performance/ | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S33-016 | security/ | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S33-017 | Exact commands. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S33-018 | Exit codes. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S33-019 | Raw sanitized logs. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S33-020 | Test runner counts. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S33-021 | Execution durations. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S33-022 | Environment versions. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S33-023 | Dataset identities. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S33-024 | Actual browser screenshots. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S33-025 | Financial calculation fixtures. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S33-026 | Reconciliation results. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S33-027 | Measured performance. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S33-028 | Concurrency evidence. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-001 | P01 baseline. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-002 | P02 actual results. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-003 | Newly implemented capabilities. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-004 | Preserved capabilities. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-005 | Regressions detected. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-006 | Regressions repaired. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-007 | Remaining blockers. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-008 | Requirement ID. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-009 | File path. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-010 | Previous behavior. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-011 | New behavior. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-012 | Implementation status. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-013 | Test evidence. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-014 | Remaining limitation. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-015 | Adapter implementation. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-016 | Fixture integration verification. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-017 | Authorized historical data verification. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-018 | Authorized live quote verification. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-019 | WebSocket verification. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-020 | Account entitlement. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-021 | Static IP requirements. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-022 | Remaining owner setup. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-023 | Synthetic correctness tests. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-024 | Historical financial experiments. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-025 | Out-of-sample experiments. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-026 | Walk-forward experiments. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-027 | Prospective paper trading. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-028 | PASSED. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-029 | FAILED. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-030 | BLOCKED. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-031 | SKIPPED. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-032 | NOT_RUN. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-033 | AC-001 through AC-050. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-034 | Comparable original requirement coverage. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-035 | Functional implementation coverage. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-036 | Acceptance verification coverage. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-037 | Executed test counts. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-038 | Research engine implementation counts. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-039 | Strategy implementation counts. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-040 | Strategy validation counts. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-041 | Dashboard implementation status. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-042 | Critical blockers. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-043 | High-priority incomplete features. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-044 | Required repairs. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-045 | External dependencies. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-046 | Exact source paths. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-047 | Missing test evidence. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-048 | Performance bottlenecks. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S34-049 | Recommended next milestone. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S35-001 | DEVELOPMENT INCOMPLETE. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S35-002 | FOUNDATION VERIFIED. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S35-003 | HISTORICAL RESEARCH READY. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S35-004 | PAPER TRADING TEST READY. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S35-005 | VERIFIED RESEARCH BETA. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+| P02-S35-006 | VALIDATED RESEARCH RELEASE READY. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |

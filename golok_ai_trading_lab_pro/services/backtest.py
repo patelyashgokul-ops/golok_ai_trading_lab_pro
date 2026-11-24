@@ -56,6 +56,8 @@ def replay(bars, session, exchange, seconds, tick, costs, *, source, partition, 
         validate_bar(bar, {session.day: session}, seconds)
         if bar.available_at < bar.close_time or any(price % tick for price in (bar.open, bar.high, bar.low, bar.close)):
             raise ValueError("Candles must be available after close and conform to the tick size.")
+    if any(current.available_at < previous.available_at for previous, current in zip(bars, bars[1:])):
+        raise ValueError("This replay requires publication in candle order.")
     if session.exit_cutoff not in {close for _, close in slots}:
         raise ValueError("The exit cutoff must match a candle close.")
     window_end = session.opening + timedelta(minutes=params.opening_minutes)
