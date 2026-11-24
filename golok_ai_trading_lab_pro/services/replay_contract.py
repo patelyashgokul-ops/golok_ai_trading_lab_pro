@@ -49,7 +49,8 @@ def fingerprint(asset):
     }).encode()).hexdigest()
 
 
-def replay_fixture(series, provenance, starts, ends, seconds, codes, costs, *, target_policy="structure"):
+def replay_fixture(series, provenance, starts, ends, seconds, codes, costs, *, target_policy="structure",
+                   capital=Decimal("50000")):
     """Exercise historical timing on authored fixtures without enabling a market-data ORM route."""
     intervals = {60: "1m", 180: "3m", 300: "5m", 900: "15m"}
     if not isinstance(costs, simulation.CostSchedule) or seconds not in intervals:
@@ -67,5 +68,5 @@ def replay_fixture(series, provenance, starts, ends, seconds, codes, costs, *, t
             raise ValueError("Every fixture requires an explicit publication timestamp.")
         if any(left > right for left, right in zip(publications, publications[1:])):
             raise ValueError("Out-of-order publication is unsupported by this replay contract.")
-    return portfolio._replay(series, starts, ends, seconds, codes, costs, capital=Decimal("50000"),
+    return portfolio._replay(series, starts, ends, seconds, codes, costs, capital=capital,
                              portfolio_policy=portfolio.PortfolioPolicy(), target_policy=target_policy, historical=True)

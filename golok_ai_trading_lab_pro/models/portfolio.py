@@ -1,6 +1,6 @@
 import hashlib
 import json
-from dataclasses import asdict
+from dataclasses import asdict, replace
 from datetime import datetime, time, timedelta, timezone
 from decimal import Decimal
 from pathlib import Path
@@ -8,7 +8,8 @@ from pathlib import Path
 from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, ValidationError
 
-from ..services import backtest, calendar, decision, eligibility, market_data, portfolio, simulation, strategies, targets
+from ..services import (backtest, calendar, decision, eligibility, market_data, portfolio, replay_contract,
+                        simulation, strategies, targets)
 
 
 def digest(value):
@@ -40,6 +41,7 @@ class Portfolio(models.Model):
     suspended = fields.Boolean()
     specification = fields.Text(required=True)
     result = fields.Text(required=True)
+    contract_fixture = fields.Boolean(readonly=True)
 
     _fingerprint = models.Constraint("UNIQUE(company_id,fingerprint)", "This portfolio already exists.")
 
@@ -47,7 +49,7 @@ class Portfolio(models.Model):
     def create(self, vals_list):
         return self._run_request(vals_list)
 
-    def _run_request(self, vals_list, *, training=None, seal=None):
+    def _run_request(self, vals_list, *, training=None, seal=None, contract_fixture=False):
         self.check_access("create")
         allowed = {"dataset_ids", "tariff_id", "starts", "ends", "capital", "tick", "strategy"}
         if len(vals_list) != 1 or not allowed <= set(vals_list[0]) <= allowed | {"target_policy"}:
@@ -72,6 +74,10 @@ class Portfolio(models.Model):
                     dataset.origin, "synthetic_replay", quarantined=dataset.quarantined)[1]
                     for dataset in datasets)):
             raise ValidationError(_("Select calendar-bound eligible synthetic datasets with distinct instruments and one interval."))
+        if contract_fixture and (training is not None or seal is not None or any(
+                not dataset.fixture_version or not dataset.fixture_digest
+                or dataset.calendar_id.verification != "fixture" for dataset in datasets)):
+            raise AccessError(_("The historical timing test requires server-generated fixtures."))
         starts, ends, capital, tick = self._parse_request(vals)
         self.env["golok.lab.replay.guard"]._lock(datasets.instrument_id)
         overlap = [("company_id", "=", company.id), ("starts", "<=", ends), ("ends", ">=", starts),
@@ -100,7 +106,7 @@ class Portfolio(models.Model):
         seconds = market_data.INTERVALS[datasets[0].interval]
         opening = datetime.combine(starts, time.min, calendar.IST).astimezone(timezone.utc).replace(tzinfo=None)
         ending = datetime.combine(ends + timedelta(days=1), time.min, calendar.IST).astimezone(timezone.utc).replace(tzinfo=None)
-        assets, inputs = [], []
+        assets, inputs, provenance = [], [], {}
         remaining = portfolio.MAX_BARS
         for dataset in datasets:
             candle_model = self.env["golok.lab.candle"]
@@ -117,7 +123,21 @@ class Portfolio(models.Model):
             asset_tick = Decimal(dataset.mapping_id.tick) if dataset.mapping_id else tick
             bars = tuple(candle._to_bar() for candle in candles)
             key = f"{instrument.exchange}:{instrument.symbol}"
-            assets.append(portfolio.Series(key, instrument.exchange, asset_tick, bars, revision._sessions()))
+            sessions = revision._sessions()
+            if contract_fixture:
+                generated = self.env["golok.lab.candle"].search_count([("dataset_id", "=", dataset.id)])
+                if not generated:
+                    raise ValidationError(_("The fixture has no visible observations."))
+                bars = tuple(replace(bar, available_at=min(
+                    bar.close_time + timedelta(minutes=1),
+                    sessions[bar.close_time.astimezone(calendar.IST).date()].closing)) for bar in bars)
+                asset = portfolio.Series(key, instrument.exchange, asset_tick, bars, sessions, origin="historical_contract")
+                provenance[key] = replay_contract.Provenance(
+                    "historical_intraday", dataset.interval, replay_contract.fingerprint(asset), "verified_publication",
+                    True, True, True, True)
+            else:
+                asset = portfolio.Series(key, instrument.exchange, asset_tick, bars, sessions)
+            assets.append(asset)
             inputs.append({"asset": key, "dataset": dataset.id, "source": dataset.source,
                            "calendar": revision.id, "calendar_digest": digest(revision.schedule),
                            "tick": asset_tick, "bars": len(bars), "input_digest": digest([asdict(bar) for bar in bars])})
@@ -131,6 +151,10 @@ class Portfolio(models.Model):
             "code_digests": {module.__name__.rsplit(".", 1)[-1]: hashlib.sha256(Path(module.__file__).read_bytes()).hexdigest()
                              for module in (portfolio, strategies, decision, eligibility, simulation, calendar, targets)},
         }
+        if contract_fixture:
+            specification.update(scope="HISTORICAL_CONTRACT_FIXTURE_ONLY",
+                                 publication_model="Authored fixture close plus one minute, bounded by session close",
+                                 provenance={key: asdict(value) for key, value in provenance.items()})
         fingerprint = digest(specification)
         if training is not None:
             try:
@@ -146,8 +170,12 @@ class Portfolio(models.Model):
         if seal is not None and (not reserved or seal.fingerprint != fingerprint or seal.result_id):
             raise ValidationError(_("Holdout consumed or frozen inputs changed."))
         try:
-            output = portfolio.replay(assets, starts, ends, seconds, codes, costs, capital=capital,
-                                      target_policy=target_policy)
+            if contract_fixture:
+                output = replay_contract.replay_fixture(assets, provenance, starts, ends, seconds, codes, costs,
+                                                        capital=capital, target_policy=target_policy)
+            else:
+                output = portfolio.replay(assets, starts, ends, seconds, codes, costs, capital=capital,
+                                          target_policy=target_policy)
         except (ValueError, ArithmeticError) as exc:
             raise ValidationError(str(exc)) from None
         prior = self.search([("company_id", "=", company.id), ("fingerprint", "=", fingerprint)], limit=1)
@@ -156,6 +184,7 @@ class Portfolio(models.Model):
         return super(Portfolio, self.with_context({})).create([{
             **vals, "dataset_ids": [fields.Command.set(datasets.ids)], "company_id": company.id,
             "fingerprint": fingerprint, "target_policy": target_policy, "trade_count": len(output["trades"]),
+            "contract_fixture": contract_fixture,
             "decision_count": len(output["decisions"]), "suspended": output["suspended"],
             "specification": json.dumps(specification, default=str, indent=2, sort_keys=True),
             "result": json.dumps(output, default=str, indent=2, sort_keys=True),

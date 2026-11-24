@@ -103,7 +103,10 @@ class SourceReview(models.Model):
         return results
 
     @api.model
-    def _authorize(self, source, feed, required, *, upstream=None, bound=None):
+    def _authorize(self, source, feed, purpose, *, upstream=None, bound=None):
+        required = providers.PURPOSES.get(purpose)
+        if not required:
+            raise AccessError(_("This market data purpose is unavailable."))
         domain = [("company_id", "=", self.env.company.id), ("provider", "=", source)]
         if source == "manual":
             if not upstream:
@@ -114,7 +117,8 @@ class SourceReview(models.Model):
         status = (rights_lifecycle.state(fields.Date.today(), review.expires, review.retain_until,
                                          review.revoked_at, review.storage_policy) if review else "insufficient")
         if (not review or (bound is not None and review.id != bound.id)
-                or status != "active"
+                or status != "active" or not all((review.evidence, review.purpose, review.restrictions,
+                                                   review.terms_url, review.documentation))
                 or ("persist" in required and not rights_lifecycle.can_persist(status, review.storage_policy))
                 or not providers.route([source], feed, required, grants)):
             raise AccessError(_("The bound source review must permit this operation and be current."))
@@ -148,7 +152,11 @@ class DailyImport(models.Model):
     count = fields.Integer()
     details = fields.Text(required=True)
     normalized_dataset_ids = fields.Many2many("golok.lab.dataset", readonly=True)
-    _revision = models.Constraint("UNIQUE(company_id, source, day, calendar_id, digest)", "File revision already recorded.")
+    corrects_id = fields.Many2one("golok.lab.daily.import", ondelete="restrict", index=True, string="Previous File Revision")
+    correction_evidence = fields.Char(string="Publisher Correction Reference")
+    correction_scope = fields.Integer(default=0, required=True, readonly=True)
+    _revision = models.Constraint(
+        "UNIQUE(company_id, source, day, calendar_id, digest, correction_scope)", "File revision already recorded.")
     _daily = models.Constraint("UNIQUE(company_id, accepted_key)", "An accepted daily revision already exists. Retry to compare it.")
 
     def _export_rows(self, fields, *, _is_toplevel_call=True):
@@ -166,7 +174,7 @@ class DailyImport(models.Model):
             raise ValidationError(_("Only an accepted audit batch can be normalized."))
         review = self.env["golok.lab.source.review"]._authorize(
             self.source, "daily" if self.source == "bhavcopy" else "synthetic",
-            ("query", "display", "persist"), bound=self.sudo().review_id)
+            "import", bound=self.sudo().review_id)
         self.env.cr.execute("SELECT id FROM golok_lab_daily_import WHERE id=%s FOR UPDATE", (self.id,))
         self.invalidate_recordset(["normalized_dataset_ids"])
         datasets = self.normalized_dataset_ids
@@ -201,6 +209,8 @@ class DailyImport(models.Model):
             if not mapping.isin or row["isin"] != mapping.isin:
                 raise ValidationError(_("The source and the effective instrument mapping must agree on ISIN."))
             label = f"{self.source} / review {review.id} / calendar {self.calendar_id.id} / mapping {mapping.id}"
+            if self.corrects_id:
+                label = f"P08 correction {self.id} / {label}"
             dataset = self.env[datasets._name].search([
                 ("company_id", "=", self.company_id.id), ("instrument_id", "=", mapping.instrument_id.id),
                 ("source", "=", label), ("origin", "=", origin), ("interval", "=", "1d")], limit=1)
@@ -209,26 +219,30 @@ class DailyImport(models.Model):
                     "name": label, "source": label, "origin": origin, "instrument_id": mapping.instrument_id.id,
                     "company_id": self.company_id.id, "calendar_id": self.calendar_id.id, "interval": "1d",
                     "source_review_id": review.id, "publication_basis": "receipt", "mapping_id": mapping.id,
+                    "daily_revision_id": self.id if self.corrects_id else False,
                 }).with_user(self.env.user)
+            if self.corrects_id and dataset.daily_revision_id != self:
+                raise ValidationError(_("The correction dataset identity is unavailable."))
             timestamp = lambda value: value.isoformat(timespec="seconds")
             bar = market_data.parse_bar(timestamp(session.closing), row["opening"], row["high"], row["low"], row["close"],
                                         str(row["volume"]), as_of=receipt, open_time=timestamp(session.opening),
                                         available_at=timestamp(receipt))
-            dataset._import_bars([bar])
+            (dataset.sudo() if self.corrects_id else dataset)._import_bars([bar])
             datasets |= dataset
         return datasets
 
     @api.model_create_multi
     def create(self, vals_list):
         self.check_access("create")
-        if len(vals_list) != 1 or set(vals_list[0]) != {"source", "day", "upload", "calendar_id"}:
+        required = {"source", "day", "upload", "calendar_id"}
+        if len(vals_list) != 1 or not required <= set(vals_list[0]) <= required | {"corrects_id", "correction_evidence"}:
             raise ValidationError(_("Supply source, trading date, calendar and one CSV or ZIP."))
         vals = vals_list[0]
         source = vals["source"]
         if source not in ("fixture", "bhavcopy"):
             raise ValidationError(_("Invalid file source."))
         review = self.env["golok.lab.source.review"]._authorize(
-            source, "daily" if source == "bhavcopy" else "synthetic", ("query", "display", "persist"))
+            source, "daily" if source == "bhavcopy" else "synthetic", "import")
         day = fields.Date.to_date(vals["day"])
         calendar = self.env["golok.lab.calendar"].search([
             ("id", "=", vals["calendar_id"]), ("company_id", "=", self.env.company.id),
@@ -236,6 +250,18 @@ class DailyImport(models.Model):
         session = calendar._sessions().get(day) if calendar else None
         if not session or session.kind == "closed" or session.closing > datetime.now(timezone.utc):
             raise ValidationError(_("Select a matching completed NSE session."))
+        parent = self.browse()
+        evidence = vals.get("correction_evidence") or ""
+        if vals.get("corrects_id") or evidence:
+            parent_id = vals.get("corrects_id")
+            if (type(parent_id) is not int or not isinstance(evidence, str) or not 1 <= len(evidence.strip()) <= 240
+                    or not self.env.user.has_group("golok_ai_trading_lab_pro.group_admin")):
+                raise ValidationError(_("A source administrator must supply the previous revision and publisher evidence."))
+            parent = self.search([("id", "=", parent_id), ("company_id", "=", self.env.company.id),
+                                  ("source", "=", source), ("day", "=", day), ("calendar_id", "=", calendar.id),
+                                  ("status", "=", "accepted"), ("review_id", "=", review.id)], limit=1)
+            if not parent:
+                raise ValidationError(_("Select an accepted revision for the same session, calendar and active review."))
         data = vals["upload"]
         try:
             if not isinstance(data, (str, bytes)) or len(data) > 4 * ((bhavcopy.LIMIT + 2) // 3):
@@ -245,7 +271,7 @@ class DailyImport(models.Model):
             raise ValidationError(_("Supply a bounded base64-encoded file.")) from None
         digest = hashlib.sha256(raw).hexdigest()
         key = {"company_id": self.env.company.id, "source": source, "day": day,
-               "calendar_id": calendar.id, "digest": digest}
+               "calendar_id": calendar.id, "digest": digest, "correction_scope": parent.id or 0}
         prior = self.search([(field, "=", value) for field, value in key.items()], limit=1)
         if prior:
             return prior
@@ -254,7 +280,11 @@ class DailyImport(models.Model):
             accepted_key = f"{source}/{day}/{calendar.id}"
             existing = self.search([("company_id", "=", self.env.company.id), ("accepted_key", "=", accepted_key)], limit=1)
             details = json.dumps([asdict(rows[key]) for key in sorted(rows)], default=str)
-            if existing:
+            if parent:
+                if parent.details == details:
+                    return parent
+                accepted_key += f"/correction/{parent.id}/{digest}"
+            elif existing:
                 if existing.details == details:
                     return existing
                 raise ValueError("Conflicting data for the same session.")
@@ -263,4 +293,6 @@ class DailyImport(models.Model):
         except ValueError:
             report = {"status": "quarantine", "count": 0,
                       "details": "File rejected by date, schema, identity, OHLCV or archive validation."}
-        return super(DailyImport, self.with_context({})).create([{**key, **report, "review_id": review.id}])
+        return super(DailyImport, self.with_context({})).create([{
+            **key, **report, "review_id": review.id, "corrects_id": parent.id, "correction_evidence": evidence.strip(),
+        }])

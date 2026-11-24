@@ -41,6 +41,11 @@
                         class="btn-primary" invisible="not id or status != 'accepted'"/>
             </header></xpath>
             <field name="count" position="after"><field name="normalized_dataset_ids" widget="many2many_tags" readonly="1"/></field>
+            <field name="calendar_id" position="after">
+                <field name="corrects_id" readonly="id" invisible="id and not corrects_id"
+                       domain="[('source','=',source),('day','=',day),('calendar_id','=',calendar_id),('status','=','accepted')]"/>
+                <field name="correction_evidence" readonly="id" invisible="not corrects_id" required="corrects_id"/>
+            </field>
         </field>
     </record>
     <record id="view_session_watch_list" model="ir.ui.view">

@@ -13,6 +13,21 @@ class Source:
 
 PERMISSIONS = frozenset({"query", "display", "persist", "automatic", "backtest", "optimize",
                          "fit", "live", "export", "research"})
+PURPOSES = {
+    "query": ("query",),
+    "display": ("display",),
+    "import": ("query", "display", "persist"),
+    "persist": ("persist",),
+    "research": ("display", "research"),
+    "historical_replay": ("display", "backtest"),
+    "optimization": ("display", "backtest", "optimize"),
+    "fitting": ("display", "fit"),
+    "automatic_sync": ("query", "display", "persist", "automatic"),
+    "prospective_paper": None,
+    "live": None,
+    "export": ("display", "export"),
+    "redistribution": None,
+}
 SOURCES = {
     "fixture": Source("Synthetic fixture", "synthetic", PERMISSIONS - {"live"}, "fixture"),
     "bhavcopy": Source("NSE Bhavcopy local file", "daily", frozenset({"query", "display", "persist", "research"}), "NSE"),

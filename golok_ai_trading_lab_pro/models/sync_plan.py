@@ -137,12 +137,15 @@ class SyncPlan(models.Model):
                                       or item.state == "retry" and item.next_attempt <= now)[:1]
         if not task:
             return
+        if self.mode == "live":
+            self.env["golok.lab.source.review"]._authorize("smartapi", "historical", "import")
         previous = self.env["golok.lab.sync"].search([
             ("company_id", "=", self.company_id.id), ("mapping_id", "=", task.mapping_id.id), ("day", "=", task.day),
             ("interval", "=", task.interval), ("mode", "=", task.mode), ("state", "=", "complete"),
             ("dataset_id.calendar_id", "=", task.calendar_id.id), ("dataset_id.quarantined", "=", False),
         ], limit=1)
         if previous and self.mode == "live":
+            previous.dataset_id._permit("import")
             task.sudo().write({"report_id": previous.id, "state": "skipped", "fixture_rows": False})
         else:
             report = self.env["golok.lab.sync"]._run(task)

@@ -151,6 +151,7 @@ class Dataset(models.Model):
     fixture_version = fields.Char(readonly=True)
     fixture_seed = fields.Integer(readonly=True)
     fixture_digest = fields.Char(readonly=True)
+    daily_revision_id = fields.Many2one("golok.lab.daily.import", readonly=True, ondelete="restrict")
 
     _identity = models.Constraint(
         "UNIQUE(company_id, instrument_id, source, origin, interval)", "This source and interval are already registered."
@@ -167,17 +168,20 @@ class Dataset(models.Model):
             for key, value in defaults.items():
                 vals.setdefault(key, value)
             if not self.env.su and {"source_review_id", "publication_basis", "fixture_version",
-                                    "fixture_seed", "fixture_digest"} & vals.keys():
+                                    "fixture_seed", "fixture_digest", "daily_revision_id"} & vals.keys():
                 raise AccessError(_("Lineage is assigned by the server."))
+            if (vals.get("source") or "").startswith("P08 correction ") and not vals.get("daily_revision_id"):
+                raise AccessError(_("The source label is reserved for audited corrections."))
             if vals.get("origin") == "imported" and not vals.get("source_review_id"):
                 review = self.env["golok.lab.source.review"]._authorize(
-                    "manual", "historical", ("query", "display", "persist"), upstream=vals.get("source"))
+                    "manual", "historical", "import", upstream=vals.get("source"))
                 vals.update(source_review_id=review.id, publication_basis="operator")
             if vals.get("origin") == "synthetic":
                 vals.update(source_review_id=False, publication_basis="fixture")
         return super(Dataset, self.with_context(default_quarantined=False, default_integrity_conflict=False, default_source_review_id=False,
                                                 default_publication_basis=False, default_fixture_version=False,
-                                                default_fixture_seed=0, default_fixture_digest=False)).create(vals_list)
+                                                default_fixture_seed=0, default_fixture_digest=False,
+                                                default_daily_revision_id=False)).create(vals_list)
 
     @api.depends("origin", "fixture_version", "publication_basis", "source_review_id.lifecycle", "quarantined", "integrity_conflict")
     def _compute_lineage_status(self):
@@ -215,11 +219,10 @@ class Dataset(models.Model):
         review = self.sudo().source_review_id
         if not review or self.publication_basis not in ("operator", "receipt"):
             raise AccessError(_("The historical dataset has no effective authorization lineage."))
-        commands = {"import": ("query", "display", "persist"), "research": ("display", "research")}
-        if purpose not in commands or review.provider not in ("smartapi", "bhavcopy", "manual"):
+        if review.provider not in ("smartapi", "bhavcopy", "manual"):
             raise AccessError(_("The data is ineligible for this operation."))
         return self.env["golok.lab.source.review"]._authorize(
-            review.provider, "daily" if review.provider == "bhavcopy" else "historical", commands[purpose],
+            review.provider, "daily" if review.provider == "bhavcopy" else "historical", purpose,
             upstream=self.source, bound=review)
 
     def _export_rows(self, fields, *, _is_toplevel_call=True):
@@ -252,8 +255,8 @@ class Dataset(models.Model):
     def _import_bars(self, bars):
         self.ensure_one()
         self.check_access("write")
-        if self.fixture_version and not self.env.su:
-            raise AccessError(_("Generated fixture observations are immutable."))
+        if (self.fixture_version or self.daily_revision_id) and not self.env.su:
+            raise AccessError(_("Generated and corrected observations are immutable."))
         if self.quarantined:
             raise ValidationError(_("The dataset is quarantined."))
         self._permit("import")

@@ -66,7 +66,7 @@ class Synchronization(models.Model):
             client._token = "fixture"
             return client.history(wizard.mapping_id.exchange, wizard.mapping_id.token, wizard.interval,
                                   session.opening, session.closing), client.last_success
-        self.env["golok.lab.source.review"]._authorize("smartapi", "historical", ("query", "display", "persist"))
+        self.env["golok.lab.source.review"]._authorize("smartapi", "historical", "import")
         if not provider._SESSION_LOCK.acquire(blocking=False):
             raise ProviderError("PROVIDER_BUSY")
         try:
@@ -110,7 +110,7 @@ class Synchronization(models.Model):
                 if wizard.mode == "fixture" and (not wizard.fixture_rows or len(wizard.fixture_rows) > 256 * 1024):
                     raise ValidationError(_("Supply bounded synthetic fixture rows."))
                 review = self.env["golok.lab.source.review"]._authorize(
-                    "smartapi", "historical", ("query", "display", "persist")) if origin == "provider" else None
+                    "smartapi", "historical", "import") if origin == "provider" else None
                 rows, receipt = self._fetch(wizard, session)
                 bars = ingestion.normalize(rows, session, seconds, receipt)
                 source = f"SmartAPI {wizard.mode} mapping {mapping.id} calendar {revision.id}"
