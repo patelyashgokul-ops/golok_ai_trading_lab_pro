@@ -1,5 +1,7 @@
 # Exchange calendar and data time
 
+P03 adds an optional `segments` array, for example `[["09:15","10:13"],["11:00","15:30"]]` for a synthetic split day. The outer opening and closing must match the first and last segments. Entry and exit cutoffs must fall in a continuous window. An optional `post_close` marker describes a period excluded from the continuous grid. Intraday grids restart at segment openings and allow a truncated last bar. Split-session daily observations and split-session ST-01 execution remain unsupported.
+
 Calendar revisions are immutable, owned by one company and scoped to NSE or BSE. Trading System Administrators can create revisions. An analyst selects a revision when registering a dataset. A reviewed revision records the operator's review date and a direct HTTPS URL on that exchange's domain. The software checks the URL domain and the schedule structure. The operator is responsible for reconciling the schedule with the official notices. A fixture revision can only be used with a synthetic dataset.
 
 Use one row per date in the coverage period. Mark exchange holidays and weekends explicitly as closed, and list an announced special session as special. Each trading date represents one continuous segment. Split sessions, intraday halts and instrument-specific closing auctions require a separate model. A date omitted from the JSON has unknown coverage.

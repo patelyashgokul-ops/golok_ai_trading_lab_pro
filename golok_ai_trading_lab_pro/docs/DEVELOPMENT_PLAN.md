@@ -12,3 +12,5 @@
 Keep research candidates inactivated until their validation and approval paths exist. Add authorized broker streaming only after a read-only adapter passes contract tests. Document the workload before publishing throughput figures.
 
 P03 should persist effective-dated references, introduce verified source/adjustment policies, and link the REST adapter to a supervised diagnostic workflow. Follow with chronological experiment manifests, multi-session replay and independently reconciled tariffs. Add automatic virtual fills only after the ledger and portfolio invariants are independently verified.
+
+After P03, prioritize authorized provider ingestion and market timestamps, corporate adjustment and universe history, sealed holdout partitions and verified tariffs. Keep virtual execution historical until the provider, feed continuity and portfolio controls are ready for prospective evaluation.

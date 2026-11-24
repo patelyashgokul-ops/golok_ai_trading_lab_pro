@@ -15,3 +15,5 @@
 | R-11 | Wrong provider token on a historic date | In-memory overlap and effective-date checks | Persist validated mappings and require them on ingestion |
 | R-12 | Closing auction or special timetable incorrectly applied | Explicit single continuous date-specific grid | Integrate revised calendars, split sessions and instrument calendars |
 | R-13 | Synthetic backtest overinterpreted | Test fixtures and CLI results identify synthetic-only provenance | Verified fee pack, approved data and preregistered holdout |
+| R-14 | Virtual cash posted twice | Account row lock and unique replay batch; independent overlap test | Partial fills and prospective execution require separate reconciliation |
+| R-15 | Provider credentials leak through diagnostics | Environment only, allowlisted transport, no returned session secrets | Real authorization and production controls remain unverified |

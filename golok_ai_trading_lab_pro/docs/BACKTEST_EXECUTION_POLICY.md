@@ -1,5 +1,7 @@
 # ST-01 synthetic backtest, version 1
 
+The P03 Odoo experiment reuses the single-session decision rules below in chronological order and compounds virtual closing cash between known regular sessions. Maximum scope is one synthetic instrument, up to 31 calendar dates and 4,000 bars. An unknown or incomplete session retains prior results and ends the run as unresolved. [Validation protocol](VALIDATION_PROTOCOL.md)
+
 Run `python -B scripts/run_backtest.py SPEC.json CANDLES.csv` from the module directory. Use the temporal CSV format and the example under `tests/fixtures/p02`. The JSON defines the session, venue, tick size, data label, declared partition and explicit tariffs. The result writes a deterministic specification, input digest, experiment identifier, recorded candidates and any single simulated trade to standard output.
 
 The replay accepts one complete, regular, explicitly synthetic session published in candle order. It freezes the 15-minute opening high and low after the required observations are available. A later first crossing of the range high is checked on close and compared with 1.5× the previous three volumes. The range width must be within 4% of its high. No entry can occur at an opening that coincides with or precedes the decision’s availability. A delayed candidate expires if the later opening exceeds one interval, the configured entry cutoff, the opening range or the 1% entry deviation allowance.

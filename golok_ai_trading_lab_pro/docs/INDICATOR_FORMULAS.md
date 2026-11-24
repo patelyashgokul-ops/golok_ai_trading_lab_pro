@@ -1,5 +1,7 @@
 # Indicator formulas, series version 1
 
+VWAP in this implementation is an OHLCV approximation. It does not have venue tick data, and returns unavailable after an interruption when continuity cannot be established by the indicator.
+
 Inputs are ascending validated OHLCV. Output lists align with each observation. Warm-up and unresolved inputs return null. Calculations use Decimal with 28-digit context. The service processes up to 4,000 rows and ORM snapshots up to 250. Windows count observed bars and do not synthesize missing data. A calendar gap suppresses ORM indicator findings.
 
 | Indicator | Formula and warm-up |

@@ -32,3 +32,9 @@ Viewer can read. Analyst can create datasets, use input wizards and create serve
 An immutable company/exchange calendar revision links to a dataset. For these datasets, temporal bars record both boundaries and operator-supplied publication time. The ORM applies that time at the cutoff and fingerprints the calendar plus temporal observations. P01 datasets continue to use the old contract. Only System Administrators may create calendar revisions or toggle dataset quarantine. A quarantined dataset blocks imports, new research and chart reads.
 
 The chart endpoint checks read rights and the active company, recomputes its snapshot digest and supplies at most 60 bars. The Python SmartAPI client has no Odoo button, route, cron job or saved credentials. Independent simulation services apply Decimal costs and a risk veto to one complete synthetic session. A versioned reference directory resolves supplied mappings in memory. It does not populate the ORM or authorize a provider read.
+
+## P03 extensions
+
+Immutable effective-dated mappings add PostgreSQL exclusions, and the import path can enforce mapping validity and tick alignment. Corporate-action notices preserve source and publication metadata while historical candles stay raw. Calendar segments explicitly represent interruptions. Split-day daily data and split-day ST-01 experiments remain unsupported.
+
+Company-scoped experiments snapshot the exact synthetic dataset, cost, risk, strategy and calendar inputs. The historical cash journal replays completed results through atomic paise reservations and fills. The background queue uses one row claim per run and processes only historical research as the requester. SmartAPI Diagnostics is opt-in, server-side, and separate from market ingestion. Supplemental research verifies the original digest before calculating four additional results.

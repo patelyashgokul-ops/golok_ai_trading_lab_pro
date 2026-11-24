@@ -15,3 +15,7 @@
 | D-011 | Prefer session-exact synthetic replay and code/input fingerprints | Reproducibility is measurable while financial validation remains blocked. |
 | D-012 | Require digest match for a chart | Historical display cannot silently adopt new bars after a backfill. |
 | D-013 | Preserve the P01 source as a ZIP and independently verify the populated migration | No Git repository exists in the workspace or its add-on parent. A future repository should import the checkpoint as a local baseline, excluding runtime and credential data. |
+| D-014 | Use PostgreSQL range exclusions for immutable mappings | Adjacent effective intervals remain valid; concurrent overlap is rejected in the database. |
+| D-015 | Post fully closed historical replay batches in whole paise | Ledger evaluation is auditable while prospective simulation stays disabled. |
+| D-016 | Stop the synthetic experiment at the first unresolvable session | Preserve recorded results and avoid fabricating execution or subsequent equity. |
+| D-017 | Keep manual historical research jobs bounded and transactional | A stopped worker has no external effects and the database can release its claim. |
