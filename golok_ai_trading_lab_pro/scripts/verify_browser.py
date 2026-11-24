@@ -186,6 +186,14 @@ def verify(base_url, database, edge):
         expect(page.locator(".o_form_view [name=specification]")).to_contain_text("input_digest")
         assert not errors, errors
         print("UI-11 synthetic replay submitted through Odoo wizard RPC and persisted result, gates and frozen inputs inspected in Edge", flush=True)
+        daily_action = xml_id("action_daily_imports")
+        page.goto(f"{base_url}/odoo/action-{daily_action}")
+        expect(page.locator(".o_list_view")).to_be_visible()
+        page.get_by_role("button", name="New", exact=True).first.click()
+        expect(page.locator(".o_form_view [name=upload]")).to_be_visible()
+        page.screenshot(path=EVIDENCE / "screenshots/daily-import.png")
+        assert not errors, errors
+        print("UI-12 end-of-day import list and authorized-file form opened in Edge", flush=True)
         browser.close()
 
 

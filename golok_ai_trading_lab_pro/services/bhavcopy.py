@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from datetime import date, datetime, timezone
 from decimal import Decimal
 from zipfile import BadZipFile, ZIP_DEFLATED, ZIP_STORED, ZipFile
+from zlib import error as DeflateError
 
 from . import market_data
 
@@ -44,7 +45,7 @@ def read(raw, day, *, today):
                     raise ValueError("Unsupported CSV archive member.")
                 with archive.open(member) as stream:
                     raw = stream.read(LIMIT + 1)
-        except (BadZipFile, OSError, EOFError, RuntimeError) as exc:
+        except (BadZipFile, OSError, EOFError, RuntimeError, DeflateError) as exc:
             raise ValueError("Invalid CSV archive.") from exc
     if len(raw) > LIMIT:
         raise ValueError("Uncompressed CSV exceeds limit.")

@@ -55,3 +55,7 @@ sync_plan_admin,Sync planner administrator,golok.lab.sync.plan,golok_ai_trading_
 sync_plan_company,Sync plan company,golok.lab.sync.plan,,crud,"[('company_id','in',company_ids)]"
 sync_task_admin,Sync checkpoint administrator,golok.lab.sync.task,golok_ai_trading_lab_pro.group_admin,r,
 sync_task_company,Sync checkpoint company,golok.lab.sync.task,,crud,"[('company_id','in',company_ids)]"
+review_admin,Source authorization reviewer,golok.lab.source.review,golok_ai_trading_lab_pro.group_admin,cr,
+review_company,Source review company,golok.lab.source.review,,crud,"[('company_id','in',company_ids)]"
+daily_import_admin,End of day file administrator,golok.lab.daily.import,golok_ai_trading_lab_pro.group_admin,cr,
+daily_import_company,End of day file company,golok.lab.daily.import,,crud,"[('company_id','in',company_ids)]"

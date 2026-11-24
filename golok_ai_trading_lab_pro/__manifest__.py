@@ -13,6 +13,7 @@
         "views/p03.xml",
         "views/p04.xml",
         "views/p05.xml",
+        "views/p06.xml",
     ],
     "assets": {
         "web.assets_backend": [

@@ -12,6 +12,36 @@ MODULE = "golok_ai_trading_lab_pro"
 
 @tagged("at_install", "-post_install")
 class TestLab(TransactionCase):
+    def test_p06_review_and_daily_fixture(self):
+        import base64
+        from ..services.bhavcopy import COLUMNS
+
+        reviews = self.env["golok.lab.source.review"].with_user(self.admin)
+        imports = self.env["golok.lab.daily.import"].with_user(self.admin)
+        calendar = self.env["golok.lab.calendar"].with_user(self.admin).create({
+            "name": "Daily fixture", "source": "Synthetic", "exchange": "NSE", "verification": "fixture",
+            "verified_on": "2024-01-01", "schedule": json.dumps([{"date": "2024-01-02", "kind": "regular",
+                "open": "09:15", "close": "15:30", "entry_cutoff": "14:30", "exit_cutoff": "15:20"}]),
+        })
+        payload = ",".join(COLUMNS) + "\nDEMO,EQ,10,12,9,11,11,10,100,1000,02-JAN-2024,4,IN0000000001"
+        vals = {"source": "fixture", "day": "2024-01-02", "calendar_id": calendar.id,
+                "upload": base64.b64encode(payload.encode()).decode()}
+        with self.assertRaises(AccessError):
+            imports.create(vals)
+        grant = {"provider": "fixture", "terms_url": "fixture", "documentation": "fixture",
+                 "evidence": "Self-authored OHLC", "purpose": "Software testing", "restrictions": "Synthetic only",
+                 "expires": "2099-01-01", "display": True, "query": True, "persist": True}
+        reviews.create(grant)
+        accepted = imports.create(vals)
+        self.assertEqual((accepted.status, accepted.count), ("accepted", 1))
+        self.assertEqual(accepted, imports.create(vals))
+        self.assertEqual(imports.create({**vals, "upload": "eA=="}).status, "quarantine")
+        with self.assertRaises(AccessError):
+            imports.with_user(self.viewer).create(vals)
+        reviews.create({**grant, "persist": False})
+        with self.assertRaises(AccessError):
+            imports.create(vals)
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

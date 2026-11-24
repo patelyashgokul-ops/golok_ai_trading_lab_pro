@@ -44,8 +44,10 @@ order by 1
             throw 'The clone lacks the required populated P01 records.'
         }
         $extra = @{}
-        if ($SourceVersion -eq '20.0.4.0.0') {
-            foreach ($table in @('calendar','mapping','tariff','experiment','paper_account','paper_batch','paper_event','findings','sync','research_job')) {
+        if ($SourceVersion -in @('20.0.4.0.0','20.0.5.0.0')) {
+            $tables = @('calendar','mapping','tariff','experiment','paper_account','paper_batch','paper_event','findings','sync','research_job')
+            if ($SourceVersion -eq '20.0.5.0.0') { $tables += @('portfolio','sync_plan','sync_task') }
+            foreach ($table in $tables) {
                 $extra[$table] = Query "select count(*) || ':' || coalesce(md5(string_agg(row_to_json(t)::text,';' order by id)), 'empty') from golok_lab_$table t"
             }
         }
