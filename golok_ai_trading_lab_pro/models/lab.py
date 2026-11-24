@@ -184,12 +184,16 @@ class Dataset(models.Model):
                 vals.update(source_review_id=review.id, publication_basis="operator")
             if vals.get("origin") == "synthetic":
                 vals.update(source_review_id=False, publication_basis="fixture")
-        return super(Dataset, self.with_context(default_quarantined=False, default_integrity_conflict=False, default_source_review_id=False,
+            if self.env.user.has_group("golok_ai_trading_lab_pro.group_admin"):
+                vals.setdefault("replay_publication_evidence", False)
+                vals.setdefault("replay_reviewed_by", False)
+        context = {key: value for key, value in self.env.context.items()
+                   if key not in ("default_replay_publication_evidence", "default_replay_reviewed_by")}
+        return super(Dataset, self.with_context(context, default_quarantined=False, default_integrity_conflict=False, default_source_review_id=False,
                                                 default_publication_basis=False, default_fixture_version=False,
                                                 default_fixture_seed=0, default_fixture_digest=False,
                                                 default_daily_revision_id=False, default_daily_revision_digest=False,
-                                                default_replay_publication_digest=False, default_replay_publication_evidence=False,
-                                                default_replay_reviewed_by=False)).create(vals_list)
+                                                default_replay_publication_digest=False)).create(vals_list)
 
     @api.depends("origin", "fixture_version", "publication_basis", "source_review_id.lifecycle", "quarantined", "integrity_conflict")
     def _compute_lineage_status(self):
@@ -252,9 +256,9 @@ class Dataset(models.Model):
     def _historical_replay_bars(self):
         domain = [("dataset_id", "=", self.id)]
         candles = self.env["golok.lab.candle"]
-        rows = candles.search(domain, order="close_time", limit=12001)
-        if not rows or len(rows) > 12000 or len(rows) != candles.sudo().search_count(domain):
-            raise ValidationError(_("The review requires 1–12,000 visible candles and no hidden observations."))
+        rows = candles.search(domain, order="close_time", limit=market_data.MAX_ROWS + 1)
+        if not rows or len(rows) > market_data.MAX_ROWS or len(rows) != candles.sudo().search_count(domain):
+            raise ValidationError(_("The review requires 1–4,000 visible candles and no hidden observations."))
         return tuple(row._to_bar() for row in rows)
 
     def _attest_publication(self, reference, bars):
@@ -306,16 +310,16 @@ class Dataset(models.Model):
     def action_toggle_quarantine(self):
         self.ensure_one()
         self.check_access("write")
-        if self.origin == "imported":
-            self.env.cr.execute("SELECT id FROM golok_lab_dataset WHERE id=%s FOR UPDATE", (self.id,))
-            self.invalidate_recordset(["replay_publication_digest"])
-            if self.replay_publication_digest:
-                raise AccessError(_("Reviewed historical publication inputs are frozen."))
         self.write({"quarantined": not self.quarantined})
 
     def _import_bars(self, bars):
         self.ensure_one()
         self.check_access("write")
+        if self.origin == "imported":
+            self.env.cr.execute("SELECT id FROM golok_lab_dataset WHERE id=%s FOR UPDATE", (self.id,))
+            self.invalidate_recordset(["replay_publication_digest"])
+            if self.replay_publication_digest:
+                raise AccessError(_("Reviewed historical publication inputs are frozen."))
         if (self.fixture_version or self.daily_revision_id) and not self.env.su:
             raise AccessError(_("Generated and corrected observations are immutable."))
         if self.quarantined:

@@ -56,7 +56,10 @@ class Portfolio(models.Model):
     def _access_domain(self, operation):
         domain = super()._access_domain(operation)
         if operation == "read":
-            bound = (Domain("protected_read", "=", True) & Domain("source_review_id.backtest", "=", True))
+            review = (self.env["golok.lab.source.review"]._readable_domain() & Domain("backtest", "=", True)
+                      & Domain("provider", "=", "manual") & Domain("raw_share_ohlcv", "=", True))
+            bound = (Domain("origin", "=", "imported") & Domain("replay_publication_digest", "!=", False)
+                     & Domain("source_review_id", "any!", review))
             domain &= (Domain("historical_authorized", "=", False)
                        | (Domain("dataset_ids", "any!", Domain.TRUE) & Domain("dataset_ids", "not any!", ~bound)))
         return domain

@@ -4,7 +4,9 @@ Offline research needs no external subscription. In **Research Schedules**, sele
 
 For a genuine market CSV, review the precise publisher and permit descriptive research only when the documented rights allow it. Record ongoing or fixed-term storage as specified in the grant. A transient-only authorization cannot create stored observations. Existing real datasets without bound lineage remain restricted. Start offline with the bundled synthetic fixtures. [ગુજરાતી સેટઅપ](OWNER_SETUP_GUJARATI.md)
 
-The outstanding real-data smoke test needs one genuine file for a completed session, the actual publisher's source documentation and evidence that the applicable rights permit local archival and internal descriptive research. Use an approved local folder and record the retention terms. A file supplied for descriptive research does not establish permission for replay or redistribution.
+The outstanding real-data smoke test needs one genuine file for a completed session, the actual publisher's source documentation and evidence that the applicable rights permit local archival and internal descriptive research. Use an approved local folder and record the retention terms.
+
+To validate authorized intraday simulation with genuine data, obtain explicit backtest rights and documented per-candle publication timestamps from the publisher. Create the reviewed intraday dataset, mapping and calendar and upload the CSV in **Import historical CSV**. Open the importer again with the same complete file, enter the independently reviewed evidence URL and choose **Verify Historical Publication**. The administrator's attestation freezes the dataset. Then use **Run Authorized Historical Replay** with an explicit tariff and review **Authorized Historical Simulations**.
 
 Use **End-of-day File Imports** for legacy NSE cash Bhavcopy or the targeted UDiFF cash profile. An authorized live feed and separately validated financial workflow remain prerequisites for future live decision support.
 

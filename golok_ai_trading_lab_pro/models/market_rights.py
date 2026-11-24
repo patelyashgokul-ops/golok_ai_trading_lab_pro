@@ -69,6 +69,10 @@ class SourceReview(models.Model):
     def _search_readable_now(self, operator, value):
         if operator != "in" or tuple(value) != (True,):
             return NotImplemented
+        return self._readable_domain()
+
+    @api.model
+    def _readable_domain(self):
         today = fields.Date.today()
         return (Domain("revoked_at", "=", False) & Domain("expires", ">=", today)
                 & (Domain("retain_until", "=", False) | Domain("retain_until", ">=", today))

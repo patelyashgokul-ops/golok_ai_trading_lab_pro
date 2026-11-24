@@ -93,6 +93,7 @@ class TradingOverview extends Component {
                 ...(card.key === "instruments" ? [["active", "=", true]] : []),
                 ...(card.key === "quarantined" ? [["quarantined", "=", true]] : []),
                 ...(card.key === "successful_syncs" ? [["state", "=", "complete"]] : []),
+                ...(card.key === "portfolios" ? [["historical_authorized", "=", false]] : []),
             ],
         });
     }

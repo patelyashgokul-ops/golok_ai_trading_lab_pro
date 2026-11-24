@@ -12,6 +12,74 @@ MODULE = "golok_ai_trading_lab_pro"
 
 @tagged("at_install", "-post_install")
 class TestLab(TransactionCase):
+    def test_p08_authorized_replay_requires_verified_publication_and_current_rights(self):
+        files = Path(__file__).parent / "fixtures/p02"
+        spec = json.loads((files / "spec.json").read_text())
+        reference = "https://example.test/fixture-publication"
+        review = self.env["golok.lab.source.review"].with_user(self.admin).create({
+            "provider": "manual", "upstream": "Authored market-contract test",
+            "terms_url": "https://example.test/fixture-terms", "documentation": reference,
+            "evidence": "Generated test grant", "purpose": "Contract testing",
+            "restrictions": "Synthetic input only", "expires": "2099-01-01", "storage_policy": "archive",
+            "query": True, "display": True, "persist": True, "backtest": True, "raw_share_ohlcv": True,
+        })
+        calendar = self.env["golok.lab.calendar"].with_user(self.admin).create({
+            "name": "Contract market calendar", "exchange": "NSE",
+            "verification": "reviewed", "source": "https://www.nseindia.com/market-data",
+            "verified_on": "2024-01-01", "schedule": json.dumps(spec["schedule"]),
+        })
+        mapping = self.env["golok.lab.mapping"].with_user(self.admin).create({
+            "instrument_id": self.instrument.id, "symbol": self.instrument.symbol, "provider": "manual",
+            "token": "991", "starts": "2024-01-01", "tick": "0.05", "listing_status": "listed",
+            "source": reference, "revision": "authored-1", "verification": "reviewed", "isin": "IN0000000001",
+        })
+        dataset = self.env["golok.lab.dataset"].with_user(self.analyst).create({
+            "name": "Authored historical contract", "source": review.upstream,
+            "origin": "imported", "interval": "5m", "instrument_id": self.instrument.id,
+            "calendar_id": calendar.id, "mapping_id": mapping.id,
+        })
+        data = (files / "candles.csv").read_bytes()
+        values = {"dataset_id": dataset.id, "upload": BinaryBytes(data)}
+        importer = self.env["golok.lab.import"]
+        importer.with_user(self.analyst).create(values).action_import()
+        tariff = self.env["golok.lab.tariff"].with_user(self.admin).create({
+            "name": "Historical contract costs", "lines": json.dumps(spec["tariffs"]),
+        })
+        wizard = self.env["golok.lab.portfolio.wizard"].with_user(self.analyst).create({
+            "dataset_ids": [(6, 0, dataset.ids)], "tariff_id": tariff.id, "starts": spec["date"],
+            "ends": spec["date"], "strategy": "ST-01", "target_policy": "fixed_4r",
+        })
+        with self.assertRaises(AccessError):
+            wizard.action_run_authorized_history()
+        with self.assertRaises(AccessError):
+            importer.with_user(self.analyst).create(values).action_attest_publication()
+        verifier = importer.with_user(self.admin)
+        altered = data.replace(b",1000,", b",1001,", 1)
+        bad = verifier.create({**values, "publication_evidence": reference, "upload": BinaryBytes(altered)})
+        with self.assertRaises(ValidationError):
+            bad.action_attest_publication()
+        proof = verifier.create({**values, "publication_evidence": reference})
+        proof.action_attest_publication()
+        proof.action_attest_publication()
+        with self.assertRaises(AccessError):
+            importer.with_user(self.analyst).create(values).action_import()
+        with self.assertRaises(ValidationError):
+            wizard.action_run()
+        action = wizard.action_run_authorized_history()
+        result = self.env[action["res_model"]].with_user(self.analyst).browse(action["res_id"])
+        self.assertEqual(result.id, wizard.action_run_authorized_history()["res_id"])
+        self.assertEqual(json.loads(result.result)["scope"], "AUTHORIZED_HISTORICAL_SIMULATION")
+        self.assertEqual(json.loads(result.specification)["inputs"][0]["verified_dataset_digest"],
+                         dataset.replay_publication_digest)
+        with self.assertRaises(AccessError):
+            result._export_rows([["result"]], _is_toplevel_call=False)
+        review.action_revoke()
+        self.assertFalse(result.search([("id", "=", result.id)]))
+        with self.assertRaises(AccessError):
+            result.read(["result"])
+        with self.assertRaises(AccessError):
+            wizard.action_run_authorized_history()
+
     def test_p08_generated_fixture_lineage_is_immutable_and_idempotent(self):
         from ..models.lab import _input_digest
         from ..services import fixture_generator

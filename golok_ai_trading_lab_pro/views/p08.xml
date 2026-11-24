@@ -24,6 +24,17 @@
             <h2 invisible="not historical_authorized">Authorized Historical Simulation</h2>
         </xpath></field>
     </record>
+    <record id="action_portfolio" model="ir.actions.act_window">
+        <field name="domain">[('historical_authorized','=',False)]</field>
+    </record>
+    <record id="action_authorized_history_results" model="ir.actions.act_window">
+        <field name="name">Authorized Historical Simulations</field>
+        <field name="res_model">golok.lab.portfolio</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('historical_authorized','=',True)]</field>
+    </record>
+    <menuitem id="menu_authorized_history_results" name="Authorized Historical Simulations"
+              parent="menu_lab" action="action_authorized_history_results" sequence="102"/>
     <record id="view_calendar_generate_fixture" model="ir.ui.view">
         <field name="name">golok.lab.calendar.fixture.generation</field><field name="model">golok.lab.calendar</field>
         <field name="inherit_id" ref="view_calendar_form"/>

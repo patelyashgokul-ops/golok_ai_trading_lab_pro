@@ -12,6 +12,8 @@ P07માં **Completed market structure** મૂળ target પદ્ધતિ 
 
 Publisher સુધારેલી દૈનિક ફાઇલ આપે ત્યારે **End-of-day File Imports**માં **Previous File Revision** અને **Publisher Correction Reference** ભરો. Normalize કર્યા પછી સુધારેલી candles અલગ datasetમાં દેખાશે. **Run Synthetic Portfolio**માં server-generated dataset પસંદ કરીને **Test Historical Timing on Generated Fixtures** ચલાવી શકો છો. તેમાં મોડેલ કરેલું publication delay અને તેનો fingerprint સાચવાય છે.
 
+વાસ્તવિક intraday replay માટે publisherની backtest પરવાનગી અને દરેક candleના પ્રકાશન સમયનો પુરાવો મેળવો. Administrator **Import historical CSV**માં મૂળ સંપૂર્ણ CSV અને પુરાવાની HTTPS લિંક આપીને **Verify Historical Publication** કરે. પછી યોગ્ય tariff પસંદ કરીને **Run Authorized Historical Replay** ચલાવો. વિગતવાર પગલાં [Owner actions](OWNER_ACTION_REQUIRED.md)માં છે.
+
 1. તમારા સ્થાનિક Odoo 20નું સામાન્ય launcher ચાલુ કરો અને તેનો localhost સરનામો ખોલો. Appsમાં **Golok AI Trading Lab Pro** ઇન્સ્ટોલ અથવા અપગ્રેડ કરો. સક્રિય કંપની પસંદ કરો અને **Trading Lab → Research Overview** ખોલો.
 2. બ્રોકર વગર અજમાવવા પોતાના બનાવેલા candles માટે **Synthetic fixture** પસંદ કરો. છેલ્લી candleનો સમય, importનો સમય અને data origin અલગથી વાંચો. દૈનિક Bhavcopy સત્ર પૂરું થયા પછીનો ડેટા છે.
 3. **Source Authorizations**માં administrator સ્રોત, ઉપયોગ, શરતો, પુરાવો અને મંજૂરીની અંતિમ તારીખ નોંધે. ક્વેરી, ડિસ્પ્લે અને કાયમી આંતરિક સંગ્રહની મંજૂરી હોય ત્યારે જ તે અધિકારો પસંદ કરો. **End-of-day File Imports**માં સ્રોત, પૂરી થયેલી તારીખ અને NSE કૅલેન્ડર પસંદ કરીને ફાઇલ આપો. **Quarantined** દેખાય તો તારીખ, format અને ભાવ ચકાસો.

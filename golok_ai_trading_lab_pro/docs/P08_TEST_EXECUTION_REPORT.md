@@ -5,14 +5,14 @@ Environment was Windows, Odoo 20 Community, PostgreSQL 18.4, Python 3.11.9 for s
 | Execution | Result | Evidence under docs/evidence/p08 |
 | --- | --- | --- |
 | P07 baseline | CRC, external digest, source and full manifests, 42 tests and both existing replay outcomes verified | baseline/ |
-| P08 pure tests | 44 passed | unit.log |
-| Runtime scan | 58 files checked. Syntax and fixed read-only scope checks passed | source-check.log |
+| P08 pure tests | 47 passed | unit.log |
+| Runtime scan | 61 files checked. Syntax and fixed read-only scope checks passed | source-check.log |
 | First install | Odoo rejected dynamic boolean domain because its search values use a normalized collection | release/installation/fresh.log |
 | Second install | ORM supplemental-view regression exposed missing compute on the search-only authorization flag. SQL search worked, but record-level checks denied a valid fixture. | verified/installation/fresh.log |
-| Final ORM | Both direct record and SQL search paths verified. Fresh install and update ran 16 cases each. | final/installation/ |
-| Independent connections and forced restart | A live PostgreSQL lock was skipped. The separate test process was terminated while holding an uncommitted change, then the queue produced one result. Existing holdout and virtual account races also passed. | final/security/contention.log |
-| Populated migration and benchmark | Upgraded a populated P07 test clone and preserved historical XML IDs and row hashes. The benchmark used 50 instruments and 3,750 synthetic bars. | migration-final/ |
-| Edge | Login, local import, charts, holdout, list drill-downs and database-backed fixture operations exercised | final/browser/edge.log and final/screenshots/ |
+| Final ORM | Fresh install and update ran 20 cases each. Authorized replay, nested export, revocation and historical publication evidence were tested with authored contract data. | sealed-publication/installation/ |
+| Independent connections and forced restart | A separate worker holding an uncommitted change was terminated. The queue produced one result after retry. A committed expired lease was also recovered. | sealed-publication/security/contention.log |
+| Populated migration and benchmark | Upgraded a populated P07 test clone and preserved 802 historical XML IDs and row hashes. The benchmark used 50 instruments and 3,750 synthetic bars. | migration-authorized-replay/ |
+| Edge | 17 checks covered local import, charts, holdout, list drill-downs and fixture generation and replay. | sealed-publication/browser/edge.log and sealed-publication/screenshots/ |
 
 ### Reproduction commands
 
@@ -61,3 +61,17 @@ P08.4 tests deterministic fixture generation, duplicate requests, rejection of f
 The populated P07 clone held six simulation datasets. The migration retained their references and classified all six as simulation. A separate ORM case represents an old market record by removing its review and publication assertions on a disposable test transaction. The first assertion expected the whole metadata row to be hidden and failed. The corrected case verifies that metadata remains available while candles and research are denied.
 
     ./scripts/verify_odoo.ps1 -Browser -ClusterDir .local-test/pg-p08 -EvidenceDir docs/evidence/p08/lineage-final -PostgresPort 55498 -HttpPort 18098 -Database golok_p08_fresh_n
+
+P08.6 tests linked daily corrections, preservation of the original candles, exact retries, and rejection of a predecessor from a different session. It also tests the Odoo historical timing fixture and its frozen dataset fingerprint. The first daily validation run exposed a Python name collision between the translation function and a local unpacked value. The corrected run preserves both the rejection and successful normalization cases.
+
+    ./scripts/verify_odoo.ps1 -Browser -ClusterDir .local-test/pg-p08 -EvidenceDir docs/evidence/p08/revisions-final -PostgresPort 55498 -HttpPort 18098 -Database golok_p08_fresh_p
+    ./scripts/verify_p01_upgrade.ps1 -SourceDatabase golok_p07_fresh_a -TargetDatabase golok_p05_migration_p08k -SourceVersion 20.0.7.0.0 -TargetVersion 20.0.8.6.0 -EvidenceDir docs/evidence/p08/migration-revisions-final -ClusterDir .local-test/pg-p06 -PostgresPort 55497
+
+P08.7 adds the verified-publication Odoo route. Its authored contract case exercises denied use before attestation, an altered file, analyst attempts to attest, idempotent approval, frozen inputs, execution, nested export denial and revocation. The first run found that injecting defaults for group-restricted fields blocked ordinary dataset creation. The fix strips those context defaults and assigns empty fields only for the permitted role.
+
+    ./scripts/verify_odoo.ps1 -Browser -ClusterDir .local-test/pg-p08 -EvidenceDir docs/evidence/p08/replay-rights-final -PostgresPort 55498 -HttpPort 18098 -Database golok_p08_fresh_r
+    ./scripts/verify_p01_upgrade.ps1 -SourceDatabase golok_p07_fresh_a -TargetDatabase golok_p05_migration_p08l -SourceVersion 20.0.7.0.0 -TargetVersion 20.0.8.7.0 -EvidenceDir docs/evidence/p08/migration-authorized-replay -ClusterDir .local-test/pg-p06 -PostgresPort 55497
+
+The next run found that the dataset freeze check was on the quarantine button instead of the shared candle import path. The fix moved the check and its row lock to that shared path.
+
+    ./scripts/verify_odoo.ps1 -Browser -ClusterDir .local-test/pg-p08 -EvidenceDir docs/evidence/p08/sealed-publication -PostgresPort 55498 -HttpPort 18098 -Database golok_p08_fresh_s
