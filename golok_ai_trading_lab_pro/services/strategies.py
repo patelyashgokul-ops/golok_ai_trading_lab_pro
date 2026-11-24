@@ -3,7 +3,7 @@
 from dataclasses import dataclass
 from decimal import Decimal
 
-VERSION = "portfolio-1"
+VERSION = "portfolio-2"
 
 
 @dataclass(frozen=True)
@@ -57,10 +57,34 @@ def range_reversion(bars, session):
     return None
 
 
+def trend_following(bars, session):
+    if len(bars) < 16:
+        return None
+    prior = bars[-16:-1]
+    fast = sum(bar.close for bar in prior[-5:]) / 5
+    slow = sum(bar.close for bar in prior) / 15
+    current = bars[-1]
+    if fast > slow and prior[-1].low <= fast and current.close > prior[-1].high:
+        return min(bar.low for bar in prior[-3:])
+    return None
+
+
+def volume_breakout(bars, session):
+    if len(bars) < 11:
+        return None
+    prior, current = bars[-11:-1], bars[-1]
+    volume = sum(bar.volume for bar in prior)
+    if volume > 0 and current.volume * 5 >= volume and current.close > max(bar.high for bar in prior):
+        return min(bar.low for bar in prior[-3:])
+    return None
+
+
 REGISTRY = {
     row.code: row for row in (
         Strategy("ST-01", "Opening Range Breakout", "Volume confirmed close above the completed opening range.", opening_breakout),
         Strategy("ST-02", "VWAP Pullback", "Continuation after a rising session pulls back to prior approximated VWAP.", vwap_reclaim_pullback),
         Strategy("ST-08", "Mean Reversion", "A range-bound series rejects a downside excursion and closes back inside.", range_reversion),
+        Strategy("ST-04", "Trend Following", "Continuation after pullback in a rising fast/slow average regime.", trend_following),
+        Strategy("ST-06", "Volume Breakout", "Prior ten-bar resistance cleared on twice the prior mean volume.", volume_breakout),
     )
 }

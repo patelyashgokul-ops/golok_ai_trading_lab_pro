@@ -15,7 +15,7 @@ def digest(value):
     return hashlib.sha256(backtest.canonical(value).encode()).hexdigest()
 
 
-STRATEGIES = [("all", "All three"), *((key, key) for key in strategies.REGISTRY)]
+STRATEGIES = [("all", "All experimental strategies"), *((key, key) for key in strategies.REGISTRY)]
 
 
 class Portfolio(models.Model):
