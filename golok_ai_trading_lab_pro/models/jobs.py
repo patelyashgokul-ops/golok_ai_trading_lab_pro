@@ -2,6 +2,8 @@ from datetime import timedelta
 from time import perf_counter
 from uuid import uuid4
 
+from psycopg2.errors import DeadlockDetected, SerializationFailure
+
 from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, UserError, ValidationError
 
@@ -72,6 +74,7 @@ class ResearchJob(models.Model):
             raise UserError(_("Only queued jobs may be cancelled."))
         self.with_context({}).sudo().write({"state": "cancelled", "finished_at": fields.Datetime.now()})
         self.invalidate_recordset(["state", "finished_at"])
+        self.sudo()._publish_terminal_cycle()
         return True
 
     def action_retry(self):
@@ -118,6 +121,7 @@ class ResearchJob(models.Model):
         if job.attempts >= 3:
             job.write({"state": "failed", "finished_at": now, "failure_reason": "Worker recovery attempts exhausted.",
                        "lease_until": False, "worker_token": False})
+            job._publish_terminal_cycle()
             return self.browse()
         job.write({"state": "claimed", "attempts": job.attempts + 1, "lease_until": now + timedelta(minutes=5),
                    "worker_token": uuid4().hex, "started_at": now})
@@ -126,17 +130,27 @@ class ResearchJob(models.Model):
     @api.model
     def _cron_run_durable(self):
         # The lease survives process exit. Result publication and the completed state share a transaction.
-        with self.env.registry.cursor() as cursor:
-            jobs = api.Environment(cursor, self.env.uid, {})[self._name].sudo()
-            job = jobs._claim_job(fields.Datetime.now())
-            identity = (job.id, job.worker_token) if job else None
-            cursor.commit()
-        if not identity:
-            return
-        with self.env.registry.cursor() as cursor:
-            jobs = api.Environment(cursor, self.env.uid, {})[self._name].sudo()
-            jobs._run_claim(*identity)
-            cursor.commit()
+        started = perf_counter()
+        for _index in range(16):
+            with self.env.registry.cursor() as cursor:
+                jobs = api.Environment(cursor, self.env.uid, {})[self._name].sudo()
+                job = jobs._claim_job(fields.Datetime.now())
+                identity = (job.id, job.worker_token) if job else None
+                cursor.commit()
+            if not identity:
+                return
+            for attempt in range(3):
+                try:
+                    with self.env.registry.cursor() as cursor:
+                        jobs = api.Environment(cursor, self.env.uid, {})[self._name].sudo()
+                        jobs._run_claim(*identity)
+                        cursor.commit()
+                    break
+                except (SerializationFailure, DeadlockDetected):
+                    if attempt == 2:
+                        raise
+            if perf_counter() - started >= 10:
+                return
 
     @api.model
     def _run_claim(self, identifier, token):
@@ -152,12 +166,14 @@ class ResearchJob(models.Model):
         self.ensure_one()
         started = perf_counter()
         vals = {}
+        cycle = self._cycle()
+        if cycle:
+            cycle._lock_competition()
         try:
             with self.env.cr.savepoint():
                 requester = self.requested_by
                 if not requester.active:
                     raise AccessError(_("Requester is inactive."))
-                cycle = self.env["golok.lab.research.cycle"].sudo().search([("job_id", "=", self.id)], limit=1)
                 if cycle:
                     cycle.with_company(self.company_id)._validate_execution(requester)
                 run = self.env["golok.lab.run"].with_user(requester).with_context(
@@ -165,7 +181,6 @@ class ResearchJob(models.Model):
                 ).create({"dataset_id": self.dataset_id.id, "as_of": self.cutoff})
                 if cycle:
                     cycle.with_company(self.company_id)._validate_execution(requester)
-                    cycle._publish(run)
                 vals.update(state="completed", run_id=run.id)
         except AccessError:
             vals.update(state="blocked", failure_reason="The request is no longer authorized.")
@@ -173,3 +188,15 @@ class ResearchJob(models.Model):
             vals.update(state="failed", failure_reason="The request no longer meets research eligibility.")
         self.write({**vals, "finished_at": fields.Datetime.now(), "elapsed_ms": 1000 * (perf_counter() - started),
                     "worker_token": False, "lease_until": False})
+        if cycle:
+            cycle._publish_completed()
+
+    def _cycle(self):
+        return self.env["golok.lab.research.cycle"].sudo().with_company(self.company_id).search(
+            [("job_id", "=", self.id)], limit=1)
+
+    def _publish_terminal_cycle(self):
+        cycle = self._cycle()
+        if cycle:
+            cycle._lock_competition()
+            cycle._publish_completed()

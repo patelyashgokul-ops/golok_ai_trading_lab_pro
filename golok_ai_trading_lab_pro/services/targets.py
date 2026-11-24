@@ -37,5 +37,9 @@ def levels(history, entry, stop, release, after_open, exit_cutoff):
 
 
 def rank(sizing, volume):
-    ratio = sizing.reward / sizing.loss if sizing.loss and sizing.reward is not None else Decimal("-1")
-    return ratio >= 3, ratio, sizing.reward or Decimal(0), volume
+    return rank_values(sizing.reward, sizing.loss, volume)
+
+
+def rank_values(reward, loss, volume):
+    ratio = reward / loss if loss and reward is not None else Decimal("-1")
+    return ratio >= 3, ratio, reward or Decimal(0), volume

@@ -6,7 +6,7 @@ from odoo.exceptions import AccessError, ValidationError
 from odoo.fields import Domain
 
 from .lab import _input_digest
-from ..services import fixture_execution, market_data, paper, simulation, strategies
+from ..services import fixture_execution, level_research, market_data, paper, simulation, strategies, targets
 
 
 class FixturePaperAccount(models.Model):
@@ -41,9 +41,9 @@ class FixturePaperAccount(models.Model):
     bound_watch_ids = fields.One2many("golok.lab.session.watch", "paper_account_id")
     watch_ids = fields.Many2many("golok.lab.session.watch", compute="_compute_watches", readonly=False,
                                 string="Automated Fixture Research Schedules")
-    strategy = fields.Selection([(code, item.name) for code, item in strategies.REGISTRY.items()], default="ST-01")
-    target_policy = fields.Selection([("structure", "Completed market structure"), ("fixed_4r", "Fixed 4R benchmark")],
-                                     default="structure")
+    strategy = fields.Selection([("all", "Compete across all five strategies"),
+                                 *((code, item.name) for code, item in strategies.REGISTRY.items())], default="ST-01")
+    target_policy = fields.Selection(list(targets.POLICY_CHOICES), default="structure")
 
     _cash = models.Constraint("CHECK(available >= 0 AND reserved >= 0 AND position_cost >= 0 AND planned_risk >= 0)",
                               "Invalid fixture cash or risk balance.")
@@ -253,8 +253,7 @@ class FixturePaperAccount(models.Model):
         ]) & isolation, order="open_time, id", limit=400)
 
     def _assess_candidate(self, cycle, run, now):
-        # This method is private and called only by the durable research job.
-        self._lock()
+        # The competition caller holds the account and instrument guards.
         dataset = cycle.dataset_id
         session = dataset.calendar_id._sessions().get(cycle.day)
         scope = {"strategy": self.strategy, "strategy_version": strategies.VERSION, "target_policy": self.target_policy,
@@ -274,9 +273,6 @@ class FixturePaperAccount(models.Model):
         scope["observation"] = rows[-1].id
         if at - bars[-1].close_time > timedelta(seconds=seconds):
             return scope, None, "STALE_OBSERVATION"
-        levels = fixture_execution.proposed_levels(strategies.REGISTRY[self.strategy], bars, session, self.target_policy, at)
-        if not levels:
-            return scope, None, "NO_CAUSAL_SIGNAL_OR_TARGET"
         if self.order_ids.filtered(lambda row: row.state in ("pending", "open", "unresolved")):
             return scope, None, "EXPOSURE_EXISTS"
         if self.day and cycle.day < self.day:
@@ -287,25 +283,59 @@ class FixturePaperAccount(models.Model):
         entries = 0 if day_changed else self.entries
         if entries >= 3 or self.loss_streak >= 2 or daily_realized * 100 <= -daily_open:
             return scope, None, "DAILY_OR_CONSECUTIVE_LOSS_LIMIT"
-        entry, stop, target = levels
         tick = Decimal(dataset.mapping_id.tick) if dataset.mapping_id else Decimal(".05")
         exchange = dataset.instrument_id.exchange
         costs = self.tariff_id._schedule()
         policy = simulation.RiskPolicy(capital=Decimal(min(self.available, daily_open)) / 100)
-        size = simulation.size_long(entry, stop, target, tick, bars[-1].volume, cycle.day, exchange, costs, policy)
-        if not size.quantity:
-            return scope, None, size.reason
+        expiry = min(session.entry_cutoff, at + timedelta(seconds=2 * seconds))
+        choices = sorted(strategies.REGISTRY) if self.strategy == "all" else (self.strategy,)
+        contenders, trials = [], []
+        for code in choices:
+            strategy = strategies.REGISTRY[code]
+            proposal = None
+            if self.target_policy == targets.JOINT_POLICY:
+                baseline = strategy.signal(bars, session)
+                if baseline is None:
+                    trial = {"strategy": code, "reason": "NO_SIGNAL"}
+                    trials.append(trial)
+                    continue
+                proposal = level_research.evaluate(bars, session, at + timedelta(microseconds=1), expiry,
+                                                   baseline, tick, exchange, costs, policy)
+                selected = proposal.get("selected")
+                levels = (selected["limit"], selected["stop"], selected["target"]) if selected else None
+            else:
+                levels = fixture_execution.proposed_levels(strategy, bars, session, self.target_policy, at)
+                if levels and self.target_policy == "atr_barrier":
+                    entry, stop, target = levels
+                    levels = entry, stop, target // tick * tick
+            if not levels:
+                trials.append({"strategy": code, "reason": "NO_CAUSAL_SIGNAL_OR_TARGET"})
+                continue
+            entry, stop, target = levels
+            size = simulation.size_long(entry, stop, target, tick, bars[-1].volume, cycle.day, exchange, costs, policy)
+            trials.append({"strategy": code, "reason": size.reason})
+            if size.quantity:
+                contenders.append((targets.rank(size, bars[-1].volume), code, levels, size, proposal))
+        scope["strategy_trials"] = trials
+        if not contenders:
+            reason = trials[0]["reason"] if len(trials) == 1 else "NO_CAUSAL_SIGNAL_OR_TARGET"
+            return scope, None, "NO_CAUSAL_SIGNAL_OR_TARGET" if reason == "NO_SIGNAL" else reason
+        _rank, code, (entry, stop, target), size, proposal = max(contenders, key=lambda candidate: candidate[0])
+        scope["strategy"] = code
         fee = paper.paise(sum(costs.fees(cycle.day, exchange, "buy", entry, size.quantity).values()))
         risk = paper.paise(size.loss)
         if risk + self.planned_risk - min(daily_realized, 0) > daily_open // 100:
             return scope, None, "DAILY_RISK_BUDGET"
-        scope.update(entry=str(entry), stop=str(stop), target=str(target), quantity=size.quantity,
+        scope.update(entry=str(entry), stop=str(stop), target=str(target), quantity=size.quantity, volume=bars[-1].volume,
                      reward=str(size.reward), loss=str(size.loss), reward_to_risk=str(size.reward / size.loss),
                      estimated_entry_fee_paise=fee, execution_policy="fixture-candle-1")
+        if proposal:
+            scope.update(entry_floor=str(proposal["range"][0]), level_version=proposal["version"],
+                         entry_method=proposal["selected"]["entry_method"], stop_method=proposal["selected"]["stop_method"])
         plan = {"scenario": "observations", "dataset_id": dataset.id, "state": "pending", "quantity": size.quantity,
                 "risk": risk, "reserved": paper.paise(entry * size.quantity) + fee, "entry_fee": fee,
                 "limit_price": str(entry), "stop_price": str(stop), "target_price": str(target),
-                "expires": min(session.entry_cutoff, at + timedelta(seconds=2 * seconds)).replace(tzinfo=None)}
+                "expires": expiry.replace(tzinfo=None)}
         settings = {"day": cycle.day, "daily_open": daily_open, "daily_realized": daily_realized, "entries": entries}
         return scope, (plan, settings), "FIXTURE_RISK_AND_COST_CHECKS_PASSED"
 
@@ -356,6 +386,9 @@ class FixturePaperAccount(models.Model):
             examined = row
             value = fixture_execution.entry_price(row._to_bar(), Decimal(order.limit_price),
                                                    Decimal(order.stop_price), order.quantity)
+            floor = order.candidate_id.evidence["fixture_plan"].get("entry_floor")
+            if value is not None and floor is not None and value < Decimal(floor):
+                value = None
             if value is None:
                 continue
             fee = paper.paise(sum(self.tariff_id._schedule().fees(

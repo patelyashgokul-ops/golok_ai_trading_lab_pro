@@ -5,7 +5,7 @@ from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.fields import Domain
 
-from ..services import calendar, decision, market_data, session_clock, strategies
+from ..services import calendar, decision, market_data, session_clock, strategies, targets
 
 
 PHASES = [(value, label) for value, label in (
@@ -264,12 +264,60 @@ class ResearchCycle(models.Model):
         if not available:
             raise AccessError(_("The scheduled observation is no longer eligible."))
 
-    def _publish(self, run):
+    def _lock_competition(self):
         self.ensure_one()
-        if self.candidate_ids:
-            if self.candidate_ids.input_digest != run.input_digest:
-                raise ValidationError(_("A different input cannot replace a published research outcome."))
+        account = self.watch_id.sudo().paper_account_id
+        if account:
+            self.env["golok.lab.replay.guard"]._lock(account.bound_watch_ids.dataset_id.instrument_id)
+
+    def _publish_completed(self):
+        """Publish an account's exact-cutoff cohort in one transaction."""
+        self.ensure_one()
+        account = self.watch_id.sudo().paper_account_id
+        now = fields.Datetime.now()
+        if not account:
+            if self.run_id and not self.candidate_ids:
+                self._save_candidate(self.run_id, account, now, {}, None, {},
+                                     "Descriptive fixture research has no bound paper account.")
             return
+        cohort = self.search([("company_id", "=", self.company_id.id), ("day", "=", self.day),
+                              ("watch_id", "in", account.bound_watch_ids.ids), ("cutoff", "=", self.cutoff)])
+        if any(job.state in ("queued", "claimed") for job in cohort.job_id):
+            return
+        closed_cohort = bool(cohort.candidate_ids)
+        profiles = []
+        for cycle in cohort.sorted(lambda row: (row.dataset_id.instrument_id.symbol, row.dataset_id.id)):
+            job = cycle.job_id
+            if not job.run_id or cycle.candidate_ids:
+                continue
+            requester = job.requested_by
+            scoped = cycle.with_company(cycle.company_id)
+            run = job.run_id.with_user(requester).with_company(cycle.company_id)
+            operator_account = scoped.watch_id._fixture_account(requester)
+            if not operator_account or not requester.active:
+                continue
+            try:
+                scoped._validate_execution(requester)
+            except AccessError:
+                continue
+            operator_account._lock()
+            scope, reservation, reason = operator_account._assess_candidate(scoped, run, now)
+            checks = scoped._candidate_checks(run, operator_account, scope, reservation, now)
+            rank = (targets.rank_values(Decimal(scope["reward"]), Decimal(scope["loss"]), scope["volume"])
+                    if reservation and all(checks.values()) else None)
+            profiles.append((scoped, run, operator_account, scope, reservation, checks, reason, rank))
+        winner = max((item for item in profiles if item[-1] is not None), key=lambda item: item[-1], default=None)
+        for profile in profiles:
+            cycle, run, operator_account, scope, reservation, checks, reason, rank = profile
+            scope["competition"] = {"cutoff": fields.Datetime.to_string(self.cutoff), "cycle_ids": sorted(cohort.ids),
+                                    "winning_cycle_id": winner[0].id if winner and not closed_cohort else None}
+            if rank is not None and (profile is not winner or closed_cohort):
+                checks["G11"] = ("Other or finalized candidate", "One account reservation per cutoff", False)
+                reason = "COHORT_ALREADY_FINALIZED" if closed_cohort else "OUTRANKED_IN_COHORT"
+            cycle._save_candidate(run, operator_account, now, scope, reservation, checks, reason)
+
+    def _candidate_checks(self, run, account, scope, reserved, generated):
+        self.ensure_one()
         checks = {
             "G01": run.dataset_id.origin == "synthetic",
             "G02": bool(run.dataset_id.instrument_id),
@@ -277,13 +325,6 @@ class ResearchCycle(models.Model):
             "G04": bool(run.bar_count and not run.gap_count),
             "G05": self.available_at <= self.cutoff,
         }
-        account = self.watch_id._fixture_account(run.env.user)
-        generated = fields.Datetime.now()
-        scope = {}
-        reserved = None
-        reason = "Descriptive fixture research has no bound paper account."
-        if account:
-            scope, reserved, reason = account._assess_candidate(self, run, generated)
         if reserved:
             plan, settings = reserved
             checks.update({
@@ -297,7 +338,12 @@ class ResearchCycle(models.Model):
                 "G13": scope["observation"] == self.observation_id.id and len(scope["signal_sha256"]) == 64,
                 "G14": self.watch_id in account.bound_watch_ids and account.company_id == self.company_id,
             })
-        permitted = bool(reserved) and all(checks.values())
+        return checks
+
+    def _save_candidate(self, run, account, generated, scope, reserved, checks, reason):
+        if not checks:
+            checks = self._candidate_checks(run, account, scope, reserved, generated)
+        permitted = bool(reserved) and all(value is True for value in checks.values())
         evaluation = decision.evaluate(checks, mode="synthetic_replay" if permitted else "fixture_research",
                                        context={"dataset_version": scope.get("signal_sha256", run.input_digest),
                                                 "execution_scope": "PROSPECTIVE_FIXTURE" if account else "DESCRIPTIVE_FIXTURE"})
