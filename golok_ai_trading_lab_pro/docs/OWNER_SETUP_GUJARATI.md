@@ -6,6 +6,8 @@ P08માં **Research Schedules** ખોલીને fixture calendar ધર�
 
 મંજૂરીમાં સંગ્રહની છેલ્લી તારીખ હોય તો **Fixed-term storage** પસંદ કરીને તારીખ નોંધો. મુદત પૂરી થયા પછી datasetનો ઉપયોગ અટકે છે. **Compare Sources**માં એક જ instrument અને સમયની બે observations સરખાવી શકો છો. ગંભીર તફાવત મળે તો નવું research અને replay અટકે છે.
 
+પોતે બનાવેલો synthetic dataset મેળવવા **Exchange Calendars**માં પૂર્ણ થયેલા fixture sessions ધરાવતું calendar ખોલીને **Generate Deterministic Fixture** દબાવો. Datasetમાં generatorનું version, seed અને SHA-256 દેખાશે. આ માટે broker account જરૂરી નથી.
+
 P07માં **Completed market structure** મૂળ target પદ્ધતિ છે. યોગ્ય target ન મળે તો નિર્ણય **NO TRADE** રહે છે. અગાઉના synthetic પરિણામ સાથે સરખાવવા **Fixed 4R benchmark** પસંદ કરી શકો છો. વાસ્તવિક market CSV આયાત પહેલાં **Source Authorizations**માં સક્રિય પરવાનગી નોંધો.
 
 1. તમારા સ્થાનિક Odoo 20નું સામાન્ય launcher ચાલુ કરો અને તેનો localhost સરનામો ખોલો. Appsમાં **Golok AI Trading Lab Pro** ઇન્સ્ટોલ અથવા અપગ્રેડ કરો. સક્રિય કંપની પસંદ કરો અને **Trading Lab → Research Overview** ખોલો.

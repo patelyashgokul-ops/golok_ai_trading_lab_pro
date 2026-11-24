@@ -1,4 +1,22 @@
 <odoo>
+    <record id="view_calendar_generate_fixture" model="ir.ui.view">
+        <field name="name">golok.lab.calendar.fixture.generation</field><field name="model">golok.lab.calendar</field>
+        <field name="inherit_id" ref="view_calendar_form"/>
+        <field name="arch" type="xml"><xpath expr="//sheet" position="before"><header>
+            <button name="action_generate_fixture" type="object" string="Generate Deterministic Fixture"
+                    invisible="not id or verification != 'fixture'" groups="golok_ai_trading_lab_pro.group_admin"/>
+        </header></xpath></field>
+    </record>
+    <record id="view_dataset_fixture_lineage" model="ir.ui.view">
+        <field name="name">golok.lab.dataset.fixture.lineage</field><field name="model">golok.lab.dataset</field>
+        <field name="inherit_id" ref="view_dataset"/>
+        <field name="arch" type="xml"><field name="origin" position="after">
+            <field name="fixture_version" readonly="1" invisible="not fixture_version"/>
+            <field name="fixture_seed" readonly="1" invisible="not fixture_version"/>
+            <field name="fixture_digest" readonly="1" invisible="not fixture_version"/>
+            <field name="integrity_conflict" readonly="1" invisible="not integrity_conflict"/>
+        </field></field>
+    </record>
     <record id="view_review_lineage" model="ir.ui.view">
         <field name="name">golok.lab.source.review.lineage</field><field name="model">golok.lab.source.review</field>
         <field name="inherit_id" ref="view_source_review_form"/>

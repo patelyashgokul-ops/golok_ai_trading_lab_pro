@@ -219,6 +219,13 @@ def verify(base_url, database, edge):
         expect(page.locator(".o_list_view")).to_contain_text("Fixture-only research")
         page.screenshot(path=EVIDENCE / "screenshots/daily-research-operations.png")
         print("UI-15 persisted fixture-only operational status and NO TRADE visible in native dashboard", flush=True)
+        page.goto(f"{base_url}/odoo/action-{xml_id('action_calendar')}")
+        page.locator(".o_list_view").get_by_text("Browser portfolio calendar", exact=True).click()
+        page.get_by_role("button", name="Generate Deterministic Fixture").click()
+        expect(page.locator(".o_form_view [name=fixture_version]")).to_contain_text("fixture-1")
+        expect(page.locator(".o_form_view [name=fixture_digest]")).to_contain_text(re.compile(r"[0-9a-f]{64}"))
+        page.screenshot(path=EVIDENCE / "screenshots/generated-fixture.png")
+        print("UI-16 deterministic fixture generated and immutable provenance displayed", flush=True)
         browser.close()
 
 

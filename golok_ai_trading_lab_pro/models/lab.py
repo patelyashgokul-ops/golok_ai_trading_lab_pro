@@ -9,7 +9,7 @@ from odoo import _, api, fields, models
 from odoo.fields import Domain
 from odoo.exceptions import AccessError, UserError, ValidationError
 
-from ..services import calendar, indicators, market_data, research
+from ..services import calendar, fixture_generator, indicators, market_data, research
 
 
 def _input_digest(bars, revision):
@@ -65,6 +65,42 @@ class ExchangeCalendar(models.Model):
         except ValueError as exc:
             raise ValidationError(str(exc)) from None
 
+    def action_generate_fixture(self):
+        self.ensure_one()
+        self.check_access("read")
+        if (self.company_id != self.env.company or self.verification != "fixture"
+                or not self.env.user.has_group("golok_ai_trading_lab_pro.group_admin")):
+            raise AccessError(_("Only an active-company administrator may generate from a fixture calendar."))
+        self.env.cr.execute("SELECT id FROM golok_lab_calendar WHERE id=%s FOR UPDATE", (self.id,))
+        datasets = self.env["golok.lab.dataset"]
+        label = f"Authored {fixture_generator.VERSION} calendar {self.id}"
+        result = datasets.search([("company_id", "=", self.company_id.id), ("calendar_id", "=", self.id),
+                                  ("fixture_version", "=", fixture_generator.VERSION)], limit=1)
+        if not result:
+            try:
+                sessions = self._sessions()
+                now = fields.Datetime.now().replace(tzinfo=timezone.utc)
+                if any(session.closing and session.closing > now for session in sessions.values()):
+                    raise ValueError("Choose only completed synthetic sessions.")
+                bars = fixture_generator.generate(sessions)
+            except ValueError as exc:
+                raise ValidationError(str(exc)) from None
+            symbol = f"SYN-P08-{self.id}"
+            instrument = self.env["golok.lab.instrument"].with_context(active_test=False).search([
+                ("company_id", "=", self.company_id.id), ("exchange", "=", self.exchange), ("symbol", "=", symbol)], limit=1)
+            if instrument:
+                raise ValidationError(_("The reserved synthetic instrument symbol already exists."))
+            instrument = self.env["golok.lab.instrument"].create({"name": symbol, "symbol": symbol, "exchange": self.exchange})
+            result = datasets.sudo().create({
+                "name": label, "source": label, "origin": "synthetic", "interval": "5m",
+                "instrument_id": instrument.id, "calendar_id": self.id, "company_id": self.company_id.id,
+                "fixture_version": fixture_generator.VERSION, "fixture_seed": fixture_generator.SEED,
+                "fixture_digest": _input_digest(bars, self),
+            })
+            result._import_bars(bars)
+        return {"type": "ir.actions.act_window", "res_model": datasets._name,
+                "res_id": result.id, "views": [(False, "form")]}
+
 
 class Instrument(models.Model):
     _name = "golok.lab.instrument"
@@ -106,6 +142,9 @@ class Dataset(models.Model):
     publication_basis = fields.Selection([("fixture", "Simulation input"), ("operator", "Operator timestamps"),
                                           ("receipt", "First observed receipt")], readonly=True)
     protected_read = fields.Boolean(compute="_compute_protected_read", search="_search_protected_read")
+    fixture_version = fields.Char(readonly=True)
+    fixture_seed = fields.Integer(readonly=True)
+    fixture_digest = fields.Char(readonly=True)
 
     _identity = models.Constraint(
         "UNIQUE(company_id, instrument_id, source, origin, interval)", "This source and interval are already registered."
@@ -117,7 +156,8 @@ class Dataset(models.Model):
         if any(vals.get("quarantined") or vals.get("integrity_conflict") for vals in vals_list):
             raise ValidationError(_("Use the administrator quarantine operation."))
         for vals in vals_list:
-            if not self.env.su and {"source_review_id", "publication_basis"} & vals.keys():
+            if not self.env.su and {"source_review_id", "publication_basis", "fixture_version",
+                                    "fixture_seed", "fixture_digest"} & vals.keys():
                 raise AccessError(_("Lineage is assigned by the server."))
             if vals.get("origin") == "imported" and not vals.get("source_review_id"):
                 review = self.env["golok.lab.source.review"]._authorize(
@@ -126,7 +166,8 @@ class Dataset(models.Model):
             if vals.get("origin") == "synthetic":
                 vals.update(source_review_id=False, publication_basis="fixture")
         return super(Dataset, self.with_context(default_quarantined=False, default_integrity_conflict=False, default_source_review_id=False,
-                                                default_publication_basis=False)).create(vals_list)
+                                                default_publication_basis=False, default_fixture_version=False,
+                                                default_fixture_seed=0, default_fixture_digest=False)).create(vals_list)
 
     def _search_protected_read(self, operator, value):
         if operator != "in" or tuple(value) != (True,):
@@ -185,6 +226,8 @@ class Dataset(models.Model):
     def _import_bars(self, bars):
         self.ensure_one()
         self.check_access("write")
+        if self.fixture_version and not self.env.su:
+            raise AccessError(_("Generated fixture observations are immutable."))
         if self.quarantined:
             raise ValidationError(_("The dataset is quarantined."))
         self._permit("import")

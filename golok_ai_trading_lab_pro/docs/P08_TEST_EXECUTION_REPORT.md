@@ -46,3 +46,12 @@ P08.3 verifies committed lease expiry and recovery, rejection of an obsolete wor
 
     ./scripts/verify_odoo.ps1 -Browser -ClusterDir .local-test/pg-p08 -EvidenceDir docs/evidence/p08/final-durable -PostgresPort 55498 -HttpPort 18098 -Database golok_p08_fresh_j
     ./scripts/verify_p01_upgrade.ps1 -SourceDatabase golok_p07_fresh_a -TargetDatabase golok_p05_migration_p08g -SourceVersion 20.0.7.0.0 -TargetVersion 20.0.8.3.0 -EvidenceDir docs/evidence/p08/migration-durable -ClusterDir .local-test/pg-p06 -PostgresPort 55497
+
+The owner-controls run adds administrator-only manual check, pause and resume, and a split exceptional session. Fixtures verify a closed-day report and a maintenance period with no research run.
+
+    ./scripts/verify_odoo.ps1 -ClusterDir .local-test/pg-p06 -EvidenceDir docs/evidence/p08/owner-controls -PostgresPort 55497 -HttpPort 18097 -Database golok_p08_fresh_k
+
+P08.4 tests deterministic fixture generation, duplicate requests, rejection of forged lineage and protection against ordinary candle imports. Edge uses the native calendar button and opens the generated dataset's fingerprint.
+
+    ./scripts/verify_odoo.ps1 -Browser -ClusterDir .local-test/pg-p08 -EvidenceDir docs/evidence/p08/generated-fixture -PostgresPort 55498 -HttpPort 18098 -Database golok_p08_fresh_l
+    ./scripts/verify_p01_upgrade.ps1 -SourceDatabase golok_p07_fresh_a -TargetDatabase golok_p05_migration_p08h -SourceVersion 20.0.7.0.0 -TargetVersion 20.0.8.4.0 -EvidenceDir docs/evidence/p08/migration-fixture -ClusterDir .local-test/pg-p06 -PostgresPort 55497

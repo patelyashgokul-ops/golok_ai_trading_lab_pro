@@ -12,6 +12,32 @@ MODULE = "golok_ai_trading_lab_pro"
 
 @tagged("at_install", "-post_install")
 class TestLab(TransactionCase):
+    def test_p08_generated_fixture_lineage_is_immutable_and_idempotent(self):
+        from ..models.lab import _input_digest
+        from ..services import fixture_generator
+
+        spec = json.loads((Path(__file__).parent / "fixtures/p02/spec.json").read_text())
+        revision = self.env["golok.lab.calendar"].with_user(self.admin).create({
+            "name": "Generated fixture", "source": "Authored regression", "exchange": "NSE", "verification": "fixture",
+            "verified_on": "2024-01-01", "schedule": json.dumps(spec["schedule"])})
+        with self.assertRaises(AccessError):
+            revision.with_user(self.analyst).action_generate_fixture()
+        action = revision.action_generate_fixture()
+        self.assertEqual(revision.action_generate_fixture()["res_id"], action["res_id"])
+        dataset = self.env["golok.lab.dataset"].with_user(self.analyst).browse(action["res_id"])
+        self.assertTrue(dataset.instrument_id.symbol.startswith("SYN-P08-"))
+        self.assertEqual((dataset.fixture_version, dataset.fixture_seed), (fixture_generator.VERSION, fixture_generator.SEED))
+        rows = self.env["golok.lab.candle"].with_user(self.analyst).search(
+            [("dataset_id", "=", dataset.id)], order="close_time")
+        self.assertEqual(dataset.fixture_digest, _input_digest([row._to_bar() for row in rows], revision))
+        self.assertEqual([row._to_bar() for row in rows], fixture_generator.generate(revision._sessions()))
+        with self.assertRaises(AccessError):
+            dataset._import_bars([rows[0]._to_bar()])
+        with self.assertRaises(AccessError):
+            self.env["golok.lab.dataset"].with_user(self.analyst).create({
+                "name": "Forged", "source": "Forged", "origin": "synthetic", "interval": "5m",
+                "instrument_id": self.instrument.id, "fixture_version": fixture_generator.VERSION})
+
     def test_p07_manual_market_csv_requires_active_company_grant(self):
         analyst = self.env["golok.lab.dataset"].with_user(self.analyst)
         dataset_values = {"name": "External source fixture", "source": "Licensed source test",

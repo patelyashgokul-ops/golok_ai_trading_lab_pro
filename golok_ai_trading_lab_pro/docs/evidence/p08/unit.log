@@ -47,6 +47,6 @@ test_intraday_contract_never_executes_at_or_before_publication (unit_p08.P08Test
 test_storage_disposition_is_bounded_by_declared_rights (unit_p08.P08Tests.test_storage_disposition_is_bounded_by_declared_rights) ... ok
 
 ----------------------------------------------------------------------
-Ran 47 tests in 0.191s
+Ran 47 tests in 0.216s
 
 OK
