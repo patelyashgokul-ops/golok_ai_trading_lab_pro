@@ -8,6 +8,7 @@ from urllib.parse import urlsplit
 
 from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, ValidationError
+from odoo.fields import Domain
 
 from ..services import bhavcopy, providers
 
@@ -42,6 +43,22 @@ class SourceReview(models.Model):
     upstream = fields.Char(help="Exact documented publisher identity for manual CSV.")
     revoked_at = fields.Datetime(readonly=True)
     retain_until = fields.Date(help="Optional date after which application access is blocked.")
+    readable_now = fields.Boolean(compute="_compute_readable_now", search="_search_readable_now")
+
+    @api.depends("revoked_at", "expires", "retain_until", "display")
+    def _compute_readable_now(self):
+        today = fields.Date.today()
+        for review in self:
+            review.readable_now = bool(not review.revoked_at and review.expires and review.expires >= today
+                                       and (not review.retain_until or review.retain_until >= today) and review.display)
+
+    def _search_readable_now(self, operator, value):
+        if operator != "in" or tuple(value) != (True,):
+            return NotImplemented
+        today = fields.Date.today()
+        return (Domain("revoked_at", "=", False) & Domain("expires", ">=", today)
+                & (Domain("retain_until", "=", False) | Domain("retain_until", ">=", today))
+                & Domain("display", "=", True))
     storage_policy = fields.Selection([("unknown", "Unverified"), ("archive", "Ongoing internal archival permitted")],
                                       default="unknown", required=True)
 

@@ -104,7 +104,7 @@ class Dataset(models.Model):
     source_review_id = fields.Many2one("golok.lab.source.review", readonly=True, check_company=True, ondelete="restrict")
     publication_basis = fields.Selection([("fixture", "Simulation input"), ("operator", "Operator timestamps"),
                                           ("receipt", "First observed receipt")], readonly=True)
-    protected_read = fields.Boolean(search="_search_protected_read")
+    protected_read = fields.Boolean(compute="_compute_protected_read", search="_search_protected_read")
 
     _identity = models.Constraint(
         "UNIQUE(company_id, instrument_id, source, origin, interval)", "This source and interval are already registered."
@@ -128,17 +128,19 @@ class Dataset(models.Model):
                                                 default_publication_basis=False)).create(vals_list)
 
     def _search_protected_read(self, operator, value):
-        if operator != "in" or value != [True]:
+        if operator != "in" or tuple(value) != (True,):
             return NotImplemented
-        today = fields.Date.today()
-        review = (Domain("revoked_at", "=", False) & Domain("expires", ">=", today)
-                  & (Domain("retain_until", "=", False) | Domain("retain_until", ">=", today))
-                  & Domain("display", "=", True))
-        return Domain("origin", "=", "synthetic") | Domain("source_review_id", "any!", review)
+        return (Domain("origin", "=", "synthetic")
+                | Domain("source_review_id", "any!", Domain("readable_now", "=", True)))
+
+    @api.depends("origin", "source_review_id.readable_now")
+    def _compute_protected_read(self):
+        for dataset in self:
+            dataset.protected_read = dataset.origin == "synthetic" or dataset.sudo().source_review_id.readable_now
 
     def _permit(self, purpose):
         self.ensure_one()
-        if self.company_id != self.env.company or self.quarantined:
+        if (not self.env.su and self.company_id != self.env.company) or self.quarantined:
             raise AccessError(_("The dataset is unavailable for this operation."))
         if self.origin == "synthetic" and purpose in ("import", "research"):
             return

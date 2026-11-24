@@ -9,4 +9,5 @@ from . import sync
 from . import portfolio
 from . import market_rights
 from . import holdout
+from . import session_ops
 from . import sync_plan

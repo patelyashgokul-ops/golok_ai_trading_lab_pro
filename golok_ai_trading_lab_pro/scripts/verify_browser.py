@@ -211,6 +211,14 @@ def verify(base_url, database, edge):
         expect(page.get_by_role("heading", name="Synthetic Portfolio Replay")).to_be_visible()
         expect(page.locator(".o_form_view [name=result]")).to_contain_text("SYNTHETIC_SOFTWARE_ONLY")
         print("UI-14 risk-authorized holdout consumed through native form and result displayed", flush=True)
+        watch = call("golok.lab.session.watch", "create", {"dataset_id": datasets[0]})
+        action = call("golok.lab.session.watch", "action_check_now", [watch])
+        assert action["res_model"] == "golok.lab.session.event"
+        page.goto(f"{base_url}/odoo/action-{xml_id('action_session_event')}")
+        expect(page.locator(".o_list_view")).to_contain_text("NO TRADE")
+        expect(page.locator(".o_list_view")).to_contain_text("Fixture-only research")
+        page.screenshot(path=EVIDENCE / "screenshots/daily-research-operations.png")
+        print("UI-15 persisted fixture-only operational status and NO TRADE visible in native dashboard", flush=True)
         browser.close()
 
 

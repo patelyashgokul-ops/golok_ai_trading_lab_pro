@@ -16030,3 +16030,1941 @@ Do not promise that any strategy will generate future profits.
 Implement, test, repair, document and package the actual P07 development.
 
 **BEGIN P07 DEVELOPMENT NOW.**
+
+## P08 specification addition
+
+# MASTER AGENTIC DEVELOPMENT PROMPT 08
+
+# GOLOK AI TRADING LAB PRO
+
+## Unified Market Data Foundation, Central Authorization Enforcement, Automated Daily Research, Persistent Job Recovery and Authorized Historical Replay
+
+---
+
+## 1. ROLE AND RESPONSIBILITY
+
+Act as a senior implementation team consisting of:
+
+- Principal Odoo Community Architect.
+- Senior Python Software Engineer.
+- Financial Market Data Engineer.
+- Quantitative Research Engineer.
+- PostgreSQL Database Engineer.
+- Financial Risk Management Engineer.
+- Native OWL Frontend Developer.
+- Cybersecurity Engineer.
+- Automated Testing Engineer.
+- Release Engineer.
+
+You are responsible for implementing actual working functionality in the existing repository.
+
+Do not return only architectural proposals, sample code, pseudocode or recommendations.
+
+Inspect, implement, execute, test, repair, verify and document.
+
+This milestone continues P01–P07.
+
+---
+
+## 2. IMPORTANT DEVELOPMENT STRATEGY CHANGE
+
+Previous milestones attempted too many features simultaneously.
+
+P07 delivered 42 PASSED, 33 PARTIAL, 2 BLOCKED and 23 NOT_RUN acceptance criteria.
+
+Despite seven milestones, the system still has:
+
+- Zero authorized genuine market-data acquisitions.
+- Zero financially validated strategies.
+- No completed session-aware automatic research scheduler.
+- No verified prospective paper-trading workflow.
+- No generalized authorized historical replay.
+- Incomplete data-rights enforcement.
+
+P08 must prioritize completing a small number of essential end-to-end workflows.
+
+Do not prioritize adding more trading strategies, decorative dashboards or new placeholder models.
+
+Complete the critical infrastructure that all future strategies depend upon.
+
+The required P08 vertical slices are:
+
+1. Unified authorization and dataset pipeline.
+2. Session-aware automatic research and durable recovery.
+3. Authorized historical replay preparation and verified operation when permitted data is available.
+4. Native operational dashboard and owner usability.
+5. Actual regression, security and migration evidence.
+
+Complete each vertical slice through models, services, security, UI and actual tests.
+
+Do not leave every major feature partially implemented.
+
+---
+
+## 3. PROJECT ENVIRONMENT
+
+| Property | Requirement |
+|---|---|
+| Product | Golok AI Trading Lab Pro |
+| Company | Golok Technology |
+| Technical Name | golok_ai_trading_lab_pro |
+| Platform | Existing Odoo 20 Community |
+| Backend | Python |
+| Database | PostgreSQL |
+| Frontend | Native OWL |
+| Deployment | Localhost |
+| Operating System | Windows |
+| Timezone | Asia/Kolkata |
+| Market | Indian NSE cash equities |
+| Currency | INR |
+| Internet | Jio Mobile Hotspot |
+| Static Public IP | Not available |
+| Real Automatic Trading | Prohibited |
+| Mandatory Paid AI | Prohibited |
+| Mandatory Paid Market Data | Prohibited |
+
+Expected module location:
+
+`C:/PycharmProjects/odoo20/custom_addons/golok_ai_trading_lab_pro`
+
+Reported hardware:
+
+- Intel Core i5-10210U.
+- Four physical CPU cores.
+- Eight logical processors.
+- 16 GB RAM.
+- Integrated Intel UHD graphics.
+
+Inspect and verify the actual environment.
+
+No GPU, local LLM, paid AI API or mandatory cloud service may be introduced.
+
+---
+
+## 4. VERIFIED P07 BASELINE
+
+P07 review independently established:
+
+- ZIP entries: 356.
+- Complete manifest entries verified: 355.
+- Source manifest entries verified: 79.
+- External SHA-256 matched.
+- Python standalone tests rerun: 42.
+- Python standalone tests passed: 42.
+- Source inspection script checked 54 runtime source files.
+- Python AST parsing passed.
+- XML basic parsing passed.
+- Both synthetic target-comparison results reproduced exactly.
+
+P07 archive SHA-256:
+
+`6d22cafa497acecdf6cf26917fd39e1a598618e8e06f6e90f15d926eb4952a2b`
+
+Reported environment-specific execution evidence:
+
+- 15 fresh Odoo tests passed.
+- 15 update Odoo tests passed.
+- 14 Edge browser checks.
+- Independent PostgreSQL contention testing.
+- 792 historical XML IDs preserved.
+- Populated P06 database migration.
+- 50 instruments and 3,750 synthetic observations benchmarked in approximately 4.16 seconds.
+- Approximately 142 MiB sampled process resident memory.
+
+These environment-specific tests must be rerun where applicable.
+
+Do not treat reviewed logs as an independent execution performed outside the original environment.
+
+### Existing research coverage
+
+- 12 partially implemented research capabilities.
+- Five experimental strategies.
+- Zero financially validated strategies.
+- Zero genuine authorized market sessions.
+- Live actionability blocked.
+
+### P07 target comparison
+
+Preserve the original results:
+
+| Metric | Structure Policy | Fixed 4R Benchmark |
+|---|---:|---:|
+| Initial virtual cash | 50000 | 50000 |
+| Trades | 0 | 3 |
+| Gross P&L | 0 | -180 |
+| Fees | 0 | 6.06 |
+| Net P&L | 0 | -186.06 |
+| Ending virtual cash | 50000 | 49813.94 |
+
+These results are synthetic software evidence only.
+
+They do not establish the profitability or superiority of either policy in actual markets.
+
+---
+
+## 5. PRESERVE ALL PRIOR DEVELOPMENT
+
+Before implementing P08:
+
+1. Verify the P07 handoff archive.
+2. Create a protected P07 source checkpoint.
+3. Inspect existing models, services, wizards, views and security.
+4. Inspect all scheduled jobs.
+5. Inspect all existing migrations.
+6. Execute the existing standalone tests.
+7. Reproduce both P07 target-policy outputs.
+8. Inspect the master requirements.
+9. Inspect unresolved P06 and P07 acceptance criteria.
+10. Record the baseline source inventory.
+
+Preserve all:
+
+- RE-01–RE-25 research definitions.
+- ST-01–ST-20 strategy definitions.
+- INV-01–INV-30 invariants.
+- AC-001–AC-050 original acceptance criteria.
+- P02–P07 acceptance criteria.
+- Historical XML IDs.
+- Existing research results.
+- Strategy versions.
+- Virtual ledger records.
+- Holdout records.
+- Source authorization history.
+- Existing user roles.
+- Existing company isolation.
+- Existing provider implementations.
+
+Historical results must not be rewritten.
+
+Any intentional correction must be versioned, documented and regression-tested.
+
+---
+
+# VERTICAL SLICE 1 — UNIFIED MARKET DATA FOUNDATION
+
+## 6. CENTRAL AUTHORIZATION DEFECT REPAIR
+
+The P07 source review confirms that `models/lab.py` checks a manual-source authorization when importing ordinary historical CSV bars.
+
+However, research creation and other downstream operations do not consistently revalidate the associated authorization.
+
+The current generic dataset also lacks sufficiently granular persistent authorization lineage for all downstream operations.
+
+Inspect every affected route.
+
+Implement a centralized, purpose-specific authorization service.
+
+The service must evaluate:
+
+- Company.
+- Provider identity.
+- Actual upstream source.
+- Dataset identity.
+- Requested operation.
+- Effective authorization.
+- Expiry.
+- Revocation.
+- Storage restrictions.
+- Research restrictions.
+- Export restrictions.
+- Retention period.
+- Applicable source capability.
+- Relevant evidence.
+
+Do not trust frontend flags or arbitrary user-supplied provenance labels.
+
+Do not allow a generic manual-source review to automatically authorize every unrelated market-data publisher.
+
+Bind permissions to the actual data source and permitted purpose.
+
+Required operation scopes:
+
+- Query.
+- Display.
+- Import.
+- Persist.
+- Descriptive research.
+- Historical replay.
+- Parameter optimization.
+- Statistical fitting.
+- Automated synchronization.
+- Prospective paper trading.
+- Live decision support.
+- Export.
+- Redistribution.
+
+Unknown permissions must fail closed.
+
+---
+
+## 7. ENFORCE AUTHORIZATION ACROSS ALL PATHS
+
+Integrate the central authorization service into:
+
+- Generic CSV importer.
+- Legacy Bhavcopy importer.
+- Modern UDiFF importer.
+- SmartAPI historical synchronization.
+- Dataset creation.
+- Candle access through research services.
+- Research run creation.
+- Historical jobs.
+- Backtest wizards.
+- Portfolio replay.
+- Optimization.
+- Holdout evaluation.
+- Dashboard RPC services.
+- Native record views.
+- Export functionality.
+- Future scheduled operations.
+
+Revalidate permission at execution time.
+
+A queued job created while authorization was valid must not execute a prohibited operation after authorization expires.
+
+A dataset acquired under a prior authorization must not automatically remain eligible for every future research purpose.
+
+Implement tests for:
+
+- Missing authorization.
+- Expired authorization.
+- Revoked authorization.
+- Incorrect provider.
+- Incorrect company.
+- Incorrect purpose.
+- Unauthorized export.
+- Authorization expiry between queue creation and execution.
+- Permission changes between dataset selection and replay.
+- Forged provenance.
+- Direct RPC invocation.
+- Unauthorized access to related records.
+
+Do not rely only on button visibility or UI restrictions.
+
+---
+
+## 8. PROVENANCE AND DATASET IDENTITY
+
+Implement persistent, versioned dataset lineage.
+
+Each dataset must identify:
+
+- Company.
+- Instrument.
+- Exchange.
+- Trading series.
+- ISIN where applicable.
+- Currency.
+- Source provider.
+- Actual publisher or upstream source.
+- Authorization reference.
+- Source acquisition record.
+- Candle interval.
+- Historical coverage.
+- Adjustment basis.
+- Exchange calendar version.
+- Timestamp semantics.
+- Publication availability contract.
+- Data quality.
+- Source fingerprint.
+- Dataset fingerprint.
+- Processing version.
+- Revision.
+- Retention policy.
+- Dataset state.
+
+Required states:
+
+- DRAFT.
+- VALIDATING.
+- VERIFIED_FOR_PERMITTED_SCOPE.
+- INSUFFICIENT_EVIDENCE.
+- QUARANTINED.
+- AUTHORIZATION_EXPIRED.
+- REVOKED.
+- SUPERSEDED.
+- RETENTION_EXPIRED.
+
+Use appropriate existing Odoo conventions instead of unnecessary duplicate models.
+
+For older P01–P07 datasets:
+
+- Preserve existing records.
+- Classify their current evidence.
+- Do not invent authorization.
+- Do not invent publication timing.
+- Do not silently assign verified provenance.
+- Restrict further use when the required evidence is absent.
+
+Provide a controlled migration report.
+
+---
+
+## 9. SYNTHETIC PROVENANCE PROTECTION
+
+P07 allows synthetic workflows without broker credentials.
+
+Preserve this capability.
+
+However, the word synthetic must not become a mechanism for bypassing authorization requirements.
+
+Distinguish:
+
+- Project-generated deterministic fixtures.
+- Owner-supplied unverified simulation data.
+- Authorized historical market observations.
+- Provider data.
+- Delayed data.
+- Verified live data.
+
+Implement a fixture-generation and identification workflow with:
+
+- Explicit synthetic instrument identifiers.
+- Generation algorithm version.
+- Deterministic seed where applicable.
+- Fixture fingerprint.
+- Synthetic calendar provenance.
+- Clear UI labeling.
+
+User-supplied simulation inputs must never establish real financial validation.
+
+Do not claim that arbitrary uploaded files are genuinely synthetic solely because the uploader selects a synthetic origin.
+
+Unknown origin must not qualify for trusted replay or financial promotion.
+
+Do not impose unnecessary provider registration requirements on genuinely project-authored fixtures.
+
+---
+
+## 10. MODERN NSE UDIFF COMPLETION
+
+P07 added a strict synthetic cash-market UDiFF header profile.
+
+The official linked XLSX specification could not be read during the previous research.
+
+Do not declare full official compatibility.
+
+Investigate the authoritative format documentation using permitted methods.
+
+Where legally permitted, retrieve and inspect:
+
+- Official field definitions.
+- Supported segment identifiers.
+- Instrument type definitions.
+- Date semantics.
+- Instrument identifier definitions.
+- Symbol and series definitions.
+- OHLC field meanings.
+- Volume field meanings.
+- Turnover field meanings.
+- Optional fields.
+- File naming conventions.
+- Schema version information.
+
+Verify the existing parser against documented specifications.
+
+Do not invent field mappings.
+
+Create explicit schema-version contracts.
+
+If genuine exchange-file comparison is permitted, perform it and record the actual result.
+
+If not permitted, retain fixture-only verification and document the blocker.
+
+Preserve the legacy parser and all file security protections.
+
+---
+
+## 11. UNIFIED IMPORT-TO-RESEARCH PIPELINE
+
+P07 daily imports retain parsed data in audited import details.
+
+That is not yet a complete historical research dataset pipeline.
+
+Implement:
+
+Authorized source file
+→ File validation
+→ Schema detection
+→ Normalized observations
+→ Instrument mapping
+→ Calendar checks
+→ Data quality checks
+→ Dataset revision
+→ Authorized research
+→ Audit evidence.
+
+The owner must be able to import one permitted file and use the normalized dataset without manually reconstructing candles through separate technical forms.
+
+Support:
+
+- Legacy daily cash-market files.
+- Targeted modern UDiFF files.
+- Authorized intraday CSV files.
+- Project-authored synthetic fixtures.
+
+Required controls:
+
+- Atomic imports.
+- Idempotent retry.
+- Duplicate prevention.
+- Conflicting revision detection.
+- Missing-session detection.
+- Quarantine.
+- Bounded batches.
+- Correct instrument mapping.
+- Correct calendar association.
+- Immutable original provenance.
+- Source-level and dataset-level fingerprints.
+
+Daily data must remain daily data.
+
+Never create fabricated intraday candles from daily OHLC.
+
+Do not permit intraday-specific strategies to run on daily-only data.
+
+---
+
+## 12. DATA RIGHTS RETENTION
+
+Implement a bounded authorization lifecycle.
+
+Support:
+
+- Ongoing internal archival.
+- Fixed-term retention.
+- Transient-only processing.
+- Revoked permissions.
+- Expired permissions.
+- Export restrictions.
+
+When authorization becomes invalid:
+
+1. Block newly prohibited acquisition.
+2. Block newly prohibited research.
+3. Block newly prohibited export.
+4. Invalidate affected current research eligibility.
+5. Identify affected records.
+6. Determine the applicable retention disposition.
+7. Record permissible audit metadata.
+
+Do not automatically destroy the owner's database or historical records.
+
+Retention deletion must follow the applicable actual permission terms.
+
+Test destructive retention behavior only in a disposable environment.
+
+Preserve appropriate audit metadata without retaining prohibited raw content.
+
+---
+
+## 13. CROSS-SOURCE INTEGRITY
+
+Integrate the existing `services/price_integrity.py` comparator into dataset eligibility.
+
+Compare only equivalent observations.
+
+Check:
+
+- Same instrument.
+- Same exchange.
+- Same trading series.
+- Same currency.
+- Same candle interval.
+- Same observation timestamp.
+- Same adjustment basis.
+- Compatible volume semantics.
+
+Support applicable OHLC and volume tolerances.
+
+Persist comparison results with:
+
+- Source identifiers.
+- Upstream lineage.
+- Timestamp.
+- Compared fields.
+- Observed differences.
+- Tolerance.
+- Result.
+- Resolution status.
+
+Distinguish:
+
+- VERIFIED_MATCH.
+- SINGLE_SOURCE.
+- SHARED_UPSTREAM.
+- UNKNOWN_LINEAGE.
+- NON_EQUIVALENT.
+- MATERIAL_CONFLICT.
+- INVALID.
+- INSUFFICIENT_EVIDENCE.
+
+Never classify two providers as independent merely because their API names differ.
+
+Material unresolved conflicts must prevent affected datasets from producing eligible candidates.
+
+---
+
+# VERTICAL SLICE 2 — PRACTICAL MARKET DATA ACCESS
+
+## 14. FOCUSED FREE DATA PROVIDER INVESTIGATION
+
+The owner does not want to manually search for APIs or purchase services.
+
+Preserve the following constraints:
+
+- No mandatory paid data.
+- No unauthorized scraping.
+- No authentication bypass.
+- No static-IP circumvention.
+- No unnecessary account registration.
+- No credentials in reports.
+- No paid service activation.
+
+P07 evaluated:
+
+- NSE CM UDiFF.
+- NSE MCP.
+- Yahoo Finance.
+- Angel One.
+- Upstox.
+- Operator-held CSV.
+
+None established the necessary genuine market-data acquisition entitlement for the intended workflow.
+
+Do not spend the entire milestone repeating identical findings.
+
+Review previously unresolved alternatives, including:
+
+- FYERS official market-data access.
+- Other legitimate broker-provided read-only data services.
+- Officially licensed historical datasets.
+- Historical datasets with explicit reuse and research rights.
+- Permitted user-held exports.
+- Account-specific read-only APIs that may not require static IP for data-only operations.
+
+Verify actual applicable rules from official sources.
+
+Do not assume that a broker's static-IP rules for placing orders necessarily apply identically to every market-data endpoint, or vice versa.
+
+Produce a practical decision matrix.
+
+For each candidate record:
+
+- Official source.
+- Review date.
+- Registration requirement.
+- Existing-account requirement.
+- API cost.
+- Data subscription cost.
+- Static IP requirement.
+- Historical interval.
+- Historical depth.
+- Real-time availability.
+- Local storage rights.
+- Backtesting rights.
+- Optimization rights.
+- Automatic acquisition rights.
+- Actual test authorization.
+- Remaining owner action.
+
+Determine whether any legitimate zero-cost route supports the intended research scope.
+
+The result may legitimately be that no suitable free route has been established.
+
+Do not guarantee free live data.
+
+---
+
+## 15. OWNER ACTION MINIMIZATION
+
+The owner already has Angel One and Upstox accounts.
+
+Current known blockers include static-IP-related Angel One onboarding constraints and inactive Upstox account segments.
+
+Do not attempt to reactivate or modify those accounts.
+
+Do not place real trades to satisfy an activity or eligibility requirement.
+
+If account-specific authorization is required, document the exact legitimate action that the owner could optionally perform.
+
+Separate:
+
+- Actions necessary for offline research.
+- Actions necessary for actual historical data.
+- Actions necessary for live data.
+
+Do not make offline development depend on external credentials.
+
+If no suitable external data can be authorized, complete all unaffected implementation and testing.
+
+---
+
+## 16. GENUINE HISTORICAL DATA SMOKE TEST
+
+Only when a source's necessary permissions are established:
+
+1. Acquire the smallest authorized historical sample.
+2. Identify the actual source and instruments.
+3. Verify timestamps.
+4. Verify data completeness.
+5. Import through the unified pipeline.
+6. Run permitted descriptive research.
+7. Record actual execution evidence.
+
+Expand only within documented authorization and request limits.
+
+Do not acquire a large dataset merely to satisfy a numerical target.
+
+If no authorized source is available:
+
+- Set genuine acquisition status to BLOCKED.
+- Preserve zero genuine session count.
+- Do not fabricate data.
+- Do not repeatedly attempt prohibited endpoints.
+- Continue testing the unified pipeline with project-generated fixtures.
+
+Do not represent successful synthetic ingestion as genuine external acquisition.
+
+---
+
+# VERTICAL SLICE 3 — AUTOMATIC DAILY RESEARCH
+
+## 17. MANDATORY SESSION-AWARE SCHEDULER
+
+This is a primary P08 deliverable.
+
+P07 still uses an inherited historical job queue.
+
+A complete exchange-session scheduler does not exist.
+
+Implement native Odoo scheduled actions and supporting models.
+
+The scheduler must derive operating phases from a verified exchange calendar.
+
+Required phases:
+
+- PRE_MARKET.
+- MARKET_OPENING.
+- INTRADAY.
+- POST_MARKET.
+- CLOSED.
+- MAINTENANCE.
+- BLOCKED.
+
+Do not hardcode normal sessions as applicable to every trading date.
+
+Support exchange holidays and exceptional sessions.
+
+Use timezone-aware UTC storage and IST presentation.
+
+Where calendar verification is absent, block actual session-dependent work.
+
+A fixture calendar may support explicitly synthetic scheduler tests.
+
+---
+
+## 18. PRE-MARKET WORKFLOW
+
+Implement an end-to-end scheduled pre-market workflow:
+
+1. Identify the trading date.
+2. Validate calendar.
+3. Determine operating mode.
+4. Check provider authorization.
+5. Check available dataset coverage.
+6. Check provider health.
+7. Prepare eligible instruments.
+8. Schedule permitted historical synchronization.
+9. Prepare research jobs.
+10. Initialize virtual daily risk state where applicable.
+11. Record unavailable inputs.
+12. Update operational dashboard.
+
+When genuine data is unavailable, record:
+
+- DATA_UNAVAILABLE.
+- AUTHORIZATION_REQUIRED.
+- RESEARCH_ONLY.
+- NO_TRADE.
+
+Do not fabricate market information.
+
+---
+
+## 19. INTRADAY WORKFLOW
+
+Implement the scheduled intraday orchestration path.
+
+The workflow must:
+
+- Check current operating mode.
+- Check session eligibility.
+- Check provider permission.
+- Check data freshness.
+- Check previous job status.
+- Prevent overlapping acquisition.
+- Process permitted observations.
+- Validate required inputs.
+- Run applicable research.
+- Evaluate experimental strategies.
+- Persist decision evidence.
+- Expire stale candidates.
+- Update operational status.
+
+With no verified live feed, the system must not produce actionable live tips.
+
+For synthetic scheduler testing, use a deterministic virtual clock and explicit fixture observations.
+
+Do not present fixture-generated candidates as genuine market signals.
+
+---
+
+## 20. POST-MARKET WORKFLOW
+
+Implement scheduled post-market processing:
+
+- Confirm applicable session completion.
+- Process authorized end-of-day files when available.
+- Reconcile research jobs.
+- Summarize completed research.
+- Summarize rejected candidates.
+- Reconcile available virtual ledger results.
+- Report missing observations.
+- Report provider errors.
+- Report unresolved authorization.
+- Generate a persistent daily operational report.
+- Prepare the next eligible session.
+
+A daily report must exist even when no market data was available.
+
+It must honestly report that research was blocked rather than display invented stock results.
+
+---
+
+## 21. PERSISTENT JOB STATE MACHINE
+
+Extend or refactor the existing job architecture appropriately.
+
+Required lifecycle states:
+
+- PENDING.
+- CLAIMED.
+- RUNNING.
+- RETRY_WAIT.
+- COMPLETED.
+- FAILED.
+- BLOCKED.
+- CANCELLED.
+- RECOVERY_REQUIRED.
+
+Every scheduled job must record:
+
+- Company.
+- Job type.
+- Trading date.
+- Trading phase.
+- Operating mode.
+- Dataset or provider.
+- Authorization reference where applicable.
+- Input fingerprint.
+- Idempotency key.
+- Requested execution time.
+- Actual start.
+- Actual completion.
+- Attempt count.
+- Maximum attempts.
+- Worker identifier.
+- Lease expiry.
+- Last heartbeat.
+- Processing checkpoint.
+- Failure code.
+- Result reference.
+
+Use database-backed uniqueness.
+
+Do not rely on in-memory state for durable processing.
+
+---
+
+## 22. TRUE JOB CONCURRENCY
+
+Prevent two workers from claiming the same task.
+
+Use appropriate PostgreSQL transactional mechanisms.
+
+Verify:
+
+- Simultaneous job creation.
+- Duplicate scheduler invocation.
+- Concurrent claim.
+- Concurrent retry.
+- Lease takeover.
+- Duplicate output prevention.
+- Rollback.
+- Cancellation during pending execution.
+- Authorization revocation during queued execution.
+- Interrupted commit recovery.
+
+Use independent PostgreSQL sessions or actual separate processes.
+
+Sequential execution in one database transaction is not sufficient evidence.
+
+Record contention outcomes and final database state.
+
+---
+
+## 23. JIO MOBILE HOTSPOT RECOVERY
+
+Design specifically for intermittent localhost connectivity.
+
+Handle:
+
+- Temporary disconnection.
+- DNS failure.
+- Connection timeout.
+- TLS failure.
+- Interrupted download.
+- Rate limiting.
+- Provider service unavailability.
+- Authentication expiry.
+- Changing network conditions.
+
+Implement:
+
+- Bounded retries.
+- Exponential backoff.
+- Maximum retry limit.
+- Circuit breaker.
+- Checkpoint recovery.
+- Permission revalidation.
+- Data freshness revalidation.
+
+Do not use proxies, IP spoofing or techniques intended to defeat provider restrictions.
+
+Do not assume actual hotspot behavior has been tested unless the test was performed.
+
+Use controlled fault injection for network failure tests.
+
+---
+
+## 24. FORCED RESTART RECOVERY
+
+This is a mandatory P08 test.
+
+In a disposable environment:
+
+1. Start an authorized fixture workflow.
+2. Process part of the workload.
+3. Interrupt the worker or Odoo process.
+4. Restart the environment.
+5. Detect abandoned work.
+6. Resume or safely retry.
+7. Complete the remaining permitted tasks.
+8. Verify the result.
+9. Verify no duplicate records.
+10. Verify no duplicate virtual executions.
+11. Verify correct timestamps.
+
+Do not fake a process interruption by manually editing a status field.
+
+Capture actual execution logs.
+
+Test failures both before and after durable checkpoints.
+
+---
+
+## 25. LAPTOP SHUTDOWN AND MISSED SESSIONS
+
+The application runs on localhost.
+
+It cannot operate while the laptop is switched off, asleep or while Odoo is stopped.
+
+Implement missed-session detection.
+
+On startup:
+
+- Detect elapsed scheduled phases.
+- Identify incomplete historical tasks.
+- Recover permitted historical acquisition.
+- Record missed live intervals.
+- Invalidate expired decisions.
+- Recalculate current operating mode.
+
+Do not reconstruct missed live tips using market data that became available after the relevant decision time.
+
+Recovered historical research must remain classified as historical.
+
+Provide a visible status explaining which work was missed.
+
+---
+
+# VERTICAL SLICE 4 — AUTHORIZED HISTORICAL REPLAY
+
+## 26. GENERALIZED REPLAY CONTRACT
+
+P07 `services/portfolio.py` remains explicitly synthetic-only.
+
+Its event validation requires modeled availability exactly at the synthetic candle close.
+
+This cannot simply be reused for actual historical observations without a verified availability contract.
+
+Implement a common replay contract supporting separate modes:
+
+1. TRUSTED_SYNTHETIC_REPLAY.
+2. AUTHORIZED_HISTORICAL_INTRADAY_REPLAY.
+3. AUTHORIZED_HISTORICAL_DAILY_RESEARCH.
+
+The historical modes must require:
+
+- Actual permitted data.
+- Purpose-specific authorization.
+- Verified source identity.
+- Dataset fingerprint.
+- Instrument mapping.
+- Verified session calendar.
+- Compatible interval.
+- Defensible historical publication timing.
+- Valid quality status.
+- Explicit fee assumptions.
+
+Do not remove the existing synthetic-only restriction until equivalent or stronger historical eligibility controls exist.
+
+The technical historical replay path may be tested against explicitly designated contract fixtures.
+
+Such tests do not establish genuine historical financial validation.
+
+---
+
+## 27. EVENT TIMING AND CAUSALITY
+
+Separate:
+
+- Market event timestamp.
+- Candle opening timestamp.
+- Candle closing timestamp.
+- Publication availability timestamp.
+- Receipt timestamp.
+- Simulated decision timestamp.
+- Simulated execution timestamp.
+
+Prevent execution before the information was available.
+
+Do not assume actual market candles are published immediately at their closing timestamp.
+
+Distinguish modeled historical availability from actually observed historical publication evidence.
+
+Document any unavoidable modeling assumptions.
+
+A completed daily candle cannot inform an earlier intraday decision.
+
+Test:
+
+- Future-data exclusion.
+- Delayed candle publication.
+- Out-of-order observations.
+- Missing observations.
+- Session gaps.
+- Overlapping intervals.
+- Corporate-action-adjustment mismatches.
+- Invalid execution timing.
+
+Preserve conservative stop-target ambiguity handling.
+
+---
+
+## 28. HOLDOUT ACCESS ISOLATION
+
+P07 preserves single-use holdout evaluation but does not completely isolate raw data access.
+
+Implement application-level protection for sealed holdout datasets.
+
+Protect:
+
+- Research creation.
+- Backtesting.
+- Optimization.
+- Dataset export.
+- Candle queries.
+- Related-record navigation.
+- Dashboard queries.
+- Scheduled jobs.
+
+Test ordinary analyst, viewer, risk manager and administrator permissions.
+
+Preserve existing concurrency-safe holdout consumption.
+
+When a holdout is modified or previously inspected, classify it appropriately as contaminated or requiring requalification.
+
+Do not claim that application controls can prevent the machine owner or a privileged database administrator from inspecting the underlying database.
+
+Document the trust boundary.
+
+---
+
+## 29. PRESERVE EXISTING STRATEGY IMPROVEMENTS
+
+Retain the five experimental strategies:
+
+- ST-01 Opening Range Breakout.
+- ST-02 VWAP Pullback.
+- ST-04 Trend Following.
+- ST-06 Volume Confirmed Breakout.
+- ST-08 Mean Reversion.
+
+Preserve:
+
+- Default completed-market-structure target policy.
+- Explicit optional fixed 4R benchmark.
+- Cost-aware minimum reward-to-risk.
+- Same-slot candidate competition.
+- Risk recheck after allocation.
+- Structured eligibility gates.
+- Explicit live-actionability block.
+
+Do not restore alphabetical first-match selection.
+
+Do not restore unconditional fixed targets.
+
+Do not make an experimental strategy appear financially validated.
+
+Additional strategies are not a primary P08 requirement.
+
+---
+
+## 30. G01–G14 GATE HARDENING
+
+Preserve the existing structured gate identifiers.
+
+Inspect `services/decision.py` and all its callers.
+
+Do not allow externally supplied context or untrusted metadata to override protected result fields such as:
+
+- Gate identifier.
+- Pass status.
+- Failure reason.
+- Required evidence.
+- Operating mode.
+- Financial validation.
+- Live actionability.
+
+Validate the actual type and integrity of gate inputs.
+
+Separate:
+
+- Software simulation eligibility.
+- Authorized historical research eligibility.
+- Financial validation eligibility.
+- Prospective operation eligibility.
+- Live actionability eligibility.
+
+Missing evidence must never count as success.
+
+Dataset evidence must use an actual immutable dataset fingerprint, not merely a symbol or instrument key.
+
+Test every mandatory gate independently.
+
+---
+
+## 31. TRANSACTION COST EVIDENCE
+
+P07 continues to use a hypothetical tariff engine.
+
+Preserve the existing Decimal-based calculations.
+
+Investigate official, effective-dated sources for applicable Indian cash-equity charges.
+
+Include:
+
+- Brokerage.
+- STT.
+- Exchange transaction charges.
+- SEBI charges.
+- GST.
+- Stamp duty.
+- Applicable additional charges.
+
+Separately model:
+
+- Spread.
+- Slippage.
+- Adverse execution.
+
+Do not invent current statutory rates.
+
+Do not require a real trade to obtain software test evidence.
+
+Where broker-specific charges are not verified, retain a clearly labeled hypothetical schedule.
+
+Record:
+
+- Source.
+- Effective date.
+- Calculation basis.
+- Transaction side.
+- Instrument type.
+- Rounding.
+- Verification status.
+
+Historical rates must not be replaced with current rates without disclosure.
+
+Actual cost reconciliation remains a separate financial readiness requirement.
+
+---
+
+# VERTICAL SLICE 5 — OPERATIONAL DASHBOARD
+
+## 32. AUTOMATION CONTROL CENTER
+
+Implement a functional native Odoo operational workspace.
+
+This is a mandatory P08 UI deliverable.
+
+Display:
+
+- System operating mode.
+- Current trading phase.
+- Calendar status.
+- Current data authorization.
+- Provider availability.
+- Last successful data acquisition.
+- Last completed research cycle.
+- Next scheduled job.
+- Pending jobs.
+- Running jobs.
+- Completed jobs.
+- Failed jobs.
+- Blocked jobs.
+- Retry status.
+- Recovery status.
+- Latest daily report.
+- NO TRADE reasons.
+
+Provide authorized drill-downs.
+
+Every KPI must originate from actual database records.
+
+Do not fabricate prices, financial results or job counts.
+
+Use native OWL, Odoo actions, models and security.
+
+No paid frontend dependencies.
+
+---
+
+## 33. OWNER CONTROLS
+
+Implement appropriate authorized controls:
+
+- Run Offline Research.
+- Generate Synthetic Test Dataset.
+- Validate Authorized Dataset.
+- Run Permitted Historical Research.
+- Run Research Cycle Now.
+- Pause Automatic Research.
+- Resume Automatic Research.
+- Retry Failed Job.
+- Cancel Pending Job.
+- Open Daily Report.
+- Inspect Data Authorization.
+- Inspect Provider Diagnostics.
+
+Each control must perform its actual advertised operation.
+
+Do not add inactive decorative buttons.
+
+Destructive actions must require appropriate permissions and safeguards.
+
+Automatic research must never enable unauthorized external acquisition.
+
+---
+
+## 34. DAILY RESEARCH REPORT
+
+Generate a persistent report containing:
+
+- Report date.
+- Operating mode.
+- Trading calendar status.
+- Available source permissions.
+- Eligible instruments.
+- Successfully analyzed instruments.
+- Unavailable instruments.
+- Research results.
+- Experimental candidates.
+- Rejected candidates.
+- Virtual simulation results where applicable.
+- Data quality failures.
+- Missing inputs.
+- Failed jobs.
+- Recovery outcomes.
+- Remaining owner actions.
+
+If no genuine market data was acquired, clearly report:
+
+`NO AUTHORIZED MARKET DATA AVAILABLE`
+
+If no strategy is financially validated, clearly report:
+
+`FINANCIAL VALIDATION NOT ESTABLISHED`
+
+Never show synthetic profits as real trading earnings.
+
+---
+
+## 35. ORIGINAL NINE DASHBOARDS
+
+Preserve the original nine-dashboard roadmap:
+
+1. Market Overview.
+2. Stock Research Scanner.
+3. Trading Opportunities.
+4. Stock Research Detail.
+5. Paper Trading Portfolio.
+6. Strategy Performance.
+7. Risk Management.
+8. Data and System Health.
+9. Daily Research Report.
+
+P08 specifically prioritizes:
+
+- Data and System Health.
+- Daily Research Report.
+- Integration with the existing Research Overview.
+
+The remaining dashboard improvements must stay tracked.
+
+Do not falsely claim completion of all nine dashboards.
+
+---
+
+# CAPITAL PROTECTION
+
+## 36. PRESERVE OWNER-APPROVED PAPER SETTINGS
+
+Retain:
+
+- Virtual starting capital: INR 50,000.
+- Maximum planned risk per trade: 0.5%.
+- Daily planned loss threshold: 1%.
+- Maximum daily entries: 3.
+- Pause after two consecutive losses.
+- Minimum planned net reward-to-risk: 2:1.
+- Preferred planned net reward-to-risk: 3:1.
+- Long-only cash-equity simulation.
+- No leverage.
+- No averaging down.
+- No martingale.
+- No planned overnight intraday positions.
+
+These controls do not guarantee a maximum actual loss.
+
+Adverse gaps and execution failures can exceed planned risk.
+
+Do not allocate real capital.
+
+Do not weaken these controls to improve simulated results.
+
+---
+
+## 37. ABSOLUTE REAL TRADING PROHIBITION
+
+Do not implement:
+
+- Real buy orders.
+- Real sell orders.
+- Real order modification.
+- Real order cancellation.
+- Real account fund transfers.
+- Real margin allocation.
+- Automatic real-money position sizing execution.
+- Automatic real portfolio liquidation.
+
+Do not introduce hidden or dormant real-order execution paths.
+
+Paper trading must remain virtual.
+
+No automatic real broker actions are within the approved scope.
+
+---
+
+# REQUIREMENTS AND ACCEPTANCE
+
+## 38. P08 MANDATORY ACCEPTANCE MATRIX
+
+Use the following 40 focused acceptance criteria.
+
+| ID | Required outcome |
+|---|---|
+| P08-AC-001 | P07 baseline and historical results preserved |
+| P08-AC-002 | Existing regression tests executed |
+| P08-AC-003 | All prior requirement identifiers preserved |
+| P08-AC-004 | Central purpose-specific authorization implemented |
+| P08-AC-005 | Existing dataset authorization lineage implemented |
+| P08-AC-006 | Expired authorization blocks prohibited research |
+| P08-AC-007 | Revoked authorization blocks prohibited operations |
+| P08-AC-008 | Unauthorized read and export paths protected |
+| P08-AC-009 | Synthetic provenance controls verified |
+| P08-AC-010 | Unified import-to-dataset pipeline implemented |
+| P08-AC-011 | Legacy daily import regression passed |
+| P08-AC-012 | UDiFF profile verified within documented scope |
+| P08-AC-013 | Dataset revision and duplicate protection verified |
+| P08-AC-014 | Multi-session completeness and quarantine verified |
+| P08-AC-015 | Cross-source conflict eligibility integrated |
+| P08-AC-016 | Retention policy enforcement verified |
+| P08-AC-017 | Practical free-data provider investigation completed |
+| P08-AC-018 | Genuine authorized data smoke test passed or explicitly blocked |
+| P08-AC-019 | Generalized historical replay contract implemented |
+| P08-AC-020 | Historical and synthetic replay eligibility separated |
+| P08-AC-021 | Publication-time causality tests passed |
+| P08-AC-022 | Application-level holdout isolation improved |
+| P08-AC-023 | G01–G14 protected evidence handling verified |
+| P08-AC-024 | Session-aware native scheduler implemented |
+| P08-AC-025 | Pre-market workflow tested |
+| P08-AC-026 | Intraday orchestration tested in explicit fixture mode |
+| P08-AC-027 | Post-market report workflow tested |
+| P08-AC-028 | Closed-day and exceptional-session behavior tested |
+| P08-AC-029 | Durable job states implemented |
+| P08-AC-030 | True concurrent job claiming verified |
+| P08-AC-031 | Retry and cancellation idempotency verified |
+| P08-AC-032 | Actual forced process interruption and recovery verified |
+| P08-AC-033 | Missed-session recovery preserves historical classification |
+| P08-AC-034 | Authorization expiry between job creation and execution tested |
+| P08-AC-035 | Operational dashboard backed by actual database records |
+| P08-AC-036 | Persistent daily report and owner controls verified |
+| P08-AC-037 | Security and financial-safety regression passed |
+| P08-AC-038 | Fresh installation and populated P07 upgrade verified |
+| P08-AC-039 | Current traceability and Gujarati documentation delivered |
+| P08-AC-040 | Final evidence package and SHA-256 independently verified |
+
+The scope of P08 is intentionally narrower than P07.
+
+Do not add another 100 acceptance criteria before completing these core requirements.
+
+---
+
+## 39. MANDATORY COMPLETION GATES
+
+The following gates are mandatory for declaring P08 technical completion.
+
+### Gate A — Authorization
+
+Pass only if:
+
+- Source-specific authorization lineage exists.
+- Research execution revalidates authorization.
+- Expired and revoked authorization are enforced.
+- Unauthorized data access and export tests pass.
+
+### Gate B — Unified data pipeline
+
+Pass only if:
+
+- An authorized test-scope input reaches normalized dataset creation.
+- Dataset lineage is persisted.
+- Duplicate and invalid-data protection work.
+- Actual permitted research can consume the resulting dataset in its appropriate mode.
+
+### Gate C — Automatic research
+
+Pass only if:
+
+- Native scheduler exists.
+- Pre-market workflow executes.
+- Intraday orchestration executes in the appropriate fixture mode.
+- Post-market reporting executes.
+- Duplicate jobs are prevented.
+
+### Gate D — Recovery
+
+Pass only if:
+
+- Genuine concurrent workers are tested.
+- An actual process interruption is performed.
+- Recovery is verified.
+- No duplicate results are created.
+
+### Gate E — Safe replay
+
+Pass only if:
+
+- Synthetic replay remains functional.
+- Historical replay authorization and timestamp contracts are enforced.
+- Holdout restrictions are tested.
+- Live actionability remains blocked.
+
+### Gate F — Release integrity
+
+Pass only if:
+
+- Fresh installation passes.
+- Populated P07 upgrade passes.
+- Actual browser workflow passes.
+- All manifests match.
+- Evidence is complete and accurately classified.
+
+An external data entitlement blocker may remain.
+
+However, it must not be used as an excuse to leave unrelated technical scheduler, authorization and recovery features unimplemented.
+
+---
+
+## 40. REQUIREMENTS TRACEABILITY RECONCILIATION
+
+The current traceability file still contains historical statuses such as:
+
+- S08-035: BLOCKED.
+- RE-20: NOT_STARTED.
+- ST-04: NOT_STARTED.
+- ST-06: NOT_STARTED.
+- AC-029: NOT_STARTED.
+
+These entries do not fully reflect later demonstrated software implementation.
+
+Preserve historical snapshots.
+
+Create a consolidated current status matrix.
+
+Distinguish:
+
+- Implementation status.
+- Software verification status.
+- External dependency status.
+- Financial verification status.
+- Operational readiness.
+- Historical status.
+- Supporting evidence.
+- Remaining work.
+
+Do not mark partially exercised features fully complete.
+
+Do not calculate a misleading overall completion percentage from repeated or duplicated requirement descriptions.
+
+---
+
+# TESTING AND RELEASE
+
+## 41. REQUIRED TEST EXECUTION
+
+Execute the existing standalone suite:
+
+```bash
+python -B -m unittest discover -s tests -p "unit_*.py" -v
+```
+
+Execute source inspection:
+
+```bash
+python -B scripts/check_source.py
+```
+
+Create focused P08 tests covering:
+
+- Authorization lifecycle.
+- Dataset lineage.
+- Synthetic provenance.
+- Unified import.
+- UDiFF and legacy parser behavior.
+- Dataset revisions.
+- Data conflict handling.
+- Publication timing.
+- Historical replay eligibility.
+- Holdout access.
+- Protected gate results.
+- Scheduler phases.
+- Retry behavior.
+- Missed sessions.
+- Recovery.
+
+Execute actual Odoo ORM tests.
+
+Execute real PostgreSQL concurrency tests.
+
+Execute actual process interruption tests.
+
+Execute real Edge browser tests.
+
+Do not count one test run on multiple datasets as multiple independently implemented features.
+
+Record all initial failures and subsequent repairs.
+
+---
+
+## 42. PERFORMANCE
+
+Preserve the existing 50-instrument benchmark.
+
+Compare against P07 only when workloads are comparable.
+
+Measure:
+
+- Import duration.
+- Dataset creation duration.
+- Research execution duration.
+- Scheduler overhead.
+- Job claim duration.
+- Recovery duration.
+- Memory usage.
+- Database query count where practical.
+- Dashboard response latency.
+
+Execute progressively larger synthetic workloads where feasible.
+
+Do not claim verified 500-stock live scanning capability.
+
+The immediate goal is reliable automatic operation, not inflated benchmark claims.
+
+---
+
+## 43. SECURITY
+
+Verify:
+
+- Existing Odoo ACLs.
+- Record rules.
+- Multi-company isolation.
+- Source authorization access.
+- Dataset access.
+- Candle access.
+- Related-record access.
+- Export controls.
+- Holdout restrictions.
+- Scheduler permissions.
+- Safe retries.
+- Input validation.
+- File validation.
+- SSRF protection.
+- TLS validation.
+- Secret redaction.
+- Audit integrity.
+
+Never include credentials, OTPs, client codes, broker tokens or private account information in the handoff.
+
+Treat external market data and document contents as untrusted inputs.
+
+Do not mutate real Odoo accounting records.
+
+---
+
+## 44. INSTALLATION AND MIGRATION
+
+Follow existing module version conventions.
+
+Expected next milestone version:
+
+`20.0.8.0.0`
+
+Confirm the actual versioning policy.
+
+Verify:
+
+1. Fresh installation.
+2. Upgrade from a populated P07 database.
+3. Historical XML ID preservation.
+4. Historical dataset preservation.
+5. Existing strategy experiment preservation.
+6. Existing virtual ledger preservation.
+7. Existing authorization preservation.
+8. Holdout preservation or explicit requalification.
+9. Existing user-role preservation.
+10. Repeated upgrade idempotency.
+
+Ensure representative populated migration fixtures include:
+
+- Authorization records.
+- Queued jobs.
+- Completed research jobs.
+- Synthetic datasets.
+- Portfolio results.
+- Holdouts.
+- Virtual ledger entries.
+
+Do not claim preservation of a particular record type solely because its migration table was empty.
+
+Use disposable databases.
+
+Never destroy the owner's existing database.
+
+---
+
+## 45. REAL BROWSER TESTING
+
+Use the actual running Odoo application.
+
+Test:
+
+- Research Overview.
+- Source Authorizations.
+- Dataset import.
+- Dataset validation.
+- Scheduler dashboard.
+- Run Offline Research.
+- Run Research Cycle Now.
+- Pause and resume.
+- Job status.
+- Retry operation.
+- Failed-job visibility.
+- Recovery status.
+- Daily report.
+- NO TRADE banner.
+- Unauthorized action prevention.
+- Desktop layout.
+- Responsive layout.
+- Browser console errors.
+
+Capture real screenshots.
+
+Do not use generated interface mockups as evidence.
+
+---
+
+# DOCUMENTATION AND HANDOFF
+
+## 46. REQUIRED REPORTS
+
+Create or update:
+
+### DEVELOPMENT_REPORT.md
+
+Include actual implementation, repaired defects, acceptance status, test evidence, performance, limitations and remaining work.
+
+### REQUIREMENTS_TRACEABILITY.md
+
+Preserve all original identifiers and distinguish current software and financial verification.
+
+### P08_AUTHORIZATION_AND_DATASET_REPORT.md
+
+Document authorization enforcement, source lineage, dataset lifecycle, import workflow, retention and security tests.
+
+### FREE_MARKET_DATA_PROVIDER_EVALUATION.md
+
+Document practical provider investigation, official references, exact restrictions, verified costs where available and actual access results.
+
+### HISTORICAL_DATA_VALIDATION_REPORT.md
+
+Document genuine authorized acquisitions or the exact external blocker.
+
+### P08_SCHEDULER_AND_RECOVERY_REPORT.md
+
+Document session phases, job states, concurrency, actual interruption, recovery evidence and missed-session handling.
+
+### P08_REPLAY_VALIDATION_REPORT.md
+
+Document synthetic and historical replay contracts, causality, holdout controls and financial limitations.
+
+### P08_TEST_EXECUTION_REPORT.md
+
+Document actual commands, assertions, results, failures, repairs and evidence paths.
+
+### P08_ISSUE_REGISTER.md
+
+Document unresolved defects, severity, dependencies and recommended next actions.
+
+### OWNER_ACTION_REQUIRED.md
+
+Separate offline, historical and live requirements.
+
+### OWNER_SETUP_GUJARATI.md
+
+Provide simple Gujarati instructions for:
+
+- Starting Odoo.
+- Opening Golok AI Trading Lab Pro.
+- Generating trusted synthetic fixtures.
+- Running offline research.
+- Enabling the permitted scheduler.
+- Pausing research.
+- Inspecting blocked jobs.
+- Retrying failed jobs.
+- Understanding recovery.
+- Opening daily reports.
+- Understanding NO TRADE.
+- Understanding genuine data prerequisites.
+
+---
+
+## 47. EVIDENCE DIRECTORY
+
+Create:
+
+`docs/evidence/p08/`
+
+Include:
+
+- Baseline source verification.
+- Standalone test logs.
+- Odoo test logs.
+- PostgreSQL concurrency logs.
+- Actual process interruption logs.
+- Recovery evidence.
+- Scheduler execution evidence.
+- Authorization regression evidence.
+- Dataset lineage evidence.
+- Synthetic replay reproduction.
+- Permitted historical acquisition evidence.
+- Real browser logs.
+- Real screenshots.
+- Performance measurements.
+- Fresh installation logs.
+- Populated upgrade logs.
+- Failure and repair records.
+- Source manifest.
+- Complete archive manifest.
+
+Do not include unauthorized raw market data.
+
+Do not include credentials or temporary database dumps.
+
+---
+
+## 48. REQUIRED HANDOFF PACKAGE
+
+Generate:
+
+`P08_REVIEW_HANDOFF.zip`
+
+Include all applicable source files, tests, migrations, reports, documentation and evidence.
+
+Generate:
+
+`manifest.sha256`
+
+Generate:
+
+`P08_REVIEW_HANDOFF.zip.sha256`
+
+After packaging:
+
+1. Reopen the ZIP.
+2. Verify ZIP CRC.
+3. Verify every internal manifest entry.
+4. Verify the source manifest.
+5. Verify the external archive checksum.
+6. Verify the separately exported manifest matches the included manifest.
+7. Verify separately exported reports match the included reports.
+8. Detect unmanifested files.
+9. Check for credentials.
+10. Check for unauthorized market data.
+11. Record final ZIP size.
+12. Record file count.
+13. Record exact SHA-256.
+
+Never reuse an earlier milestone checksum.
+
+---
+
+## 49. FINAL READINESS DECISION
+
+Provide separate statuses for:
+
+- Offline research.
+- Unified dataset ingestion.
+- Authorization enforcement.
+- Historical replay technical readiness.
+- Actual authorized historical acquisition.
+- Session-aware scheduler.
+- Automatic research.
+- Job recovery.
+- Operational dashboard.
+- Financial validation.
+- Prospective paper trading.
+- Verified live market data.
+- Actionable live recommendations.
+
+Use one milestone decision:
+
+**P08 TECHNICAL DEVELOPMENT COMPLETE — READY FOR P09 REVIEW**
+
+Only if all mandatory technical completion gates are satisfied.
+
+Otherwise:
+
+**P08 DEVELOPMENT PARTIAL — TECHNICAL OR EXTERNAL BLOCKERS REMAIN**
+
+Or:
+
+**P08 DEVELOPMENT FAILED — CRITICAL DEFECTS REMAIN**
+
+Never classify financial readiness as complete solely because technical development is complete.
+
+---
+
+## 50. EXECUTION ORDER
+
+Perform implementation in this order:
+
+### Priority 0
+
+- Verify P07 baseline.
+- Preserve all prior functionality.
+- Repair authorization enforcement.
+- Implement dataset lineage.
+- Close unauthorized research and export paths.
+
+### Priority 1
+
+- Complete unified data ingestion.
+- Verify legacy and modern parser scope.
+- Integrate source integrity.
+- Evaluate practical authorized data access.
+
+### Priority 2
+
+- Implement session-aware scheduler.
+- Implement persistent job states.
+- Implement actual automatic research orchestration.
+- Implement post-market reports.
+- Complete actual interruption and recovery testing.
+
+### Priority 3
+
+- Generalize replay contracts safely.
+- Improve holdout access isolation.
+- Harden eligibility evidence.
+- Verify historical publication-time rules.
+
+### Priority 4
+
+- Implement operational dashboard.
+- Implement daily report.
+- Implement owner controls.
+- Execute actual browser testing.
+
+### Priority 5
+
+- Execute all required regression tests.
+- Verify migration.
+- Reconcile current traceability.
+- Generate the review handoff.
+
+If the development session has limited execution resources, complete the highest-priority vertical slices fully before beginning lower-priority enhancements.
+
+Do not spend the available development effort generating extensive reports for functionality that has not been implemented.
+
+---
+
+## 51. FINAL NON-NEGOTIABLE RULES
+
+- Never fabricate market data.
+- Never fabricate data authorization.
+- Never fabricate tests.
+- Never fabricate financial results.
+- Never promise guaranteed profits.
+- Never classify delayed data as verified live data.
+- Never classify synthetic results as real financial validation.
+- Never generate actionable tips from stale or unsupported evidence.
+- Never bypass legitimate source restrictions.
+- Never purchase external services without explicit owner approval.
+- Never expose credentials.
+- Never execute actual broker orders.
+- Never transfer real funds.
+- Never weaken risk controls to improve simulated profit.
+- Never hide historical losses.
+- Never force a daily trading recommendation.
+- Never claim that localhost operates while the laptop is powered off.
+
+A correct NO TRADE decision is preferable to an unsupported trading recommendation.
+
+Implement actual functionality, verify it with genuine execution evidence and produce the P08 review package.
+
+**BEGIN P08 DEVELOPMENT NOW.**

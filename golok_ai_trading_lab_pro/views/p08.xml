@@ -1,0 +1,68 @@
+<odoo>
+    <record id="view_review_lineage" model="ir.ui.view">
+        <field name="name">golok.lab.source.review.lineage</field><field name="model">golok.lab.source.review</field>
+        <field name="inherit_id" ref="view_source_review_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before"><header>
+                <button name="action_revoke" type="object" string="Revoke Authorization" invisible="not id or revoked_at"
+                        confirm="Revoke application access to data bound to this review?"/>
+            </header></xpath>
+            <field name="expires" position="after"><field name="upstream"/><field name="retain_until"/>
+                <field name="revoked_at" readonly="1"/></field>
+            <field name="display" position="after"><field name="research"/></field>
+        </field>
+    </record>
+    <record id="view_daily_normalize" model="ir.ui.view">
+        <field name="name">golok.lab.daily.import.normalize</field><field name="model">golok.lab.daily.import</field>
+        <field name="inherit_id" ref="view_daily_import_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before"><header>
+                <button name="action_normalize" type="object" string="Normalize to Research Datasets"
+                        class="btn-primary" invisible="not id or status != 'accepted'"/>
+            </header></xpath>
+            <field name="count" position="after"><field name="normalized_dataset_ids" widget="many2many_tags" readonly="1"/></field>
+        </field>
+    </record>
+    <record id="view_session_watch_list" model="ir.ui.view">
+        <field name="name">golok.lab.session.watch.list</field><field name="model">golok.lab.session.watch</field>
+        <field name="arch" type="xml"><list delete="0"><field name="dataset_id"/><field name="active"/></list></field>
+    </record>
+    <record id="view_session_watch_form" model="ir.ui.view">
+        <field name="name">golok.lab.session.watch.form</field><field name="model">golok.lab.session.watch</field>
+        <field name="arch" type="xml"><form delete="0"><header>
+            <button name="action_check_now" type="object" string="Check Session Now" invisible="not id or not active"/>
+        </header><sheet>
+            <group><field name="dataset_id" domain="[('origin','=','synthetic'),('calendar_id.verification','=','fixture')]"/>
+                <field name="active"/></group>
+            <field name="event_ids" readonly="1"><list><field name="day"/><field name="phase"/>
+                <field name="state"/><field name="observation_count"/><field name="summary"/></list></field>
+        </sheet></form></field>
+    </record>
+    <record id="view_session_event_list" model="ir.ui.view">
+        <field name="name">golok.lab.session.event.list</field><field name="model">golok.lab.session.event</field>
+        <field name="arch" type="xml"><list create="0" edit="0" delete="0">
+            <field name="day"/><field name="observed_at"/><field name="phase"/><field name="state"/>
+            <field name="mode"/><field name="observation_count"/><field name="summary"/><field name="run_id"/>
+        </list></field>
+    </record>
+    <record id="action_session_watch" model="ir.actions.act_window">
+        <field name="name">Fixture Research Schedules</field><field name="res_model">golok.lab.session.watch</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="action_session_event" model="ir.actions.act_window">
+        <field name="name">Daily Research Operations</field><field name="res_model">golok.lab.session.event</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem id="menu_session_watch" name="Research Schedules" parent="menu_lab" action="action_session_watch"
+              groups="group_admin" sequence="99"/>
+    <menuitem id="menu_session_event" name="Daily Research Operations" parent="menu_lab" action="action_session_event" sequence="100"/>
+    <data noupdate="1">
+        <record id="cron_session_research" model="ir.cron">
+            <field name="name">Golok: session research and historical queue</field>
+            <field name="model_id" ref="model_golok_lab_session_watch"/>
+            <field name="state">code</field><field name="code">model._cron_dispatch()</field>
+            <field name="interval_number">2</field><field name="interval_type">minutes</field>
+            <field name="user_id" ref="base.user_root"/><field name="active" eval="True"/>
+        </record>
+    </data>
+</odoo>

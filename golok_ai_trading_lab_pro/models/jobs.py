@@ -16,7 +16,7 @@ class ResearchJob(models.Model):
     requested_by = fields.Many2one("res.users", required=True, ondelete="restrict")
     cutoff = fields.Datetime(required=True)
     state = fields.Selection([("queued", "Queued"), ("completed", "Completed"), ("failed", "Failed"),
-                              ("cancelled", "Cancelled")], required=True, index=True)
+                              ("cancelled", "Cancelled"), ("blocked", "Blocked by authorization")], required=True, index=True)
     finished_at = fields.Datetime()
     elapsed_ms = fields.Float()
     failure_reason = fields.Char()
@@ -45,6 +45,7 @@ class ResearchJob(models.Model):
         )
         if not dataset:
             raise AccessError(_("Dataset unavailable."))
+        dataset._permit("research")
         data = {"company_id": company.id, "dataset_id": dataset.id, "cutoff": cutoff, "requested_by": self.env.uid}
         prior = self.search([(key, "=", value) for key, value in data.items()], limit=1)
         if prior:
@@ -83,6 +84,8 @@ class ResearchJob(models.Model):
                     {"allowed_company_ids": [job.company_id.id]}
                 ).create({"dataset_id": job.dataset_id.id, "as_of": job.cutoff})
                 vals.update(state="completed", run_id=run.id)
-        except (UserError, AccessError):
+        except AccessError:
+            vals.update(state="blocked", failure_reason="The request is no longer authorized.")
+        except UserError:
             vals.update(state="failed", failure_reason="The request no longer meets research eligibility.")
         job.write({**vals, "finished_at": fields.Datetime.now(), "elapsed_ms": 1000 * (perf_counter() - started)})

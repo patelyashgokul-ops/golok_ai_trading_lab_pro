@@ -14,22 +14,42 @@ MODULE = "golok_ai_trading_lab_pro"
 class TestLab(TransactionCase):
     def test_p07_manual_market_csv_requires_active_company_grant(self):
         analyst = self.env["golok.lab.dataset"].with_user(self.analyst)
-        data = analyst.create({"name": "External source fixture", "source": "Licensed source test",
-                               "instrument_id": self.instrument.id, "interval": "5m", "origin": "imported"})
-        importer = self._wizard(self._lines(1), data)
+        dataset_values = {"name": "External source fixture", "source": "Licensed source test",
+                          "instrument_id": self.instrument.id, "interval": "5m", "origin": "imported"}
         with self.assertRaises(AccessError):
-            importer.action_import()
+            analyst.create(dataset_values)
         values = {"provider": "manual", "terms_url": "https://example.test/terms",
                   "documentation": "https://example.test/schema", "evidence": "Generated test grant",
                   "purpose": "Internal descriptive analysis", "restrictions": "Local use",
-                  "expires": "2099-01-01", "query": True, "display": True, "persist": True, "storage_policy": "archive"}
+                  "expires": "2099-01-01", "query": True, "display": True, "persist": True, "storage_policy": "archive",
+                  "research": True, "upstream": "Licensed source test"}
         reviews = self.env["golok.lab.source.review"].with_user(self.admin)
         reviews.create(values)
-        importer.action_import()
-        self.assertEqual(self.env["golok.lab.candle"].search_count([("dataset_id", "=", data.id)]), 1)
-        reviews.create({**values, "expires": "2000-01-01"})
+        with self.assertRaises(AccessError):
+            analyst.create({**dataset_values, "source": "Different publisher"})
+        data = analyst.create(dataset_values)
+        self._wizard(self._lines(1), data).action_import()
+        candles = self.env["golok.lab.candle"].with_user(self.analyst)
+        candle = candles.search([("dataset_id", "=", data.id)])
+        self.assertEqual(len(candle), 1)
+        with self.assertRaises(AccessError):
+            candle.export_data(["close_price"])
+        runs = self.env["golok.lab.run"].with_user(self.analyst)
+        run = runs.create({"dataset_id": data.id, "as_of": self.start})
+        jobs = self.env["golok.lab.research.job"]
+        job = jobs.with_user(self.analyst).create({"dataset_id": data.id, "cutoff": self.start})
+        expired = reviews.create({**values, "expires": "2000-01-01"})
         with self.assertRaises(AccessError):
             self._wizard(self._lines(2), data).action_import()
+        with self.assertRaises(AccessError):
+            runs.create({"dataset_id": data.id, "as_of": self.start})
+        with self.assertRaises(AccessError):
+            run.read(["evidence"])
+        self.assertFalse(candles.search([("dataset_id", "=", data.id)]))
+        jobs._cron_run_next()
+        self.assertEqual(job.state, "blocked")
+        expired.action_revoke()
+        self.assertTrue(expired.revoked_at)
 
     def test_p06_review_and_daily_fixture(self):
         import base64
@@ -54,6 +74,25 @@ class TestLab(TransactionCase):
         accepted = imports.create(vals)
         self.assertEqual((accepted.status, accepted.count), ("accepted", 1))
         self.assertEqual(accepted, imports.create(vals))
+        admin = self.env["golok.lab.instrument"].with_user(self.admin)
+        instrument = admin.create({"name": "Daily fixture member", "symbol": "DEMO", "exchange": "NSE"})
+        self.env["golok.lab.mapping"].with_user(self.admin).create({
+            "instrument_id": instrument.id, "symbol": "DEMO", "provider": "manual", "token": "500",
+            "starts": "2024-01-01", "tick": "0.05", "lot": 1, "listing_status": "listed",
+            "source": "Authored fixture", "revision": "p08", "verification": "fixture", "isin": "IN0000000001",
+        })
+        accepted.action_normalize()
+        dataset = accepted.normalized_dataset_ids
+        self.assertEqual((len(dataset), dataset.interval), (1, "1d"))
+        self.assertEqual(self.env["golok.lab.candle"].search_count([("dataset_id", "=", dataset.id)]), 1)
+        cutoff = self.env["golok.lab.candle"].search([("dataset_id", "=", dataset.id)]).available_at
+        from unittest.mock import patch
+        from odoo import fields
+        with patch.object(fields.Datetime, "now", return_value=cutoff):
+            result = self.env["golok.lab.run"].with_user(self.analyst).create({"dataset_id": dataset.id, "as_of": cutoff})
+        self.assertEqual(result.bar_count, 1)
+        accepted.action_normalize()
+        self.assertEqual(accepted.normalized_dataset_ids, dataset)
         self.assertEqual(imports.create({**vals, "upload": base64.b64encode(
             payload.replace(",100,1000,", ",101,1000,").encode()).decode()}).status, "quarantine")
         self.assertEqual(imports.create({**vals, "upload": "eA=="}).status, "quarantine")
@@ -89,6 +128,32 @@ class TestLab(TransactionCase):
             "instrument_id": cls.other_instrument.id, "interval": "5m", "company_id": cls.other_company.id,
         })
         cls.start = datetime(2024, 1, 2, 3, 50)
+
+    def test_p08_fixture_session_scheduler_records_idempotent_phases(self):
+        from datetime import timezone
+        files = Path(__file__).parent / "fixtures/p02"
+        schedule = json.loads((files / "spec.json").read_text())["schedule"]
+        calendar = self.env["golok.lab.calendar"].with_user(self.admin).create({
+            "name": "Phased fixture", "source": "Synthetic scheduler", "exchange": "NSE", "verification": "fixture",
+            "verified_on": "2024-01-01", "schedule": json.dumps([*schedule, {"date": "2024-01-03", "kind": "closed"}])})
+        dataset = self.env["golok.lab.dataset"].with_user(self.analyst).create({
+            "name": "Scheduler sample", "source": "Synthetic scheduler", "origin": "synthetic",
+            "instrument_id": self.instrument.id, "interval": "5m", "calendar_id": calendar.id})
+        self.env["golok.lab.import"].with_user(self.analyst).create({
+            "dataset_id": dataset.id, "upload": BinaryBytes((files / "candles.csv").read_bytes())}).action_import()
+        watch = self.env["golok.lab.session.watch"].with_user(self.admin).create({"dataset_id": dataset.id})
+        session = calendar._sessions()[datetime(2024, 1, 2).date()]
+        cases = [(session.opening - timedelta(minutes=10), "pre_market"),
+                 (session.opening + timedelta(minutes=10), "intraday"),
+                 (session.closing + timedelta(minutes=1), "post_market"),
+                 (datetime(2024, 1, 3, 12, tzinfo=timezone.utc), "closed")]
+        for now, expected in cases:
+            event = watch._dispatch(now)
+            self.assertEqual(event.phase, expected)
+            self.assertEqual(event, watch._dispatch(now))
+            if expected in ("intraday", "post_market"):
+                self.assertGreater(event.observation_count, 0)
+                self.assertEqual(event.run_id.decision, "no_trade")
 
     def _wizard(self, lines, dataset=None):
         raw = ("close_time,open,high,low,close,volume\n" + "\n".join(lines)).encode()

@@ -1,6 +1,8 @@
 """Run from Odoo shell against a disposable harness database."""
 
 import json
+import subprocess
+import sys
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import replace
 from datetime import datetime, timedelta, timezone
@@ -179,3 +181,51 @@ def _p03_races(env, company, instrument):
         raise AssertionError("A second consumption unexpectedly succeeded.")
     assert runner["golok.lab.holdout"].browse(seal_id).result_id
     print("PASS: independent holdout evaluations overlapped and a fresh retry rejected repeated consumption")
+    if env.cr.dbname.startswith("golok_p08_fresh_"):
+        _interrupt_job(env, runner, dataset)
+
+
+def _interrupt_job(env, runner, dataset):
+    job = runner["golok.lab.research.job"].create({"dataset_id": dataset.id, "cutoff": "2024-01-02 04:20:00"})
+    job_id = job.id
+    env.cr.execute("SELECT inet_server_port()")
+    port = str(env.cr.fetchone()[0])
+    env.cr.commit()
+    worker = Path(__file__).with_name("hold_research_claim.py")
+    process = subprocess.Popen([sys.executable, "-B", str(worker), env.cr.dbname, port, str(job_id)],
+                               stdout=subprocess.PIPE, text=True)
+    try:
+        with ThreadPoolExecutor(max_workers=1) as executor:
+            try:
+                assert executor.submit(process.stdout.readline).result(timeout=12).strip() == "CLAIMED"
+                with env.registry.cursor() as cursor:
+                    jobs = api.Environment(cursor, SUPERUSER_ID, {})["golok.lab.research.job"]
+                    jobs._cron_run_next()
+                    assert jobs.browse(job_id).state == "queued"
+            finally:
+                process.kill()
+                process.wait(timeout=5)
+    finally:
+        process.stdout.close()
+    for _ in range(20):
+        with env.registry.cursor() as cursor:
+            fresh = api.Environment(cursor, SUPERUSER_ID, {})
+            jobs = fresh["golok.lab.research.job"]
+            jobs._cron_run_next()
+            recovered = jobs.browse(job_id)
+            if recovered.state == "completed":
+                assert recovered.run_id
+                result_id = recovered.run_id.id
+                cursor.commit()
+                break
+        sleep(0.1)
+    else:
+        raise AssertionError("An interrupted claim did not recover.")
+    with env.registry.cursor() as cursor:
+        fresh = api.Environment(cursor, SUPERUSER_ID, {})
+        jobs = fresh["golok.lab.research.job"]
+        jobs._cron_run_next()
+        assert jobs.browse(job_id).run_id.id == result_id
+        assert fresh["golok.lab.run"].search_count([("dataset_id", "=", dataset.id),
+                                                   ("as_of", "=", "2024-01-02 04:20:00")]) == 1
+    print("PASS: independent worker skipped a locked job, forced worker kill rolled back and retry produced exactly one result")

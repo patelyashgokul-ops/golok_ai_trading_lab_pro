@@ -61,3 +61,11 @@ daily_import_admin,End of day file administrator,golok.lab.daily.import,golok_ai
 daily_import_company,End of day file company,golok.lab.daily.import,,crud,"[('company_id','in',company_ids)]"
 holdout_viewer,Holdout reader,golok.lab.holdout,golok_ai_trading_lab_pro.group_viewer,r,
 holdout_company,Holdout company,golok.lab.holdout,,crud,"[('company_id','in',company_ids)]"
+candle_source_access,Candle source access,golok.lab.candle,,r,"[('dataset_id.protected_read','=',True)]"
+run_source_access,Research source access,golok.lab.run,,r,"[('dataset_id.protected_read','=',True)]"
+findings_source_access,Findings source access,golok.lab.findings,,r,"[('run_id.dataset_id.protected_read','=',True)]"
+daily_source_access,Daily data source access,golok.lab.daily.import,,r,"['|',('source','=','fixture'),('review_id.readable_now','=',True)]"
+session_watch_admin,Session watch administrator,golok.lab.session.watch,golok_ai_trading_lab_pro.group_admin,cru,
+session_watch_company,Session watch company,golok.lab.session.watch,,crud,"[('company_id','in',company_ids)]"
+session_event_viewer,Session report viewer,golok.lab.session.event,golok_ai_trading_lab_pro.group_viewer,r,
+session_event_company,Session report company,golok.lab.session.event,,crud,"[('company_id','in',company_ids)]"
