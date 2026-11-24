@@ -26,19 +26,27 @@ class Session:
     entry_cutoff: datetime | None = None
     exit_cutoff: datetime | None = None
     pre_open: datetime | None = None
+    segments: tuple = ()
+    post_close: datetime | None = None
+
+    def windows(self):
+        if self.kind == "closed":
+            return ()
+        return self.segments or ((self.opening, self.closing),)
 
     def slots(self, seconds):
-        if self.kind == "closed":
-            return []
+        windows = self.windows()
         if seconds is None:
-            return [(self.opening, self.closing)]
+            return list(windows) if len(windows) == 1 else []
+        if type(seconds) is not int or seconds < 60:
+            raise ValueError("The session grid requires an interval of at least one minute.")
         delta = timedelta(seconds=seconds)
-        start = self.opening
         slots = []
-        while start < self.closing:
-            end = min(start + delta, self.closing)
-            slots.append((start, end))
-            start = end
+        for start, closing in windows:
+            while start < closing:
+                end = min(start + delta, closing)
+                slots.append((start, end))
+                start = end
         return slots
 
 
@@ -63,7 +71,7 @@ def load_schedule(raw):
             sessions[day] = Session(day, kind)
             continue
         keys = {"date", "kind", *SLOTS}
-        if kind not in ("regular", "special") or set(row) not in (keys, keys | {"pre_open"}):
+        if kind not in ("regular", "special") or not keys <= row.keys() <= keys | {"pre_open", "segments", "post_close"}:
             raise ValueError("Trading days need opening, closing, entry and exit times.")
         times = [datetime.combine(day, _clock(row[key]), IST).astimezone(UTC) for key in SLOTS]
         opening, closing, entry, exit_ = times
@@ -72,7 +80,26 @@ def load_schedule(raw):
         pre_open = datetime.combine(day, _clock(row["pre_open"]), IST).astimezone(UTC) if "pre_open" in row else None
         if pre_open is not None and pre_open >= opening:
             raise ValueError("Pre-open must precede continuous trading.")
-        sessions[day] = Session(day, kind, *times, pre_open)
+        post_close = datetime.combine(day, _clock(row["post_close"]), IST).astimezone(UTC) if "post_close" in row else None
+        if post_close is not None and post_close <= closing:
+            raise ValueError("Post-close period must follow continuous trading.")
+        segments = []
+        if "segments" in row:
+            entries = row["segments"]
+            if not isinstance(entries, list) or not 2 <= len(entries) <= 8:
+                raise ValueError("Supply 2–8 segments for split sessions.")
+            for span in entries:
+                if not isinstance(span, list) or len(span) != 2:
+                    raise ValueError("A segment needs opening and closing times.")
+                left, right = [datetime.combine(day, _clock(value), IST).astimezone(UTC) for value in span]
+                if not opening <= left < right <= closing or (segments and left <= segments[-1][1]):
+                    raise ValueError("Segments must be ordered with distinct continuous windows.")
+                segments.append((left, right))
+            if segments[0][0] != opening or segments[-1][1] != closing:
+                raise ValueError("The segments must span the stated session bounds.")
+            if not any(left < entry <= right for left, right in segments) or not any(left < exit_ <= right for left, right in segments):
+                raise ValueError("Entry and exit cutoffs must be in continuous trading.")
+        sessions[day] = Session(day, kind, *times, pre_open, tuple(segments), post_close)
     return sessions
 
 
@@ -83,12 +110,18 @@ def validate_bar(bar, sessions, seconds):
         raise ValueError(f"No eligible continuous trading session on {day}.")
     if bar.open_time is None or bar.available_at is None:
         raise ValueError("Calendar datasets require open_time and available_at.")
-    elapsed = (bar.open_time - session.opening).total_seconds()
-    expected_close = min(bar.open_time + timedelta(seconds=seconds), session.closing) if seconds else session.closing
-    if (elapsed < 0 or bar.open_time >= session.closing or bar.close_time != expected_close
-            or (elapsed % seconds if seconds else elapsed)):
-        raise ValueError(f"Candle is outside the session grid on {day}.")
-    return session
+    if bar.available_at < bar.close_time:
+        raise ValueError("A completed candle cannot be published before its close.")
+    if seconds is None:
+        if (bar.open_time, bar.close_time) in session.slots(None):
+            return session
+    elif type(seconds) is int and seconds >= 60:
+        for opening, closing in session.windows():
+            elapsed = (bar.open_time - opening).total_seconds()
+            if (opening <= bar.open_time < closing and elapsed % seconds == 0
+                    and bar.close_time == min(bar.open_time + timedelta(seconds=seconds), closing)):
+                return session
+    raise ValueError(f"Candle is outside the session grid on {day}.")
 
 
 def missing_observations(bars, sessions, seconds):

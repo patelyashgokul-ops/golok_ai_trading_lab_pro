@@ -1,4 +1,3 @@
-from datetime import timezone
 from decimal import Decimal, InvalidOperation
 
 from odoo import _, api, fields, models
@@ -56,8 +55,9 @@ class InstrumentMapping(models.Model):
             instrument_id = vals.get("instrument_id")
             if type(instrument_id) is not int or instrument_id <= 0:
                 raise ValidationError(_("Select an instrument."))
-            instrument = self.env["golok.lab.instrument"].browse(instrument_id)
-            instrument.check_access("read")
+            instrument = self.env["golok.lab.instrument"].with_context(active_test=False).search([("id", "=", instrument_id)], limit=1)
+            if not instrument:
+                raise ValidationError(_("Instrument unavailable."))
             if vals.get("company_id", instrument.company_id.id) != instrument.company_id.id:
                 raise ValidationError(_("The mapping must use the instrument's company."))
             prepared.append({**vals, "exchange": instrument.exchange, "company_id": instrument.company_id.id})

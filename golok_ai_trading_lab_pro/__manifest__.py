@@ -1,7 +1,7 @@
 {
     "name": "Golok AI Trading Lab Pro",
     "summary": "Historical equity research and market data quality",
-    "version": "20.0.2.0.0",
+    "version": "20.0.3.0.0",
     "author": "Golok Technology",
     "license": "LGPL-3",
     "category": "Productivity",
@@ -10,6 +10,7 @@
         "security/groups.xml",
         "security/ir.access.csv",
         "views/lab.xml",
+        "views/p03.xml",
     ],
     "assets": {
         "web.assets_backend": [

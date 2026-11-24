@@ -1,0 +1,76 @@
+<odoo>
+    <record id="view_mapping_list" model="ir.ui.view">
+        <field name="name">golok.lab.mapping.list</field>
+        <field name="model">golok.lab.mapping</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="symbol"/><field name="exchange"/><field name="provider"/><field name="token"/>
+                <field name="starts"/><field name="ends"/><field name="listing_status"/><field name="verification"/>
+                <field name="instrument_id"/><field name="company_id" optional="hide"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mapping_form" model="ir.ui.view">
+        <field name="name">golok.lab.mapping.form</field>
+        <field name="model">golok.lab.mapping</field>
+        <field name="arch" type="xml">
+            <form edit="0" delete="0" duplicate="0"><sheet>
+                <group>
+                    <group><field name="instrument_id"/><field name="symbol"/><field name="exchange" invisible="not id"/>
+                        <field name="provider"/><field name="token"/><field name="segment"/><field name="isin"/><field name="sector"/></group>
+                    <group><field name="starts"/><field name="ends"/><field name="listing_status"/><field name="tick"/>
+                        <field name="lot"/><field name="source"/><field name="revision"/><field name="verification"/></group>
+                </group>
+            </sheet></form>
+        </field>
+    </record>
+    <record id="view_mapping_search" model="ir.ui.view">
+        <field name="name">golok.lab.mapping.search</field>
+        <field name="model">golok.lab.mapping</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="symbol"/><field name="token"/><field name="instrument_id"/><field name="provider"/>
+                <filter name="nse" string="NSE" domain="[('exchange','=','NSE')]"/>
+                <filter name="bse" string="BSE" domain="[('exchange','=','BSE')]"/>
+                <separator/>
+                <filter name="historical" string="Dated end" domain="[('ends','!=',False)]"/>
+                <filter name="restricted" string="Suspended or delisted" domain="[('listing_status','!=','listed')]"/>
+            </search>
+        </field>
+    </record>
+    <record id="action_mapping" model="ir.actions.act_window">
+        <field name="name">Instrument Mappings</field><field name="res_model">golok.lab.mapping</field><field name="view_mode">list,form</field>
+    </record>
+    <record id="view_corporate_list" model="ir.ui.view">
+        <field name="name">golok.lab.corporate.action.list</field>
+        <field name="model">golok.lab.corporate.action</field>
+        <field name="arch" type="xml">
+            <list><field name="name"/><field name="instrument_id"/><field name="kind"/><field name="effective"/><field name="published_at"/><field name="revision"/></list>
+        </field>
+    </record>
+    <record id="view_corporate_form" model="ir.ui.view">
+        <field name="name">golok.lab.corporate.action.form</field>
+        <field name="model">golok.lab.corporate.action</field>
+        <field name="arch" type="xml">
+            <form edit="0" delete="0" duplicate="0"><sheet><group>
+                <group><field name="name"/><field name="company_id"/><field name="instrument_id"/><field name="kind"/><field name="effective"/></group>
+                <group><field name="published_at"/><field name="source"/><field name="revision"/>
+                    <field name="numerator" invisible="kind not in ('split','bonus')"/><field name="denominator" invisible="kind not in ('split','bonus')"/></group>
+            </group></sheet></form>
+        </field>
+    </record>
+    <record id="action_corporate" model="ir.actions.act_window">
+        <field name="name">Corporate Actions</field><field name="res_model">golok.lab.corporate.action</field><field name="view_mode">list,form</field>
+    </record>
+    <record id="view_dataset_mapping" model="ir.ui.view">
+        <field name="name">golok.lab.dataset.form.mapping</field><field name="model">golok.lab.dataset</field>
+        <field name="inherit_id" ref="view_dataset"/>
+        <field name="arch" type="xml">
+            <field name="calendar_id" position="after">
+                <field name="mapping_id" readonly="id" domain="[('instrument_id','=',instrument_id)]"/>
+            </field>
+        </field>
+    </record>
+    <menuitem id="menu_mapping" name="Instrument Mappings" parent="menu_lab" action="action_mapping" sequence="81"/>
+    <menuitem id="menu_corporate" name="Corporate Actions" parent="menu_lab" action="action_corporate" sequence="82"/>
+</odoo>
