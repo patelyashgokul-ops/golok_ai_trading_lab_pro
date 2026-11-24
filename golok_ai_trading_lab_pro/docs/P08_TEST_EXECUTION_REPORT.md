@@ -55,3 +55,9 @@ P08.4 tests deterministic fixture generation, duplicate requests, rejection of f
 
     ./scripts/verify_odoo.ps1 -Browser -ClusterDir .local-test/pg-p08 -EvidenceDir docs/evidence/p08/generated-fixture -PostgresPort 55498 -HttpPort 18098 -Database golok_p08_fresh_l
     ./scripts/verify_p01_upgrade.ps1 -SourceDatabase golok_p07_fresh_a -TargetDatabase golok_p05_migration_p08h -SourceVersion 20.0.7.0.0 -TargetVersion 20.0.8.4.0 -EvidenceDir docs/evidence/p08/migration-fixture -ClusterDir .local-test/pg-p06 -PostgresPort 55497
+    ./scripts/verify_odoo.ps1 -Browser -ClusterDir .local-test/pg-p08 -EvidenceDir docs/evidence/p08/lineage-release -PostgresPort 55498 -HttpPort 18098 -Database golok_p08_fresh_m
+    ./scripts/verify_p01_upgrade.ps1 -SourceDatabase golok_p07_fresh_a -TargetDatabase golok_p05_migration_p08i -SourceVersion 20.0.7.0.0 -TargetVersion 20.0.8.5.0 -EvidenceDir docs/evidence/p08/migration-lineage -ClusterDir .local-test/pg-p06 -PostgresPort 55497
+
+The populated P07 clone held six simulation datasets. The migration retained their references and classified all six as simulation. A separate ORM case represents an old market record by removing its review and publication assertions on a disposable test transaction. The first assertion expected the whole metadata row to be hidden and failed. The corrected case verifies that metadata remains available while candles and research are denied.
+
+    ./scripts/verify_odoo.ps1 -Browser -ClusterDir .local-test/pg-p08 -EvidenceDir docs/evidence/p08/lineage-final -PostgresPort 55498 -HttpPort 18098 -Database golok_p08_fresh_n

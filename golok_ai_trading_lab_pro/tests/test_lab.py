@@ -26,6 +26,7 @@ class TestLab(TransactionCase):
         self.assertEqual(revision.action_generate_fixture()["res_id"], action["res_id"])
         dataset = self.env["golok.lab.dataset"].with_user(self.analyst).browse(action["res_id"])
         self.assertTrue(dataset.instrument_id.symbol.startswith("SYN-P08-"))
+        self.assertEqual(dataset.lineage_status, "generated_fixture")
         self.assertEqual((dataset.fixture_version, dataset.fixture_seed), (fixture_generator.VERSION, fixture_generator.SEED))
         rows = self.env["golok.lab.candle"].with_user(self.analyst).search(
             [("dataset_id", "=", dataset.id)], order="close_time")
@@ -44,6 +45,9 @@ class TestLab(TransactionCase):
                           "instrument_id": self.instrument.id, "interval": "5m", "origin": "imported"}
         with self.assertRaises(AccessError):
             analyst.create(dataset_values)
+        with self.assertRaises(AccessError):
+            analyst.with_context(default_origin="imported").create(
+                {key: value for key, value in dataset_values.items() if key != "origin"})
         values = {"provider": "manual", "terms_url": "https://example.test/terms",
                   "documentation": "https://example.test/schema", "evidence": "Generated test grant",
                   "purpose": "Internal descriptive analysis", "restrictions": "Local use",
@@ -54,6 +58,7 @@ class TestLab(TransactionCase):
         with self.assertRaises(AccessError):
             analyst.create({**dataset_values, "source": "Different publisher"})
         data = analyst.create(dataset_values)
+        self.assertEqual(data.lineage_status, "active")
         self._wizard(self._lines(1), data).action_import()
         candles = self.env["golok.lab.candle"].with_user(self.analyst)
         candle = candles.search([("dataset_id", "=", data.id)])
@@ -110,6 +115,7 @@ class TestLab(TransactionCase):
             datasets.append(source)
             snapshots.append(snapshot)
         revocable.action_revoke()
+        self.assertEqual(datasets[1].sudo().lineage_status, "revoked")
         with self.assertRaises(AccessError):
             runs.create({"dataset_id": datasets[1].id, "as_of": self.start})
         with self.assertRaises(AccessError):
@@ -123,6 +129,20 @@ class TestLab(TransactionCase):
             with self.assertRaises(AccessError):
                 self._wizard(self._lines(2), datasets[0]).action_import()
             self.assertTrue(candles.sudo().search([("dataset_id", "=", datasets[0].id)]))
+        legacy = analyst.create({"name": "Legacy market data", "source": fixed.upstream,
+                                 "origin": "imported", "instrument_id": self.instrument.id, "interval": "1m"})
+        self._wizard(self._lines(1), legacy).action_import()
+        legacy_candles = [("dataset_id", "=", legacy.id)]
+        self.assertEqual(candles.search_count(legacy_candles), 1)
+        self.env.flush_all()
+        self.env.cr.execute("UPDATE golok_lab_dataset SET source_review_id=NULL, publication_basis=NULL WHERE id=%s",
+                            (legacy.id,))
+        legacy.invalidate_recordset()
+        self.assertEqual(legacy.lineage_status, "insufficient")
+        self.assertFalse(candles.search(legacy_candles))
+        self.assertEqual(candles.sudo().search_count(legacy_candles), 1)
+        with self.assertRaises(AccessError):
+            legacy._permit("research")
         transient = reviews.create({**grants, "upstream": "Transient rights", "storage_policy": "transient"})
         self.assertEqual(transient.lifecycle, "transient")
         with self.assertRaises(AccessError):

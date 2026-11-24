@@ -4,6 +4,8 @@ Offline research needs no external subscription. In **Research Schedules**, sele
 
 For a genuine market CSV, review the precise publisher and permit descriptive research only when the documented rights allow it. Record ongoing or fixed-term storage as specified in the grant. A transient-only authorization cannot create stored observations. Existing real datasets without bound lineage remain restricted. Start offline with the bundled synthetic fixtures. [ગુજરાતી સેટઅપ](OWNER_SETUP_GUJARATI.md)
 
+The outstanding real-data smoke test needs one genuine file for a completed session, the actual publisher's source documentation and evidence that the applicable rights permit local archival and internal descriptive research. Use an approved local folder and record the retention terms. A file supplied for descriptive research does not establish permission for replay or redistribution.
+
 Use **End-of-day File Imports** for legacy NSE cash Bhavcopy or the targeted UDiFF cash profile. An authorized live feed and separately validated financial workflow remain prerequisites for future live decision support.
 
 The optional broker setup below is needed only for an owner-authorized SmartAPI test. P06 additionally requires an effective SmartAPI source review allowing query, display and archival storage.

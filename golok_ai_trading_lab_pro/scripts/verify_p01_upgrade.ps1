@@ -40,6 +40,11 @@ order by 1
         if ((Query $revision) -ne $SourceVersion) { throw "The cloned database must contain release $SourceVersion." }
         $before = @(Query $data)
         $beforeXML = @(Query $xml)
+        $lineageFields = @'
+select md5(string_agg(row(id, to_jsonb(d)->>'source_review_id', to_jsonb(d)->>'publication_basis')::text,
+                      ';' order by id)) from golok_lab_dataset d
+'@
+        if ($TargetVersion -eq '20.0.8.5.0') { $beforeLineage = Query $lineageFields }
         if ($before.Count -ne 4 -or $beforeXML.Count -lt 20 -or ($before -match '^[^:]+:0:')) {
             throw 'The clone lacks the required populated P01 records.'
         }
@@ -69,6 +74,22 @@ order by 1
         $timer.Stop()
         if ($code) { throw "Module upgrade exited $code" }
         $after = @(Query $data)
+        if ($TargetVersion -eq '20.0.8.5.0') {
+            if ((Query $lineageFields) -ne $beforeLineage) { throw 'Upgrade changed prior dataset authorization or publication evidence.' }
+            $lineageClassCounts = @'
+select origin, case
+    when quarantined or integrity_conflict then 'quarantined'
+    when origin = 'synthetic' and fixture_version is not null then 'generated_fixture'
+    when origin = 'synthetic' then 'simulation'
+    when source_review_id is null or publication_basis is null then 'insufficient'
+    else 'bound_review_requires_current_rights'
+end as classification, count(*) from golok_lab_dataset
+group by 1, 2 order by 1, 2
+'@
+            @('PASS: prior authorization references and publication assertions preserved.',
+              'origin|classification|datasets') + @(Query $lineageClassCounts) |
+                Tee-Object "$EvidenceDir/upgrade/dataset-lineage.log"
+        }
         if ($SourceVersion -eq '20.0.7.0.0' -and (Query $rightsQuery) -ne $oldRights) {
             throw 'Historical source review retention failed.'
         }

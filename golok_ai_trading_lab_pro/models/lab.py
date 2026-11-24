@@ -141,6 +141,12 @@ class Dataset(models.Model):
     source_review_id = fields.Many2one("golok.lab.source.review", readonly=True, check_company=True, ondelete="restrict")
     publication_basis = fields.Selection([("fixture", "Simulation input"), ("operator", "Operator timestamps"),
                                           ("receipt", "First observed receipt")], readonly=True)
+    lineage_status = fields.Selection([
+        ("generated_fixture", "Server-generated fixture"), ("simulation", "Simulation input"),
+        ("insufficient", "Insufficient evidence"), ("active", "Bound source review"),
+        ("revoked", "Revoked"), ("authorization_expired", "Authorization expired"),
+        ("retention_expired", "Retention expired"), ("quarantined", "Quarantined"),
+    ], compute="_compute_lineage_status")
     protected_read = fields.Boolean(compute="_compute_protected_read", search="_search_protected_read")
     fixture_version = fields.Char(readonly=True)
     fixture_seed = fields.Integer(readonly=True)
@@ -153,9 +159,13 @@ class Dataset(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         vals_list = [dict(vals) for vals in vals_list]
+        missing_identity = {key for vals in vals_list for key in ("origin", "source") if key not in vals}
+        defaults = self.default_get(list(missing_identity)) if missing_identity else {}
         if any(vals.get("quarantined") or vals.get("integrity_conflict") for vals in vals_list):
             raise ValidationError(_("Use the administrator quarantine operation."))
         for vals in vals_list:
+            for key, value in defaults.items():
+                vals.setdefault(key, value)
             if not self.env.su and {"source_review_id", "publication_basis", "fixture_version",
                                     "fixture_seed", "fixture_digest"} & vals.keys():
                 raise AccessError(_("Lineage is assigned by the server."))
@@ -169,16 +179,32 @@ class Dataset(models.Model):
                                                 default_publication_basis=False, default_fixture_version=False,
                                                 default_fixture_seed=0, default_fixture_digest=False)).create(vals_list)
 
+    @api.depends("origin", "fixture_version", "publication_basis", "source_review_id.lifecycle", "quarantined", "integrity_conflict")
+    def _compute_lineage_status(self):
+        for dataset in self:
+            if dataset.quarantined or dataset.integrity_conflict:
+                dataset.lineage_status = "quarantined"
+            elif dataset.origin == "synthetic":
+                dataset.lineage_status = "generated_fixture" if dataset.fixture_version else "simulation"
+            else:
+                review = dataset.sudo().source_review_id
+                lifecycle = review.lifecycle if review else "insufficient"
+                if lifecycle == "transient" or (lifecycle == "active" and not dataset.publication_basis):
+                    lifecycle = "insufficient"
+                dataset.lineage_status = lifecycle
+
     def _search_protected_read(self, operator, value):
         if operator != "in" or tuple(value) != (True,):
             return NotImplemented
         return (Domain("origin", "=", "synthetic")
-                | Domain("source_review_id", "any!", Domain("readable_now", "=", True)))
+                | (Domain("publication_basis", "in", ["operator", "receipt"])
+                   & Domain("source_review_id", "any!", Domain("readable_now", "=", True))))
 
-    @api.depends("origin", "source_review_id.readable_now")
+    @api.depends("origin", "publication_basis", "source_review_id.readable_now")
     def _compute_protected_read(self):
         for dataset in self:
-            dataset.protected_read = dataset.origin == "synthetic" or dataset.sudo().source_review_id.readable_now
+            dataset.protected_read = dataset.origin == "synthetic" or (
+                dataset.publication_basis in ("operator", "receipt") and dataset.sudo().source_review_id.readable_now)
 
     def _permit(self, purpose):
         self.ensure_one()
@@ -187,7 +213,7 @@ class Dataset(models.Model):
         if self.origin == "synthetic" and purpose in ("import", "research"):
             return
         review = self.sudo().source_review_id
-        if not review:
+        if not review or self.publication_basis not in ("operator", "receipt"):
             raise AccessError(_("The historical dataset has no effective authorization lineage."))
         commands = {"import": ("query", "display", "persist"), "research": ("display", "research")}
         if purpose not in commands or review.provider not in ("smartapi", "bhavcopy", "manual"):
