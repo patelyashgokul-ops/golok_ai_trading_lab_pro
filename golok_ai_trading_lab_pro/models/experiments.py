@@ -62,7 +62,8 @@ class Experiment(models.Model):
     ends = fields.Date(required=True)
     capital = fields.Char(required=True)
     tick = fields.Char(required=True)
-    status = fields.Selection([("completed", "Synthetic completed"), ("unresolved", "Synthetic unresolved")], required=True)
+    status = fields.Selection([("completed", "Synthetic completed"), ("unresolved", "Synthetic unresolved"),
+                               ("risk_suspended", "Synthetic risk-suspended")], required=True)
     fingerprint = fields.Char(required=True)
     trade_count = fields.Integer()
     candidate_count = fields.Integer()
@@ -95,7 +96,7 @@ class Experiment(models.Model):
         dataset, strategy, tariff = records
         if dataset.origin != "synthetic" or not dataset.calendar_id or dataset.quarantined:
             raise ValidationError(_("Use an eligible calendar-bound synthetic dataset."))
-        if strategy != self.env.ref("golok_ai_trading_lab_pro.strategy_st01_p04"):
+        if strategy != self.env.ref("golok_ai_trading_lab_pro.strategy_st01_p05"):
             raise ValidationError(_("Unsupported strategy version."))
         seconds = market_data.INTERVALS[dataset.interval]
         if seconds not in (60, 180, 300, 900):

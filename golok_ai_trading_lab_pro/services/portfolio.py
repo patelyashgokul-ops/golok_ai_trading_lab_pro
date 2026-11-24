@@ -89,7 +89,8 @@ def replay(series, starts, ends, seconds, codes, costs, *, capital=Decimal("5000
         nonlocal cash, entries
         asset = assets[key]
         code, observed, stop = candidate
-        valid_time = observed.available_at < when <= observed.available_at + timedelta(seconds=seconds) and when < session.entry_cutoff
+        valid_time = (observed.available_at < when <= observed.available_at + timedelta(seconds=seconds)
+                      and when < min(session.entry_cutoff, session.exit_cutoff))
         exposure = sum(position["loss"] for position in positions.values())
         risk_room = max(Decimal(0), daily_open * portfolio_policy.daily_loss + min(daily_realized, 0) - exposure)
         target = bar.open + (bar.open - stop) * 4

@@ -9,7 +9,7 @@ from decimal import Decimal
 
 from . import backtest, calendar, simulation
 
-VERSION = "ST-01/multi-2"
+VERSION = "ST-01/multi-3"
 MAX_DAYS = 31
 MAX_BARS = 4000
 
@@ -59,10 +59,11 @@ def simulate(bars, sessions, starts, ends, exchange, seconds, tick, costs, sourc
     peak = risk.capital
     drawdown = Decimal(0)
     loss_streak = longest_loss_streak = 0
-    unresolved = 0
+    status = "completed"
     for offset in range((ends - starts).days + 1):
         day = starts + timedelta(days=offset)
         if loss_streak >= 2:
+            status = "risk_suspended"
             daily.append({"day": day, "status": "RISK_SUSPENDED", "reason": "Two consecutive realized losses."})
             break
         session = sessions.get(day)
@@ -80,7 +81,7 @@ def simulate(bars, sessions, starts, ends, exchange, seconds, tick, costs, sourc
                                      partition="validation", origin="synthetic", risk=replace(risk, capital=equity[-1]))
         except ValueError as exc:
             # Capital after this point is unknowable. Keep the preceding results without simulating past the gap.
-            unresolved += 1
+            status = "unresolved"
             daily.append({"day": day, "status": "UNRESOLVED", "reason": str(exc)})
             break
         daily.append({"day": day, "status": "REPLAYED", "digest": result["experiment"], "candidates": result["candidates"]})
@@ -109,5 +110,7 @@ def simulate(bars, sessions, starts, ends, exchange, seconds, tick, costs, sourc
         "max_drawdown_closed": drawdown, "consecutive_losses": longest_loss_streak, "equity_closed": equity,
         "turnover": sum(((row["entry"] + row["exit"]) * row["quantity"] for row in trades), Decimal(0)),
     }
-    return {"specification": specification, "status": "unresolved" if unresolved else "completed",
+    return {"specification": specification, "status": status,
+            "requested_dates": (ends - starts).days + 1,
+            "evaluated_dates": sum(row["status"] in ("CLOSED", "REPLAYED") for row in daily),
             "days": daily, "trades": trades, "metrics": metrics}
