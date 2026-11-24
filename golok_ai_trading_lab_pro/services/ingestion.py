@@ -24,7 +24,8 @@ def normalize(rows, session, seconds, received_at):
         )
         # Receipt establishes when this application demonstrably had the information.
         # It does not establish when the vendor first published it.
-        bars.append(replace(candle, open_time=opening, available_at=received_at.replace(microsecond=0)))
+        available = (received_at + timedelta(seconds=bool(received_at.microsecond))).replace(microsecond=0)
+        bars.append(replace(candle, open_time=opening, available_at=available))
     return bars
 
 

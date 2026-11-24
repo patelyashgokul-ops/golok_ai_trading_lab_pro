@@ -131,7 +131,7 @@ def _p03_races(env, company, instrument):
     actor, scope = operator.id, {"allowed_company_ids": [company.id]}
     runner = env(user=actor, context=scope)
     experiment = runner["golok.lab.experiment"].create({
-        "dataset_id": dataset.id, "strategy_id": env.ref("golok_ai_trading_lab_pro.strategy_st01_p03").id,
+        "dataset_id": dataset.id, "strategy_id": env.ref("golok_ai_trading_lab_pro.strategy_st01_p04").id,
         "tariff_id": tariff.id, "starts": "2024-01-02", "ends": "2024-01-02", "capital": "50000", "tick": "0.05",
     })
     account = runner["golok.lab.paper.account"].create({"name": "Replay collision fixture"})

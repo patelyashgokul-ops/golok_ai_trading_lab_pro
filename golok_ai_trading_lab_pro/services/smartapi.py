@@ -108,7 +108,7 @@ class SmartAPI:
             self.state = "RATE_LIMITED"
             raise ProviderError(self.state)
         self._calls += 1
-        self._next_request = now + 5
+        self._next_request = now if self._quota else now + 5
         headers = {**self._headers, "Content-Type": "application/json", "Accept": "application/json"}
         if operation != "authenticate":
             headers["Authorization"] = "Bearer " + self._token
