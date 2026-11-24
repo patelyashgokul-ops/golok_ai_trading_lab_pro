@@ -237,3 +237,1773 @@ KeyError: 'ir.model.access'
 2026-11-24 10:41:13,769 23064 INFO golok_20261124161038 odoo.service.server.ThreadedServer: Hit CTRL-C again or send a second signal to force the shutdown.
 2026-11-24 10:41:13,769 23064 INFO golok_20261124161038 odoo.addons.bus.websocket: Disconnecting 0 websockets
 2026-11-24 10:41:13,878 23064 INFO golok_20261124161038 odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 1 connections 
+2026-11-24 10:42:56,167 6124 WARNING ? odoo.tools.config: option --without-demo: since 19.0, invalid boolean value: 'all', assume True
+2026-11-24 10:42:56,168 6124 INFO ? odoo: Odoo version 20.0
+2026-11-24 10:42:56,168 6124 INFO ? odoo: Using configuration file at c:\pycharmprojects\odoo20\odoo-20.0\odoo.conf
+2026-11-24 10:42:56,168 6124 INFO ? odoo: addons paths: _NamespacePath(['C:\\PycharmProjects\\odoo20\\odoo-20.0\\odoo\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons\\golok_ai_trading_lab_pro\\.local-test\\odoo-data\\addons\\20.0', 'c:\\pycharmprojects\\odoo20\\odoo-20.0\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons'])
+2026-11-24 10:42:56,168 6124 INFO ? odoo: database: golok_test@127.0.0.1:55489
+2026-11-24 10:42:58,724 6124 INFO ? odoo.service.server: HTTP service running on 127.0.0.1:8071
+2026-11-24 10:42:58,772 6124 INFO golok_20261124161253 odoo.tests.common: Importing test framework
+2026-11-24 10:42:58,906 6124 INFO golok_20261124161253 odoo.modules.loading: Initializing database golok_20261124161253
+2026-11-24 10:43:01,081 6124 WARNING golok_20261124161253 odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-24 10:43:01,085 6124 WARNING golok_20261124161253 odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-24 10:43:01,217 6124 WARNING golok_20261124161253 odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-24 10:43:01,217 6124 WARNING golok_20261124161253 odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-24 10:43:01,218 6124 WARNING golok_20261124161253 odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-24 10:43:01,219 6124 WARNING golok_20261124161253 odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-24 10:43:01,434 6124 INFO golok_20261124161253 odoo.modules.loading: loading 1 modules...
+2026-11-24 10:43:01,435 6124 INFO golok_20261124161253 odoo.modules.loading: Loading module base (1/1)
+2026-11-24 10:43:01,500 6124 INFO golok_20261124161253 odoo.tools.version_tag_reset: Detected tp_versions_used at offset 410, reset enabled
+2026-11-24 10:43:01,501 6124 INFO golok_20261124161253 odoo.registry: module base: creating or updating database tables
+2026-11-24 10:43:02,476 6124 INFO golok_20261124161253 odoo.fields: Prepare computation of ir.module.module.menus_by_module in 663 records
+2026-11-24 10:43:02,481 6124 INFO golok_20261124161253 odoo.fields: Prepare computation of ir.module.module.reports_by_module in 663 records
+2026-11-24 10:43:02,486 6124 INFO golok_20261124161253 odoo.fields: Prepare computation of ir.module.module.views_by_module in 663 records
+2026-11-24 10:43:02,864 6124 INFO golok_20261124161253 odoo.fields: Prepare computation of res.partner.user_id in 1 records
+2026-11-24 10:43:02,872 6124 INFO golok_20261124161253 odoo.fields: Prepare computation of res.partner.commercial_partner_id in 1 records
+2026-11-24 10:43:02,876 6124 INFO golok_20261124161253 odoo.fields: Prepare computation of res.partner.complete_name in 1 records
+2026-11-24 10:43:02,881 6124 INFO golok_20261124161253 odoo.fields: Prepare computation of res.partner.lang in 1 records
+2026-11-24 10:43:02,893 6124 INFO golok_20261124161253 odoo.fields: Prepare computation of res.partner.commercial_company_name in 1 records
+2026-11-24 10:43:02,896 6124 INFO golok_20261124161253 odoo.fields: Prepare computation of res.partner.properties in 1 records
+2026-11-24 10:43:02,906 6124 INFO golok_20261124161253 odoo.fields: Prepare computation of res.partner.partner_share in 1 records
+2026-11-24 10:43:03,020 6124 INFO golok_20261124161253 odoo.fields: Prepare computation of res.currency.decimal_places in 1 records
+2026-11-24 10:43:03,148 6124 INFO golok_20261124161253 odoo.fields: Prepare computation of res.company.company_details in 1 records
+2026-11-24 10:43:03,154 6124 INFO golok_20261124161253 odoo.fields: Prepare computation of res.company.uses_default_logo in 1 records
+2026-11-24 10:43:03,164 6124 INFO golok_20261124161253 odoo.models: Computing parent_path for table res_company...
+2026-11-24 10:43:03,263 6124 INFO golok_20261124161253 odoo.fields: Prepare computation of res.users.signature in 1 records
+2026-11-24 10:43:03,266 6124 INFO golok_20261124161253 odoo.fields: Prepare computation of res.users.share in 1 records
+2026-11-24 10:43:08,074 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/data/res.lang.csv
+2026-11-24 10:43:08,177 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/data/res_lang_data.xml
+2026-11-24 10:43:08,260 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/data/res_partner_data.xml
+2026-11-24 10:43:08,471 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/data/res_currency_data.xml
+2026-11-24 10:43:09,357 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/data/res_company_data.xml
+2026-11-24 10:43:09,396 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/data/res_users_data.xml
+2026-11-24 10:43:10,689 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/data/report_paperformat_data.xml
+2026-11-24 10:43:10,707 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/data/res_country_data.xml
+2026-11-24 10:43:11,641 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/data/clearing_label_data.xml
+2026-11-24 10:43:11,669 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/data/ir_demo_data.xml
+2026-11-24 10:43:11,693 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/security/base_groups.xml
+2026-11-24 10:43:12,150 6124 INFO golok_20261124161253 odoo.addons.base.models.res_users: Group change: user 1 with IP n/a changed groups of user 3 who belonged to [] with changes [(<Command.LINK: 4>, 12, 0)]
+2026-11-24 10:43:12,225 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/wizard/wizard_ir_model_menu_create_views.xml
+2026-11-24 10:43:12,246 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/decimal_precision_views.xml
+2026-11-24 10:43:12,275 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/res_config_views.xml
+2026-11-24 10:43:12,288 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/data/res.country.state.csv
+2026-11-24 10:43:13,079 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/ir_actions_views.xml
+2026-11-24 10:43:13,302 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/ir_asset_views.xml
+2026-11-24 10:43:13,324 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/ir_config_parameter_views.xml
+2026-11-24 10:43:13,346 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/ir_cron_views.xml
+2026-11-24 10:43:13,382 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/ir_cron_trigger_views.xml
+2026-11-24 10:43:13,401 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/ir_filters_views.xml
+2026-11-24 10:43:13,429 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/ir_mail_server_views.xml
+2026-11-24 10:43:13,452 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/ir_model_views.xml
+2026-11-24 10:43:13,572 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/ir_attachment_views.xml
+2026-11-24 10:43:13,602 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/ir_access_views.xml
+2026-11-24 10:43:13,646 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/ir_sequence_views.xml
+2026-11-24 10:43:13,674 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/ir_ui_menu_views.xml
+2026-11-24 10:43:13,701 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/ir_ui_view_views.xml
+2026-11-24 10:43:13,754 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/ir_default_views.xml
+2026-11-24 10:43:13,776 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/data/ir_config_parameter_data.xml
+2026-11-24 10:43:13,783 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/data/ir_cron_data.xml
+2026-11-24 10:43:13,819 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/report/ir_model_report.xml
+2026-11-24 10:43:13,830 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/report/ir_model_templates.xml
+2026-11-24 10:43:13,848 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/ir_logging_views.xml
+2026-11-24 10:43:13,880 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/ir_qweb_widget_templates.xml
+2026-11-24 10:43:13,909 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/ir_module_views.xml
+2026-11-24 10:43:13,964 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/data/ir_module_category_data.xml
+2026-11-24 10:43:14,026 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/data/ir_module_module.xml
+2026-11-24 10:43:14,145 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/report/ir_module_reports.xml
+2026-11-24 10:43:14,152 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/report/ir_module_report_templates.xml
+2026-11-24 10:43:14,163 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/wizard/base_module_update_views.xml
+2026-11-24 10:43:14,182 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/wizard/base_language_install_views.xml
+2026-11-24 10:43:14,205 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/wizard/base_import_language_views.xml
+2026-11-24 10:43:14,221 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/wizard/base_module_upgrade_views.xml
+2026-11-24 10:43:14,250 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/wizard/base_module_uninstall_views.xml
+2026-11-24 10:43:14,261 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/wizard/base_export_language_views.xml
+2026-11-24 10:43:14,274 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/wizard/base_partner_merge_views.xml
+2026-11-24 10:43:14,292 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/data/ir_demo_failure_data.xml
+2026-11-24 10:43:14,333 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/ir_profile_views.xml
+2026-11-24 10:43:14,416 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/res_company_views.xml
+2026-11-24 10:43:14,445 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/res_lang_views.xml
+2026-11-24 10:43:14,470 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/res_partner_views.xml
+2026-11-24 10:43:14,601 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/clearing_label_views.xml
+2026-11-24 10:43:14,607 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/res_partner_bank_views.xml
+2026-11-24 10:43:14,630 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/res_country_views.xml
+2026-11-24 10:43:14,652 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/res_country_group_views.xml
+2026-11-24 10:43:14,667 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/res_country_state_views.xml
+2026-11-24 10:43:14,688 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/res_currency_views.xml
+2026-11-24 10:43:14,732 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/res_groups_views.xml
+2026-11-24 10:43:14,791 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/res_users_views.xml
+2026-11-24 10:43:14,937 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/res_users_apikeys_views.xml
+2026-11-24 10:43:14,945 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/res_device_views.xml
+2026-11-24 10:43:14,978 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/res_users_identitycheck_views.xml
+2026-11-24 10:43:14,986 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/res_config_settings_views.xml
+2026-11-24 10:43:14,995 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/report_paperformat_views.xml
+2026-11-24 10:43:15,011 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/data/ir_action_data.xml
+2026-11-24 10:43:15,019 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/data/website.xml
+2026-11-24 10:43:15,026 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/views/base_menus.xml
+2026-11-24 10:43:15,251 6124 INFO golok_20261124161253 odoo.modules.loading: loading base/security/ir.access.csv
+2026-11-24 10:43:15,612 6124 INFO golok_20261124161253 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:43:15,938 6124 INFO golok_20261124161253 odoo.modules.loading: Module base loaded in 14.50s, 8630 queries (+8630 other)
+2026-11-24 10:43:15,938 6124 INFO golok_20261124161253 odoo.modules.loading: 1 modules loaded in 14.50s, 8630 queries (+8630 extra)
+2026-11-24 10:43:15,972 6124 INFO golok_20261124161253 odoo.modules.loading: updating modules list
+2026-11-24 10:43:15,978 6124 INFO golok_20261124161253 odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via n/a
+2026-11-24 10:43:16,878 6124 WARNING golok_20261124161253 odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-24 10:43:16,916 6124 WARNING golok_20261124161253 odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-24 10:43:16,916 6124 WARNING golok_20261124161253 odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-24 10:43:16,986 6124 INFO golok_20261124161253 odoo.addons.base.models.ir_module: ALLOW access to module.button_install on ['Golok AI Trading Lab Pro'] to user __system__ #1 via n/a
+2026-11-24 10:43:17,112 6124 INFO golok_20261124161253 odoo.modules.loading: loading 17 modules...
+2026-11-24 10:43:17,112 6124 INFO golok_20261124161253 odoo.modules.loading: Loading module base_report_wkhtmltox (2/17)
+2026-11-24 10:43:17,129 6124 INFO golok_20261124161253 odoo.registry: module base_report_wkhtmltox: creating or updating database tables
+2026-11-24 10:43:17,234 6124 INFO golok_20261124161253 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:43:17,240 6124 INFO golok_20261124161253 odoo.modules.loading: Module base_report_wkhtmltox loaded in 0.13s, 44 queries (+44 other)
+2026-11-24 10:43:17,240 6124 INFO golok_20261124161253 odoo.modules.loading: Loading module rpc (3/17)
+2026-11-24 10:43:17,266 6124 INFO golok_20261124161253 odoo.registry: Caches invalidated, signaling through the database: ['default', 'stable']
+2026-11-24 10:43:17,276 6124 INFO golok_20261124161253 odoo.modules.loading: Module rpc loaded in 0.04s, 12 queries (+12 other)
+2026-11-24 10:43:17,276 6124 INFO golok_20261124161253 odoo.modules.loading: Loading module web (4/17)
+2026-11-24 10:43:17,335 6124 INFO golok_20261124161253 odoo.registry: module web: creating or updating database tables
+2026-11-24 10:43:18,199 6124 INFO golok_20261124161253 odoo.modules.loading: loading web/views/webclient_templates.xml
+2026-11-24 10:43:18,331 6124 INFO golok_20261124161253 odoo.modules.loading: loading web/views/report_templates.xml
+2026-11-24 10:43:18,520 6124 INFO golok_20261124161253 odoo.modules.loading: loading web/views/base_document_layout_views.xml
+2026-11-24 10:43:18,558 6124 INFO golok_20261124161253 odoo.modules.loading: loading web/views/partner_view.xml
+2026-11-24 10:43:18,590 6124 INFO golok_20261124161253 odoo.modules.loading: loading web/views/speedscope_template.xml
+2026-11-24 10:43:18,601 6124 INFO golok_20261124161253 odoo.modules.loading: loading web/views/memory_template.xml
+2026-11-24 10:43:18,610 6124 INFO golok_20261124161253 odoo.modules.loading: loading web/views/speedscope_config_wizard.xml
+2026-11-24 10:43:18,620 6124 INFO golok_20261124161253 odoo.modules.loading: loading web/views/neutralize_views.xml
+2026-11-24 10:43:18,632 6124 INFO golok_20261124161253 odoo.modules.loading: loading web/views/ir_ui_view_views.xml
+2026-11-24 10:43:18,644 6124 INFO golok_20261124161253 odoo.modules.loading: loading web/data/ir_attachment.xml
+2026-11-24 10:43:18,650 6124 INFO golok_20261124161253 odoo.modules.loading: loading web/data/report_layout.xml
+2026-11-24 10:43:18,732 6124 INFO golok_20261124161253 odoo.modules.loading: loading web/security/ir.access.csv
+2026-11-24 10:43:18,860 6124 INFO golok_20261124161253 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:43:18,918 6124 INFO golok_20261124161253 odoo.modules.loading: Module web loaded in 1.64s, 1384 queries (+1384 other)
+2026-11-24 10:43:18,918 6124 INFO golok_20261124161253 odoo.modules.loading: Loading module api_doc (5/17)
+2026-11-24 10:43:18,936 6124 INFO golok_20261124161253 odoo.registry: module api_doc: creating or updating database tables
+2026-11-24 10:43:18,968 6124 INFO golok_20261124161253 odoo.modules.loading: loading api_doc/security/res_groups.xml
+2026-11-24 10:43:19,024 6124 INFO golok_20261124161253 odoo.modules.loading: loading api_doc/views/docclient.xml
+2026-11-24 10:43:19,050 6124 INFO golok_20261124161253 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:43:19,058 6124 INFO golok_20261124161253 odoo.modules.loading: Module api_doc loaded in 0.14s, 88 queries (+88 other)
+2026-11-24 10:43:19,058 6124 INFO golok_20261124161253 odoo.modules.loading: Loading module auth_totp (6/17)
+2026-11-24 10:43:19,132 6124 INFO golok_20261124161253 odoo.registry: module auth_totp: creating or updating database tables
+2026-11-24 10:43:19,352 6124 INFO golok_20261124161253 odoo.modules.loading: loading auth_totp/data/ir_action_data.xml
+2026-11-24 10:43:19,379 6124 INFO golok_20261124161253 odoo.modules.loading: loading auth_totp/views/res_users_views.xml
+2026-11-24 10:43:19,443 6124 INFO golok_20261124161253 odoo.modules.loading: loading auth_totp/views/templates.xml
+2026-11-24 10:43:19,451 6124 INFO golok_20261124161253 odoo.modules.loading: loading auth_totp/wizard/auth_totp_wizard_views.xml
+2026-11-24 10:43:19,466 6124 INFO golok_20261124161253 odoo.modules.loading: loading auth_totp/security/ir.access.csv
+2026-11-24 10:43:19,549 6124 INFO golok_20261124161253 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:43:19,565 6124 INFO golok_20261124161253 odoo.modules.loading: Module auth_totp loaded in 0.51s, 208 queries (+208 other)
+2026-11-24 10:43:19,565 6124 INFO golok_20261124161253 odoo.modules.loading: Loading module base_import (7/17)
+2026-11-24 10:43:19,633 6124 INFO golok_20261124161253 odoo.registry: module base_import: creating or updating database tables
+2026-11-24 10:43:20,372 6124 INFO golok_20261124161253 odoo.modules.loading: loading base_import/security/ir.access.csv
+2026-11-24 10:43:20,506 6124 INFO golok_20261124161253 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:43:20,507 6124 INFO golok_20261124161253 odoo.modules.loading: Module base_import loaded in 0.94s, 1123 queries (+1123 other)
+2026-11-24 10:43:20,508 6124 INFO golok_20261124161253 odoo.modules.loading: Loading module base_import_module (8/17)
+2026-11-24 10:43:20,530 6124 INFO golok_20261124161253 odoo.registry: module base_import_module: creating or updating database tables
+2026-11-24 10:43:20,679 6124 INFO golok_20261124161253 odoo.modules.loading: loading base_import_module/views/base_import_module_view.xml
+2026-11-24 10:43:20,736 6124 INFO golok_20261124161253 odoo.modules.loading: loading base_import_module/views/ir_module_views.xml
+2026-11-24 10:43:20,801 6124 INFO golok_20261124161253 odoo.modules.loading: loading base_import_module/security/ir.access.csv
+2026-11-24 10:43:20,850 6124 INFO golok_20261124161253 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:43:20,858 6124 INFO golok_20261124161253 odoo.modules.loading: Module base_import_module loaded in 0.35s, 172 queries (+172 other)
+2026-11-24 10:43:20,858 6124 INFO golok_20261124161253 odoo.modules.loading: Loading module base_setup (9/17)
+2026-11-24 10:43:20,890 6124 INFO golok_20261124161253 odoo.registry: module base_setup: creating or updating database tables
+2026-11-24 10:43:20,982 6124 INFO golok_20261124161253 odoo.modules.loading: loading base_setup/data/base_setup_data.xml
+2026-11-24 10:43:20,988 6124 INFO golok_20261124161253 odoo.modules.loading: loading base_setup/views/res_config_settings_views.xml
+2026-11-24 10:43:21,082 6124 INFO golok_20261124161253 odoo.modules.loading: loading base_setup/views/res_partner_views.xml
+2026-11-24 10:43:21,137 6124 INFO golok_20261124161253 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:43:21,148 6124 INFO golok_20261124161253 odoo.modules.loading: Module base_setup loaded in 0.29s, 154 queries (+154 other)
+2026-11-24 10:43:21,148 6124 INFO golok_20261124161253 odoo.modules.loading: Loading module bus (10/17)
+2026-11-24 10:43:21,211 6124 INFO golok_20261124161253 odoo.registry: module bus: creating or updating database tables
+2026-11-24 10:43:21,381 6124 INFO golok_20261124161253 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:43:21,404 6124 INFO golok_20261124161253 odoo.modules.loading: Module bus loaded in 0.26s, 128 queries (+128 other)
+2026-11-24 10:43:21,404 6124 INFO golok_20261124161253 odoo.modules.loading: Loading module golok_ai_trading_lab_pro (11/17)
+2026-11-24 10:43:21,426 6124 INFO golok_20261124161253 odoo.registry: module golok_ai_trading_lab_pro: creating or updating database tables
+2026-11-24 10:43:21,841 6124 INFO golok_20261124161253 odoo.modules.loading: loading golok_ai_trading_lab_pro/security/groups.xml
+2026-11-24 10:43:22,039 6124 INFO golok_20261124161253 odoo.modules.loading: loading golok_ai_trading_lab_pro/security/ir.access.csv
+2026-11-24 10:43:22,101 6124 INFO golok_20261124161253 odoo.modules.loading: loading golok_ai_trading_lab_pro/views/lab.xml
+2026-11-24 10:43:22,430 6124 INFO golok_20261124161253 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:43:22,916 6124 INFO golok_20261124161253 odoo.addons.base.models.res_users: Group change: user 1 with IP n/a changed groups of user 1 who belonged to [10, 9, 5, 15] with changes [(<Command.LINK: 4>, 6, 0)]
+2026-11-24 10:43:23,225 6124 INFO golok_20261124161253 odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_database_duplicate_constraint ...
+2026-11-24 10:43:23,418 6124 INFO golok_20261124161253 odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: ======================================================================
+2026-11-24 10:43:23,419 6124 ERROR golok_20261124161253 odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: ERROR: TestLab.test_database_duplicate_constraint
+Traceback (most recent call last):
+  File "c:\pycharmprojects\odoo20\custom_addons\golok_ai_trading_lab_pro\tests\test_lab.py", line 118, in test_database_duplicate_constraint
+    self._wizard(self._lines(1)).action_import()
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "c:\pycharmprojects\odoo20\custom_addons\golok_ai_trading_lab_pro\tests\test_lab.py", line 38, in _wizard
+    return self.env["golok.lab.import"].with_user(self.analyst).create({
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+        "dataset_id": (dataset if dataset is not None else self.dataset).id,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        "upload": base64.b64encode(raw),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    })
+    ^^
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\decorators.py", line 330, in create
+    return method(self, vals_list)
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\models.py", line 4192, in create
+    records = self._create(data_list)
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\models.py", line 4370, in _create
+    row.append(field.convert_to_column_insert(stored[fname], self, stored))
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\fields.py", line 1140, in convert_to_column_insert
+    value = self.convert_to_column(value, record, values, validate)
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\fields_binary.py", line 72, in convert_to_column
+    data = self.convert_to_cache(value, record, validate) or EMPTY_BINARY
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\fields_binary.py", line 112, in convert_to_cache
+    raise TypeError(f'{self}: use BinaryValue instead of {value.__class__.__name__}')
+TypeError: golok.lab.import.upload: use BinaryValue instead of bytes
+
+2026-11-24 10:43:23,420 6124 INFO golok_20261124161253 odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_gap_disables_findings ...
+2026-11-24 10:43:23,430 6124 INFO golok_20261124161253 odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: ======================================================================
+2026-11-24 10:43:23,430 6124 ERROR golok_20261124161253 odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: ERROR: TestLab.test_gap_disables_findings
+Traceback (most recent call last):
+  File "c:\pycharmprojects\odoo20\custom_addons\golok_ai_trading_lab_pro\tests\test_lab.py", line 80, in test_gap_disables_findings
+    self._wizard(lines[:5] + lines[6:]).action_import()
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\pycharmprojects\odoo20\custom_addons\golok_ai_trading_lab_pro\tests\test_lab.py", line 38, in _wizard
+    return self.env["golok.lab.import"].with_user(self.analyst).create({
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+        "dataset_id": (dataset if dataset is not None else self.dataset).id,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        "upload": base64.b64encode(raw),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    })
+    ^^
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\decorators.py", line 330, in create
+    return method(self, vals_list)
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\models.py", line 4192, in create
+    records = self._create(data_list)
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\models.py", line 4370, in _create
+    row.append(field.convert_to_column_insert(stored[fname], self, stored))
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\fields.py", line 1140, in convert_to_column_insert
+    value = self.convert_to_column(value, record, values, validate)
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\fields_binary.py", line 72, in convert_to_column
+    data = self.convert_to_cache(value, record, validate) or EMPTY_BINARY
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\fields_binary.py", line 112, in convert_to_cache
+    raise TypeError(f'{self}: use BinaryValue instead of {value.__class__.__name__}')
+TypeError: golok.lab.import.upload: use BinaryValue instead of bytes
+
+2026-11-24 10:43:23,431 6124 INFO golok_20261124161253 odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_import_retry_and_atomic_conflict ...
+2026-11-24 10:43:23,442 6124 INFO golok_20261124161253 odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: ======================================================================
+2026-11-24 10:43:23,442 6124 ERROR golok_20261124161253 odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: ERROR: TestLab.test_import_retry_and_atomic_conflict
+Traceback (most recent call last):
+  File "c:\pycharmprojects\odoo20\custom_addons\golok_ai_trading_lab_pro\tests\test_lab.py", line 51, in test_import_retry_and_atomic_conflict
+    self._wizard(lines[:2]).action_import()
+    ~~~~~~~~~~~~^^^^^^^^^^^
+  File "c:\pycharmprojects\odoo20\custom_addons\golok_ai_trading_lab_pro\tests\test_lab.py", line 38, in _wizard
+    return self.env["golok.lab.import"].with_user(self.analyst).create({
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+        "dataset_id": (dataset if dataset is not None else self.dataset).id,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        "upload": base64.b64encode(raw),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    })
+    ^^
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\decorators.py", line 330, in create
+    return method(self, vals_list)
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\models.py", line 4192, in create
+    records = self._create(data_list)
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\models.py", line 4370, in _create
+    row.append(field.convert_to_column_insert(stored[fname], self, stored))
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\fields.py", line 1140, in convert_to_column_insert
+    value = self.convert_to_column(value, record, values, validate)
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\fields_binary.py", line 72, in convert_to_column
+    data = self.convert_to_cache(value, record, validate) or EMPTY_BINARY
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\fields_binary.py", line 112, in convert_to_cache
+    raise TypeError(f'{self}: use BinaryValue instead of {value.__class__.__name__}')
+TypeError: golok.lab.import.upload: use BinaryValue instead of bytes
+
+2026-11-24 10:43:23,444 6124 INFO golok_20261124161253 odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_permissions_and_company_scope ...
+2026-11-24 10:43:23,459 6124 INFO golok_20261124161253 odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: ======================================================================
+2026-11-24 10:43:23,459 6124 ERROR golok_20261124161253 odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: ERROR: TestLab.test_permissions_and_company_scope
+Traceback (most recent call last):
+  File "c:\pycharmprojects\odoo20\custom_addons\golok_ai_trading_lab_pro\tests\test_lab.py", line 91, in test_permissions_and_company_scope
+    self._wizard(self._lines(1)).action_import()
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "c:\pycharmprojects\odoo20\custom_addons\golok_ai_trading_lab_pro\tests\test_lab.py", line 38, in _wizard
+    return self.env["golok.lab.import"].with_user(self.analyst).create({
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+        "dataset_id": (dataset if dataset is not None else self.dataset).id,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        "upload": base64.b64encode(raw),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    })
+    ^^
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\decorators.py", line 330, in create
+    return method(self, vals_list)
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\models.py", line 4192, in create
+    records = self._create(data_list)
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\models.py", line 4370, in _create
+    row.append(field.convert_to_column_insert(stored[fname], self, stored))
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\fields.py", line 1140, in convert_to_column_insert
+    value = self.convert_to_column(value, record, values, validate)
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\fields_binary.py", line 72, in convert_to_column
+    data = self.convert_to_cache(value, record, validate) or EMPTY_BINARY
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\fields_binary.py", line 112, in convert_to_cache
+    raise TypeError(f'{self}: use BinaryValue instead of {value.__class__.__name__}')
+TypeError: golok.lab.import.upload: use BinaryValue instead of bytes
+
+2026-11-24 10:43:23,461 6124 INFO golok_20261124161253 odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_research_cutoff_evidence_and_no_trade ...
+2026-11-24 10:43:23,472 6124 INFO golok_20261124161253 odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: ======================================================================
+2026-11-24 10:43:23,473 6124 ERROR golok_20261124161253 odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: ERROR: TestLab.test_research_cutoff_evidence_and_no_trade
+Traceback (most recent call last):
+  File "c:\pycharmprojects\odoo20\custom_addons\golok_ai_trading_lab_pro\tests\test_lab.py", line 63, in test_research_cutoff_evidence_and_no_trade
+    self._wizard(self._lines(25)).action_import()
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "c:\pycharmprojects\odoo20\custom_addons\golok_ai_trading_lab_pro\tests\test_lab.py", line 38, in _wizard
+    return self.env["golok.lab.import"].with_user(self.analyst).create({
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+        "dataset_id": (dataset if dataset is not None else self.dataset).id,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        "upload": base64.b64encode(raw),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    })
+    ^^
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\decorators.py", line 330, in create
+    return method(self, vals_list)
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\models.py", line 4192, in create
+    records = self._create(data_list)
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\models.py", line 4370, in _create
+    row.append(field.convert_to_column_insert(stored[fname], self, stored))
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\fields.py", line 1140, in convert_to_column_insert
+    value = self.convert_to_column(value, record, values, validate)
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\fields_binary.py", line 72, in convert_to_column
+    data = self.convert_to_cache(value, record, validate) or EMPTY_BINARY
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\fields_binary.py", line 112, in convert_to_cache
+    raise TypeError(f'{self}: use BinaryValue instead of {value.__class__.__name__}')
+TypeError: golok.lab.import.upload: use BinaryValue instead of bytes
+
+2026-11-24 10:43:23,512 6124 INFO golok_20261124161253 odoo.addons.base.models.ir_attachment: filestore gc 14 checked, 3 removed
+2026-11-24 10:43:23,530 6124 INFO golok_20261124161253 odoo.modules.loading: Module golok_ai_trading_lab_pro loaded in 2.13s (incl. 1.03s test), 524 queries (+149 test, +524 other)
+2026-11-24 10:43:23,530 6124 ERROR golok_20261124161253 odoo.modules.loading: Module golok_ai_trading_lab_pro: 0 failures, 5 errors of 5 tests
+2026-11-24 10:43:23,530 6124 INFO golok_20261124161253 odoo.modules.loading: Loading module mysubscription (12/17)
+2026-11-24 10:43:23,557 6124 INFO golok_20261124161253 odoo.registry: module mysubscription: creating or updating database tables
+2026-11-24 10:43:23,596 6124 INFO golok_20261124161253 odoo.modules.loading: loading mysubscription/views/menus.xml
+2026-11-24 10:43:23,638 6124 INFO golok_20261124161253 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:43:23,641 6124 INFO golok_20261124161253 odoo.modules.loading: Module mysubscription loaded in 0.11s, 30 queries (+30 other)
+2026-11-24 10:43:23,641 6124 INFO golok_20261124161253 odoo.modules.loading: Loading module web_tour (13/17)
+2026-11-24 10:43:23,680 6124 INFO golok_20261124161253 odoo.registry: module web_tour: creating or updating database tables
+2026-11-24 10:43:23,692 6124 INFO golok_20261124161253 odoo.fields: Prepare computation of res.users.tour_enabled in 4 records
+2026-11-24 10:43:23,913 6124 INFO golok_20261124161253 odoo.modules.loading: loading web_tour/views/tour_views.xml
+2026-11-24 10:43:24,011 6124 INFO golok_20261124161253 odoo.modules.loading: loading web_tour/security/ir.access.csv
+2026-11-24 10:43:24,085 6124 INFO golok_20261124161253 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:43:24,094 6124 INFO golok_20261124161253 odoo.modules.loading: Module web_tour loaded in 0.45s, 206 queries (+206 other)
+2026-11-24 10:43:24,094 6124 INFO golok_20261124161253 odoo.modules.loading: Loading module auth_passkey (14/17)
+2026-11-24 10:43:24,309 6124 INFO golok_20261124161253 odoo.registry: module auth_passkey: creating or updating database tables
+2026-11-24 10:43:24,450 6124 INFO golok_20261124161253 odoo.modules.loading: loading auth_passkey/views/auth_passkey_key_views.xml
+2026-11-24 10:43:24,520 6124 INFO golok_20261124161253 odoo.modules.loading: loading auth_passkey/views/auth_passkey_login_templates.xml
+2026-11-24 10:43:24,562 6124 INFO golok_20261124161253 odoo.modules.loading: loading auth_passkey/views/res_users_identitycheck_views.xml
+2026-11-24 10:43:24,596 6124 INFO golok_20261124161253 odoo.modules.loading: loading auth_passkey/views/res_users_views.xml
+2026-11-24 10:43:24,633 6124 INFO golok_20261124161253 odoo.modules.loading: loading auth_passkey/security/ir.access.csv
+2026-11-24 10:43:24,683 6124 INFO golok_20261124161253 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:43:24,689 6124 INFO golok_20261124161253 odoo.modules.loading: Module auth_passkey loaded in 0.60s, 214 queries (+214 other)
+2026-11-24 10:43:24,689 6124 INFO golok_20261124161253 odoo.modules.loading: Loading module html_editor (15/17)
+2026-11-24 10:43:25,003 6124 WARNING golok_20261124161253 odoo.addons.mail.controllers.attachment: markdown2 is not installed, markdown will not be rendered
+2026-11-24 10:43:25,111 6124 INFO golok_20261124161253 odoo.registry: module html_editor: creating or updating database tables
+2026-11-24 10:43:26,161 6124 INFO golok_20261124161253 odoo.modules.loading: loading html_editor/security/ir.access.csv
+2026-11-24 10:43:26,370 6124 INFO golok_20261124161253 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:43:26,393 6124 INFO golok_20261124161253 odoo.modules.loading: Module html_editor loaded in 1.70s, 1272 queries (+1272 other)
+2026-11-24 10:43:26,393 6124 INFO golok_20261124161253 odoo.modules.loading: Loading module iap (16/17)
+2026-11-24 10:43:26,415 6124 INFO golok_20261124161253 odoo.registry: module iap: creating or updating database tables
+2026-11-24 10:43:26,930 6124 INFO golok_20261124161253 odoo.modules.loading: loading iap/data/services.xml
+2026-11-24 10:43:26,963 6124 INFO golok_20261124161253 odoo.modules.loading: loading iap/views/iap_views.xml
+2026-11-24 10:43:27,110 6124 INFO golok_20261124161253 odoo.modules.loading: loading iap/views/res_config_settings.xml
+2026-11-24 10:43:27,160 6124 INFO golok_20261124161253 odoo.modules.loading: loading iap/views/res_users_views.xml
+2026-11-24 10:43:27,193 6124 INFO golok_20261124161253 odoo.modules.loading: loading iap/security/ir.access.csv
+2026-11-24 10:43:27,294 6124 INFO golok_20261124161253 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:43:27,307 6124 INFO golok_20261124161253 odoo.modules.loading: Module iap loaded in 0.91s, 238 queries (+238 other)
+2026-11-24 10:43:27,307 6124 INFO golok_20261124161253 odoo.modules.loading: Loading module web_unsplash (17/17)
+2026-11-24 10:43:27,382 6124 INFO golok_20261124161253 odoo.registry: module web_unsplash: creating or updating database tables
+2026-11-24 10:43:27,520 6124 INFO golok_20261124161253 odoo.modules.loading: loading web_unsplash/views/res_config_settings_view.xml
+2026-11-24 10:43:27,641 6124 INFO golok_20261124161253 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:43:27,649 6124 INFO golok_20261124161253 odoo.modules.loading: Module web_unsplash loaded in 0.34s, 100 queries (+100 other)
+2026-11-24 10:43:27,649 6124 INFO golok_20261124161253 odoo.modules.loading: 17 modules loaded in 10.54s, 5897 queries (+6046 extra)
+2026-11-24 10:43:28,994 6124 ERROR golok_20261124161253 odoo.modules.loading: At least one test failed when loading the modules.
+2026-11-24 10:43:29,008 6124 INFO golok_20261124161253 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:43:29,011 6124 INFO golok_20261124161253 odoo.registry: Registry loaded in 30.282s
+2026-11-24 10:43:29,012 6124 INFO golok_20261124161253 odoo.service.server: Starting post tests
+2026-11-24 10:43:29,049 6124 INFO golok_20261124161253 odoo.registry: Reloading the model registry after database signaling.
+2026-11-24 10:43:29,109 6124 INFO golok_20261124161253 odoo.modules.loading: loading 1 modules...
+2026-11-24 10:43:29,120 6124 INFO golok_20261124161253 odoo.modules.loading: 1 modules loaded in 0.01s, 0 queries (+0 extra)
+2026-11-24 10:43:29,122 6124 INFO golok_20261124161253 odoo.modules.loading: loading 17 modules...
+2026-11-24 10:43:29,139 6124 INFO golok_20261124161253 odoo.modules.loading: 17 modules loaded in 0.02s, 0 queries (+0 extra)
+2026-11-24 10:43:29,199 6124 INFO golok_20261124161253 odoo.modules.loading: Modules loaded.
+2026-11-24 10:43:29,224 6124 INFO golok_20261124161253 odoo.registry: Registry loaded in 0.175s
+2026-11-24 10:43:29,224 6124 INFO golok_20261124161253 odoo.addons.base.models.ir_qweb: Pregenerating assets bundles
+2026-11-24 10:43:48,791 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/920b9a9/api_doc.assets.min.js (id:36)
+2026-11-24 10:43:48,827 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/6f83a1f/bus.websocket_worker_assets.min.js (id:37)
+2026-11-24 10:43:49,028 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/4917be2/html_editor.assets_history_diff.min.js (id:38)
+2026-11-24 10:43:49,281 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/4c0d34b/html_editor.assets_image_cropper.min.js (id:39)
+2026-11-24 10:43:49,845 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/d7e7390/web.__assets_tests_call__.min.js (id:40)
+2026-11-24 10:43:50,543 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/5e08903/web.ace_lib.min.js (id:41)
+2026-11-24 10:43:50,590 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/ac4e067/web.assets_clickbot.min.js (id:42)
+2026-11-24 10:43:50,986 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/32faa32/web.assets_emoji.min.js (id:43)
+2026-11-24 10:43:53,006 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/1f6245d/web.assets_frontend_lazy.min.js (id:44)
+2026-11-24 10:43:53,028 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/f581575/web.assets_frontend_minimal.min.js (id:45)
+2026-11-24 10:43:53,050 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/415d793/web.assets_tests.min.js (id:46)
+2026-11-24 10:44:15,218 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/4b03df0/web.assets_unit_tests.min.js (id:47)
+2026-11-24 10:44:23,561 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/79aee63/web.assets_unit_tests_setup.min.js (id:48)
+2026-11-24 10:44:24,206 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/b367c8e/web.assets_web.min.js (id:49)
+2026-11-24 10:44:24,841 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/9244e7c/web.chartjs_lib.min.js (id:50)
+2026-11-24 10:44:25,324 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/0fd419e/web.fullcalendar_lib.min.js (id:51)
+2026-11-24 10:44:25,330 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/cf83e13/web.material_symbols_outlined.min.js (id:52)
+2026-11-24 10:44:25,334 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/cf83e13/web.odoo_ui_icons.min.js (id:53)
+2026-11-24 10:44:25,545 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/5a4f408/web.report_assets_common.min.js (id:54)
+2026-11-24 10:44:25,551 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/cf83e13/web.report_assets_pdf.min.js (id:55)
+2026-11-24 10:44:25,569 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/0be5d1d/web_tour.interactive.min.js (id:56)
+2026-11-24 10:44:25,587 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/78d2d0d/web_tour.recorder.min.js (id:57)
+2026-11-24 10:44:25,588 6124 INFO golok_20261124161253 odoo.addons.base.models.ir_qweb: JS Assets bundles generated in 38.83535885810852 seconds
+2026-11-24 10:44:25,607 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/d62e94c/web.material_symbols_outlined.min.woff2 (id:58)
+2026-11-24 10:44:25,625 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/e148061/web.odoo_ui_icons.min.woff2 (id:59)
+2026-11-24 10:44:25,627 6124 INFO golok_20261124161253 odoo.addons.base.models.ir_qweb: Binary Assets bundles generated in 0.03856301307678223 seconds
+2026-11-24 10:44:32,078 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/8062d0a/api_doc.assets.min.css (id:60)
+2026-11-24 10:44:32,083 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/cf83e13/bus.websocket_worker_assets.min.css (id:61)
+2026-11-24 10:44:32,107 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/2be726b/html_editor.assets_history_diff.min.css (id:62)
+2026-11-24 10:44:32,117 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/381bbeb/html_editor.assets_image_cropper.min.css (id:63)
+2026-11-24 10:44:32,120 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/cf83e13/web.__assets_tests_call__.min.css (id:64)
+2026-11-24 10:44:32,122 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/cf83e13/web.ace_lib.min.css (id:65)
+2026-11-24 10:44:32,125 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/cf83e13/web.assets_clickbot.min.css (id:66)
+2026-11-24 10:44:32,129 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/cf83e13/web.assets_emoji.min.css (id:67)
+2026-11-24 10:44:40,275 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/ee1a419/web.assets_frontend.min.css (id:68)
+2026-11-24 10:44:49,152 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/ee1a419/web.assets_frontend_lazy.min.css (id:69)
+2026-11-24 10:44:49,158 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/cf83e13/web.assets_frontend_minimal.min.css (id:70)
+2026-11-24 10:44:49,163 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/cf83e13/web.assets_tests.min.css (id:71)
+2026-11-24 10:44:49,181 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/6786896/web.assets_unit_tests.min.css (id:72)
+2026-11-24 10:44:59,381 6124 WARNING golok_20261124161253 odoo.addons.base.models.assetsbundle: Internal Error: Incompatible units: 'px' and '%'.
+This error occurred while compiling the bundle 'web.assets_unit_tests_setup' containing:
+    - /web/static/lib/bootstrap/scss/_functions.scss
+    - /web/static/lib/bootstrap/scss/_mixins.scss
+    - /web/static/src/scss/functions.scss
+    - /web/static/src/scss/mixins_forwardport.scss
+    - /web/static/src/scss/bs_mixins_overrides.scss
+    - /web/static/src/scss/utils.scss
+    - /web/static/src/scss/primary_variables.scss
+    - /html_editor/static/src/scss/html_editor.variables.scss
+    - /web/static/src/core/avatar/avatar.variables.scss
+    - /web/static/src/core/bottom_sheet/bottom_sheet.variables.scss
+    - /web/static/src/core/notifications/notification.variables.scss
+    - /web/static/src/search/control_panel/control_panel.variables.scss
+    - /web/static/src/search/search_bar/search_bar.variables.scss
+    - /web/static/src/search/search_panel/search_panel.variables.scss
+    - /web/static/src/views/fields/statusbar/statusbar_field.variables.scss
+    - /web/static/src/views/fields/translation/translation_button.variables.scss
+    - /web/static/src/views/form/form.variables.scss
+    - /web/static/src/views/kanban/kanban.variables.scss
+    - /web/static/src/webclient/burger_menu/burger_menu.variables.scss
+    - /web/static/src/webclient/navbar/navbar.variables.scss
+    - /web/static/src/scss/secondary_variables.scss
+    - /html_editor/static/src/scss/secondary_variables.scss
+    - /web/static/src/scss/bootstrap_overridden.scss
+    - /web/static/src/scss/bs_mixins_overrides_backend.scss
+    - /html_editor/static/src/scss/bootstrap_overridden_backend.scss
+    - /html_editor/static/src/scss/bootstrap_overridden.scss
+    - /web/static/src/scss/pre_variables.scss
+    - /web/static/lib/bootstrap/scss/_variables.scss
+    - /web/static/lib/bootstrap/scss/_variables-dark.scss
+    - /web/static/lib/bootstrap/scss/_maps.scss
+    - /web/static/src/scss/import_bootstrap.scss
+    - /web/static/src/scss/utilities_custom.scss
+    - /web/static/src/scss/utilities_custom_backend.scss
+    - /web/static/lib/bootstrap/scss/utilities/_api.scss
+    - /web/static/src/scss/bootstrap_review.scss
+    - /web/static/src/scss/bootstrap_review_backend.scss
+    - /web/static/src/core/utils/transitions.scss
+    - /web/static/src/core/action_swiper/action_swiper.scss
+    - /web/static/src/core/autocomplete/autocomplete.scss
+    - /web/static/src/core/avatar/avatar.scss
+    - /web/static/src/core/badge/badge.scss
+    - /web/static/src/core/barcode/barcode_dialog.scss
+    - /web/static/src/core/barcode/crop_overlay.scss
+    - /web/static/src/core/bottom_sheet/bottom_sheet.scss
+    - /web/static/src/core/btn_circle/btn_circle.scss
+    - /web/static/src/core/checkbox/checkbox.scss
+    - /web/static/src/core/colorlist/colorlist.scss
+    - /web/static/src/core/commands/command_palette.scss
+    - /web/static/src/core/datetime/datetime_picker.scss
+    - /web/static/src/core/debug/debug_menu.scss
+    - /web/static/src/core/dialog/dialog.scss
+    - /web/static/src/core/dropdown/accordion_item.scss
+    - /web/static/src/core/dropdown/dropdown.scss
+    - /web/static/src/core/dropzone/dropzone.scss
+    - /web/static/src/core/effects/rainbow_man.scss
+    - /web/static/src/core/emoji_picker/emoji_picker.scss
+    - /web/static/src/core/errors/error_dialog.scss
+    - /web/static/src/core/file_upload/file_upload_progress_bar.scss
+    - /web/static/src/core/file_upload/file_upload_progress_record.scss
+    - /web/static/src/core/file_viewer/file_viewer.scss
+    - /web/static/src/core/ir_ui_view_code_editor/code_editor.scss
+    - /web/static/src/core/model_field_selector/model_field_selector.scss
+    - /web/static/src/core/model_field_selector/model_field_selector_popover.scss
+    - /web/static/src/core/model_selector/model_selector.scss
+    - /web/static/src/core/notebook/notebook.scss
+    - /web/static/src/core/notification_alert_dialog/notification_alert_dialog.scss
+    - /web/static/src/core/notifications/notification.scss
+    - /web/static/src/core/offline/offline.scss
+    - /web/static/src/core/overlay/overlay_container.scss
+    - /web/static/src/core/pager/pager_indicator.scss
+    - /web/static/src/core/popover/popover.scss
+    - /web/static/src/core/pwa/install_prompt.scss
+    - /web/static/src/core/record_selectors/record_selectors.scss
+    - /web/static/src/core/resizable_panel/resizable_panel.scss
+    - /web/static/src/core/select_menu/select_menu.scss
+    - /web/static/src/core/session/check_identity.scss
+    - /web/static/src/core/signature/name_and_signature.scss
+    - /web/static/src/core/signature/signature_viewer.scss
+    - /web/static/src/core/tags_list/tags_list.scss
+    - /web/static/src/core/time_picker/time_picker.scss
+    - /web/static/src/core/tooltip/tooltip.scss
+    - /web/static/src/core/tree_editor/tree_editor.scss
+    - /web/static/src/core/ui/block_ui.scss
+    - /web/static/src/core/utils/draggable_hook_builder.scss
+    - /web/static/src/core/utils/nested_sortable.scss
+    - /web/static/src/webclient/icons_mappings/rtl_icons.scss
+    - /web/static/src/webclient/icons.scss
+    - /web/static/src/webclient/navbar/navbar.scss
+    - /web/static/src/scss/animation.scss
+    - /web/static/src/scss/mimetypes.scss
+    - /web/static/src/scss/ui.scss
+    - /web/static/src/search/cog_menu/cog_menu.scss
+    - /web/static/src/search/control_panel/control_panel.scss
+    - /web/static/src/search/control_panel/control_panel.variables_print.scss
+    - /web/static/src/search/control_panel/embedded_actions.scss
+    - /web/static/src/search/custom_group_by_item/custom_group_by_item.scss
+    - /web/static/src/search/search_bar/search_bar.scss
+    - /web/static/src/search/search_bar_menu/search_bar_menu.scss
+    - /web/static/src/search/search_panel/search_panel.scss
+    - /web/static/src/search/search_panel/search_view.scss
+    - /web/static/src/views/calendar/calendar_common/calendar_common_popover.scss
+    - /web/static/src/views/calendar/calendar_controller.scss
+    - /web/static/src/views/calendar/calendar_controller_mobile.scss
+    - /web/static/src/views/calendar/calendar_filter_section/calendar_filter_section.scss
+    - /web/static/src/views/calendar/calendar_renderer.scss
+    - /web/static/src/views/calendar/calendar_renderer_mobile.scss
+    - /web/static/src/views/calendar/calendar_year/calendar_year_popover.scss
+    - /web/static/src/views/card/card.scss
+    - /web/static/src/views/card/card_popover/card_popover.scss
+    - /web/static/src/views/fields/ace/ace_field.scss
+    - /web/static/src/views/fields/additional_identifiers/additional_identifiers.scss
+    - /web/static/src/views/fields/badges_selection/base_badge_field.scss
+    - /web/static/src/views/fields/binary/binary_field.scss
+    - /web/static/src/views/fields/boolean_favorite/boolean_favorite_field.scss
+    - /web/static/src/views/fields/boolean_icon/boolean_icon_field.scss
+    - /web/static/src/views/fields/char/char_field.scss
+    - /web/static/src/views/fields/color_picker/color_picker_field.scss
+    - /web/static/src/views/fields/copy_clipboard/copy_clipboard_field.scss
+    - /web/static/src/views/fields/email/email_field.scss
+    - /web/static/src/views/fields/fields.scss
+    - /web/static/src/views/fields/float_time/float_time_field.scss
+    - /web/static/src/views/fields/google_slide_viewer/google_slide_viewer.scss
+    - /web/static/src/views/fields/html/html_field.scss
+    - /web/static/src/views/fields/iframe_wrapper/iframe_wrapper_field.scss
+    - /web/static/src/views/fields/image/image_field.scss
+    - /web/static/src/views/fields/journal_dashboard_graph/journal_dashboard_graph_field.scss
+    - /web/static/src/views/fields/kanban_color_picker/kanban_color_picker_field.scss
+    - /web/static/src/views/fields/many2many_tags/many2many_tags_field.scss
+    - /web/static/src/views/fields/many2many_tags_avatar/many2many_tags_avatar_field.scss
+    - /web/static/src/views/fields/many2many_tags_color_dot/many2many_tags_color_dot_field.scss
+    - /web/static/src/views/fields/many2one/many2one.scss
+    - /web/static/src/views/fields/many2one/many2one_field.scss
+    - /web/static/src/views/fields/many2one_avatar/many2one_avatar_field.scss
+    - /web/static/src/views/fields/many2x_binary/many2x_binary.scss
+    - /web/static/src/views/fields/monetary/monetary_field.scss
+    - /web/static/src/views/fields/pdf_viewer/pdf_viewer_field.scss
+    - /web/static/src/views/fields/percent_pie/percent_pie_field.scss
+    - /web/static/src/views/fields/phone/phone_field.scss
+    - /web/static/src/views/fields/priority/priority_field.scss
+    - /web/static/src/views/fields/progress_bar/progress_bar_field.scss
+    - /web/static/src/views/fields/properties/card_properties_field.scss
+    - /web/static/src/views/fields/properties/properties_definition_field.scss
+    - /web/static/src/views/fields/properties/properties_field.scss
+    - /web/static/src/views/fields/properties/property_definition.scss
+    - /web/static/src/views/fields/properties/property_definition_selection.scss
+    - /web/static/src/views/fields/properties/property_tags.scss
+    - /web/static/src/views/fields/properties/property_text.scss
+    - /web/static/src/views/fields/properties/property_value.scss
+    - /web/static/src/views/fields/radio/radio_field.scss
+    - /web/static/src/views/fields/selection/selection_field.scss
+    - /web/static/src/views/fields/signature/signature_field.scss
+    - /web/static/src/views/fields/state_selection/state_selection_field.scss
+    - /web/static/src/views/fields/statusbar/statusbar_field.scss
+    - /web/static/src/views/fields/text/text_field.scss
+    - /web/static/src/views/fields/translation/translation_button.scss
+    - /web/static/src/views/fields/translation/translation_components.scss
+    - /web/static/src/views/fields/url/url_field.scss
+    - /web/static/src/views/form/form_controller.scss
+    - /web/static/src/views/form/form_controller_m3.scss
+    - /web/static/src/views/form/form_label.scss
+    - /web/static/src/views/form/setting/setting.scss
+    - /web/static/src/views/kanban/kanban.print_variables.scss
+    - /web/static/src/views/kanban/kanban_column_progressbar.scss
+    - /web/static/src/views/kanban/kanban_controller.scss
+    - /web/static/src/views/kanban/kanban_cover_image_dialog.scss
+    - /web/static/src/views/kanban/kanban_examples_dialog.scss
+    - /web/static/src/views/kanban/kanban_header.scss
+    - /web/static/src/views/kanban/kanban_record.scss
+    - /web/static/src/views/list/list_confirmation_dialog.scss
+    - /web/static/src/views/list/list_renderer.scss
+    - /web/static/src/views/view.scss
+    - /web/static/src/views/view_components/animated_number.scss
+    - /web/static/src/views/view_components/group_config_menu.scss
+    - /web/static/src/views/view_components/selection_box.scss
+    - /web/static/src/views/view_dialogs/export_data_dialog.scss
+    - /web/static/src/views/view_dialogs/select_create_dialog.scss
+    - /web/static/src/views/widgets/ribbon/ribbon.scss
+    - /web/static/src/views/widgets/week_days/week_days.scss
+    - /web/static/src/webclient/actions/action_dialog.scss
+    - /web/static/src/webclient/burger_menu/burger_menu.scss
+    - /web/static/src/webclient/debug/profiling/profiling_item.scss
+    - /web/static/src/webclient/debug/profiling/profiling_qweb.scss
+    - /web/static/src/webclient/loading_indicator/loading_indicator.scss
+    - /web/static/src/webclient/offline_systray/offline_systray.scss
+    - /web/static/src/webclient/res_user_group_ids_field/res_user_group_ids_field.scss
+    - /web/static/src/webclient/res_user_group_ids_field/res_user_group_ids_privilege_field.scss
+    - /web/static/src/webclient/settings_form_view/settings/searchable_setting.scss
+    - /web/static/src/webclient/settings_form_view/settings_form_view.scss
+    - /web/static/src/webclient/settings_form_view/settings_form_view_mobile.scss
+    - /web/static/src/webclient/settings_form_view/widgets/settings_widgets.scss
+    - /web/static/src/webclient/switch_company_menu/switch_company_menu.scss
+    - /web/static/src/webclient/user_menu/user_menu.scss
+    - /web/static/src/webclient/webclient.scss
+    - /web/static/src/webclient/webclient_layout.scss
+    - /web/static/src/scss/ace.scss
+    - /web/static/src/scss/base_document_layout.scss
+    - /base/static/src/scss/res_partner.scss
+    - /base/static/src/scss/res_users.scss
+    - /web/static/src/views/form/button_box/button_box.scss
+    - /golok_ai_trading_lab_pro/static/src/overview.scss
+    - /auth_passkey/static/src/scss/res_users.scss
+    - /auth_totp/static/src/scss/res_users_view_form.scss
+    - /base_import/static/src/import_action/import_action.scss
+    - /base_import/static/src/import_data_content/import_data_content.scss
+    - /base_import/static/src/import_data_progress/import_data_progress.scss
+    - /base_import/static/src/import_data_sidepanel/import_data_sidepanel.scss
+    - /base_import_module/static/src/search_panel.scss
+    - /html_editor/static/src/components/switch/switch.scss
+    - /html_editor/static/src/main/media/media_dialog/media_dialog.scss
+    - /html_editor/static/src/main/media/media_dialog/upload_progress_toast/upload_progress_toast.scss
+    - /html_editor/static/src/main/local_overlay.scss
+    - /html_editor/static/src/main/list/list.scss
+    - /html_editor/static/src/main/media/file.scss
+    - /html_editor/static/src/others/embedded_components/core/date/readonly_date.scss
+    - /html_editor/static/src/others/embedded_components/core/embedded_component_toolbar/embedded_component_toolbar.scss
+    - /html_editor/static/src/others/embedded_components/core/file/file.scss
+    - /html_editor/static/src/others/embedded_components/core/table_of_content/table_of_content.scss
+    - /html_editor/static/src/others/embedded_components/core/toggle_block/toggle_block.scss
+    - /html_editor/static/src/others/embedded_components/core/whiteboard/whiteboard.scss
+    - /html_editor/static/src/others/qweb_plugin.scss
+    - /html_editor/static/src/styles.scss
+    - /html_editor/static/src/components/color_picker/color_picker.scss
+    - /html_editor/static/src/components/color_picker/custom_color_picker/custom_color_picker.scss
+    - /html_editor/static/src/components/color_picker/gradient_picker/gradient_picker.scss
+    - /html_editor/static/src/components/color_picker/tabs/gradient/color_picker_gradient_tab.scss
+    - /html_editor/static/src/components/history_dialog/history_dialog.scss
+    - /html_editor/static/src/components/suggestion/suggestion_list.scss
+    - /html_editor/static/src/core/format_plugin.scss
+    - /html_editor/static/src/main/align/align_selector.scss
+    - /html_editor/static/src/main/banner.scss
+    - /html_editor/static/src/main/column.scss
+    - /html_editor/static/src/main/font/color_selector.scss
+    - /html_editor/static/src/main/font/font_size_selector.scss
+    - /html_editor/static/src/main/font/font_type.scss
+    - /html_editor/static/src/main/font/font_type_selector.scss
+    - /html_editor/static/src/main/hint.scss
+    - /html_editor/static/src/main/link/link.scss
+    - /html_editor/static/src/main/link/link_popover.scss
+    - /html_editor/static/src/main/media/image_crop.scss
+    - /html_editor/static/src/main/media/image_transformation.scss
+    - /html_editor/static/src/main/media/signature.scss
+    - /html_editor/static/src/main/movenode.scss
+    - /html_editor/static/src/main/power_buttons.scss
+    - /html_editor/static/src/main/powerbox/powerbox.scss
+    - /html_editor/static/src/main/resize.scss
+    - /html_editor/static/src/main/selection_placeholder_plugin.scss
+    - /html_editor/static/src/main/separator_selection.scss
+    - /html_editor/static/src/main/table/mobile_table_picker.scss
+    - /html_editor/static/src/main/table/table.scss
+    - /html_editor/static/src/main/table/table_align_selector.scss
+    - /html_editor/static/src/main/table/table_border_selector.scss
+    - /html_editor/static/src/main/table/table_drag_drop.scss
+    - /html_editor/static/src/main/table/table_menu.scss
+    - /html_editor/static/src/main/table/table_picker.scss
+    - /html_editor/static/src/main/table/table_selection.scss
+    - /html_editor/static/src/main/toolbar/toolbar.scss
+    - /html_editor/static/src/main/translate/language_selector.scss
+    - /html_editor/static/src/main/translate/translate_plugin.scss
+    - /html_editor/static/src/others/collaboration/collaboration_selection.scss
+    - /html_editor/static/src/others/collaboration/collaboration_selection_avatar.scss
+    - /html_editor/static/src/others/embedded_components/backend/date/date.scss
+    - /html_editor/static/src/others/embedded_components/backend/video/video.scss
+    - /html_editor/static/src/others/embedded_components/plugins/caption_plugin/caption.scss
+    - /html_editor/static/src/others/embedded_components/plugins/embedded_whiteboard_plugin/embedded_whiteboard_plugin.scss
+    - /html_editor/static/src/others/embedded_components/plugins/syntax_highlighting_plugin/syntax_highlighting_plugin.scss
+    - /html_editor/static/src/backend/dynamic_field/dynamic_field_plugin.scss
+    - /html_editor/static/src/fields/html_field.scss
+    - /html_editor/static/src/fields/property_value.scss
+    - /html_editor/static/src/scss/base_style.scss
+    - /html_editor/static/src/scss/html_editor.common.scss
+    - /html_editor/static/src/scss/html_editor.backend.scss
+    - /mysubscription/static/src/dashboard.scss
+    - /web_tour/static/src/tour_pointer/tour_pointer.scss
+    - /web/static/src/views/graph/graph_renderer.scss
+    - /web/static/src/views/graph/graph_view.scss
+    - /web/static/src/views/pivot/pivot_view.scss
+    - /html_editor/static/src/public/styles.scss
+2026-11-24 10:44:59,602 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/ac79fc4/web.assets_unit_tests_setup.min.css (id:73)
+2026-11-24 10:45:11,823 6124 WARNING golok_20261124161253 odoo.addons.base.models.assetsbundle: Internal Error: Incompatible units: 'px' and '%'.
+This error occurred while compiling the bundle 'web.assets_web' containing:
+    - /web/static/lib/bootstrap/scss/_functions.scss
+    - /web/static/lib/bootstrap/scss/_mixins.scss
+    - /web/static/src/scss/functions.scss
+    - /web/static/src/scss/mixins_forwardport.scss
+    - /web/static/src/scss/bs_mixins_overrides.scss
+    - /web/static/src/scss/utils.scss
+    - /web/static/src/scss/primary_variables.scss
+    - /html_editor/static/src/scss/html_editor.variables.scss
+    - /web/static/src/core/avatar/avatar.variables.scss
+    - /web/static/src/core/bottom_sheet/bottom_sheet.variables.scss
+    - /web/static/src/core/notifications/notification.variables.scss
+    - /web/static/src/search/control_panel/control_panel.variables.scss
+    - /web/static/src/search/search_bar/search_bar.variables.scss
+    - /web/static/src/search/search_panel/search_panel.variables.scss
+    - /web/static/src/views/fields/statusbar/statusbar_field.variables.scss
+    - /web/static/src/views/fields/translation/translation_button.variables.scss
+    - /web/static/src/views/form/form.variables.scss
+    - /web/static/src/views/kanban/kanban.variables.scss
+    - /web/static/src/webclient/burger_menu/burger_menu.variables.scss
+    - /web/static/src/webclient/navbar/navbar.variables.scss
+    - /web/static/src/scss/secondary_variables.scss
+    - /html_editor/static/src/scss/secondary_variables.scss
+    - /web/static/src/scss/bootstrap_overridden.scss
+    - /web/static/src/scss/bs_mixins_overrides_backend.scss
+    - /html_editor/static/src/scss/bootstrap_overridden_backend.scss
+    - /html_editor/static/src/scss/bootstrap_overridden.scss
+    - /web/static/src/scss/pre_variables.scss
+    - /web/static/lib/bootstrap/scss/_variables.scss
+    - /web/static/lib/bootstrap/scss/_variables-dark.scss
+    - /web/static/lib/bootstrap/scss/_maps.scss
+    - /web/static/src/scss/import_bootstrap.scss
+    - /web/static/src/scss/utilities_custom.scss
+    - /web/static/src/scss/utilities_custom_backend.scss
+    - /web/static/lib/bootstrap/scss/utilities/_api.scss
+    - /web/static/src/scss/bootstrap_review.scss
+    - /web/static/src/scss/bootstrap_review_backend.scss
+    - /web/static/src/core/utils/transitions.scss
+    - /web/static/src/core/action_swiper/action_swiper.scss
+    - /web/static/src/core/autocomplete/autocomplete.scss
+    - /web/static/src/core/avatar/avatar.scss
+    - /web/static/src/core/badge/badge.scss
+    - /web/static/src/core/barcode/barcode_dialog.scss
+    - /web/static/src/core/barcode/crop_overlay.scss
+    - /web/static/src/core/bottom_sheet/bottom_sheet.scss
+    - /web/static/src/core/btn_circle/btn_circle.scss
+    - /web/static/src/core/checkbox/checkbox.scss
+    - /web/static/src/core/colorlist/colorlist.scss
+    - /web/static/src/core/commands/command_palette.scss
+    - /web/static/src/core/datetime/datetime_picker.scss
+    - /web/static/src/core/debug/debug_menu.scss
+    - /web/static/src/core/dialog/dialog.scss
+    - /web/static/src/core/dropdown/accordion_item.scss
+    - /web/static/src/core/dropdown/dropdown.scss
+    - /web/static/src/core/dropzone/dropzone.scss
+    - /web/static/src/core/effects/rainbow_man.scss
+    - /web/static/src/core/emoji_picker/emoji_picker.scss
+    - /web/static/src/core/errors/error_dialog.scss
+    - /web/static/src/core/file_upload/file_upload_progress_bar.scss
+    - /web/static/src/core/file_upload/file_upload_progress_record.scss
+    - /web/static/src/core/file_viewer/file_viewer.scss
+    - /web/static/src/core/ir_ui_view_code_editor/code_editor.scss
+    - /web/static/src/core/model_field_selector/model_field_selector.scss
+    - /web/static/src/core/model_field_selector/model_field_selector_popover.scss
+    - /web/static/src/core/model_selector/model_selector.scss
+    - /web/static/src/core/notebook/notebook.scss
+    - /web/static/src/core/notification_alert_dialog/notification_alert_dialog.scss
+    - /web/static/src/core/notifications/notification.scss
+    - /web/static/src/core/offline/offline.scss
+    - /web/static/src/core/overlay/overlay_container.scss
+    - /web/static/src/core/pager/pager_indicator.scss
+    - /web/static/src/core/popover/popover.scss
+    - /web/static/src/core/pwa/install_prompt.scss
+    - /web/static/src/core/record_selectors/record_selectors.scss
+    - /web/static/src/core/resizable_panel/resizable_panel.scss
+    - /web/static/src/core/select_menu/select_menu.scss
+    - /web/static/src/core/session/check_identity.scss
+    - /web/static/src/core/signature/name_and_signature.scss
+    - /web/static/src/core/signature/signature_viewer.scss
+    - /web/static/src/core/tags_list/tags_list.scss
+    - /web/static/src/core/time_picker/time_picker.scss
+    - /web/static/src/core/tooltip/tooltip.scss
+    - /web/static/src/core/tree_editor/tree_editor.scss
+    - /web/static/src/core/ui/block_ui.scss
+    - /web/static/src/core/utils/draggable_hook_builder.scss
+    - /web/static/src/core/utils/nested_sortable.scss
+    - /web/static/src/webclient/icons_mappings/rtl_icons.scss
+    - /web/static/src/webclient/icons.scss
+    - /web/static/src/webclient/navbar/navbar.scss
+    - /web/static/src/scss/animation.scss
+    - /web/static/src/scss/mimetypes.scss
+    - /web/static/src/scss/ui.scss
+    - /web/static/src/search/cog_menu/cog_menu.scss
+    - /web/static/src/search/control_panel/control_panel.scss
+    - /web/static/src/search/control_panel/control_panel.variables_print.scss
+    - /web/static/src/search/control_panel/embedded_actions.scss
+    - /web/static/src/search/custom_group_by_item/custom_group_by_item.scss
+    - /web/static/src/search/search_bar/search_bar.scss
+    - /web/static/src/search/search_bar_menu/search_bar_menu.scss
+    - /web/static/src/search/search_panel/search_panel.scss
+    - /web/static/src/search/search_panel/search_view.scss
+    - /web/static/src/views/calendar/calendar_common/calendar_common_popover.scss
+    - /web/static/src/views/calendar/calendar_controller.scss
+    - /web/static/src/views/calendar/calendar_controller_mobile.scss
+    - /web/static/src/views/calendar/calendar_filter_section/calendar_filter_section.scss
+    - /web/static/src/views/calendar/calendar_renderer.scss
+    - /web/static/src/views/calendar/calendar_renderer_mobile.scss
+    - /web/static/src/views/calendar/calendar_year/calendar_year_popover.scss
+    - /web/static/src/views/card/card.scss
+    - /web/static/src/views/card/card_popover/card_popover.scss
+    - /web/static/src/views/fields/ace/ace_field.scss
+    - /web/static/src/views/fields/additional_identifiers/additional_identifiers.scss
+    - /web/static/src/views/fields/badges_selection/base_badge_field.scss
+    - /web/static/src/views/fields/binary/binary_field.scss
+    - /web/static/src/views/fields/boolean_favorite/boolean_favorite_field.scss
+    - /web/static/src/views/fields/boolean_icon/boolean_icon_field.scss
+    - /web/static/src/views/fields/char/char_field.scss
+    - /web/static/src/views/fields/color_picker/color_picker_field.scss
+    - /web/static/src/views/fields/copy_clipboard/copy_clipboard_field.scss
+    - /web/static/src/views/fields/email/email_field.scss
+    - /web/static/src/views/fields/fields.scss
+    - /web/static/src/views/fields/float_time/float_time_field.scss
+    - /web/static/src/views/fields/google_slide_viewer/google_slide_viewer.scss
+    - /web/static/src/views/fields/html/html_field.scss
+    - /web/static/src/views/fields/iframe_wrapper/iframe_wrapper_field.scss
+    - /web/static/src/views/fields/image/image_field.scss
+    - /web/static/src/views/fields/journal_dashboard_graph/journal_dashboard_graph_field.scss
+    - /web/static/src/views/fields/kanban_color_picker/kanban_color_picker_field.scss
+    - /web/static/src/views/fields/many2many_tags/many2many_tags_field.scss
+    - /web/static/src/views/fields/many2many_tags_avatar/many2many_tags_avatar_field.scss
+    - /web/static/src/views/fields/many2many_tags_color_dot/many2many_tags_color_dot_field.scss
+    - /web/static/src/views/fields/many2one/many2one.scss
+    - /web/static/src/views/fields/many2one/many2one_field.scss
+    - /web/static/src/views/fields/many2one_avatar/many2one_avatar_field.scss
+    - /web/static/src/views/fields/many2x_binary/many2x_binary.scss
+    - /web/static/src/views/fields/monetary/monetary_field.scss
+    - /web/static/src/views/fields/pdf_viewer/pdf_viewer_field.scss
+    - /web/static/src/views/fields/percent_pie/percent_pie_field.scss
+    - /web/static/src/views/fields/phone/phone_field.scss
+    - /web/static/src/views/fields/priority/priority_field.scss
+    - /web/static/src/views/fields/progress_bar/progress_bar_field.scss
+    - /web/static/src/views/fields/properties/card_properties_field.scss
+    - /web/static/src/views/fields/properties/properties_definition_field.scss
+    - /web/static/src/views/fields/properties/properties_field.scss
+    - /web/static/src/views/fields/properties/property_definition.scss
+    - /web/static/src/views/fields/properties/property_definition_selection.scss
+    - /web/static/src/views/fields/properties/property_tags.scss
+    - /web/static/src/views/fields/properties/property_text.scss
+    - /web/static/src/views/fields/properties/property_value.scss
+    - /web/static/src/views/fields/radio/radio_field.scss
+    - /web/static/src/views/fields/selection/selection_field.scss
+    - /web/static/src/views/fields/signature/signature_field.scss
+    - /web/static/src/views/fields/state_selection/state_selection_field.scss
+    - /web/static/src/views/fields/statusbar/statusbar_field.scss
+    - /web/static/src/views/fields/text/text_field.scss
+    - /web/static/src/views/fields/translation/translation_button.scss
+    - /web/static/src/views/fields/translation/translation_components.scss
+    - /web/static/src/views/fields/url/url_field.scss
+    - /web/static/src/views/form/form_controller.scss
+    - /web/static/src/views/form/form_controller_m3.scss
+    - /web/static/src/views/form/form_label.scss
+    - /web/static/src/views/form/setting/setting.scss
+    - /web/static/src/views/kanban/kanban.print_variables.scss
+    - /web/static/src/views/kanban/kanban_column_progressbar.scss
+    - /web/static/src/views/kanban/kanban_controller.scss
+    - /web/static/src/views/kanban/kanban_cover_image_dialog.scss
+    - /web/static/src/views/kanban/kanban_examples_dialog.scss
+    - /web/static/src/views/kanban/kanban_header.scss
+    - /web/static/src/views/kanban/kanban_record.scss
+    - /web/static/src/views/list/list_confirmation_dialog.scss
+    - /web/static/src/views/list/list_renderer.scss
+    - /web/static/src/views/view.scss
+    - /web/static/src/views/view_components/animated_number.scss
+    - /web/static/src/views/view_components/group_config_menu.scss
+    - /web/static/src/views/view_components/selection_box.scss
+    - /web/static/src/views/view_dialogs/export_data_dialog.scss
+    - /web/static/src/views/view_dialogs/select_create_dialog.scss
+    - /web/static/src/views/widgets/ribbon/ribbon.scss
+    - /web/static/src/views/widgets/week_days/week_days.scss
+    - /web/static/src/webclient/actions/action_dialog.scss
+    - /web/static/src/webclient/burger_menu/burger_menu.scss
+    - /web/static/src/webclient/debug/profiling/profiling_item.scss
+    - /web/static/src/webclient/debug/profiling/profiling_qweb.scss
+    - /web/static/src/webclient/loading_indicator/loading_indicator.scss
+    - /web/static/src/webclient/offline_systray/offline_systray.scss
+    - /web/static/src/webclient/res_user_group_ids_field/res_user_group_ids_field.scss
+    - /web/static/src/webclient/res_user_group_ids_field/res_user_group_ids_privilege_field.scss
+    - /web/static/src/webclient/settings_form_view/settings/searchable_setting.scss
+    - /web/static/src/webclient/settings_form_view/settings_form_view.scss
+    - /web/static/src/webclient/settings_form_view/settings_form_view_mobile.scss
+    - /web/static/src/webclient/settings_form_view/widgets/settings_widgets.scss
+    - /web/static/src/webclient/switch_company_menu/switch_company_menu.scss
+    - /web/static/src/webclient/user_menu/user_menu.scss
+    - /web/static/src/webclient/webclient.scss
+    - /web/static/src/webclient/webclient_layout.scss
+    - /web/static/src/scss/ace.scss
+    - /web/static/src/scss/base_document_layout.scss
+    - /base/static/src/scss/res_partner.scss
+    - /base/static/src/scss/res_users.scss
+    - /web/static/src/views/form/button_box/button_box.scss
+    - /golok_ai_trading_lab_pro/static/src/overview.scss
+    - /auth_passkey/static/src/scss/res_users.scss
+    - /auth_totp/static/src/scss/res_users_view_form.scss
+    - /base_import/static/src/import_action/import_action.scss
+    - /base_import/static/src/import_data_content/import_data_content.scss
+    - /base_import/static/src/import_data_progress/import_data_progress.scss
+    - /base_import/static/src/import_data_sidepanel/import_data_sidepanel.scss
+    - /base_import_module/static/src/search_panel.scss
+    - /html_editor/static/src/components/switch/switch.scss
+    - /html_editor/static/src/main/media/media_dialog/media_dialog.scss
+    - /html_editor/static/src/main/media/media_dialog/upload_progress_toast/upload_progress_toast.scss
+    - /html_editor/static/src/main/local_overlay.scss
+    - /html_editor/static/src/main/list/list.scss
+    - /html_editor/static/src/main/media/file.scss
+    - /html_editor/static/src/others/embedded_components/core/date/readonly_date.scss
+    - /html_editor/static/src/others/embedded_components/core/embedded_component_toolbar/embedded_component_toolbar.scss
+    - /html_editor/static/src/others/embedded_components/core/file/file.scss
+    - /html_editor/static/src/others/embedded_components/core/table_of_content/table_of_content.scss
+    - /html_editor/static/src/others/embedded_components/core/toggle_block/toggle_block.scss
+    - /html_editor/static/src/others/embedded_components/core/whiteboard/whiteboard.scss
+    - /html_editor/static/src/others/qweb_plugin.scss
+    - /html_editor/static/src/styles.scss
+    - /html_editor/static/src/components/color_picker/color_picker.scss
+    - /html_editor/static/src/components/color_picker/custom_color_picker/custom_color_picker.scss
+    - /html_editor/static/src/components/color_picker/gradient_picker/gradient_picker.scss
+    - /html_editor/static/src/components/color_picker/tabs/gradient/color_picker_gradient_tab.scss
+    - /html_editor/static/src/components/history_dialog/history_dialog.scss
+    - /html_editor/static/src/components/suggestion/suggestion_list.scss
+    - /html_editor/static/src/core/format_plugin.scss
+    - /html_editor/static/src/main/align/align_selector.scss
+    - /html_editor/static/src/main/banner.scss
+    - /html_editor/static/src/main/column.scss
+    - /html_editor/static/src/main/font/color_selector.scss
+    - /html_editor/static/src/main/font/font_size_selector.scss
+    - /html_editor/static/src/main/font/font_type.scss
+    - /html_editor/static/src/main/font/font_type_selector.scss
+    - /html_editor/static/src/main/hint.scss
+    - /html_editor/static/src/main/link/link.scss
+    - /html_editor/static/src/main/link/link_popover.scss
+    - /html_editor/static/src/main/media/image_crop.scss
+    - /html_editor/static/src/main/media/image_transformation.scss
+    - /html_editor/static/src/main/media/signature.scss
+    - /html_editor/static/src/main/movenode.scss
+    - /html_editor/static/src/main/power_buttons.scss
+    - /html_editor/static/src/main/powerbox/powerbox.scss
+    - /html_editor/static/src/main/resize.scss
+    - /html_editor/static/src/main/selection_placeholder_plugin.scss
+    - /html_editor/static/src/main/separator_selection.scss
+    - /html_editor/static/src/main/table/mobile_table_picker.scss
+    - /html_editor/static/src/main/table/table.scss
+    - /html_editor/static/src/main/table/table_align_selector.scss
+    - /html_editor/static/src/main/table/table_border_selector.scss
+    - /html_editor/static/src/main/table/table_drag_drop.scss
+    - /html_editor/static/src/main/table/table_menu.scss
+    - /html_editor/static/src/main/table/table_picker.scss
+    - /html_editor/static/src/main/table/table_selection.scss
+    - /html_editor/static/src/main/toolbar/toolbar.scss
+    - /html_editor/static/src/main/translate/language_selector.scss
+    - /html_editor/static/src/main/translate/translate_plugin.scss
+    - /html_editor/static/src/others/collaboration/collaboration_selection.scss
+    - /html_editor/static/src/others/collaboration/collaboration_selection_avatar.scss
+    - /html_editor/static/src/others/embedded_components/backend/date/date.scss
+    - /html_editor/static/src/others/embedded_components/backend/video/video.scss
+    - /html_editor/static/src/others/embedded_components/plugins/caption_plugin/caption.scss
+    - /html_editor/static/src/others/embedded_components/plugins/embedded_whiteboard_plugin/embedded_whiteboard_plugin.scss
+    - /html_editor/static/src/others/embedded_components/plugins/syntax_highlighting_plugin/syntax_highlighting_plugin.scss
+    - /html_editor/static/src/backend/dynamic_field/dynamic_field_plugin.scss
+    - /html_editor/static/src/fields/html_field.scss
+    - /html_editor/static/src/fields/property_value.scss
+    - /html_editor/static/src/scss/base_style.scss
+    - /html_editor/static/src/scss/html_editor.common.scss
+    - /html_editor/static/src/scss/html_editor.backend.scss
+    - /mysubscription/static/src/dashboard.scss
+    - /web_tour/static/src/tour_pointer/tour_pointer.scss
+2026-11-24 10:45:12,136 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/944367f/web.assets_web.min.css (id:74)
+2026-11-24 10:45:23,820 6124 WARNING golok_20261124161253 odoo.addons.base.models.assetsbundle: Internal Error: Incompatible units: 'px' and '%'.
+This error occurred while compiling the bundle 'web.assets_web_dark' containing:
+    - /web/static/lib/bootstrap/scss/_functions.scss
+    - /web/static/lib/bootstrap/scss/_mixins.scss
+    - /web/static/src/scss/functions.scss
+    - /web/static/src/scss/mixins_forwardport.scss
+    - /web/static/src/scss/bs_mixins_overrides.scss
+    - /web/static/src/scss/utils.scss
+    - /web/static/src/scss/primary_variables.scss
+    - /html_editor/static/src/scss/html_editor.variables.scss
+    - /web/static/src/core/avatar/avatar.variables.scss
+    - /web/static/src/core/bottom_sheet/bottom_sheet.variables.scss
+    - /web/static/src/core/notifications/notification.variables.scss
+    - /web/static/src/search/control_panel/control_panel.variables.scss
+    - /web/static/src/search/search_bar/search_bar.variables.scss
+    - /web/static/src/search/search_panel/search_panel.variables.scss
+    - /web/static/src/views/fields/statusbar/statusbar_field.variables.scss
+    - /web/static/src/views/fields/translation/translation_button.variables.scss
+    - /web/static/src/views/form/form.variables.scss
+    - /web/static/src/views/kanban/kanban.variables.scss
+    - /web/static/src/webclient/burger_menu/burger_menu.variables.scss
+    - /web/static/src/webclient/navbar/navbar.variables.scss
+    - /web/static/src/scss/secondary_variables.scss
+    - /html_editor/static/src/scss/secondary_variables.scss
+    - /web/static/src/scss/bootstrap_overridden.scss
+    - /web/static/src/scss/bs_mixins_overrides_backend.scss
+    - /html_editor/static/src/scss/bootstrap_overridden_backend.scss
+    - /html_editor/static/src/scss/bootstrap_overridden.scss
+    - /web/static/src/scss/pre_variables.scss
+    - /web/static/lib/bootstrap/scss/_variables.scss
+    - /web/static/lib/bootstrap/scss/_variables-dark.scss
+    - /web/static/lib/bootstrap/scss/_maps.scss
+    - /web/static/src/scss/import_bootstrap.scss
+    - /web/static/src/scss/utilities_custom.scss
+    - /web/static/src/scss/utilities_custom_backend.scss
+    - /web/static/lib/bootstrap/scss/utilities/_api.scss
+    - /web/static/src/scss/bootstrap_review.scss
+    - /web/static/src/scss/bootstrap_review_backend.scss
+    - /web/static/src/core/utils/transitions.scss
+    - /web/static/src/core/action_swiper/action_swiper.scss
+    - /web/static/src/core/autocomplete/autocomplete.scss
+    - /web/static/src/core/avatar/avatar.scss
+    - /web/static/src/core/badge/badge.scss
+    - /web/static/src/core/barcode/barcode_dialog.scss
+    - /web/static/src/core/barcode/crop_overlay.scss
+    - /web/static/src/core/bottom_sheet/bottom_sheet.scss
+    - /web/static/src/core/btn_circle/btn_circle.scss
+    - /web/static/src/core/checkbox/checkbox.scss
+    - /web/static/src/core/colorlist/colorlist.scss
+    - /web/static/src/core/commands/command_palette.scss
+    - /web/static/src/core/datetime/datetime_picker.scss
+    - /web/static/src/core/debug/debug_menu.scss
+    - /web/static/src/core/dialog/dialog.scss
+    - /web/static/src/core/dropdown/accordion_item.scss
+    - /web/static/src/core/dropdown/dropdown.scss
+    - /web/static/src/core/dropzone/dropzone.scss
+    - /web/static/src/core/effects/rainbow_man.scss
+    - /web/static/src/core/emoji_picker/emoji_picker.scss
+    - /web/static/src/core/errors/error_dialog.scss
+    - /web/static/src/core/file_upload/file_upload_progress_bar.scss
+    - /web/static/src/core/file_upload/file_upload_progress_record.scss
+    - /web/static/src/core/file_viewer/file_viewer.scss
+    - /web/static/src/core/ir_ui_view_code_editor/code_editor.scss
+    - /web/static/src/core/model_field_selector/model_field_selector.scss
+    - /web/static/src/core/model_field_selector/model_field_selector_popover.scss
+    - /web/static/src/core/model_selector/model_selector.scss
+    - /web/static/src/core/notebook/notebook.scss
+    - /web/static/src/core/notification_alert_dialog/notification_alert_dialog.scss
+    - /web/static/src/core/notifications/notification.scss
+    - /web/static/src/core/offline/offline.scss
+    - /web/static/src/core/overlay/overlay_container.scss
+    - /web/static/src/core/pager/pager_indicator.scss
+    - /web/static/src/core/popover/popover.scss
+    - /web/static/src/core/pwa/install_prompt.scss
+    - /web/static/src/core/record_selectors/record_selectors.scss
+    - /web/static/src/core/resizable_panel/resizable_panel.scss
+    - /web/static/src/core/select_menu/select_menu.scss
+    - /web/static/src/core/session/check_identity.scss
+    - /web/static/src/core/signature/name_and_signature.scss
+    - /web/static/src/core/signature/signature_viewer.scss
+    - /web/static/src/core/tags_list/tags_list.scss
+    - /web/static/src/core/time_picker/time_picker.scss
+    - /web/static/src/core/tooltip/tooltip.scss
+    - /web/static/src/core/tree_editor/tree_editor.scss
+    - /web/static/src/core/ui/block_ui.scss
+    - /web/static/src/core/utils/draggable_hook_builder.scss
+    - /web/static/src/core/utils/nested_sortable.scss
+    - /web/static/src/webclient/icons_mappings/rtl_icons.scss
+    - /web/static/src/webclient/icons.scss
+    - /web/static/src/webclient/navbar/navbar.scss
+    - /web/static/src/scss/animation.scss
+    - /web/static/src/scss/mimetypes.scss
+    - /web/static/src/scss/ui.scss
+    - /web/static/src/search/cog_menu/cog_menu.scss
+    - /web/static/src/search/control_panel/control_panel.scss
+    - /web/static/src/search/control_panel/control_panel.variables_print.scss
+    - /web/static/src/search/control_panel/embedded_actions.scss
+    - /web/static/src/search/custom_group_by_item/custom_group_by_item.scss
+    - /web/static/src/search/search_bar/search_bar.scss
+    - /web/static/src/search/search_bar_menu/search_bar_menu.scss
+    - /web/static/src/search/search_panel/search_panel.scss
+    - /web/static/src/search/search_panel/search_view.scss
+    - /web/static/src/views/calendar/calendar_common/calendar_common_popover.scss
+    - /web/static/src/views/calendar/calendar_controller.scss
+    - /web/static/src/views/calendar/calendar_controller_mobile.scss
+    - /web/static/src/views/calendar/calendar_filter_section/calendar_filter_section.scss
+    - /web/static/src/views/calendar/calendar_renderer.scss
+    - /web/static/src/views/calendar/calendar_renderer_mobile.scss
+    - /web/static/src/views/calendar/calendar_year/calendar_year_popover.scss
+    - /web/static/src/views/card/card.scss
+    - /web/static/src/views/card/card_popover/card_popover.scss
+    - /web/static/src/views/fields/ace/ace_field.scss
+    - /web/static/src/views/fields/additional_identifiers/additional_identifiers.scss
+    - /web/static/src/views/fields/badges_selection/base_badge_field.scss
+    - /web/static/src/views/fields/binary/binary_field.scss
+    - /web/static/src/views/fields/boolean_favorite/boolean_favorite_field.scss
+    - /web/static/src/views/fields/boolean_icon/boolean_icon_field.scss
+    - /web/static/src/views/fields/char/char_field.scss
+    - /web/static/src/views/fields/color_picker/color_picker_field.scss
+    - /web/static/src/views/fields/copy_clipboard/copy_clipboard_field.scss
+    - /web/static/src/views/fields/email/email_field.scss
+    - /web/static/src/views/fields/fields.scss
+    - /web/static/src/views/fields/float_time/float_time_field.scss
+    - /web/static/src/views/fields/google_slide_viewer/google_slide_viewer.scss
+    - /web/static/src/views/fields/html/html_field.scss
+    - /web/static/src/views/fields/iframe_wrapper/iframe_wrapper_field.scss
+    - /web/static/src/views/fields/image/image_field.scss
+    - /web/static/src/views/fields/journal_dashboard_graph/journal_dashboard_graph_field.scss
+    - /web/static/src/views/fields/kanban_color_picker/kanban_color_picker_field.scss
+    - /web/static/src/views/fields/many2many_tags/many2many_tags_field.scss
+    - /web/static/src/views/fields/many2many_tags_avatar/many2many_tags_avatar_field.scss
+    - /web/static/src/views/fields/many2many_tags_color_dot/many2many_tags_color_dot_field.scss
+    - /web/static/src/views/fields/many2one/many2one.scss
+    - /web/static/src/views/fields/many2one/many2one_field.scss
+    - /web/static/src/views/fields/many2one_avatar/many2one_avatar_field.scss
+    - /web/static/src/views/fields/many2x_binary/many2x_binary.scss
+    - /web/static/src/views/fields/monetary/monetary_field.scss
+    - /web/static/src/views/fields/pdf_viewer/pdf_viewer_field.scss
+    - /web/static/src/views/fields/percent_pie/percent_pie_field.scss
+    - /web/static/src/views/fields/phone/phone_field.scss
+    - /web/static/src/views/fields/priority/priority_field.scss
+    - /web/static/src/views/fields/progress_bar/progress_bar_field.scss
+    - /web/static/src/views/fields/properties/card_properties_field.scss
+    - /web/static/src/views/fields/properties/properties_definition_field.scss
+    - /web/static/src/views/fields/properties/properties_field.scss
+    - /web/static/src/views/fields/properties/property_definition.scss
+    - /web/static/src/views/fields/properties/property_definition_selection.scss
+    - /web/static/src/views/fields/properties/property_tags.scss
+    - /web/static/src/views/fields/properties/property_text.scss
+    - /web/static/src/views/fields/properties/property_value.scss
+    - /web/static/src/views/fields/radio/radio_field.scss
+    - /web/static/src/views/fields/selection/selection_field.scss
+    - /web/static/src/views/fields/signature/signature_field.scss
+    - /web/static/src/views/fields/state_selection/state_selection_field.scss
+    - /web/static/src/views/fields/statusbar/statusbar_field.scss
+    - /web/static/src/views/fields/text/text_field.scss
+    - /web/static/src/views/fields/translation/translation_button.scss
+    - /web/static/src/views/fields/translation/translation_components.scss
+    - /web/static/src/views/fields/url/url_field.scss
+    - /web/static/src/views/form/form_controller.scss
+    - /web/static/src/views/form/form_controller_m3.scss
+    - /web/static/src/views/form/form_label.scss
+    - /web/static/src/views/form/setting/setting.scss
+    - /web/static/src/views/kanban/kanban.print_variables.scss
+    - /web/static/src/views/kanban/kanban_column_progressbar.scss
+    - /web/static/src/views/kanban/kanban_controller.scss
+    - /web/static/src/views/kanban/kanban_cover_image_dialog.scss
+    - /web/static/src/views/kanban/kanban_examples_dialog.scss
+    - /web/static/src/views/kanban/kanban_header.scss
+    - /web/static/src/views/kanban/kanban_record.scss
+    - /web/static/src/views/list/list_confirmation_dialog.scss
+    - /web/static/src/views/list/list_renderer.scss
+    - /web/static/src/views/view.scss
+    - /web/static/src/views/view_components/animated_number.scss
+    - /web/static/src/views/view_components/group_config_menu.scss
+    - /web/static/src/views/view_components/selection_box.scss
+    - /web/static/src/views/view_dialogs/export_data_dialog.scss
+    - /web/static/src/views/view_dialogs/select_create_dialog.scss
+    - /web/static/src/views/widgets/ribbon/ribbon.scss
+    - /web/static/src/views/widgets/week_days/week_days.scss
+    - /web/static/src/webclient/actions/action_dialog.scss
+    - /web/static/src/webclient/burger_menu/burger_menu.scss
+    - /web/static/src/webclient/debug/profiling/profiling_item.scss
+    - /web/static/src/webclient/debug/profiling/profiling_qweb.scss
+    - /web/static/src/webclient/loading_indicator/loading_indicator.scss
+    - /web/static/src/webclient/offline_systray/offline_systray.scss
+    - /web/static/src/webclient/res_user_group_ids_field/res_user_group_ids_field.scss
+    - /web/static/src/webclient/res_user_group_ids_field/res_user_group_ids_privilege_field.scss
+    - /web/static/src/webclient/settings_form_view/settings/searchable_setting.scss
+    - /web/static/src/webclient/settings_form_view/settings_form_view.scss
+    - /web/static/src/webclient/settings_form_view/settings_form_view_mobile.scss
+    - /web/static/src/webclient/settings_form_view/widgets/settings_widgets.scss
+    - /web/static/src/webclient/switch_company_menu/switch_company_menu.scss
+    - /web/static/src/webclient/user_menu/user_menu.scss
+    - /web/static/src/webclient/webclient.scss
+    - /web/static/src/webclient/webclient_layout.scss
+    - /web/static/src/scss/ace.scss
+    - /web/static/src/scss/base_document_layout.scss
+    - /base/static/src/scss/res_partner.scss
+    - /base/static/src/scss/res_users.scss
+    - /web/static/src/views/form/button_box/button_box.scss
+    - /golok_ai_trading_lab_pro/static/src/overview.scss
+    - /auth_passkey/static/src/scss/res_users.scss
+    - /auth_totp/static/src/scss/res_users_view_form.scss
+    - /base_import/static/src/import_action/import_action.scss
+    - /base_import/static/src/import_data_content/import_data_content.scss
+    - /base_import/static/src/import_data_progress/import_data_progress.scss
+    - /base_import/static/src/import_data_sidepanel/import_data_sidepanel.scss
+    - /base_import_module/static/src/search_panel.scss
+    - /html_editor/static/src/components/switch/switch.scss
+    - /html_editor/static/src/main/media/media_dialog/media_dialog.scss
+    - /html_editor/static/src/main/media/media_dialog/upload_progress_toast/upload_progress_toast.scss
+    - /html_editor/static/src/main/local_overlay.scss
+    - /html_editor/static/src/main/list/list.scss
+    - /html_editor/static/src/main/media/file.scss
+    - /html_editor/static/src/others/embedded_components/core/date/readonly_date.scss
+    - /html_editor/static/src/others/embedded_components/core/embedded_component_toolbar/embedded_component_toolbar.scss
+    - /html_editor/static/src/others/embedded_components/core/file/file.scss
+    - /html_editor/static/src/others/embedded_components/core/table_of_content/table_of_content.scss
+    - /html_editor/static/src/others/embedded_components/core/toggle_block/toggle_block.scss
+    - /html_editor/static/src/others/embedded_components/core/whiteboard/whiteboard.scss
+    - /html_editor/static/src/others/qweb_plugin.scss
+    - /html_editor/static/src/styles.scss
+    - /html_editor/static/src/components/color_picker/color_picker.scss
+    - /html_editor/static/src/components/color_picker/custom_color_picker/custom_color_picker.scss
+    - /html_editor/static/src/components/color_picker/gradient_picker/gradient_picker.scss
+    - /html_editor/static/src/components/color_picker/tabs/gradient/color_picker_gradient_tab.scss
+    - /html_editor/static/src/components/history_dialog/history_dialog.scss
+    - /html_editor/static/src/components/suggestion/suggestion_list.scss
+    - /html_editor/static/src/core/format_plugin.scss
+    - /html_editor/static/src/main/align/align_selector.scss
+    - /html_editor/static/src/main/banner.scss
+    - /html_editor/static/src/main/column.scss
+    - /html_editor/static/src/main/font/color_selector.scss
+    - /html_editor/static/src/main/font/font_size_selector.scss
+    - /html_editor/static/src/main/font/font_type.scss
+    - /html_editor/static/src/main/font/font_type_selector.scss
+    - /html_editor/static/src/main/hint.scss
+    - /html_editor/static/src/main/link/link.scss
+    - /html_editor/static/src/main/link/link_popover.scss
+    - /html_editor/static/src/main/media/image_crop.scss
+    - /html_editor/static/src/main/media/image_transformation.scss
+    - /html_editor/static/src/main/media/signature.scss
+    - /html_editor/static/src/main/movenode.scss
+    - /html_editor/static/src/main/power_buttons.scss
+    - /html_editor/static/src/main/powerbox/powerbox.scss
+    - /html_editor/static/src/main/resize.scss
+    - /html_editor/static/src/main/selection_placeholder_plugin.scss
+    - /html_editor/static/src/main/separator_selection.scss
+    - /html_editor/static/src/main/table/mobile_table_picker.scss
+    - /html_editor/static/src/main/table/table.scss
+    - /html_editor/static/src/main/table/table_align_selector.scss
+    - /html_editor/static/src/main/table/table_border_selector.scss
+    - /html_editor/static/src/main/table/table_drag_drop.scss
+    - /html_editor/static/src/main/table/table_menu.scss
+    - /html_editor/static/src/main/table/table_picker.scss
+    - /html_editor/static/src/main/table/table_selection.scss
+    - /html_editor/static/src/main/toolbar/toolbar.scss
+    - /html_editor/static/src/main/translate/language_selector.scss
+    - /html_editor/static/src/main/translate/translate_plugin.scss
+    - /html_editor/static/src/others/collaboration/collaboration_selection.scss
+    - /html_editor/static/src/others/collaboration/collaboration_selection_avatar.scss
+    - /html_editor/static/src/others/embedded_components/backend/date/date.scss
+    - /html_editor/static/src/others/embedded_components/backend/video/video.scss
+    - /html_editor/static/src/others/embedded_components/plugins/caption_plugin/caption.scss
+    - /html_editor/static/src/others/embedded_components/plugins/embedded_whiteboard_plugin/embedded_whiteboard_plugin.scss
+    - /html_editor/static/src/others/embedded_components/plugins/syntax_highlighting_plugin/syntax_highlighting_plugin.scss
+    - /html_editor/static/src/backend/dynamic_field/dynamic_field_plugin.scss
+    - /html_editor/static/src/fields/html_field.scss
+    - /html_editor/static/src/fields/property_value.scss
+    - /html_editor/static/src/scss/base_style.scss
+    - /html_editor/static/src/scss/html_editor.common.scss
+    - /html_editor/static/src/scss/html_editor.backend.scss
+    - /mysubscription/static/src/dashboard.scss
+    - /web_tour/static/src/tour_pointer/tour_pointer.scss
+    - /web/static/src/core/datetime/datetime_picker.dark.scss
+    - /web/static/src/core/emoji_picker/emoji_picker.dark.scss
+    - /web/static/src/core/file_viewer/file_viewer.dark.scss
+    - /web/static/src/views/calendar/calendar_renderer.dark.scss
+    - /web/static/src/views/form/form_controller_m3.dark.scss
+    - /html_editor/static/src/components/history_dialog/history_dialog.dark.scss
+    - /html_editor/static/src/main/font/font_size_selector.dark.scss
+    - /html_editor/static/src/main/link/link_popover.dark.scss
+    - /html_editor/static/src/main/movenode.dark.scss
+    - /html_editor/static/src/main/table/table.dark.scss
+    - /html_editor/static/src/main/table/table_align_selector.dark.scss
+    - /html_editor/static/src/main/toolbar/toolbar.dark.scss
+    - /html_editor/static/src/main/translate/language_selector.dark.scss
+    - /html_editor/static/src/others/embedded_components/plugins/syntax_highlighting_plugin/syntax_highlighting_plugin.dark.scss
+    - /html_editor/static/src/scss/html_editor.common.dark.scss
+2026-11-24 10:45:24,062 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/019ed3e/web.assets_web_dark.min.css (id:75)
+2026-11-24 10:45:32,830 6124 WARNING golok_20261124161253 odoo.addons.base.models.assetsbundle: Internal Error: Incompatible units: 'px' and '%'.
+This error occurred while compiling the bundle 'web.assets_web_print' containing:
+    - /web/static/src/scss/functions.scss
+    - /web/static/src/scss/primary_variables_print.scss
+    - /web/static/src/views/kanban/kanban.print_variables.scss
+    - /web/static/lib/bootstrap/scss/_functions.scss
+    - /web/static/lib/bootstrap/scss/_mixins.scss
+    - /web/static/src/scss/mixins_forwardport.scss
+    - /web/static/src/scss/bs_mixins_overrides.scss
+    - /web/static/src/scss/utils.scss
+    - /web/static/src/scss/primary_variables.scss
+    - /html_editor/static/src/scss/html_editor.variables.scss
+    - /web/static/src/core/avatar/avatar.variables.scss
+    - /web/static/src/core/bottom_sheet/bottom_sheet.variables.scss
+    - /web/static/src/core/notifications/notification.variables.scss
+    - /web/static/src/search/control_panel/control_panel.variables.scss
+    - /web/static/src/search/search_bar/search_bar.variables.scss
+    - /web/static/src/search/search_panel/search_panel.variables.scss
+    - /web/static/src/views/fields/statusbar/statusbar_field.variables.scss
+    - /web/static/src/views/fields/translation/translation_button.variables.scss
+    - /web/static/src/views/form/form.variables.scss
+    - /web/static/src/views/kanban/kanban.variables.scss
+    - /web/static/src/webclient/burger_menu/burger_menu.variables.scss
+    - /web/static/src/webclient/navbar/navbar.variables.scss
+    - /web/static/src/scss/secondary_variables.scss
+    - /html_editor/static/src/scss/secondary_variables.scss
+    - /web/static/src/scss/bootstrap_overridden.scss
+    - /web/static/src/scss/bs_mixins_overrides_backend.scss
+    - /html_editor/static/src/scss/bootstrap_overridden_backend.scss
+    - /html_editor/static/src/scss/bootstrap_overridden.scss
+    - /web/static/src/scss/pre_variables.scss
+    - /web/static/lib/bootstrap/scss/_variables.scss
+    - /web/static/lib/bootstrap/scss/_variables-dark.scss
+    - /web/static/lib/bootstrap/scss/_maps.scss
+    - /web/static/src/scss/import_bootstrap.scss
+    - /web/static/src/scss/utilities_custom.scss
+    - /web/static/src/scss/utilities_custom_backend.scss
+    - /web/static/lib/bootstrap/scss/utilities/_api.scss
+    - /web/static/src/scss/bootstrap_review.scss
+    - /web/static/src/scss/bootstrap_review_backend.scss
+    - /web/static/src/core/utils/transitions.scss
+    - /web/static/src/core/action_swiper/action_swiper.scss
+    - /web/static/src/core/autocomplete/autocomplete.scss
+    - /web/static/src/core/avatar/avatar.scss
+    - /web/static/src/core/badge/badge.scss
+    - /web/static/src/core/barcode/barcode_dialog.scss
+    - /web/static/src/core/barcode/crop_overlay.scss
+    - /web/static/src/core/bottom_sheet/bottom_sheet.scss
+    - /web/static/src/core/btn_circle/btn_circle.scss
+    - /web/static/src/core/checkbox/checkbox.scss
+    - /web/static/src/core/colorlist/colorlist.scss
+    - /web/static/src/core/commands/command_palette.scss
+    - /web/static/src/core/datetime/datetime_picker.scss
+    - /web/static/src/core/debug/debug_menu.scss
+    - /web/static/src/core/dialog/dialog.scss
+    - /web/static/src/core/dropdown/accordion_item.scss
+    - /web/static/src/core/dropdown/dropdown.scss
+    - /web/static/src/core/dropzone/dropzone.scss
+    - /web/static/src/core/effects/rainbow_man.scss
+    - /web/static/src/core/emoji_picker/emoji_picker.scss
+    - /web/static/src/core/errors/error_dialog.scss
+    - /web/static/src/core/file_upload/file_upload_progress_bar.scss
+    - /web/static/src/core/file_upload/file_upload_progress_record.scss
+    - /web/static/src/core/file_viewer/file_viewer.scss
+    - /web/static/src/core/ir_ui_view_code_editor/code_editor.scss
+    - /web/static/src/core/model_field_selector/model_field_selector.scss
+    - /web/static/src/core/model_field_selector/model_field_selector_popover.scss
+    - /web/static/src/core/model_selector/model_selector.scss
+    - /web/static/src/core/notebook/notebook.scss
+    - /web/static/src/core/notification_alert_dialog/notification_alert_dialog.scss
+    - /web/static/src/core/notifications/notification.scss
+    - /web/static/src/core/offline/offline.scss
+    - /web/static/src/core/overlay/overlay_container.scss
+    - /web/static/src/core/pager/pager_indicator.scss
+    - /web/static/src/core/popover/popover.scss
+    - /web/static/src/core/pwa/install_prompt.scss
+    - /web/static/src/core/record_selectors/record_selectors.scss
+    - /web/static/src/core/resizable_panel/resizable_panel.scss
+    - /web/static/src/core/select_menu/select_menu.scss
+    - /web/static/src/core/session/check_identity.scss
+    - /web/static/src/core/signature/name_and_signature.scss
+    - /web/static/src/core/signature/signature_viewer.scss
+    - /web/static/src/core/tags_list/tags_list.scss
+    - /web/static/src/core/time_picker/time_picker.scss
+    - /web/static/src/core/tooltip/tooltip.scss
+    - /web/static/src/core/tree_editor/tree_editor.scss
+    - /web/static/src/core/ui/block_ui.scss
+    - /web/static/src/core/utils/draggable_hook_builder.scss
+    - /web/static/src/core/utils/nested_sortable.scss
+    - /web/static/src/webclient/icons_mappings/rtl_icons.scss
+    - /web/static/src/webclient/icons.scss
+    - /web/static/src/webclient/navbar/navbar.scss
+    - /web/static/src/scss/animation.scss
+    - /web/static/src/scss/mimetypes.scss
+    - /web/static/src/scss/ui.scss
+    - /web/static/src/search/cog_menu/cog_menu.scss
+    - /web/static/src/search/control_panel/control_panel.scss
+    - /web/static/src/search/control_panel/control_panel.variables_print.scss
+    - /web/static/src/search/control_panel/embedded_actions.scss
+    - /web/static/src/search/custom_group_by_item/custom_group_by_item.scss
+    - /web/static/src/search/search_bar/search_bar.scss
+    - /web/static/src/search/search_bar_menu/search_bar_menu.scss
+    - /web/static/src/search/search_panel/search_panel.scss
+    - /web/static/src/search/search_panel/search_view.scss
+    - /web/static/src/views/calendar/calendar_common/calendar_common_popover.scss
+    - /web/static/src/views/calendar/calendar_controller.scss
+    - /web/static/src/views/calendar/calendar_controller_mobile.scss
+    - /web/static/src/views/calendar/calendar_filter_section/calendar_filter_section.scss
+    - /web/static/src/views/calendar/calendar_renderer.scss
+    - /web/static/src/views/calendar/calendar_renderer_mobile.scss
+    - /web/static/src/views/calendar/calendar_year/calendar_year_popover.scss
+    - /web/static/src/views/card/card.scss
+    - /web/static/src/views/card/card_popover/card_popover.scss
+    - /web/static/src/views/fields/ace/ace_field.scss
+    - /web/static/src/views/fields/additional_identifiers/additional_identifiers.scss
+    - /web/static/src/views/fields/badges_selection/base_badge_field.scss
+    - /web/static/src/views/fields/binary/binary_field.scss
+    - /web/static/src/views/fields/boolean_favorite/boolean_favorite_field.scss
+    - /web/static/src/views/fields/boolean_icon/boolean_icon_field.scss
+    - /web/static/src/views/fields/char/char_field.scss
+    - /web/static/src/views/fields/color_picker/color_picker_field.scss
+    - /web/static/src/views/fields/copy_clipboard/copy_clipboard_field.scss
+    - /web/static/src/views/fields/email/email_field.scss
+    - /web/static/src/views/fields/fields.scss
+    - /web/static/src/views/fields/float_time/float_time_field.scss
+    - /web/static/src/views/fields/google_slide_viewer/google_slide_viewer.scss
+    - /web/static/src/views/fields/html/html_field.scss
+    - /web/static/src/views/fields/iframe_wrapper/iframe_wrapper_field.scss
+    - /web/static/src/views/fields/image/image_field.scss
+    - /web/static/src/views/fields/journal_dashboard_graph/journal_dashboard_graph_field.scss
+    - /web/static/src/views/fields/kanban_color_picker/kanban_color_picker_field.scss
+    - /web/static/src/views/fields/many2many_tags/many2many_tags_field.scss
+    - /web/static/src/views/fields/many2many_tags_avatar/many2many_tags_avatar_field.scss
+    - /web/static/src/views/fields/many2many_tags_color_dot/many2many_tags_color_dot_field.scss
+    - /web/static/src/views/fields/many2one/many2one.scss
+    - /web/static/src/views/fields/many2one/many2one_field.scss
+    - /web/static/src/views/fields/many2one_avatar/many2one_avatar_field.scss
+    - /web/static/src/views/fields/many2x_binary/many2x_binary.scss
+    - /web/static/src/views/fields/monetary/monetary_field.scss
+    - /web/static/src/views/fields/pdf_viewer/pdf_viewer_field.scss
+    - /web/static/src/views/fields/percent_pie/percent_pie_field.scss
+    - /web/static/src/views/fields/phone/phone_field.scss
+    - /web/static/src/views/fields/priority/priority_field.scss
+    - /web/static/src/views/fields/progress_bar/progress_bar_field.scss
+    - /web/static/src/views/fields/properties/card_properties_field.scss
+    - /web/static/src/views/fields/properties/properties_definition_field.scss
+    - /web/static/src/views/fields/properties/properties_field.scss
+    - /web/static/src/views/fields/properties/property_definition.scss
+    - /web/static/src/views/fields/properties/property_definition_selection.scss
+    - /web/static/src/views/fields/properties/property_tags.scss
+    - /web/static/src/views/fields/properties/property_text.scss
+    - /web/static/src/views/fields/properties/property_value.scss
+    - /web/static/src/views/fields/radio/radio_field.scss
+    - /web/static/src/views/fields/selection/selection_field.scss
+    - /web/static/src/views/fields/signature/signature_field.scss
+    - /web/static/src/views/fields/state_selection/state_selection_field.scss
+    - /web/static/src/views/fields/statusbar/statusbar_field.scss
+    - /web/static/src/views/fields/text/text_field.scss
+    - /web/static/src/views/fields/translation/translation_button.scss
+    - /web/static/src/views/fields/translation/translation_components.scss
+    - /web/static/src/views/fields/url/url_field.scss
+    - /web/static/src/views/form/form_controller.scss
+    - /web/static/src/views/form/form_controller_m3.scss
+    - /web/static/src/views/form/form_label.scss
+    - /web/static/src/views/form/setting/setting.scss
+    - /web/static/src/views/kanban/kanban_column_progressbar.scss
+    - /web/static/src/views/kanban/kanban_controller.scss
+    - /web/static/src/views/kanban/kanban_cover_image_dialog.scss
+    - /web/static/src/views/kanban/kanban_examples_dialog.scss
+    - /web/static/src/views/kanban/kanban_header.scss
+    - /web/static/src/views/kanban/kanban_record.scss
+    - /web/static/src/views/list/list_confirmation_dialog.scss
+    - /web/static/src/views/list/list_renderer.scss
+    - /web/static/src/views/view.scss
+    - /web/static/src/views/view_components/animated_number.scss
+    - /web/static/src/views/view_components/group_config_menu.scss
+    - /web/static/src/views/view_components/selection_box.scss
+    - /web/static/src/views/view_dialogs/export_data_dialog.scss
+    - /web/static/src/views/view_dialogs/select_create_dialog.scss
+    - /web/static/src/views/widgets/ribbon/ribbon.scss
+    - /web/static/src/views/widgets/week_days/week_days.scss
+    - /web/static/src/webclient/actions/action_dialog.scss
+    - /web/static/src/webclient/burger_menu/burger_menu.scss
+    - /web/static/src/webclient/debug/profiling/profiling_item.scss
+    - /web/static/src/webclient/debug/profiling/profiling_qweb.scss
+    - /web/static/src/webclient/loading_indicator/loading_indicator.scss
+    - /web/static/src/webclient/offline_systray/offline_systray.scss
+    - /web/static/src/webclient/res_user_group_ids_field/res_user_group_ids_field.scss
+    - /web/static/src/webclient/res_user_group_ids_field/res_user_group_ids_privilege_field.scss
+    - /web/static/src/webclient/settings_form_view/settings/searchable_setting.scss
+    - /web/static/src/webclient/settings_form_view/settings_form_view.scss
+    - /web/static/src/webclient/settings_form_view/settings_form_view_mobile.scss
+    - /web/static/src/webclient/settings_form_view/widgets/settings_widgets.scss
+    - /web/static/src/webclient/switch_company_menu/switch_company_menu.scss
+    - /web/static/src/webclient/user_menu/user_menu.scss
+    - /web/static/src/webclient/webclient.scss
+    - /web/static/src/webclient/webclient_layout.scss
+    - /web/static/src/scss/ace.scss
+    - /web/static/src/scss/base_document_layout.scss
+    - /base/static/src/scss/res_partner.scss
+    - /base/static/src/scss/res_users.scss
+    - /web/static/src/views/form/button_box/button_box.scss
+    - /golok_ai_trading_lab_pro/static/src/overview.scss
+    - /auth_passkey/static/src/scss/res_users.scss
+    - /auth_totp/static/src/scss/res_users_view_form.scss
+    - /base_import/static/src/import_action/import_action.scss
+    - /base_import/static/src/import_data_content/import_data_content.scss
+    - /base_import/static/src/import_data_progress/import_data_progress.scss
+    - /base_import/static/src/import_data_sidepanel/import_data_sidepanel.scss
+    - /base_import_module/static/src/search_panel.scss
+    - /html_editor/static/src/components/switch/switch.scss
+    - /html_editor/static/src/main/media/media_dialog/media_dialog.scss
+    - /html_editor/static/src/main/media/media_dialog/upload_progress_toast/upload_progress_toast.scss
+    - /html_editor/static/src/main/local_overlay.scss
+    - /html_editor/static/src/main/list/list.scss
+    - /html_editor/static/src/main/media/file.scss
+    - /html_editor/static/src/others/embedded_components/core/date/readonly_date.scss
+    - /html_editor/static/src/others/embedded_components/core/embedded_component_toolbar/embedded_component_toolbar.scss
+    - /html_editor/static/src/others/embedded_components/core/file/file.scss
+    - /html_editor/static/src/others/embedded_components/core/table_of_content/table_of_content.scss
+    - /html_editor/static/src/others/embedded_components/core/toggle_block/toggle_block.scss
+    - /html_editor/static/src/others/embedded_components/core/whiteboard/whiteboard.scss
+    - /html_editor/static/src/others/qweb_plugin.scss
+    - /html_editor/static/src/styles.scss
+    - /html_editor/static/src/components/color_picker/color_picker.scss
+    - /html_editor/static/src/components/color_picker/custom_color_picker/custom_color_picker.scss
+    - /html_editor/static/src/components/color_picker/gradient_picker/gradient_picker.scss
+    - /html_editor/static/src/components/color_picker/tabs/gradient/color_picker_gradient_tab.scss
+    - /html_editor/static/src/components/history_dialog/history_dialog.scss
+    - /html_editor/static/src/components/suggestion/suggestion_list.scss
+    - /html_editor/static/src/core/format_plugin.scss
+    - /html_editor/static/src/main/align/align_selector.scss
+    - /html_editor/static/src/main/banner.scss
+    - /html_editor/static/src/main/column.scss
+    - /html_editor/static/src/main/font/color_selector.scss
+    - /html_editor/static/src/main/font/font_size_selector.scss
+    - /html_editor/static/src/main/font/font_type.scss
+    - /html_editor/static/src/main/font/font_type_selector.scss
+    - /html_editor/static/src/main/hint.scss
+    - /html_editor/static/src/main/link/link.scss
+    - /html_editor/static/src/main/link/link_popover.scss
+    - /html_editor/static/src/main/media/image_crop.scss
+    - /html_editor/static/src/main/media/image_transformation.scss
+    - /html_editor/static/src/main/media/signature.scss
+    - /html_editor/static/src/main/movenode.scss
+    - /html_editor/static/src/main/power_buttons.scss
+    - /html_editor/static/src/main/powerbox/powerbox.scss
+    - /html_editor/static/src/main/resize.scss
+    - /html_editor/static/src/main/selection_placeholder_plugin.scss
+    - /html_editor/static/src/main/separator_selection.scss
+    - /html_editor/static/src/main/table/mobile_table_picker.scss
+    - /html_editor/static/src/main/table/table.scss
+    - /html_editor/static/src/main/table/table_align_selector.scss
+    - /html_editor/static/src/main/table/table_border_selector.scss
+    - /html_editor/static/src/main/table/table_drag_drop.scss
+    - /html_editor/static/src/main/table/table_menu.scss
+    - /html_editor/static/src/main/table/table_picker.scss
+    - /html_editor/static/src/main/table/table_selection.scss
+    - /html_editor/static/src/main/toolbar/toolbar.scss
+    - /html_editor/static/src/main/translate/language_selector.scss
+    - /html_editor/static/src/main/translate/translate_plugin.scss
+    - /html_editor/static/src/others/collaboration/collaboration_selection.scss
+    - /html_editor/static/src/others/collaboration/collaboration_selection_avatar.scss
+    - /html_editor/static/src/others/embedded_components/backend/date/date.scss
+    - /html_editor/static/src/others/embedded_components/backend/video/video.scss
+    - /html_editor/static/src/others/embedded_components/plugins/caption_plugin/caption.scss
+    - /html_editor/static/src/others/embedded_components/plugins/embedded_whiteboard_plugin/embedded_whiteboard_plugin.scss
+    - /html_editor/static/src/others/embedded_components/plugins/syntax_highlighting_plugin/syntax_highlighting_plugin.scss
+    - /html_editor/static/src/backend/dynamic_field/dynamic_field_plugin.scss
+    - /html_editor/static/src/fields/html_field.scss
+    - /html_editor/static/src/fields/property_value.scss
+    - /html_editor/static/src/scss/base_style.scss
+    - /html_editor/static/src/scss/html_editor.common.scss
+    - /html_editor/static/src/scss/html_editor.backend.scss
+    - /mysubscription/static/src/dashboard.scss
+    - /web_tour/static/src/tour_pointer/tour_pointer.scss
+2026-11-24 10:45:32,992 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/1de54e8/web.assets_web_print.min.css (id:76)
+2026-11-24 10:45:32,994 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/cf83e13/web.chartjs_lib.min.css (id:77)
+2026-11-24 10:45:32,997 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/cf83e13/web.fullcalendar_lib.min.css (id:78)
+2026-11-24 10:45:33,002 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/f54e83d/web.material_symbols_outlined.min.css (id:79)
+2026-11-24 10:45:33,014 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/c4000a8/web.odoo_ui_icons.min.css (id:80)
+2026-11-24 10:45:37,297 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/c8c00b1/web.report_assets_common.min.css (id:81)
+2026-11-24 10:45:37,315 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/72f69fd/web.report_assets_pdf.min.css (id:82)
+2026-11-24 10:45:37,318 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/cf83e13/web_tour.interactive.min.css (id:83)
+2026-11-24 10:45:37,320 6124 INFO golok_20261124161253 odoo.addons.base.models.assetsbundle: Generating a new asset bundle attachment /web/assets/cf83e13/web_tour.recorder.min.css (id:84)
+2026-11-24 10:45:37,321 6124 INFO golok_20261124161253 odoo.addons.base.models.ir_qweb: CSS Assets bundles generated in 71.69359588623047 seconds
+2026-11-24 10:45:37,398 6124 INFO golok_20261124161253 odoo.tests.suite: Auto retry disabled for test_unit_desktop (odoo.addons.web.tests.test_js.WebSuite.test_unit_desktop)
+2026-11-24 10:45:37,398 6124 INFO golok_20261124161253 odoo.addons.web.tests.test_js: Starting WebSuite.test_unit_desktop ...
+2026-11-24 10:45:37,424 6124 INFO golok_20261124161253 odoo.addons.base.models.ir_attachment: filestore gc 34 checked, 0 removed
+2026-11-24 10:45:37,435 6124 INFO golok_20261124161253 odoo.tests.suite: Auto retry disabled for test_unit_mobile (odoo.addons.web.tests.test_js.MobileWebSuite.test_unit_mobile)
+2026-11-24 10:45:37,435 6124 INFO golok_20261124161253 odoo.addons.web.tests.test_js: Starting MobileWebSuite.test_unit_mobile ...
+2026-11-24 10:45:37,444 6124 INFO golok_20261124161253 odoo.addons.base.models.ir_attachment: filestore gc 0 checked, 0 removed
+2026-11-24 10:45:37,452 6124 INFO golok_20261124161253 odoo.service.server: 2 post-tests in 128.44s, 422 queries
+2026-11-24 10:45:37,452 6124 INFO golok_20261124161253 odoo.tests.stats: golok_ai_trading_lab_pro: 7 tests 1.02s 149 queries
+2026-11-24 10:45:37,453 6124 INFO golok_20261124161253 odoo.tests.stats: web: 6 tests 0.06s 13 queries
+2026-11-24 10:45:37,453 6124 ERROR golok_20261124161253 odoo.tests.result: 0 failed, 5 error(s) of 7 tests when loading database 'golok_20261124161253'
+2026-11-24 10:45:37,453 6124 INFO golok_20261124161253 odoo.service.server.ThreadedServer: Error: odoo.addons.golok_ai_trading_lab_pro.tests.test_lab.TestLab.test_database_duplicate_constraint - golok.lab.import.upload: use BinaryValue [...]
+2026-11-24 10:45:37,453 6124 INFO golok_20261124161253 odoo.service.server.ThreadedServer: Error: odoo.addons.golok_ai_trading_lab_pro.tests.test_lab.TestLab.test_permissions_and_company_scope - golok.lab.import.upload: use BinaryValue [...]
+2026-11-24 10:45:37,453 6124 INFO golok_20261124161253 odoo.service.server.ThreadedServer: Error: odoo.addons.golok_ai_trading_lab_pro.tests.test_lab.TestLab.test_import_retry_and_atomic_conflict - golok.lab.import.upload: use BinaryValue [...]
+2026-11-24 10:45:37,453 6124 INFO golok_20261124161253 odoo.service.server.ThreadedServer: Error: odoo.addons.golok_ai_trading_lab_pro.tests.test_lab.TestLab.test_gap_disables_findings - golok.lab.import.upload: use BinaryValue [...]
+2026-11-24 10:45:37,453 6124 INFO golok_20261124161253 odoo.service.server.ThreadedServer: Error: odoo.addons.golok_ai_trading_lab_pro.tests.test_lab.TestLab.test_research_cutoff_evidence_and_no_trade - golok.lab.import.upload: use BinaryValue [...]
+2026-11-24 10:45:37,453 6124 INFO golok_20261124161253 odoo.service.server.ThreadedServer: Initiating shutdown
+2026-11-24 10:45:37,453 6124 INFO golok_20261124161253 odoo.service.server.ThreadedServer: Hit CTRL-C again or send a second signal to force the shutdown.
+2026-11-24 10:45:37,453 6124 INFO golok_20261124161253 odoo.addons.bus.websocket: Disconnecting 0 websockets
+2026-11-24 10:45:37,564 6124 INFO golok_20261124161253 odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 2 connections 
+2026-11-24 10:45:49,613 1928 WARNING ? odoo.tools.config: option --without-demo: since 19.0, invalid boolean value: 'all', assume True
+2026-11-24 10:45:49,615 1928 INFO ? odoo: Odoo version 20.0
+2026-11-24 10:45:49,615 1928 INFO ? odoo: Using configuration file at c:\pycharmprojects\odoo20\odoo-20.0\odoo.conf
+2026-11-24 10:45:49,616 1928 INFO ? odoo: addons paths: _NamespacePath(['C:\\PycharmProjects\\odoo20\\odoo-20.0\\odoo\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons\\golok_ai_trading_lab_pro\\.local-test\\odoo-data\\addons\\20.0', 'c:\\pycharmprojects\\odoo20\\odoo-20.0\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons'])
+2026-11-24 10:45:49,616 1928 INFO ? odoo: database: golok_test@127.0.0.1:55489
+2026-11-24 10:45:53,126 1928 INFO ? odoo.service.server: HTTP service running on 127.0.0.1:8071
+2026-11-24 10:45:53,181 1928 INFO golok_20261124161546 odoo.tests.common: Importing test framework
+2026-11-24 10:45:53,312 1928 INFO golok_20261124161546 odoo.modules.loading: Initializing database golok_20261124161546
+2026-11-24 10:45:55,528 1928 WARNING golok_20261124161546 odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-24 10:45:55,535 1928 WARNING golok_20261124161546 odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-24 10:45:55,730 1928 WARNING golok_20261124161546 odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-24 10:45:55,730 1928 WARNING golok_20261124161546 odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-24 10:45:55,731 1928 WARNING golok_20261124161546 odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-24 10:45:55,732 1928 WARNING golok_20261124161546 odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-24 10:45:56,030 1928 INFO golok_20261124161546 odoo.modules.loading: loading 1 modules...
+2026-11-24 10:45:56,030 1928 INFO golok_20261124161546 odoo.modules.loading: Loading module base (1/1)
+2026-11-24 10:45:56,086 1928 INFO golok_20261124161546 odoo.tools.version_tag_reset: Detected tp_versions_used at offset 410, reset enabled
+2026-11-24 10:45:56,087 1928 INFO golok_20261124161546 odoo.registry: module base: creating or updating database tables
+2026-11-24 10:45:56,866 1928 INFO golok_20261124161546 odoo.fields: Prepare computation of ir.module.module.menus_by_module in 663 records
+2026-11-24 10:45:56,871 1928 INFO golok_20261124161546 odoo.fields: Prepare computation of ir.module.module.reports_by_module in 663 records
+2026-11-24 10:45:56,873 1928 INFO golok_20261124161546 odoo.fields: Prepare computation of ir.module.module.views_by_module in 663 records
+2026-11-24 10:45:57,122 1928 INFO golok_20261124161546 odoo.fields: Prepare computation of res.partner.user_id in 1 records
+2026-11-24 10:45:57,125 1928 INFO golok_20261124161546 odoo.fields: Prepare computation of res.partner.commercial_partner_id in 1 records
+2026-11-24 10:45:57,128 1928 INFO golok_20261124161546 odoo.fields: Prepare computation of res.partner.complete_name in 1 records
+2026-11-24 10:45:57,129 1928 INFO golok_20261124161546 odoo.fields: Prepare computation of res.partner.lang in 1 records
+2026-11-24 10:45:57,138 1928 INFO golok_20261124161546 odoo.fields: Prepare computation of res.partner.commercial_company_name in 1 records
+2026-11-24 10:45:57,140 1928 INFO golok_20261124161546 odoo.fields: Prepare computation of res.partner.properties in 1 records
+2026-11-24 10:45:57,146 1928 INFO golok_20261124161546 odoo.fields: Prepare computation of res.partner.partner_share in 1 records
+2026-11-24 10:45:57,205 1928 INFO golok_20261124161546 odoo.fields: Prepare computation of res.currency.decimal_places in 1 records
+2026-11-24 10:45:57,277 1928 INFO golok_20261124161546 odoo.fields: Prepare computation of res.company.company_details in 1 records
+2026-11-24 10:45:57,280 1928 INFO golok_20261124161546 odoo.fields: Prepare computation of res.company.uses_default_logo in 1 records
+2026-11-24 10:45:57,286 1928 INFO golok_20261124161546 odoo.models: Computing parent_path for table res_company...
+2026-11-24 10:45:57,342 1928 INFO golok_20261124161546 odoo.fields: Prepare computation of res.users.signature in 1 records
+2026-11-24 10:45:57,343 1928 INFO golok_20261124161546 odoo.fields: Prepare computation of res.users.share in 1 records
+2026-11-24 10:46:01,972 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/data/res.lang.csv
+2026-11-24 10:46:02,042 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/data/res_lang_data.xml
+2026-11-24 10:46:02,121 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/data/res_partner_data.xml
+2026-11-24 10:46:02,298 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/data/res_currency_data.xml
+2026-11-24 10:46:03,485 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/data/res_company_data.xml
+2026-11-24 10:46:03,527 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/data/res_users_data.xml
+2026-11-24 10:46:04,891 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/data/report_paperformat_data.xml
+2026-11-24 10:46:04,907 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/data/res_country_data.xml
+2026-11-24 10:46:05,801 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/data/clearing_label_data.xml
+2026-11-24 10:46:05,834 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/data/ir_demo_data.xml
+2026-11-24 10:46:05,853 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/security/base_groups.xml
+2026-11-24 10:46:06,260 1928 INFO golok_20261124161546 odoo.addons.base.models.res_users: Group change: user 1 with IP n/a changed groups of user 3 who belonged to [] with changes [(<Command.LINK: 4>, 12, 0)]
+2026-11-24 10:46:06,336 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/wizard/wizard_ir_model_menu_create_views.xml
+2026-11-24 10:46:06,352 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/decimal_precision_views.xml
+2026-11-24 10:46:06,371 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/res_config_views.xml
+2026-11-24 10:46:06,380 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/data/res.country.state.csv
+2026-11-24 10:46:07,115 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/ir_actions_views.xml
+2026-11-24 10:46:07,462 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/ir_asset_views.xml
+2026-11-24 10:46:07,494 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/ir_config_parameter_views.xml
+2026-11-24 10:46:07,535 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/ir_cron_views.xml
+2026-11-24 10:46:07,605 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/ir_cron_trigger_views.xml
+2026-11-24 10:46:07,642 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/ir_filters_views.xml
+2026-11-24 10:46:07,689 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/ir_mail_server_views.xml
+2026-11-24 10:46:07,738 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/ir_model_views.xml
+2026-11-24 10:46:07,929 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/ir_attachment_views.xml
+2026-11-24 10:46:07,961 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/ir_access_views.xml
+2026-11-24 10:46:08,004 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/ir_sequence_views.xml
+2026-11-24 10:46:08,040 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/ir_ui_menu_views.xml
+2026-11-24 10:46:08,073 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/ir_ui_view_views.xml
+2026-11-24 10:46:08,141 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/ir_default_views.xml
+2026-11-24 10:46:08,161 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/data/ir_config_parameter_data.xml
+2026-11-24 10:46:08,168 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/data/ir_cron_data.xml
+2026-11-24 10:46:08,192 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/report/ir_model_report.xml
+2026-11-24 10:46:08,200 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/report/ir_model_templates.xml
+2026-11-24 10:46:08,214 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/ir_logging_views.xml
+2026-11-24 10:46:08,238 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/ir_qweb_widget_templates.xml
+2026-11-24 10:46:08,257 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/ir_module_views.xml
+2026-11-24 10:46:08,306 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/data/ir_module_category_data.xml
+2026-11-24 10:46:08,374 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/data/ir_module_module.xml
+2026-11-24 10:46:08,491 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/report/ir_module_reports.xml
+2026-11-24 10:46:08,497 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/report/ir_module_report_templates.xml
+2026-11-24 10:46:08,507 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/wizard/base_module_update_views.xml
+2026-11-24 10:46:08,520 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/wizard/base_language_install_views.xml
+2026-11-24 10:46:08,536 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/wizard/base_import_language_views.xml
+2026-11-24 10:46:08,547 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/wizard/base_module_upgrade_views.xml
+2026-11-24 10:46:08,568 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/wizard/base_module_uninstall_views.xml
+2026-11-24 10:46:08,579 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/wizard/base_export_language_views.xml
+2026-11-24 10:46:08,591 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/wizard/base_partner_merge_views.xml
+2026-11-24 10:46:08,614 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/data/ir_demo_failure_data.xml
+2026-11-24 10:46:08,652 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/ir_profile_views.xml
+2026-11-24 10:46:08,732 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/res_company_views.xml
+2026-11-24 10:46:08,762 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/res_lang_views.xml
+2026-11-24 10:46:08,789 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/res_partner_views.xml
+2026-11-24 10:46:08,938 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/clearing_label_views.xml
+2026-11-24 10:46:08,948 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/res_partner_bank_views.xml
+2026-11-24 10:46:08,979 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/res_country_views.xml
+2026-11-24 10:46:09,006 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/res_country_group_views.xml
+2026-11-24 10:46:09,024 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/res_country_state_views.xml
+2026-11-24 10:46:09,052 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/res_currency_views.xml
+2026-11-24 10:46:09,126 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/res_groups_views.xml
+2026-11-24 10:46:09,208 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/res_users_views.xml
+2026-11-24 10:46:09,369 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/res_users_apikeys_views.xml
+2026-11-24 10:46:09,378 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/res_device_views.xml
+2026-11-24 10:46:09,418 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/res_users_identitycheck_views.xml
+2026-11-24 10:46:09,428 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/res_config_settings_views.xml
+2026-11-24 10:46:09,441 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/report_paperformat_views.xml
+2026-11-24 10:46:09,465 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/data/ir_action_data.xml
+2026-11-24 10:46:09,477 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/data/website.xml
+2026-11-24 10:46:09,486 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/views/base_menus.xml
+2026-11-24 10:46:09,866 1928 INFO golok_20261124161546 odoo.modules.loading: loading base/security/ir.access.csv
+2026-11-24 10:46:10,433 1928 INFO golok_20261124161546 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:46:10,977 1928 INFO golok_20261124161546 odoo.modules.loading: Module base loaded in 14.95s, 8630 queries (+8630 other)
+2026-11-24 10:46:10,977 1928 INFO golok_20261124161546 odoo.modules.loading: 1 modules loaded in 14.95s, 8630 queries (+8630 extra)
+2026-11-24 10:46:11,109 1928 INFO golok_20261124161546 odoo.modules.loading: updating modules list
+2026-11-24 10:46:11,131 1928 INFO golok_20261124161546 odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via n/a
+2026-11-24 10:46:12,855 1928 WARNING golok_20261124161546 odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-24 10:46:12,908 1928 WARNING golok_20261124161546 odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-24 10:46:12,909 1928 WARNING golok_20261124161546 odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-24 10:46:13,071 1928 INFO golok_20261124161546 odoo.addons.base.models.ir_module: ALLOW access to module.button_install on ['Golok AI Trading Lab Pro'] to user __system__ #1 via n/a
+2026-11-24 10:46:13,278 1928 INFO golok_20261124161546 odoo.modules.loading: loading 17 modules...
+2026-11-24 10:46:13,278 1928 INFO golok_20261124161546 odoo.modules.loading: Loading module base_report_wkhtmltox (2/17)
+2026-11-24 10:46:13,311 1928 INFO golok_20261124161546 odoo.registry: module base_report_wkhtmltox: creating or updating database tables
+2026-11-24 10:46:13,460 1928 INFO golok_20261124161546 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:46:13,475 1928 INFO golok_20261124161546 odoo.modules.loading: Module base_report_wkhtmltox loaded in 0.20s, 44 queries (+44 other)
+2026-11-24 10:46:13,475 1928 INFO golok_20261124161546 odoo.modules.loading: Loading module rpc (3/17)
+2026-11-24 10:46:13,521 1928 INFO golok_20261124161546 odoo.registry: Caches invalidated, signaling through the database: ['default', 'stable']
+2026-11-24 10:46:13,545 1928 INFO golok_20261124161546 odoo.modules.loading: Module rpc loaded in 0.07s, 12 queries (+12 other)
+2026-11-24 10:46:13,545 1928 INFO golok_20261124161546 odoo.modules.loading: Loading module web (4/17)
+2026-11-24 10:46:13,671 1928 INFO golok_20261124161546 odoo.registry: module web: creating or updating database tables
+2026-11-24 10:46:15,156 1928 INFO golok_20261124161546 odoo.modules.loading: loading web/views/webclient_templates.xml
+2026-11-24 10:46:15,420 1928 INFO golok_20261124161546 odoo.modules.loading: loading web/views/report_templates.xml
+2026-11-24 10:46:15,954 1928 INFO golok_20261124161546 odoo.modules.loading: loading web/views/base_document_layout_views.xml
+2026-11-24 10:46:16,022 1928 INFO golok_20261124161546 odoo.modules.loading: loading web/views/partner_view.xml
+2026-11-24 10:46:16,076 1928 INFO golok_20261124161546 odoo.modules.loading: loading web/views/speedscope_template.xml
+2026-11-24 10:46:16,097 1928 INFO golok_20261124161546 odoo.modules.loading: loading web/views/memory_template.xml
+2026-11-24 10:46:16,120 1928 INFO golok_20261124161546 odoo.modules.loading: loading web/views/speedscope_config_wizard.xml
+2026-11-24 10:46:16,149 1928 INFO golok_20261124161546 odoo.modules.loading: loading web/views/neutralize_views.xml
+2026-11-24 10:46:16,183 1928 INFO golok_20261124161546 odoo.modules.loading: loading web/views/ir_ui_view_views.xml
+2026-11-24 10:46:16,216 1928 INFO golok_20261124161546 odoo.modules.loading: loading web/data/ir_attachment.xml
+2026-11-24 10:46:16,246 1928 INFO golok_20261124161546 odoo.modules.loading: loading web/data/report_layout.xml
+2026-11-24 10:46:16,434 1928 INFO golok_20261124161546 odoo.modules.loading: loading web/security/ir.access.csv
+2026-11-24 10:46:16,825 1928 INFO golok_20261124161546 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:46:16,938 1928 INFO golok_20261124161546 odoo.modules.loading: Module web loaded in 3.39s, 1384 queries (+1384 other)
+2026-11-24 10:46:16,938 1928 INFO golok_20261124161546 odoo.modules.loading: Loading module api_doc (5/17)
+2026-11-24 10:46:16,964 1928 INFO golok_20261124161546 odoo.registry: module api_doc: creating or updating database tables
+2026-11-24 10:46:17,087 1928 INFO golok_20261124161546 odoo.modules.loading: loading api_doc/security/res_groups.xml
+2026-11-24 10:46:17,189 1928 INFO golok_20261124161546 odoo.modules.loading: loading api_doc/views/docclient.xml
+2026-11-24 10:46:17,276 1928 INFO golok_20261124161546 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:46:17,291 1928 INFO golok_20261124161546 odoo.modules.loading: Module api_doc loaded in 0.35s, 88 queries (+88 other)
+2026-11-24 10:46:17,291 1928 INFO golok_20261124161546 odoo.modules.loading: Loading module auth_totp (6/17)
+2026-11-24 10:46:17,438 1928 INFO golok_20261124161546 odoo.registry: module auth_totp: creating or updating database tables
+2026-11-24 10:46:17,713 1928 INFO golok_20261124161546 odoo.modules.loading: loading auth_totp/data/ir_action_data.xml
+2026-11-24 10:46:17,738 1928 INFO golok_20261124161546 odoo.modules.loading: loading auth_totp/views/res_users_views.xml
+2026-11-24 10:46:17,800 1928 INFO golok_20261124161546 odoo.modules.loading: loading auth_totp/views/templates.xml
+2026-11-24 10:46:17,810 1928 INFO golok_20261124161546 odoo.modules.loading: loading auth_totp/wizard/auth_totp_wizard_views.xml
+2026-11-24 10:46:17,821 1928 INFO golok_20261124161546 odoo.modules.loading: loading auth_totp/security/ir.access.csv
+2026-11-24 10:46:17,880 1928 INFO golok_20261124161546 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:46:17,892 1928 INFO golok_20261124161546 odoo.modules.loading: Module auth_totp loaded in 0.60s, 208 queries (+208 other)
+2026-11-24 10:46:17,892 1928 INFO golok_20261124161546 odoo.modules.loading: Loading module base_import (7/17)
+2026-11-24 10:46:18,004 1928 INFO golok_20261124161546 odoo.registry: module base_import: creating or updating database tables
+2026-11-24 10:46:19,256 1928 INFO golok_20261124161546 odoo.modules.loading: loading base_import/security/ir.access.csv
+2026-11-24 10:46:19,691 1928 INFO golok_20261124161546 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:46:19,695 1928 INFO golok_20261124161546 odoo.modules.loading: Module base_import loaded in 1.80s, 1123 queries (+1123 other)
+2026-11-24 10:46:19,696 1928 INFO golok_20261124161546 odoo.modules.loading: Loading module base_import_module (8/17)
+2026-11-24 10:46:19,759 1928 INFO golok_20261124161546 odoo.registry: module base_import_module: creating or updating database tables
+2026-11-24 10:46:20,076 1928 INFO golok_20261124161546 odoo.modules.loading: loading base_import_module/views/base_import_module_view.xml
+2026-11-24 10:46:20,188 1928 INFO golok_20261124161546 odoo.modules.loading: loading base_import_module/views/ir_module_views.xml
+2026-11-24 10:46:20,270 1928 INFO golok_20261124161546 odoo.modules.loading: loading base_import_module/security/ir.access.csv
+2026-11-24 10:46:20,337 1928 INFO golok_20261124161546 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:46:20,349 1928 INFO golok_20261124161546 odoo.modules.loading: Module base_import_module loaded in 0.65s, 172 queries (+172 other)
+2026-11-24 10:46:20,349 1928 INFO golok_20261124161546 odoo.modules.loading: Loading module base_setup (9/17)
+2026-11-24 10:46:20,388 1928 INFO golok_20261124161546 odoo.registry: module base_setup: creating or updating database tables
+2026-11-24 10:46:20,472 1928 INFO golok_20261124161546 odoo.modules.loading: loading base_setup/data/base_setup_data.xml
+2026-11-24 10:46:20,479 1928 INFO golok_20261124161546 odoo.modules.loading: loading base_setup/views/res_config_settings_views.xml
+2026-11-24 10:46:20,554 1928 INFO golok_20261124161546 odoo.modules.loading: loading base_setup/views/res_partner_views.xml
+2026-11-24 10:46:20,616 1928 INFO golok_20261124161546 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:46:20,635 1928 INFO golok_20261124161546 odoo.modules.loading: Module base_setup loaded in 0.29s, 154 queries (+154 other)
+2026-11-24 10:46:20,635 1928 INFO golok_20261124161546 odoo.modules.loading: Loading module bus (10/17)
+2026-11-24 10:46:20,766 1928 INFO golok_20261124161546 odoo.registry: module bus: creating or updating database tables
+2026-11-24 10:46:21,082 1928 INFO golok_20261124161546 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:46:21,130 1928 INFO golok_20261124161546 odoo.modules.loading: Module bus loaded in 0.50s, 128 queries (+128 other)
+2026-11-24 10:46:21,131 1928 INFO golok_20261124161546 odoo.modules.loading: Loading module golok_ai_trading_lab_pro (11/17)
+2026-11-24 10:46:21,192 1928 INFO golok_20261124161546 odoo.registry: module golok_ai_trading_lab_pro: creating or updating database tables
+2026-11-24 10:46:21,832 1928 INFO golok_20261124161546 odoo.modules.loading: loading golok_ai_trading_lab_pro/security/groups.xml
+2026-11-24 10:46:21,990 1928 INFO golok_20261124161546 odoo.modules.loading: loading golok_ai_trading_lab_pro/security/ir.access.csv
+2026-11-24 10:46:22,058 1928 INFO golok_20261124161546 odoo.modules.loading: loading golok_ai_trading_lab_pro/views/lab.xml

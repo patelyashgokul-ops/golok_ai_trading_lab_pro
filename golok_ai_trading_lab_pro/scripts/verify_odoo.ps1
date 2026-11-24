@@ -35,7 +35,7 @@ try {
             $logOffset = if (Test-Path $log) { (Get-Item $log).Length } else { 0 }
             $timer = [Diagnostics.Stopwatch]::StartNew()
             & $Python -B "$OdooRoot/odoo-bin" @common --without-demo=all --stop-after-init --no-http `
-                --test-tags=/golok_ai_trading_lab_pro $stage.Flag golok_ai_trading_lab_pro "--logfile=$log"
+                --test-tags=/golok_ai_trading_lab_pro:TestLab $stage.Flag golok_ai_trading_lab_pro "--logfile=$log"
             $code = $LASTEXITCODE
             $timer.Stop()
             Write-Output "$($stage.Name) exit=$code seconds=$($timer.Elapsed.TotalSeconds) database=$Database"
@@ -46,7 +46,7 @@ try {
             } finally {
                 $file.Dispose()
             }
-            $runOutput -split "`n" | Select-String 'Starting TestLab|ERROR|CRITICAL|tests? when loading database'
+            $runOutput -split "`n" | Select-String 'Starting TestLab|ERROR|CRITICAL|[0-9] tests when loading|[0-9] errors of'
             if ($code) { throw "Odoo $($stage.Name) exited $code" }
         }
         if ($Browser) {

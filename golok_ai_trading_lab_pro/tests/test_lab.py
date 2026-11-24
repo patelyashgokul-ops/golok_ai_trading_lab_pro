@@ -1,8 +1,8 @@
-import base64
 from datetime import datetime, timedelta
 
 from odoo.exceptions import AccessError, ValidationError
 from odoo.tests import TransactionCase, new_test_user, tagged
+from odoo.tools.binary import BinaryBytes
 
 MODULE = "golok_ai_trading_lab_pro"
 
@@ -37,7 +37,7 @@ class TestLab(TransactionCase):
         raw = ("close_time,open,high,low,close,volume\n" + "\n".join(lines)).encode()
         return self.env["golok.lab.import"].with_user(self.analyst).create({
             "dataset_id": (dataset if dataset is not None else self.dataset).id,
-            "upload": base64.b64encode(raw),
+            "upload": BinaryBytes(raw),
         })
 
     def _lines(self, count):

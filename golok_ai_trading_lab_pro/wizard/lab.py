@@ -1,5 +1,3 @@
-import base64
-import binascii
 from datetime import datetime, timezone
 
 from odoo import _, fields, models
@@ -21,14 +19,11 @@ class ImportCandles(models.TransientModel):
         self.check_access("read")
         self.dataset_id.check_access("write")
         try:
-            if not self.upload or len(self.upload) > 4 * ((market_data.MAX_BYTES + 2) // 3):
+            if not self.upload or self.upload.size > market_data.MAX_BYTES:
                 raise ValueError("Select a CSV of up to 512 KiB.")
-            raw = base64.b64decode(self.upload, validate=True)
-            bars = market_data.parse_csv(raw, as_of=datetime.now(timezone.utc))
+            bars = market_data.parse_csv(self.upload.content, as_of=datetime.now(timezone.utc))
         except UnicodeError:
             raise ValidationError(_("CSV must use UTF-8 encoding.")) from None
-        except binascii.Error:
-            raise ValidationError(_("Upload encoding is invalid.")) from None
         except ValueError as exc:
             raise ValidationError(str(exc)) from None
         count = self.dataset_id._import_bars(bars)

@@ -31,7 +31,7 @@
 
     .o_golok_cards {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(min(100%, 185px), 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
         gap: 12px;
         margin-bottom: 20px;
     }
@@ -61,8 +61,14 @@
 
     .o_golok_facts {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(min(100%, 155px), 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
         gap: 12px;
         dd { margin: 0; font-variant-numeric: tabular-nums; }
+    }
+
+    @media (max-width: 460px) {
+        .o_golok_cards, .o_golok_facts {
+            grid-template-columns: minmax(0, 1fr);
+        }
     }
 }
