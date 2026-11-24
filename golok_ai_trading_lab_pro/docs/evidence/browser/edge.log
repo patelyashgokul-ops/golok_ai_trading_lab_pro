@@ -99,3 +99,8 @@ TypeError: Cannot read properties of undefined (reading 'loading')
     at RootFiber.render (http://127.0.0.1:18089/web/assets/b6e7a56/web.assets_web.min.js:1026:199)
     at ComponentNode.render (http://127.0.0.1:18089/web/assets/b6e7a56/web.assets_web.min.js:1048:56)
 Close
+Browser check database=golok_20261124162421
+UI-01 authenticated OWL dashboard and empty state
+UI-02 CSV selected and imported through the Odoo wizard
+UI-03 historical research, accurate KPIs, refresh and snapshot drill-down
+UI-04 mobile viewport without horizontal overflow and no uncaught page errors

@@ -1,0 +1,2 @@
+PASS: independent PostgreSQL connections overlapped and unique constraint rejected the overlapping import
+PASS: a new transaction replayed the identical import with one total stored candle

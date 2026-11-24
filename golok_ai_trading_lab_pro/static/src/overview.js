@@ -36,7 +36,7 @@ class TradingOverview extends Component {
     }
 
     displayTime(value) {
-        return value ? formatDateTime(deserializeDateTime(value)) : "—";
+        return value ? formatDateTime(deserializeDateTime(value), { tz: "Asia/Kolkata" }) : "—";
     }
 
     openList(card) {

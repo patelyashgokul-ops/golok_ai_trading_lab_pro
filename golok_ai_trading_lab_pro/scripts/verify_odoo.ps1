@@ -14,7 +14,7 @@ $moduleRoot = Split-Path $PSScriptRoot -Parent
 Push-Location $moduleRoot
 try {
     foreach ($directory in @('.local-test', '.local-test/odoo-data', 'docs/evidence/installation',
-        'docs/evidence/browser', 'docs/evidence/screenshots')) {
+        'docs/evidence/browser', 'docs/evidence/screenshots', 'docs/evidence/security')) {
         New-Item -ItemType Directory -Force $directory | Out-Null
     }
     $cluster = Join-Path $moduleRoot '.local-test/pg'
@@ -49,6 +49,14 @@ try {
             $runOutput -split "`n" | Select-String 'Starting TestLab|ERROR|CRITICAL|[0-9] tests when loading|[0-9] errors of'
             if ($code) { throw "Odoo $($stage.Name) exited $code" }
         }
+        $timer = [Diagnostics.Stopwatch]::StartNew()
+        "from odoo.addons.golok_ai_trading_lab_pro.scripts.verify_contention import run; run(env)" |
+            & $Python -B "$OdooRoot/odoo-bin" shell @common --no-http --logfile=.local-test/contention-server.log |
+            Tee-Object docs/evidence/security/contention.log
+        $code = $LASTEXITCODE
+        Write-Output "contention exit=$code seconds=$($timer.Elapsed.TotalSeconds)"
+        if ($code) { throw "PostgreSQL contention test exited $code" }
+
         if ($Browser) {
             $env:GOLOK_TEST_BROWSER_PASSWORD = [guid]::NewGuid().ToString('N')
             try {
