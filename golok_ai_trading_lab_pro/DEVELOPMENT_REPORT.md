@@ -37,7 +37,8 @@ golok_ai_trading_lab_pro/
 ├── views/          lab.xml
 ├── static/src/     overview.js, overview.xml, overview.scss
 ├── tests/          test_lab.py, unit_market_research.py
-├── scripts/        verify_odoo.ps1, verify_browser.py, measure_services.py
+├── scripts/        verify_odoo.ps1, verify_browser.py, verify_contention.py,
+│                   measure_services.py, check_source.py
 ├── docs/           requirements, architecture, traceability, plan, decisions, risks, evidence
 ├── README.md
 └── DEVELOPMENT_REPORT.md
@@ -58,8 +59,8 @@ The module uses Odoo 20's consolidated `ir.access` model for grants and company 
 | `wizard/lab.py` | Native binary import and historical cutoff workflows | AC-009, 015 | Synchronous bounded requests |
 | `security/groups.xml`, `security/ir.access.csv` | Roles, global company domains and operation grants | AC-042, 043 | Risk Manager inherits analyst access |
 | `views/lab.xml`, `static/src/overview.{js,xml,scss}` | Native lists/forms and OWL overview | AC-039–041 | Historical subset and manual refresh |
-| `tests/test_lab.py`, `tests/unit_market_research.py`, package initializers | ORM and standalone verification | AC-001–003, 012–014, 027, 042, 043, 047 | Independent-transaction and full operational coverage pending |
-| `scripts/verify_odoo.ps1`, `scripts/verify_browser.py`, `scripts/measure_services.py` | Isolated test harness and measurements | AC-001–003, 006, 041 | Windows harness, no end-to-end capacity benchmark |
+| `tests/test_lab.py`, `tests/unit_market_research.py`, package initializers | ORM and standalone verification | AC-001–003, 012–014, 027, 042, 043, 047 | Full operational coverage pending |
+| `scripts/verify_odoo.ps1`, `scripts/verify_browser.py`, `scripts/verify_contention.py`, `scripts/measure_services.py`, `scripts/check_source.py` | Isolated harness, contention test, measurements and source checks | AC-001–003, 006, 012, 041 | Windows harness, no end-to-end capacity benchmark |
 | `README.md`, `docs/*.md`, `docs/evidence/`, `DEVELOPMENT_REPORT.md` | Setup, decisions, traceability and evidence | AC-049–050 | Setup for pending features documented as pending |
 
 ## 05 — Requirement traceability matrix
@@ -263,7 +264,7 @@ The source brief is in [MASTER_REQUIREMENTS.md](docs/MASTER_REQUIREMENTS.md). A 
 | S08-034 | Use environment-based secrets or an appropriately protected local secret store | NOT_STARTED | — | — | — | Verify official limits and account entitlement. Implement and test the read-only adapter. |
 | S08-035 | The application must install and operate in simulation mode without real broker credentials | BLOCKED | — | B01 | See report §08 | Verify official limits and account entitlement. Implement and test the read-only adapter. |
 | S08-036 | If credentials are unavailable, mark real integration testing as BLOCKED. Mock or fixture testing must not be represented as successful live API verification | BLOCKED | — | B01 | See report §08 | Verify official limits and account entitlement. Implement and test the read-only adapter. |
-| S09-001 | Duplicate candles | COMPLETE | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | O03–O04 | `docs/evidence/installation/{fresh,upgrade}.log` | Separate transaction contention behavior still needs testing. |
+| S09-001 | Duplicate candles | COMPLETE | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | O03–O04, O08 | `docs/evidence/installation/{fresh,upgrade}.log`, `docs/evidence/security/contention.log` | — |
 | S09-002 | Missing candles | PARTIAL | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | U01–U05, O03–O04 | `docs/evidence/tests/unit.log` | CSV workflow exists. Provider-backed history and independent source validation remain. |
 | S09-003 | Invalid prices | COMPLETE | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | O03, O05 | `docs/evidence/installation/{fresh,upgrade}.log` | External verification of operator-supplied provenance remains. |
 | S09-004 | Negative or invalid volume | COMPLETE | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | O03, O05 | `docs/evidence/installation/{fresh,upgrade}.log` | External verification of operator-supplied provenance remains. |
@@ -294,7 +295,7 @@ The source brief is in [MASTER_REQUIREMENTS.md](docs/MASTER_REQUIREMENTS.md). A 
 | S09-029 | Processing version | COMPLETE | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | O03, O05 | `docs/evidence/installation/{fresh,upgrade}.log` | External verification of operator-supplied provenance remains. |
 | S09-030 | Distinguish real, delayed, historical, imported, and synthetic fixture data | NOT_STARTED | — | — | — | Add calendar, reference data, corporate actions, data freshness and provider fault handling. |
 | S09-031 | Do not silently substitute delayed data for real-time data | NOT_STARTED | — | — | — | Add calendar, reference data, corporate actions, data freshness and provider fault handling. |
-| S09-032 | Implement idempotent ingestion and prevent duplicate records using database-backed constraints | COMPLETE | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | O03–O04 | `docs/evidence/installation/{fresh,upgrade}.log` | Separate transaction contention behavior still needs testing. |
+| S09-032 | Implement idempotent ingestion and prevent duplicate records using database-backed constraints | COMPLETE | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | O03–O04, O08 | `docs/evidence/installation/{fresh,upgrade}.log`, `docs/evidence/security/contention.log` | — |
 | S09-033 | Provide controlled historical import support using legally authorized datasets | COMPLETE | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | O03, O05 | `docs/evidence/installation/{fresh,upgrade}.log` | External verification of operator-supplied provenance remains. |
 | S10-001 | Create a standardized interface for the following 25 research capabilities | NOT_STARTED | — | — | — | Complete the engine contract and independently verify relevant engines. |
 | RE-01 | Technical Analysis | PARTIAL | `services/research.py`, `models/lab.py` | U06–U08, O05–O06 | `docs/evidence/tests/unit.log` | Three descriptive findings exist. Complete the remaining indicator set, evidence contract and engine methods. |
@@ -855,8 +856,8 @@ The source brief is in [MASTER_REQUIREMENTS.md](docs/MASTER_REQUIREMENTS.md). A 
 | S27-016 | Do not rely solely on frontend visibility for security | NOT_STARTED | — | — | — | Extend current access controls with operational audit and independent concurrency tests. |
 | S27-017 | Avoid unsafe unrestricted `sudo()` usage | NOT_STARTED | — | — | — | Extend current access controls with operational audit and independent concurrency tests. |
 | S27-018 | Do not expose broker tokens to ordinary users | NOT_STARTED | — | — | — | Extend current access controls with operational audit and independent concurrency tests. |
-| S27-019 | Use database constraints where required | PARTIAL | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | O03–O04 | `docs/evidence/installation/{fresh,upgrade}.log` | Separate transaction contention behavior still needs testing. |
-| S27-020 | Protect against duplicate ingestion, duplicate research runs, duplicate signals, and duplicate simulated executions | PARTIAL | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | O03–O04 | `docs/evidence/installation/{fresh,upgrade}.log` | Separate transaction contention behavior still needs testing. |
+| S27-019 | Use database constraints where required | PARTIAL | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | O03–O04, O08 | `docs/evidence/installation/{fresh,upgrade}.log`, `docs/evidence/security/contention.log` | — |
+| S27-020 | Protect against duplicate ingestion, duplicate research runs, duplicate signals, and duplicate simulated executions | PARTIAL | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | O03–O04, O08 | `docs/evidence/installation/{fresh,upgrade}.log`, `docs/evidence/security/contention.log` | — |
 | S27-021 | Do not mutate real Odoo accounting records or real broker funds | NOT_STARTED | — | — | — | Extend current access controls with operational audit and independent concurrency tests. |
 | INV-01 | No real broker order execution | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
 | INV-02 | No mandatory paid AI dependency | COMPLETE | `__manifest__.py`, `services/` | U01–U08 | `docs/evidence/tests/unit.log` | — |
@@ -865,7 +866,7 @@ The source brief is in [MASTER_REQUIREMENTS.md](docs/MASTER_REQUIREMENTS.md). A 
 | INV-05 | No actionable signal from stale required data | PARTIAL | `services/research.py`, `models/lab.py` | O05–O06 | `docs/evidence/installation/{fresh,upgrade}.log` | NO TRADE blocks actionable historical signals. Implement live freshness or expiry gates before enabling actionable signals. |
 | INV-06 | No look-ahead bias | PARTIAL | `services/research.py`, `models/lab.py` | U07, O05 | `docs/evidence/tests/unit.log` | Close-time cutoff proven by snapshot assertion if ORM passes. Point-in-time vendor availability, survivorship and future execution tests remain. |
 | INV-07 | No future information in historical decisions | PARTIAL | `services/research.py`, `models/lab.py` | U07, O05 | `docs/evidence/tests/unit.log` | Close-time cutoff proven by snapshot assertion if ORM passes. Point-in-time vendor availability, survivorship and future execution tests remain. |
-| INV-08 | No duplicate market data records | COMPLETE | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | O03–O04 | `docs/evidence/installation/{fresh,upgrade}.log` | Separate transaction contention behavior still needs testing. |
+| INV-08 | No duplicate market data records | COMPLETE | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | O03–O04, O08 | `docs/evidence/installation/{fresh,upgrade}.log`, `docs/evidence/security/contention.log` | — |
 | INV-09 | No duplicate paper-trade execution | NOT_STARTED | — | — | — | Required when virtual execution, costs and sizing are implemented. |
 | INV-10 | No misleading profit guarantees | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
 | INV-11 | No uncalibrated score represented as probability | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
@@ -1005,7 +1006,7 @@ The source brief is in [MASTER_REQUIREMENTS.md](docs/MASTER_REQUIREMENTS.md). A 
 | AC-009 | Historical market data ingestion | PARTIAL | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | U01–U05, O03–O04 | `docs/evidence/tests/unit.log` | CSV workflow exists. Provider-backed history and independent source validation remain. |
 | AC-010 | Authorized live market data integration | BLOCKED | — | B01 | Decision and sources in §08 | Verify account terms, static egress and authorized credentials. Implement a read-only adapter. |
 | AC-011 | Market data freshness enforcement | PARTIAL | `services/research.py`, `models/lab.py` | O05–O06 | `docs/evidence/installation/{fresh,upgrade}.log` | NO TRADE blocks actionable historical signals. Implement live freshness or expiry gates before enabling actionable signals. |
-| AC-012 | Duplicate-data prevention | COMPLETE | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | O03–O04 | `docs/evidence/installation/{fresh,upgrade}.log` | Separate transaction contention behavior still needs testing. |
+| AC-012 | Duplicate-data prevention | COMPLETE | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | O03–O04, O08 | `docs/evidence/installation/{fresh,upgrade}.log`, `docs/evidence/security/contention.log` | — |
 | AC-013 | Historical data provenance | COMPLETE | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | O03, O05 | `docs/evidence/installation/{fresh,upgrade}.log` | External verification of operator-supplied provenance remains. |
 | AC-014 | Correct indicator calculations | PARTIAL | `services/research.py`, `models/lab.py` | U06–U08, O05–O06 | `docs/evidence/tests/unit.log` | Three descriptive findings exist. Complete the remaining indicator set, evidence contract and engine methods. |
 | AC-015 | Research engine interface operational | PARTIAL | `services/research.py`, `models/lab.py` | U06–U08, O05–O06 | `docs/evidence/tests/unit.log` | Three descriptive findings exist. Complete the remaining indicator set, evidence contract and engine methods. |
@@ -1033,12 +1034,12 @@ The source brief is in [MASTER_REQUIREMENTS.md](docs/MASTER_REQUIREMENTS.md). A 
 | AC-037 | Automatic research scheduling | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
 | AC-038 | Scheduler concurrency protection | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
 | AC-039 | Premium dashboard operational | PARTIAL | `static/src/`, `views/lab.xml`, `models/lab.py` | UI-01–UI-04 | `docs/evidence/browser/edge.log` | Historical overview and native lists exist. Dashboards A–I remain incomplete. |
-| AC-040 | Dashboard KPI correctness | PARTIAL | `static/src/`, `views/lab.xml`, `models/lab.py` | O07, UI-03 | `docs/evidence/browser/edge.log` | Future dashboard KPIs require their own verification. |
-| AC-041 | Real browser UI verified | PARTIAL | `scripts/verify_browser.py` | UI-01–UI-04 | `docs/evidence/browser/edge.log` | Expand to themes, stale and error cases, scanner filters and chart features. |
+| AC-040 | Dashboard KPI correctness | COMPLETE | `static/src/`, `views/lab.xml`, `models/lab.py` | O07, UI-03 | `docs/evidence/browser/edge.log` | Future dashboard KPIs require their own verification. |
+| AC-041 | Real browser UI verified | PARTIAL | `scripts/verify_browser.py` | UI-01–UI-05 | `docs/evidence/browser/edge.log` | Expand to themes, stale market data, scanner filters and chart features. |
 | AC-042 | Security permissions verified | COMPLETE | `security/ir.access.csv`, `models/lab.py` | O07 | `docs/evidence/installation/{fresh,upgrade}.log` | Add regression checks for future features and independent API calls. |
 | AC-043 | Company isolation verified | COMPLETE | `security/ir.access.csv`, `models/lab.py` | O07 | `docs/evidence/installation/{fresh,upgrade}.log` | Add regression checks for future features and independent API calls. |
 | AC-044 | Credential redaction verified | PARTIAL | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | No credential field or adapter exists. Add real sensitive-field and logging tests when integration is implemented. |
-| AC-045 | Recovery behavior verified | PARTIAL | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | O03 | `docs/evidence/installation/{fresh,upgrade}.log` | Conflict and retry coverage exists. Concurrent jobs, network interruption and paper recovery remain. |
+| AC-045 | Recovery behavior verified | PARTIAL | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | O03, O08 | `docs/evidence/installation/{fresh,upgrade}.log`, `docs/evidence/security/contention.log` | Concurrent jobs, network interruption and paper recovery remain. |
 | AC-046 | No real-order functionality | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
 | AC-047 | NO TRADE behavior verified | COMPLETE | `services/research.py`, `models/lab.py` | O05–O06 | `docs/evidence/installation/{fresh,upgrade}.log` | — |
 | AC-048 | No fabricated performance results | COMPLETE | `DEVELOPMENT_REPORT.md` | D01 | Sections 10–15 and 22 | No financial performance or production readiness claimed. |
@@ -1382,7 +1383,9 @@ Current REST rate windows, WebSocket subscription caps, session expiration and h
 | H System Health | Pending | Requires provider diagnostics, scheduling and resource observations. |
 | I Daily Research Report | Pending | Requires daily aggregation, report lifecycle and paper outcomes. |
 
-The overview refresh is manual. Count tiles open native lists with the active company filter. A separate action opens the latest snapshot. Market freshness and live error conditions remain outside this implementation.
+The overview refresh is manual. Count tiles open native lists with the active company filter. A separate action opens the latest snapshot. The displayed candle-close timestamp is explicitly Asia/Kolkata. Market freshness and live error conditions remain outside this implementation.
+
+Real Edge screenshots of the synthetic fixture overview are available at [1440×900 desktop](docs/evidence/screenshots/overview-desktop.png) and [390×844 mobile](docs/evidence/screenshots/overview-mobile.png).
 
 ## 10 — Complete test inventory
 
@@ -1405,12 +1408,14 @@ Named test executions appear first. SKIPPED on test-plan references marks a grou
 | O05 | Odoo / PostgreSQL | Historical cutoff and NO TRADE with exact findings | verify_odoo.ps1 | Registry loads or assertion passes | PASSED | PASSED | `docs/evidence/installation/{fresh,upgrade}.log` |
 | O06 | Odoo / PostgreSQL | Gap disables findings | verify_odoo.ps1 | Registry loads or assertion passes | PASSED | PASSED | `docs/evidence/installation/{fresh,upgrade}.log` |
 | O07 | Odoo / PostgreSQL | ACL, company scope and immutable results | verify_odoo.ps1 | Registry loads or assertion passes | PASSED | PASSED | `docs/evidence/installation/{fresh,upgrade}.log` |
-| UI-01 | Real Edge | Authenticated overview and empty state | verify_odoo.ps1 -Browser | Browser assertions pass | FAILED | FAILED | `docs/evidence/browser/edge.log` |
-| UI-02 | Real Edge | Upload a CSV through Odoo | verify_odoo.ps1 -Browser | Browser assertions pass | FAILED | FAILED | `docs/evidence/browser/edge.log` |
-| UI-03 | Real Edge | Run historical research, check KPIs, refresh and drill down | verify_odoo.ps1 -Browser | Browser assertions pass | FAILED | FAILED | `docs/evidence/browser/edge.log` |
-| UI-04 | Real Edge | Responsive mobile layout and uncaught JS check | verify_odoo.ps1 -Browser | Browser assertions pass | FAILED | FAILED | `docs/evidence/browser/edge.log` |
+| O08 | Independent PostgreSQL connections | Contending imports and replay | Odoo shell with verify_contention.run | Observed lock, one insert, duplicate rejected and idempotent replay | Passed | PASSED | `docs/evidence/security/contention.log` |
+| UI-01 | Real Edge | Authenticated overview and empty state | verify_odoo.ps1 -Browser | Browser assertions pass | PASSED | PASSED | `docs/evidence/browser/edge.log` |
+| UI-02 | Real Edge | Upload a CSV through Odoo | verify_odoo.ps1 -Browser | Browser assertions pass | PASSED | PASSED | `docs/evidence/browser/edge.log` |
+| UI-03 | Real Edge | Run historical research, check KPIs, refresh and drill down | verify_odoo.ps1 -Browser | Browser assertions pass | PASSED | PASSED | `docs/evidence/browser/edge.log` |
+| UI-04 | Real Edge | Responsive mobile layout and uncaught JS check | verify_odoo.ps1 -Browser | Browser assertions pass | PASSED | PASSED | `docs/evidence/browser/edge.log` |
+| UI-05 | Real Edge | Recover from a failed dashboard RPC | verify_odoo.ps1 -Browser | Browser assertions pass | PASSED | PASSED | `docs/evidence/browser/edge.log` |
 | P01 | Service performance | Synthetic validation and indicator timings | scripts/measure_services.py | Record CPU, wall time and Python allocation peak | Recorded | PASSED | `docs/evidence/performance/services.csv` |
-| S01 | Source inspection | Order APIs, dependencies and credential-pattern check | rg scans and manifest review | No matching execution or hardcoded credential paths | Recorded | PASSED | `docs/evidence/security/source-scan.log` |
+| S01 | Source inspection | Order APIs, dependencies and credential-pattern check | scripts/check_source.py | No matching execution or hardcoded credential paths | Recorded | PASSED | `docs/evidence/security/source-scan.log` |
 | D01 | Documentation | Review matrix, status and evidence links | Report generation and review | Stable IDs, report sections and checksums | Recorded | PASSED | `docs/evidence/manifest.sha256` |
 | B01 | External integration | Authorized SmartAPI request | Pending adapter and credentials | Read-only authenticated market-data response | No authorized runtime credentials | BLOCKED | Report §08 |
 | S29-002 | A. Python and Quantitative Tests | Indicator mathematical correctness | See named test | Verify requested behavior | U06, U08 (three indicators) | SKIPPED | See named test row for scope and result |
@@ -1447,7 +1452,7 @@ Named test executions appear first. SKIPPED on test-plan references marks a grou
 | S29-033 | C. Broker Integration Tests | Invalid instrument tokens | Pending test | Verify requested behavior | Pending | NOT_RUN | — |
 | S29-034 | C. Broker Integration Tests | Historical candle response validation | Pending test | Verify requested behavior | Pending | NOT_RUN | — |
 | S29-035 | C. Broker Integration Tests | Stale quote detection | Pending test | Verify requested behavior | Pending | NOT_RUN | — |
-| S29-036 | C. Broker Integration Tests | Real API smoke tests only when authorized credentials are available | Pending test | Verify requested behavior | No authorized credentials | BLOCKED | — |
+| S29-036 | C. Broker Integration Tests | Real API smoke tests only when authorized credentials are available | See named test | Verify requested behavior | B01 | SKIPPED | See named test row for scope and result |
 | S29-037 | D. Trading Simulation Tests | Paper account funding | Pending test | Verify requested behavior | Pending | NOT_RUN | — |
 | S29-038 | D. Trading Simulation Tests | Virtual cash reservation | Pending test | Verify requested behavior | Pending | NOT_RUN | — |
 | S29-039 | D. Trading Simulation Tests | Simulated buying | Pending test | Verify requested behavior | Pending | NOT_RUN | — |
@@ -1487,11 +1492,11 @@ Named test executions appear first. SKIPPED on test-plan references marks a grou
 | S29-074 | F. Real Browser UI Tests | Responsive layout | See named test | Verify requested behavior | UI-04 | SKIPPED | See named test row for scope and result |
 | S29-075 | F. Real Browser UI Tests | Loading states | Pending test | Verify requested behavior | Pending | NOT_RUN | — |
 | S29-076 | F. Real Browser UI Tests | Empty states | See named test | Verify requested behavior | UI-01 | SKIPPED | See named test row for scope and result |
-| S29-077 | F. Real Browser UI Tests | Data error states | Pending test | Verify requested behavior | Pending | NOT_RUN | — |
+| S29-077 | F. Real Browser UI Tests | Data error states | See named test | Verify requested behavior | UI-05 | SKIPPED | See named test row for scope and result |
 | S29-078 | F. Real Browser UI Tests | Stale-data alerts | Pending test | Verify requested behavior | Pending | NOT_RUN | — |
 | S29-079 | F. Real Browser UI Tests | Browser console errors | Pending test | Verify requested behavior | Pending | NOT_RUN | — |
 | S29-080 | F. Real Browser UI Tests | JavaScript exceptions | See named test | Verify requested behavior | UI-04 | SKIPPED | See named test row for scope and result |
-| S29-081 | F. Real Browser UI Tests | RPC failures | Pending test | Verify requested behavior | Pending | NOT_RUN | — |
+| S29-081 | F. Real Browser UI Tests | RPC failures | See named test | Verify requested behavior | UI-05 | SKIPPED | See named test row for scope and result |
 | S29-084 | G. Performance Tests | RAM usage | Pending test | Verify requested behavior | Pending | NOT_RUN | — |
 | S29-085 | G. Performance Tests | CPU usage | Pending test | Verify requested behavior | Pending | NOT_RUN | — |
 | S29-086 | G. Performance Tests | Dashboard load time | Pending test | Verify requested behavior | Pending | NOT_RUN | — |
@@ -1518,15 +1523,16 @@ Named test executions appear first. SKIPPED on test-plan references marks a grou
 | Command | Exit | Result | Duration and evidence |
 |---|---:|---|---|
 | `C:/PycharmProjects/odoo20/.venv/Scripts/python.exe -B -m unittest discover -s tests -p "unit_*.py" -v` | 0 | 8 passed, 0 failed, 0 skipped | Test runner 0.005 s. [Unit log](docs/evidence/tests/unit.log) |
-| `./scripts/verify_odoo.ps1 -Browser`, fresh step | 0 | 5 ORM cases passed, 0 errors or skips | 43.67 s. [Fresh log](docs/evidence/installation/fresh.log) |
-| Same harness, upgrade step | 0 | 5 ORM cases passed again, 0 errors or skips | 13.03 s. [Upgrade log](docs/evidence/installation/upgrade.log) |
-| Same harness, browser step | 1 on first attempt | First attempt failed to render the OWL dashboard. Retest pending. | 171.57 s on first attempt. [Browser log](docs/evidence/browser/edge.log) |
+| `./scripts/verify_odoo.ps1 -Browser`, fresh step | 0 | 5 ORM cases passed, 0 errors or skips | 36.41 s. [Fresh log](docs/evidence/installation/fresh.log) |
+| Same harness, upgrade step | 0 | 5 ORM cases passed again, 0 errors or skips | 9.33 s. [Upgrade log](docs/evidence/installation/upgrade.log) |
+| Same harness, Odoo shell contention step | 0 | 1 contention and replay scenario passed | 4.75 s. [Concurrent connection log](docs/evidence/security/contention.log) |
+| Same harness, browser step | 0 | 5 Edge checks passed, including failed-RPC recovery | 50.71 s. [Browser log](docs/evidence/browser/edge.log) |
 | `C:/PycharmProjects/odoo20/.venv/Scripts/python.exe -B scripts/measure_services.py` | 0 | 5 workload rows | See measured timings in §15. |
 | `C:/PycharmProjects/odoo20/.venv/Scripts/python.exe -B scripts/check_source.py` | 0 | 15 runtime files inspected | [Source scan](docs/evidence/security/source-scan.log) |
 
 Within the harness, Odoo runs as `python -B odoo-bin --addons-path=<Odoo addons>,<custom addons> --data-dir=.local-test/odoo-data --db_host=127.0.0.1 --db_port=55489 --db_user=golok_test -d <isolated database> --without-demo=all --stop-after-init --no-http --test-tags=/golok_ai_trading_lab_pro:TestLab -i golok_ai_trading_lab_pro`, then runs the same command with `-u` in place of `-i`. The expected unique-key error in the logs is a deliberately triggered and handled test assertion. Older failed runs remain in the install and browser logs.
 
-The first direct installation failed before DB initialization because the sandbox blocked loopback TCP. The escalated process initially found the prior sandbox server stopped. The first combined run then returned exit -1 for the legacy security model. The next run installed the updated security format and returned exit 1 for five Odoo binary upload fixture errors, with an additional Sass compiler warning. Both issues were repaired before the passing ORM rerun. See §17.
+The first direct installation failed before DB initialization because the sandbox blocked loopback TCP. The escalated process initially found the prior sandbox server stopped. The first combined run then returned exit -1 for the legacy security model. The next run installed the updated security format and returned exit 1 for five Odoo binary upload fixture errors, with an additional Sass compiler warning. Both issues were repaired before the passing ORM rerun. Two Edge attempts returned exit 1 while diagnosing the OWL 3 API and template scope errors. The first full browser pass returned exit 0 in 53.92 s. See §17.
 
 ## 12 — Business invariant verification
 
@@ -1541,7 +1547,7 @@ COMPLETE applies to behavior in this milestone. Locked-out capabilities are reas
 | INV-05 | No actionable signal from stale required data | PARTIAL | `services/research.py`, `models/lab.py` | O05–O06 | `docs/evidence/installation/{fresh,upgrade}.log` | NO TRADE blocks actionable historical signals. Implement live freshness or expiry gates before enabling actionable signals. |
 | INV-06 | No look-ahead bias | PARTIAL | `services/research.py`, `models/lab.py` | U07, O05 | `docs/evidence/tests/unit.log` | Close-time cutoff proven by snapshot assertion if ORM passes. Point-in-time vendor availability, survivorship and future execution tests remain. |
 | INV-07 | No future information in historical decisions | PARTIAL | `services/research.py`, `models/lab.py` | U07, O05 | `docs/evidence/tests/unit.log` | Close-time cutoff proven by snapshot assertion if ORM passes. Point-in-time vendor availability, survivorship and future execution tests remain. |
-| INV-08 | No duplicate market data records | COMPLETE | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | O03–O04 | `docs/evidence/installation/{fresh,upgrade}.log` | Separate transaction contention behavior still needs testing. |
+| INV-08 | No duplicate market data records | COMPLETE | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | O03–O04, O08 | `docs/evidence/installation/{fresh,upgrade}.log`, `docs/evidence/security/contention.log` | — |
 | INV-09 | No duplicate paper-trade execution | NOT_STARTED | — | — | — | Required when virtual execution, costs and sizing are implemented. |
 | INV-10 | No misleading profit guarantees | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
 | INV-11 | No uncalibrated score represented as probability | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
@@ -1580,7 +1586,7 @@ COMPLETE applies to behavior in this milestone. Locked-out capabilities are reas
 | AC-009 | Historical market data ingestion | PARTIAL | U01–U05, O03–O04 | `docs/evidence/tests/unit.log` | CSV workflow exists. Provider-backed history and independent source validation remain. |
 | AC-010 | Authorized live market data integration | BLOCKED | B01 | Decision and sources in §08 | Verify account terms, static egress and authorized credentials. Implement a read-only adapter. |
 | AC-011 | Market data freshness enforcement | PARTIAL | O05–O06 | `docs/evidence/installation/{fresh,upgrade}.log` | NO TRADE blocks actionable historical signals. Implement live freshness or expiry gates before enabling actionable signals. |
-| AC-012 | Duplicate-data prevention | PASSED | O03–O04 | `docs/evidence/installation/{fresh,upgrade}.log` | Separate transaction contention behavior still needs testing. |
+| AC-012 | Duplicate-data prevention | PASSED | O03–O04, O08 | `docs/evidence/installation/{fresh,upgrade}.log`, `docs/evidence/security/contention.log` | — |
 | AC-013 | Historical data provenance | PASSED | O03, O05 | `docs/evidence/installation/{fresh,upgrade}.log` | External verification of operator-supplied provenance remains. |
 | AC-014 | Correct indicator calculations | PARTIAL | U06–U08, O05–O06 | `docs/evidence/tests/unit.log` | Three descriptive findings exist. Complete the remaining indicator set, evidence contract and engine methods. |
 | AC-015 | Research engine interface operational | PARTIAL | U06–U08, O05–O06 | `docs/evidence/tests/unit.log` | Three descriptive findings exist. Complete the remaining indicator set, evidence contract and engine methods. |
@@ -1608,12 +1614,12 @@ COMPLETE applies to behavior in this milestone. Locked-out capabilities are reas
 | AC-037 | Automatic research scheduling | NOT_RUN | — | — | See criterion-specific verification in report §13. |
 | AC-038 | Scheduler concurrency protection | NOT_RUN | — | — | See criterion-specific verification in report §13. |
 | AC-039 | Premium dashboard operational | PARTIAL | UI-01–UI-04 | `docs/evidence/browser/edge.log` | Historical overview and native lists exist. Dashboards A–I remain incomplete. |
-| AC-040 | Dashboard KPI correctness | PARTIAL | O07, UI-03 | `docs/evidence/browser/edge.log` | Future dashboard KPIs require their own verification. |
-| AC-041 | Real browser UI verified | PARTIAL | UI-01–UI-04 | `docs/evidence/browser/edge.log` | Expand to themes, stale and error cases, scanner filters and chart features. |
+| AC-040 | Dashboard KPI correctness | PASSED | O07, UI-03 | `docs/evidence/browser/edge.log` | Future dashboard KPIs require their own verification. |
+| AC-041 | Real browser UI verified | PARTIAL | UI-01–UI-05 | `docs/evidence/browser/edge.log` | Expand to themes, stale market data, scanner filters and chart features. |
 | AC-042 | Security permissions verified | PASSED | O07 | `docs/evidence/installation/{fresh,upgrade}.log` | Add regression checks for future features and independent API calls. |
 | AC-043 | Company isolation verified | PASSED | O07 | `docs/evidence/installation/{fresh,upgrade}.log` | Add regression checks for future features and independent API calls. |
 | AC-044 | Credential redaction verified | PARTIAL | S01 | `docs/evidence/security/source-scan.log` | No credential field or adapter exists. Add real sensitive-field and logging tests when integration is implemented. |
-| AC-045 | Recovery behavior verified | PARTIAL | O03 | `docs/evidence/installation/{fresh,upgrade}.log` | Conflict and retry coverage exists. Concurrent jobs, network interruption and paper recovery remain. |
+| AC-045 | Recovery behavior verified | PARTIAL | O03, O08 | `docs/evidence/installation/{fresh,upgrade}.log`, `docs/evidence/security/contention.log` | Concurrent jobs, network interruption and paper recovery remain. |
 | AC-046 | No real-order functionality | PASSED | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
 | AC-047 | NO TRADE behavior verified | PASSED | O05–O06 | `docs/evidence/installation/{fresh,upgrade}.log` | — |
 | AC-048 | No fabricated performance results | PASSED | D01 | Sections 10–15 and 22 | No financial performance or production readiness claimed. |
@@ -1640,7 +1646,7 @@ These are service measurements. Database write throughput, execution plans, dash
 
 ## 16 — Security verification
 
-The ORM checks exercise Viewer read access, Analyst import and snapshot creation, cross-company negative cases, direct candle create denial, research edit denial and the duplicate key. Both startup paths exercised the same tests in the disposable DB. The source scan inspected broker order API signatures and common hardcoded secret patterns. The application currently has no broker credentials schema, authentication path, financial account integration or paper balances. Full secret scanners, security of future configuration surfaces and concurrent-transaction checks remain pending.
+The ORM checks exercise Viewer read access, Analyst import and snapshot creation, cross-company negative cases, direct candle create denial, research edit denial and the duplicate key. Both startup paths exercised the same tests in the disposable DB. Independent PostgreSQL connections also proved that two imports overlapped, PostgreSQL rejected the conflicting second insert, and a later retry returned zero inserted rows with one stored candle. The source scan inspected broker order API signatures and common hardcoded secret patterns. The application currently has no broker credentials schema, authentication path, financial account integration or paper balances. Full secret scanners and security of future configuration surfaces remain pending.
 
 ## 17 — Errors and bug fixes
 
@@ -1649,6 +1655,7 @@ The ORM checks exercise Viewer read access, Analyst import and snapshot creation
 | BUG-01 | High | Initial manifest used legacy `ir.model.access`. Installed Odoo 20 exposes `ir.access`. Migrated grants and company domains to the Odoo 20 format. | O01, O02, O07 |
 | BUG-02 | High | Odoo 20 requires BinaryValue in the ORM and gives the wizard raw content. Updated the wizard and test fixture to the native API. | O03–O07, browser inventory |
 | BUG-03 | Medium | The Sass compiler evaluated nested min with incompatible units. Switched to compatible grid sizing and a mobile breakpoint. | Browser inventory |
+| BUG-04 | High | The dashboard used OWL 2 reactivity and bare component state expressions. Switched to native OWL 3 proxy state and explicit component references in the XML. | Browser inventory |
 | ENV-01 | Verification | Sandbox rejected loopback DB connections. A standalone server launch then exited with its shell. Ran service start, tests and stop within one authorized script. | Install and upgrade harness |
 
 ## 18 — Incomplete features
@@ -1686,7 +1693,7 @@ Every non-COMPLETE row in §05 identifies a pending or partial requirement and t
 | 27 | 0 | 17 | Extend current access controls with operational audit and independent concurrency tests. |
 | 28 | 0 | 10 | See detailed requirement rows in §05. |
 | 29 | 3 | 105 | See complete test inventory in report §10. |
-| 30 | 3 | 38 | See criterion-specific verification in report §13. |
+| 30 | 3 | 37 | See criterion-specific verification in report §13. |
 | 31 | 3 | 39 | Continue in the priority order in the brief. |
 | 32 | 3 | 192 | See the development report and linked tables. |
 | 33 | 3 | 1 | Capture artifacts as real tests become available. |
@@ -1697,7 +1704,7 @@ Every non-COMPLETE row in §05 identifies a pending or partial requirement and t
 
 The denominator contains traced requirements. Complete rows count as one. Partial, blocked and unstarted rows count as zero. Excluded rows are removed from the denominator. Operational constraints and detailed capabilities both appear in the brief, so these counts should be read as requirements coverage. The grouped metrics below use the corresponding technical sections in the supplied brief. The overall figure also includes identity, business, execution and quality sections.
 
-71/1236 applicable traceability rows complete. 13/50 acceptance criteria passed. Test inventory totals 18 passed, 4 failed, 2 blocked, 72 not run and 26 covered by named tests to varying degrees.
+72/1236 applicable traceability rows complete. 14/50 acceptance criteria passed. Test inventory totals 24 passed, 0 failed, 1 blocked, 70 not run and 29 covered by named tests to varying degrees.
 
 | Area | Complete | Partial | Blocked | Not started | Applicable rows |
 | --- | --- | --- | --- | --- | --- |
@@ -1712,12 +1719,12 @@ The denominator contains traced requirements. Complete rows count as one. Partia
 | Dashboard | 0 | 10 | 0 | 105 | 115 |
 | Automation | 0 | 0 | 0 | 22 | 22 |
 | Security | 25 | 12 | 0 | 15 | 52 |
-| Testing | 13 | 16 | 2 | 125 | 156 |
+| Testing | 14 | 15 | 2 | 125 | 156 |
 | Documentation | 2 | 192 | 0 | 1 | 195 |
 
 ## 20 — Next development recommendations
 
-1. Verify the official exchange session calendar and timestamp semantics. Add calendar-aware data validation and reference data around `services/market_data.py` and `models/lab.py`. Include independent PostgreSQL transactions that race imports and prove conflict recovery. Add a numeric price query representation if needed by downstream aggregation.
+1. Verify the official exchange session calendar and timestamp semantics. Add calendar-aware data validation and reference data around `services/market_data.py` and `models/lab.py`. Consider controlled retry for import request collisions, extending the independent transaction test in `scripts/verify_contention.py`. Add a numeric price query representation if needed by downstream aggregation.
 2. Confirm broker account terms and authorized egress. Implement a narrow read-only adapter under `services/providers/`. Add fixture tests for authentication, schema changes, limits and timeouts before a real smoke test.
 3. Build one versioned, research-only opening range candidate. Connect calendar-aware next-bar simulation to verified costs and risk vetoes. Use an untouched holdout and independent fixtures for gap and same-bar execution cases.
 4. Add an atomic paper ledger and job checkpoints, then extend the overview with evidenced research, risk and paper metrics. Record database throughput and browser latency before defining the supported universe.
