@@ -1,0 +1,17 @@
+Browser check database=golok_p02_p01_verified
+Traceback (most recent call last):
+  File "C:\PycharmProjects\odoo20\custom_addons\golok_ai_trading_lab_pro\.local-test\p01-addons\golok_ai_trading_lab_pro\scripts\verify_browser.py", line 120, in <module>
+    verify(*sys.argv[1:])
+    ~~~~~~^^^^^^^^^^^^^^^
+  File "C:\PycharmProjects\odoo20\custom_addons\golok_ai_trading_lab_pro\.local-test\p01-addons\golok_ai_trading_lab_pro\scripts\verify_browser.py", line 41, in verify
+    call("res.users", "write", [uid], {"group_ids": [[4, xml_id("group_admin")]]})
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PycharmProjects\odoo20\custom_addons\golok_ai_trading_lab_pro\.local-test\p01-addons\golok_ai_trading_lab_pro\scripts\verify_browser.py", line 34, in call
+    raise RuntimeError(response["error"]["data"]["message"])
+RuntimeError: user is not connected
+Browser check database=golok_p02_p01_serial
+UI-01 authenticated OWL dashboard and empty state
+UI-02 CSV selected and imported through the Odoo wizard
+UI-03 historical research, accurate KPIs, refresh and snapshot drill-down
+UI-04 mobile viewport without horizontal overflow and no uncaught page errors
+UI-05 refresh gracefully recovered from a failed dashboard RPC
