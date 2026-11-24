@@ -2079,7 +2079,13 @@ Build the strongest possible foundation.
 
 Prioritize mathematical correctness, trustworthy data, realistic simulations, capital protection, explainability, premium user experience, and verified engineering quality.
 
-END OF MASTER DEVELOPMENT PROMPT 01.\n\n---\n\n## P02 specification addition\n\n# GOLOK AI TRADING LAB PRO
+END OF MASTER DEVELOPMENT PROMPT 01.
+
+---
+
+## P02 specification addition
+
+# GOLOK AI TRADING LAB PRO
 
 ## MASTER AGENTIC DEVELOPMENT PROMPT 02 — VERIFIED MARKET INTELLIGENCE, PROFESSIONAL QUANTITATIVE RESEARCH, COST-AWARE BACKTESTING AND PREMIUM DASHBOARD
 

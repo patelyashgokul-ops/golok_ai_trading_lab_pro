@@ -1,0 +1,6 @@
+PASS: upgraded populated P01 clone from 20.0.1.0.0 to 20.0.2.0.0 in 15.2943221 s
+PASS: retained 149 existing XML IDs and record-level hashes with immutable snapshot digests
+candles:22:c51518849f62509cf8b43f1ea782ba5a
+datasets:2:61e552dcb5bf07cdd91a35ec98781f64
+instruments:2:7edd806ef0fa129c494bb0ae417ed0fc
+runs:1:e46dbebdc942df60ca667e5252721c48
