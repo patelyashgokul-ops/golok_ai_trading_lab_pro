@@ -73,4 +73,60 @@
     </record>
     <menuitem id="menu_mapping" name="Instrument Mappings" parent="menu_lab" action="action_mapping" sequence="81"/>
     <menuitem id="menu_corporate" name="Corporate Actions" parent="menu_lab" action="action_corporate" sequence="82"/>
+    <data noupdate="1">
+        <record id="strategy_st01_p03" model="golok.lab.strategy">
+            <field name="name">ST-01 Opening Range Breakout</field>
+            <field name="code">ST-01</field><field name="version">multi-1</field><field name="state">research</field>
+        </record>
+    </data>
+    <record id="view_tariff_form" model="ir.ui.view">
+        <field name="name">golok.lab.tariff.form</field><field name="model">golok.lab.tariff</field>
+        <field name="arch" type="xml"><form edit="0" delete="0" duplicate="0"><sheet>
+            <group><field name="name"/><field name="company_id"/><field name="lines"/></group>
+        </sheet></form></field>
+    </record>
+    <record id="action_tariff" model="ir.actions.act_window">
+        <field name="name">Hypothetical Tariffs</field><field name="res_model">golok.lab.tariff</field><field name="view_mode">list,form</field>
+    </record>
+    <record id="view_experiment_list" model="ir.ui.view">
+        <field name="name">golok.lab.experiment.list</field><field name="model">golok.lab.experiment</field>
+        <field name="arch" type="xml"><list create="0" edit="0" delete="0">
+            <field name="dataset_id"/><field name="strategy_id"/><field name="starts"/><field name="ends"/>
+            <field name="status"/><field name="candidate_count"/><field name="trade_count"/>
+        </list></field>
+    </record>
+    <record id="view_experiment_form" model="ir.ui.view">
+        <field name="name">golok.lab.experiment.form</field><field name="model">golok.lab.experiment</field>
+        <field name="arch" type="xml"><form create="0" edit="0" delete="0" duplicate="0"><sheet>
+            <group>
+                <group><field name="dataset_id"/><field name="strategy_id"/><field name="tariff_id"/><field name="fingerprint"/></group>
+                <group><field name="status"/><field name="starts"/><field name="ends"/><field name="trade_count"/><field name="candidate_count"/></group>
+            </group>
+            <notebook>
+                <page string="Replay Results"><field name="result" nolabel="1"/></page>
+                <page string="Frozen Specification"><field name="specification" nolabel="1"/></page>
+            </notebook>
+        </sheet></form></field>
+    </record>
+    <record id="action_experiment" model="ir.actions.act_window">
+        <field name="name">Synthetic Experiments</field><field name="res_model">golok.lab.experiment</field><field name="view_mode">list,form</field>
+    </record>
+    <record id="view_experiment_wizard" model="ir.ui.view">
+        <field name="name">golok.lab.experiment.wizard.form</field><field name="model">golok.lab.experiment.wizard</field>
+        <field name="arch" type="xml"><form string="Run Synthetic Experiment">
+            <group>
+                <field name="dataset_id" domain="[('origin','=','synthetic'),('calendar_id','!=',False),('quarantined','=',False)]"/>
+                <field name="strategy_id"/><field name="tariff_id"/><field name="starts"/><field name="ends"/><field name="capital"/><field name="tick"/>
+            </group>
+            <footer><button name="action_run" type="object" string="Run Synthetic Experiment" class="btn-primary"/>
+                <button string="Cancel" special="cancel" class="btn-secondary"/></footer>
+        </form></field>
+    </record>
+    <record id="action_experiment_wizard" model="ir.actions.act_window">
+        <field name="name">Run Synthetic Experiment</field><field name="res_model">golok.lab.experiment.wizard</field>
+        <field name="view_mode">form</field><field name="target">new</field>
+    </record>
+    <menuitem id="menu_tariff" name="Hypothetical Tariffs" parent="menu_lab" action="action_tariff" sequence="83"/>
+    <menuitem id="menu_experiment" name="Experiments" parent="menu_lab" action="action_experiment" sequence="84"/>
+    <menuitem id="menu_experiment_wizard" name="Run Experiment" parent="menu_lab" action="action_experiment_wizard" sequence="85" groups="group_analyst"/>
 </odoo>

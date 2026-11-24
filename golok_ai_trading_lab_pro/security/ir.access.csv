@@ -21,3 +21,11 @@ mapping_company,Reference mapping company,golok.lab.mapping,,crud,"[('company_id
 corporate_viewer,Corporate action viewer,golok.lab.corporate.action,golok_ai_trading_lab_pro.group_viewer,r,
 corporate_admin,Corporate action administrator,golok.lab.corporate.action,golok_ai_trading_lab_pro.group_admin,cr,
 corporate_company,Corporate action company,golok.lab.corporate.action,,crud,"[('company_id', 'in', company_ids)]"
+strategy_viewer,Research strategy reader,golok.lab.strategy,golok_ai_trading_lab_pro.group_viewer,r,
+tariff_viewer,Tariff reader,golok.lab.tariff,golok_ai_trading_lab_pro.group_viewer,r,
+tariff_risk,Tariff risk manager,golok.lab.tariff,golok_ai_trading_lab_pro.group_risk,cr,
+tariff_company,Tariff company,golok.lab.tariff,,crud,"[('company_id', 'in', company_ids)]"
+experiment_viewer,Experiment reader,golok.lab.experiment,golok_ai_trading_lab_pro.group_viewer,r,
+experiment_analyst,Experiment analyst,golok.lab.experiment,golok_ai_trading_lab_pro.group_analyst,cr,
+experiment_company,Experiment company,golok.lab.experiment,,crud,"[('company_id', 'in', company_ids)]"
+experiment_wizard_analyst,Experiment wizard analyst,golok.lab.experiment.wizard,golok_ai_trading_lab_pro.group_analyst,crud,
