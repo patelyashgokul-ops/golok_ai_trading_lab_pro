@@ -9,7 +9,7 @@ from decimal import Decimal
 
 from . import backtest, calendar, simulation
 
-VERSION = "ST-01/multi-1"
+VERSION = "ST-01/multi-2"
 MAX_DAYS = 31
 MAX_BARS = 4000
 
@@ -62,6 +62,9 @@ def simulate(bars, sessions, starts, ends, exchange, seconds, tick, costs, sourc
     unresolved = 0
     for offset in range((ends - starts).days + 1):
         day = starts + timedelta(days=offset)
+        if loss_streak >= 2:
+            daily.append({"day": day, "status": "RISK_SUSPENDED", "reason": "Two consecutive realized losses."})
+            break
         session = sessions.get(day)
         if session and session.kind == "closed":
             daily.append({"day": day, "status": "CLOSED"})

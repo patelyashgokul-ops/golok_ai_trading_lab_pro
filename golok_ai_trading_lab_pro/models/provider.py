@@ -21,17 +21,24 @@ class ProviderBudget(models.Model):
     _identity = models.Constraint("UNIQUE(name)", "Provider budget already exists.")
 
     def _reserve_auth(self):
+        return self._reserve("authenticate")
+
+    def _reserve(self, operation):
+        intervals = {"authenticate": 60, "history": 60, "quote": 60}
+        keys = {"authenticate": "smartapi_auth", "history": "smartapi_history", "quote": "smartapi_quote"}
+        if operation not in intervals:
+            return False
         # A failed call still consumes a slot in this database.
         try:
             with self.env.registry.cursor() as cursor:
                 cursor.execute("SET LOCAL lock_timeout = '1s'")
                 cursor.execute("""
                     INSERT INTO golok_lab_provider_budget (name, next_at)
-                    VALUES ('smartapi_auth', (clock_timestamp() AT TIME ZONE 'UTC') + interval '60 seconds')
+                    VALUES (%s, (clock_timestamp() AT TIME ZONE 'UTC') + make_interval(secs => %s))
                     ON CONFLICT (name) DO UPDATE SET next_at = EXCLUDED.next_at
                     WHERE golok_lab_provider_budget.next_at <= (clock_timestamp() AT TIME ZONE 'UTC')
                     RETURNING id
-                """)
+                """, (keys[operation], intervals[operation]))
                 reserved = bool(cursor.fetchone())
                 cursor.commit()
         except (errors.LockNotAvailable, errors.SerializationFailure):

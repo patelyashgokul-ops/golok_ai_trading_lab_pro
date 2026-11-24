@@ -64,6 +64,8 @@ class PaperAccount(models.Model):
             if self.posted_end and experiment.starts <= self.posted_end:
                 raise ValidationError(_("This experiment overlaps or precedes posted account history."))
             try:
+                if paper.paise(experiment.capital) != self.available_paise:
+                    raise ValueError("Frozen starting capital does not match available virtual cash.")
                 outcome = json.loads(experiment.result)
                 available, lines = paper.postings(outcome["trades"], self.available_paise)
             except (KeyError, TypeError, ValueError, ArithmeticError) as exc:

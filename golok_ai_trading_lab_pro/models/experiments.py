@@ -95,7 +95,7 @@ class Experiment(models.Model):
         dataset, strategy, tariff = records
         if dataset.origin != "synthetic" or not dataset.calendar_id or dataset.quarantined:
             raise ValidationError(_("Use an eligible calendar-bound synthetic dataset."))
-        if strategy != self.env.ref("golok_ai_trading_lab_pro.strategy_st01_p03"):
+        if strategy != self.env.ref("golok_ai_trading_lab_pro.strategy_st01_p04"):
             raise ValidationError(_("Unsupported strategy version."))
         seconds = market_data.INTERVALS[dataset.interval]
         if seconds not in (60, 180, 300, 900):

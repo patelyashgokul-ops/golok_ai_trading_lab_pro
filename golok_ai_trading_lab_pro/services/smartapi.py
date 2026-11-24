@@ -10,6 +10,7 @@ from urllib.error import HTTPError, URLError
 from urllib.request import HTTPRedirectHandler, ProxyHandler, Request, build_opener
 
 from . import market_data
+from .ingestion import parse_feed_time, quote_freshness
 
 HOST = "https://apiconnect.angelone.in"
 ENDPOINTS = {
@@ -58,13 +59,14 @@ def _https(operation, headers, payload, timeout):
 
 
 class SmartAPI:
-    def __init__(self, transport=None, *, clock=monotonic):
+    def __init__(self, transport=None, *, clock=monotonic, quota=None):
         self._transport = transport
         self._clock = clock
         self._headers = {}
         self._token = None
         self._next_request = 0
         self._calls = 0
+        self._quota = quota
         self.state = "NOT_CONFIGURED" if transport is None else "AUTH_REQUIRED"
         self.last_success = None
 
@@ -100,6 +102,9 @@ class SmartAPI:
         now = self._clock()
         # Local caps, not provider limits. A client has a finite lifetime budget.
         if now < self._next_request or self._calls >= 30:
+            self.state = "RATE_LIMITED"
+            raise ProviderError(self.state)
+        if self._quota and not self._quota(operation):
             self.state = "RATE_LIMITED"
             raise ProviderError(self.state)
         self._calls += 1
@@ -184,9 +189,9 @@ class SmartAPI:
         self._success()
         return tuple(validated)
 
-    def quote(self, exchange, token):
+    def quote(self, exchange, token, *, full=False):
         self._identity(exchange, token)
-        data = self._request("quote", {"mode": "LTP", "exchangeTokens": {exchange: [token]}})
+        data = self._request("quote", {"mode": "FULL" if full else "LTP", "exchangeTokens": {exchange: [token]}})
         try:
             fetched = data["fetched"]
             if not isinstance(fetched, list) or len(fetched) != 1:
@@ -198,5 +203,6 @@ class SmartAPI:
         except (KeyError, IndexError, TypeError, ValueError, InvalidOperation):
             self._invalid()
         self._success()
-        # This timestamp is receipt time. It does not establish quote freshness.
-        return {"exchange": exchange, "token": token, "price": price, "received_at": self.last_success, "freshness": "unknown"}
+        event = parse_feed_time(result.get("exchFeedTime")) if full else None
+        return {"exchange": exchange, "token": token, "price": price, "received_at": self.last_success,
+                "event_at": event, "freshness": quote_freshness(event, self.last_success)}

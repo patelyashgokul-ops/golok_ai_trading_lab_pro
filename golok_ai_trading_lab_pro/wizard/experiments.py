@@ -8,7 +8,7 @@ class ExperimentWizard(models.TransientModel):
     dataset_id = fields.Many2one("golok.lab.dataset", required=True)
     tariff_id = fields.Many2one("golok.lab.tariff", required=True)
     strategy_id = fields.Many2one("golok.lab.strategy", required=True,
-                                  default=lambda self: self.env.ref("golok_ai_trading_lab_pro.strategy_st01_p03"))
+                                  default=lambda self: self.env.ref("golok_ai_trading_lab_pro.strategy_st01_p04"))
     starts = fields.Date(required=True)
     ends = fields.Date(required=True)
     capital = fields.Char(required=True, default="50000")
