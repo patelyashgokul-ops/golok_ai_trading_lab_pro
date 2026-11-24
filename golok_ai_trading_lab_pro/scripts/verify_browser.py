@@ -199,6 +199,7 @@ def verify(base_url, database, edge):
         expect(page.locator(".o_list_view")).to_be_visible()
         page.get_by_role("button", name="New", exact=True).first.click()
         expect(page.locator(".o_form_view [name=upload]")).to_be_visible()
+        expect(page.locator(".o_form_view [name=corrects_id]")).to_be_visible()
         page.screenshot(path=EVIDENCE / "screenshots/daily-import.png")
         assert not errors, errors
         print("UI-12 end-of-day import list and authorized-file form opened in Edge", flush=True)
@@ -226,6 +227,22 @@ def verify(base_url, database, edge):
         expect(page.locator(".o_form_view [name=fixture_digest]")).to_contain_text(re.compile(r"[0-9a-f]{64}"))
         page.screenshot(path=EVIDENCE / "screenshots/generated-fixture.png")
         print("UI-16 deterministic fixture generated and immutable provenance displayed", flush=True)
+        generated = call("golok.lab.dataset", "search", [
+            ["calendar_id", "=", revision], ["fixture_version", "=", "fixture-1"]])
+        assert len(generated) == 1, generated
+        timing_wizard = call("golok.lab.portfolio.wizard", "create", {
+            "dataset_ids": [[6, 0, generated]], "tariff_id": tariff, "starts": "2024-01-02",
+            "ends": "2024-01-02", "strategy": "ST-01",
+        })
+        call("golok.lab.portfolio.wizard", "action_run_timing_fixture", [timing_wizard])
+        page.goto(f"{base_url}/odoo/action-{xml_id('action_portfolio')}")
+        page.locator(".o_list_view .o_data_row").first.click()
+        expect(page.get_by_role("heading", name="Historical Timing Test on Generated Fixtures")).to_be_visible()
+        expect(page.locator(".o_form_view [name=result]")).to_contain_text("HISTORICAL_CONTRACT_FIXTURE_ONLY")
+        page.get_by_role("tab", name="Frozen Inputs").click()
+        expect(page.locator(".o_form_view [name=specification]")).to_contain_text("generated_fixture_digest")
+        assert not errors, errors
+        print("UI-17 historical timing fixture persisted and opened with its frozen fingerprint", flush=True)
         browser.close()
 
 

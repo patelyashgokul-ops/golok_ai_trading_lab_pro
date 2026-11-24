@@ -187,6 +187,7 @@ class DailyImport(models.Model):
 
     def _normalize_rows(self, review):
         from ..services import market_data
+        from .lab import _input_digest
 
         origin = "synthetic" if self.source == "fixture" else "imported"
         session = self.calendar_id._sessions()[self.day]
@@ -211,6 +212,10 @@ class DailyImport(models.Model):
             label = f"{self.source} / review {review.id} / calendar {self.calendar_id.id} / mapping {mapping.id}"
             if self.corrects_id:
                 label = f"P08 correction {self.id} / {label}"
+            timestamp = lambda value: value.isoformat(timespec="seconds")
+            bar = market_data.parse_bar(timestamp(session.closing), row["opening"], row["high"], row["low"], row["close"],
+                                        str(row["volume"]), as_of=receipt, open_time=timestamp(session.opening),
+                                        available_at=timestamp(receipt))
             dataset = self.env[datasets._name].search([
                 ("company_id", "=", self.company_id.id), ("instrument_id", "=", mapping.instrument_id.id),
                 ("source", "=", label), ("origin", "=", origin), ("interval", "=", "1d")], limit=1)
@@ -220,13 +225,10 @@ class DailyImport(models.Model):
                     "company_id": self.company_id.id, "calendar_id": self.calendar_id.id, "interval": "1d",
                     "source_review_id": review.id, "publication_basis": "receipt", "mapping_id": mapping.id,
                     "daily_revision_id": self.id if self.corrects_id else False,
+                    "daily_revision_digest": _input_digest([bar], self.calendar_id) if self.corrects_id else False,
                 }).with_user(self.env.user)
             if self.corrects_id and dataset.daily_revision_id != self:
                 raise ValidationError(_("The correction dataset identity is unavailable."))
-            timestamp = lambda value: value.isoformat(timespec="seconds")
-            bar = market_data.parse_bar(timestamp(session.closing), row["opening"], row["high"], row["low"], row["close"],
-                                        str(row["volume"]), as_of=receipt, open_time=timestamp(session.opening),
-                                        available_at=timestamp(receipt))
             (dataset.sudo() if self.corrects_id else dataset)._import_bars([bar])
             datasets |= dataset
         return datasets
@@ -276,14 +278,19 @@ class DailyImport(models.Model):
         if prior:
             return prior
         try:
-            _, rows = bhavcopy.read(raw, day, today=fields.Date.today())
+            rows = bhavcopy.read(raw, day, today=fields.Date.today())[1]
             accepted_key = f"{source}/{day}/{calendar.id}"
             existing = self.search([("company_id", "=", self.env.company.id), ("accepted_key", "=", accepted_key)], limit=1)
             details = json.dumps([asdict(rows[key]) for key in sorted(rows)], default=str)
             if parent:
                 if parent.details == details:
                     return parent
-                accepted_key += f"/correction/{parent.id}/{digest}"
+                normalized_digest = hashlib.sha256(details.encode()).hexdigest()
+                accepted_key += f"/correction/{parent.id}/{normalized_digest}"
+                equivalent = self.search([("company_id", "=", self.env.company.id),
+                                          ("accepted_key", "=", accepted_key)], limit=1)
+                if equivalent:
+                    return equivalent
             elif existing:
                 if existing.details == details:
                     return existing

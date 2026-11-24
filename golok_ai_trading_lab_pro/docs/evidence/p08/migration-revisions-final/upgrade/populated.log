@@ -1,0 +1,32 @@
+2026-11-24 15:38:57,522 21392 INFO ? odoo: Odoo version 20.0
+2026-11-24 15:38:57,523 21392 INFO ? odoo: Using configuration file at c:\pycharmprojects\odoo20\odoo-20.0\odoo.conf
+2026-11-24 15:38:57,523 21392 INFO ? odoo: addons paths: _NamespacePath(['C:\\PycharmProjects\\odoo20\\odoo-20.0\\odoo\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons\\golok_ai_trading_lab_pro\\.local-test\\odoo-data\\addons\\20.0', 'c:\\pycharmprojects\\odoo20\\odoo-20.0\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons'])
+2026-11-24 15:38:57,523 21392 INFO ? odoo: database: golok_test@127.0.0.1:55497
+2026-11-24 15:39:00,236 21392 INFO golok_p05_migration_p08k odoo.modules.loading: loading 1 modules...
+2026-11-24 15:39:00,250 21392 INFO golok_p05_migration_p08k odoo.modules.loading: 1 modules loaded in 0.01s, 0 queries (+0 extra)
+2026-11-24 15:39:00,343 21392 INFO golok_p05_migration_p08k odoo.tools.version_tag_reset: Detected tp_versions_used at offset 410, reset enabled
+2026-11-24 15:39:00,344 21392 INFO golok_p05_migration_p08k odoo.modules.loading: updating modules list
+2026-11-24 15:39:00,355 21392 INFO golok_p05_migration_p08k odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via n/a
+2026-11-24 15:39:02,790 21392 WARNING golok_p05_migration_p08k odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-24 15:39:02,792 21392 WARNING golok_p05_migration_p08k odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-24 15:39:02,900 21392 WARNING golok_p05_migration_p08k odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-24 15:39:02,900 21392 WARNING golok_p05_migration_p08k odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-24 15:39:02,902 21392 WARNING golok_p05_migration_p08k odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-24 15:39:02,902 21392 WARNING golok_p05_migration_p08k odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-24 15:39:03,083 21392 INFO golok_p05_migration_p08k odoo.addons.base.models.ir_module: ALLOW access to module.button_upgrade on ['Golok AI Trading Lab Pro'] to user __system__ #1 via n/a
+2026-11-24 15:39:03,084 21392 INFO golok_p05_migration_p08k odoo.addons.base.models.ir_module: ALLOW access to module.update_list on ['Golok AI Trading Lab Pro'] to user __system__ #1 via n/a
+2026-11-24 15:39:04,517 21392 WARNING golok_p05_migration_p08k odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-24 15:39:04,574 21392 WARNING golok_p05_migration_p08k odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-24 15:39:04,574 21392 WARNING golok_p05_migration_p08k odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-24 15:39:04,656 21392 INFO golok_p05_migration_p08k odoo.addons.base.models.ir_module: ALLOW access to module.button_install on [] to user __system__ #1 via n/a
+2026-11-24 15:39:04,765 21392 INFO golok_p05_migration_p08k odoo.modules.loading: loading 17 modules...
+2026-11-24 15:39:04,940 21392 INFO golok_p05_migration_p08k odoo.modules.loading: Loading module golok_ai_trading_lab_pro (11/17)
+2026-11-24 15:39:05,297 21392 INFO golok_p05_migration_p08k odoo.registry: module golok_ai_trading_lab_pro: creating or updating database tables
+2026-11-24 15:39:06,134 21392 INFO golok_p05_migration_p08k odoo.modules.loading: loading golok_ai_trading_lab_pro/security/groups.xml
+2026-11-24 15:39:06,334 21392 INFO golok_p05_migration_p08k odoo.modules.loading: loading golok_ai_trading_lab_pro/security/ir.access.csv
+2026-11-24 15:39:06,765 21392 INFO golok_p05_migration_p08k odoo.modules.loading: loading golok_ai_trading_lab_pro/views/lab.xml
+2026-11-24 15:39:07,042 21392 INFO golok_p05_migration_p08k odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p03.xml
+2026-11-24 15:39:07,439 21392 INFO golok_p05_migration_p08k odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p04.xml
+2026-11-24 15:39:07,550 21392 INFO golok_p05_migration_p08k odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p05.xml
+2026-11-24 15:39:07,701 21392 INFO golok_p05_migration_p08k odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p06.xml
+2026-11-24 15:39:07,805 21392 INFO golok_p05_migration_p08k odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p08.xml

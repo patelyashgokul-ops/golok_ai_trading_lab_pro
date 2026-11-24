@@ -38,6 +38,20 @@ class TestLab(TransactionCase):
             self.env["golok.lab.dataset"].with_user(self.analyst).create({
                 "name": "Forged", "source": "Forged", "origin": "synthetic", "interval": "5m",
                 "instrument_id": self.instrument.id, "fixture_version": fixture_generator.VERSION})
+        tariff = self.env["golok.lab.tariff"].with_user(self.admin).create({
+            "name": "Timing contract fixture", "lines": json.dumps(spec["tariffs"])})
+        wizard = self.env["golok.lab.portfolio.wizard"].with_user(self.analyst).create({
+            "dataset_ids": [(6, 0, dataset.ids)], "tariff_id": tariff.id, "starts": spec["date"], "ends": spec["date"],
+            "strategy": "ST-01"})
+        action = wizard.action_run_timing_fixture()
+        self.assertEqual(action["res_id"], wizard.action_run_timing_fixture()["res_id"])
+        replay = self.env[action["res_model"]].with_user(self.analyst).browse(action["res_id"])
+        self.assertTrue(replay.contract_fixture)
+        self.assertEqual(json.loads(replay.result)["scope"], "HISTORICAL_CONTRACT_FIXTURE_ONLY")
+        self.assertEqual(json.loads(replay.specification)["inputs"][0]["generated_fixture_digest"], dataset.fixture_digest)
+        wizard.dataset_ids = self.dataset
+        with self.assertRaises((AccessError, ValidationError)):
+            wizard.action_run_timing_fixture()
 
     def test_p07_manual_market_csv_requires_active_company_grant(self):
         analyst = self.env["golok.lab.dataset"].with_user(self.analyst)
@@ -59,6 +73,10 @@ class TestLab(TransactionCase):
             analyst.create({**dataset_values, "source": "Different publisher"})
         data = analyst.create(dataset_values)
         self.assertEqual(data.lineage_status, "active")
+        for purpose in ("historical_replay", "optimization", "fitting", "automatic_sync", "prospective_paper",
+                        "live", "export", "redistribution", "unknown"):
+            with self.subTest(purpose=purpose), self.assertRaises(AccessError):
+                data._permit(purpose)
         self._wizard(self._lines(1), data).action_import()
         candles = self.env["golok.lab.candle"].with_user(self.analyst)
         candle = candles.search([("dataset_id", "=", data.id)])
@@ -219,8 +237,31 @@ class TestLab(TransactionCase):
         filled = latest_daily_result()
         self.assertEqual((filled.bar_count, filled.gap_count), (3, 0))
         self.assertEqual(gap.gap_count, 1)
-        self.assertEqual(imports.create({**vals, "upload": base64.b64encode(
-            payload.replace(",100,1000,", ",101,1000,").encode()).decode()}).status, "quarantine")
+        correction_payload = {**vals, "upload": base64.b64encode(
+            payload.replace(",100,1000,", ",101,1000,").encode()).decode()}
+        self.assertEqual(imports.create(correction_payload).status, "quarantine")
+        correction_request = {**correction_payload, "corrects_id": accepted.id,
+                              "correction_evidence": "Authored publisher correction fixture"}
+        with self.assertRaises(ValidationError):
+            imports.create({**correction_request, "corrects_id": modern_batch.id})
+        correction = imports.create(correction_request)
+        self.assertEqual((correction.status, correction.corrects_id), ("accepted", accepted))
+        self.assertEqual(correction, imports.create(correction_request))
+        self.assertEqual(accepted, imports.create({**vals, "corrects_id": accepted.id,
+                                                  "correction_evidence": "Duplicate payload"}))
+        correction.action_normalize()
+        corrected = correction.normalized_dataset_ids
+        correction.action_normalize()
+        self.assertEqual(correction.normalized_dataset_ids, corrected)
+        self.assertEqual(corrected.daily_revision_id, correction)
+        self.assertEqual(len(corrected.daily_revision_digest), 64)
+        candles = self.env["golok.lab.candle"]
+        corrected_bar = candles.search([("dataset_id", "=", corrected.id)])
+        original_bar = candles.search([("dataset_id", "=", dataset.id), ("close_time", "=", corrected_bar.close_time)])
+        self.assertEqual((original_bar.volume, corrected_bar.volume), (100, 101))
+        with self.assertRaises(AccessError):
+            corrected._import_bars([corrected_bar._to_bar()])
+        self.assertEqual((filled.bar_count, filled.gap_count), (3, 0))
         self.assertEqual(imports.create({**vals, "upload": "eA=="}).status, "quarantine")
         with self.assertRaises(AccessError):
             imports.with_user(self.viewer).create(vals)

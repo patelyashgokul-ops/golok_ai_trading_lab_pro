@@ -152,6 +152,7 @@ class Dataset(models.Model):
     fixture_seed = fields.Integer(readonly=True)
     fixture_digest = fields.Char(readonly=True)
     daily_revision_id = fields.Many2one("golok.lab.daily.import", readonly=True, ondelete="restrict")
+    daily_revision_digest = fields.Char(readonly=True)
 
     _identity = models.Constraint(
         "UNIQUE(company_id, instrument_id, source, origin, interval)", "This source and interval are already registered."
@@ -168,7 +169,7 @@ class Dataset(models.Model):
             for key, value in defaults.items():
                 vals.setdefault(key, value)
             if not self.env.su and {"source_review_id", "publication_basis", "fixture_version",
-                                    "fixture_seed", "fixture_digest", "daily_revision_id"} & vals.keys():
+                                    "fixture_seed", "fixture_digest", "daily_revision_id", "daily_revision_digest"} & vals.keys():
                 raise AccessError(_("Lineage is assigned by the server."))
             if (vals.get("source") or "").startswith("P08 correction ") and not vals.get("daily_revision_id"):
                 raise AccessError(_("The source label is reserved for audited corrections."))
@@ -181,7 +182,7 @@ class Dataset(models.Model):
         return super(Dataset, self.with_context(default_quarantined=False, default_integrity_conflict=False, default_source_review_id=False,
                                                 default_publication_basis=False, default_fixture_version=False,
                                                 default_fixture_seed=0, default_fixture_digest=False,
-                                                default_daily_revision_id=False)).create(vals_list)
+                                                default_daily_revision_id=False, default_daily_revision_digest=False)).create(vals_list)
 
     @api.depends("origin", "fixture_version", "publication_basis", "source_review_id.lifecycle", "quarantined", "integrity_conflict")
     def _compute_lineage_status(self):

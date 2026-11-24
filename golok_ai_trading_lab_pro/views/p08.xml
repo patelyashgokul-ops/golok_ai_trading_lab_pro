@@ -1,4 +1,22 @@
 <odoo>
+    <record id="view_portfolio_timing_fixture" model="ir.ui.view">
+        <field name="name">golok.lab.portfolio.wizard.timing.fixture</field>
+        <field name="model">golok.lab.portfolio.wizard</field>
+        <field name="inherit_id" ref="view_portfolio_wizard"/>
+        <field name="arch" type="xml"><xpath expr="//footer/button[@name='action_run']" position="after">
+            <button name="action_run_timing_fixture" type="object" string="Test Historical Timing on Generated Fixtures"/>
+        </xpath></field>
+    </record>
+    <record id="view_portfolio_timing_result" model="ir.ui.view">
+        <field name="name">golok.lab.portfolio.timing.result</field>
+        <field name="model">golok.lab.portfolio</field>
+        <field name="inherit_id" ref="view_portfolio_form"/>
+        <field name="arch" type="xml"><xpath expr="//h2" position="replace">
+            <field name="contract_fixture" invisible="1"/>
+            <h2 invisible="contract_fixture">Synthetic Portfolio Replay</h2>
+            <h2 invisible="not contract_fixture">Historical Timing Test on Generated Fixtures</h2>
+        </xpath></field>
+    </record>
     <record id="view_calendar_generate_fixture" model="ir.ui.view">
         <field name="name">golok.lab.calendar.fixture.generation</field><field name="model">golok.lab.calendar</field>
         <field name="inherit_id" ref="view_calendar_form"/>
@@ -16,6 +34,8 @@
             <field name="fixture_seed" readonly="1" invisible="not fixture_version"/>
             <field name="fixture_digest" readonly="1" invisible="not fixture_version"/>
             <field name="integrity_conflict" readonly="1" invisible="not integrity_conflict"/>
+            <field name="daily_revision_id" readonly="1" invisible="not daily_revision_id" groups="golok_ai_trading_lab_pro.group_admin"/>
+            <field name="daily_revision_digest" readonly="1" invisible="not daily_revision_digest"/>
         </field></field>
     </record>
     <record id="view_review_lineage" model="ir.ui.view">

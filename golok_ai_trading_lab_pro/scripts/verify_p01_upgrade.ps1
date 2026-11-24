@@ -44,7 +44,7 @@ order by 1
 select md5(string_agg(row(id, to_jsonb(d)->>'source_review_id', to_jsonb(d)->>'publication_basis')::text,
                       ';' order by id)) from golok_lab_dataset d
 '@
-        if ($TargetVersion -eq '20.0.8.5.0') { $beforeLineage = Query $lineageFields }
+        if ($TargetVersion -in @('20.0.8.5.0', '20.0.8.6.0')) { $beforeLineage = Query $lineageFields }
         if ($before.Count -ne 4 -or $beforeXML.Count -lt 20 -or ($before -match '^[^:]+:0:')) {
             throw 'The clone lacks the required populated P01 records.'
         }
@@ -55,9 +55,16 @@ select md5(string_agg(row(id, to_jsonb(d)->>'source_review_id', to_jsonb(d)->>'p
             if ($SourceVersion -eq '20.0.5.0.0') { $tables += @('portfolio') }
             if ($SourceVersion -eq '20.0.6.0.0') { $tables += @('holdout','source_review','daily_import') }
             if ($SourceVersion -eq '20.0.7.0.0') { $tables = @($tables | Where-Object { $_ -ne 'research_job' }) + @('holdout','daily_import','portfolio') }
-            foreach ($table in $tables) {
+            foreach ($table in $tables | Where-Object { $_ -notin @('portfolio', 'daily_import') -or $TargetVersion -ne '20.0.8.6.0' }) {
                 $extra[$table] = Query "select count(*) || ':' || coalesce(md5(string_agg(row_to_json(t)::text,';' order by id)), 'empty') from golok_lab_$table t"
             }
+        }
+        $revisionDigestSql = @{}
+        if ($SourceVersion -eq '20.0.7.0.0' -and $TargetVersion -eq '20.0.8.6.0') {
+            $revisionDigestSql['portfolio'] = "select md5(string_agg((to_jsonb(t)-'contract_fixture')::text,';' order by id)) from golok_lab_portfolio t"
+            $revisionDigestSql['daily_import'] = "select md5(string_agg((to_jsonb(t)-array['corrects_id','correction_evidence','correction_scope'])::text,';' order by id)) from golok_lab_daily_import t"
+            $beforeRevision = @{}
+            foreach ($table in $revisionDigestSql.Keys) { $beforeRevision[$table] = Query $revisionDigestSql[$table] }
         }
         $rightsQuery = "select count(*) || ':' || coalesce(md5(string_agg((to_jsonb(t)-array['research','upstream','revoked_at','retain_until','raw_share_ohlcv'])::text,';' order by id)), 'empty') from golok_lab_source_review t"
         if ($SourceVersion -eq '20.0.7.0.0') { $oldRights = Query $rightsQuery }
@@ -74,7 +81,10 @@ select md5(string_agg(row(id, to_jsonb(d)->>'source_review_id', to_jsonb(d)->>'p
         $timer.Stop()
         if ($code) { throw "Module upgrade exited $code" }
         $after = @(Query $data)
-        if ($TargetVersion -eq '20.0.8.5.0') {
+        foreach ($table in $revisionDigestSql.Keys) {
+            if ((Query $revisionDigestSql[$table]) -ne $beforeRevision[$table]) { throw "Historical $table retention failed." }
+        }
+        if ($TargetVersion -in @('20.0.8.5.0', '20.0.8.6.0')) {
             if ((Query $lineageFields) -ne $beforeLineage) { throw 'Upgrade changed prior dataset authorization or publication evidence.' }
             $lineageClassCounts = @'
 select origin, case

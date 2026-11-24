@@ -48,6 +48,17 @@ class PortfolioWizard(models.TransientModel):
         return {"type": "ir.actions.act_window", "res_model": record._name, "res_id": record.id,
                 "views": [(False, "form")], "target": "current"}
 
+    def action_run_timing_fixture(self):
+        self.ensure_one()
+        self.check_access("read")
+        record = self.env["golok.lab.portfolio"]._run_request([{
+            "dataset_ids": self.dataset_ids.ids, "tariff_id": self.tariff_id.id, "starts": self.starts,
+            "ends": self.ends, "capital": self.capital, "tick": self.tick, "strategy": self.strategy,
+            "target_policy": self.target_policy,
+        }], contract_fixture=True)
+        return {"type": "ir.actions.act_window", "res_model": record._name, "res_id": record.id,
+                "views": [(False, "form")], "target": "current"}
+
     def action_compare(self):
         self.ensure_one()
         self.check_access("read")

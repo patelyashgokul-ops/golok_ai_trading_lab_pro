@@ -125,9 +125,8 @@ class Portfolio(models.Model):
             key = f"{instrument.exchange}:{instrument.symbol}"
             sessions = revision._sessions()
             if contract_fixture:
-                generated = self.env["golok.lab.candle"].search_count([("dataset_id", "=", dataset.id)])
-                if not generated:
-                    raise ValidationError(_("The fixture has no visible observations."))
+                if not bars:
+                    raise ValidationError(_("The fixture has no visible observations in the selected window."))
                 bars = tuple(replace(bar, available_at=min(
                     bar.close_time + timedelta(minutes=1),
                     sessions[bar.close_time.astimezone(calendar.IST).date()].closing)) for bar in bars)
@@ -152,9 +151,13 @@ class Portfolio(models.Model):
                              for module in (portfolio, strategies, decision, eligibility, simulation, calendar, targets)},
         }
         if contract_fixture:
+            for item, dataset in zip(inputs, datasets):
+                item["generated_fixture_digest"] = dataset.fixture_digest
             specification.update(scope="HISTORICAL_CONTRACT_FIXTURE_ONLY",
                                  publication_model="Authored fixture close plus one minute, bounded by session close",
                                  provenance={key: asdict(value) for key, value in provenance.items()})
+            specification["code_digests"]["replay_contract"] = hashlib.sha256(
+                Path(replay_contract.__file__).read_bytes()).hexdigest()
         fingerprint = digest(specification)
         if training is not None:
             try:

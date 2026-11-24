@@ -1,0 +1,40 @@
+2026-11-24 15:38:51,195 1768 WARNING ? odoo.tools.config: option --without-demo: since 19.0, invalid boolean value: 'all', assume True
+2026-11-24 15:38:51,198 1768 INFO ? odoo: Odoo version 20.0
+2026-11-24 15:38:51,198 1768 INFO ? odoo: Using configuration file at c:\pycharmprojects\odoo20\odoo-20.0\odoo.conf
+2026-11-24 15:38:51,198 1768 INFO ? odoo: addons paths: _NamespacePath(['C:\\PycharmProjects\\odoo20\\odoo-20.0\\odoo\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons\\golok_ai_trading_lab_pro\\.local-test\\odoo-data\\addons\\20.0', 'c:\\pycharmprojects\\odoo20\\odoo-20.0\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons'])
+2026-11-24 15:38:51,199 1768 INFO ? odoo: database: golok_test@127.0.0.1:55498
+2026-11-24 15:38:54,888 1768 INFO ? odoo.service.server: HTTP service running on 127.0.0.1:18098
+2026-11-24 15:38:54,957 1768 INFO golok_p08_fresh_p odoo.tests.common: Importing test framework
+2026-11-24 15:38:55,076 1768 INFO golok_p08_fresh_p odoo.modules.loading: Initializing database golok_p08_fresh_p
+2026-11-24 15:38:58,111 1768 WARNING golok_p08_fresh_p odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-24 15:38:58,116 1768 WARNING golok_p08_fresh_p odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-24 15:38:58,273 1768 WARNING golok_p08_fresh_p odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-24 15:38:58,273 1768 WARNING golok_p08_fresh_p odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-24 15:38:58,274 1768 WARNING golok_p08_fresh_p odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-24 15:38:58,274 1768 WARNING golok_p08_fresh_p odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-24 15:38:58,538 1768 INFO golok_p08_fresh_p odoo.modules.loading: loading 1 modules...
+2026-11-24 15:38:58,539 1768 INFO golok_p08_fresh_p odoo.modules.loading: Loading module base (1/1)
+2026-11-24 15:38:58,608 1768 INFO golok_p08_fresh_p odoo.tools.version_tag_reset: Detected tp_versions_used at offset 410, reset enabled
+2026-11-24 15:38:58,609 1768 INFO golok_p08_fresh_p odoo.registry: module base: creating or updating database tables
+2026-11-24 15:38:59,607 1768 INFO golok_p08_fresh_p odoo.fields: Prepare computation of ir.module.module.menus_by_module in 664 records
+2026-11-24 15:38:59,616 1768 INFO golok_p08_fresh_p odoo.fields: Prepare computation of ir.module.module.reports_by_module in 664 records
+2026-11-24 15:38:59,621 1768 INFO golok_p08_fresh_p odoo.fields: Prepare computation of ir.module.module.views_by_module in 664 records
+2026-11-24 15:38:59,948 1768 INFO golok_p08_fresh_p odoo.fields: Prepare computation of res.partner.user_id in 1 records
+2026-11-24 15:38:59,957 1768 INFO golok_p08_fresh_p odoo.fields: Prepare computation of res.partner.commercial_partner_id in 1 records
+2026-11-24 15:38:59,967 1768 INFO golok_p08_fresh_p odoo.fields: Prepare computation of res.partner.complete_name in 1 records
+2026-11-24 15:38:59,970 1768 INFO golok_p08_fresh_p odoo.fields: Prepare computation of res.partner.lang in 1 records
+2026-11-24 15:38:59,982 1768 INFO golok_p08_fresh_p odoo.fields: Prepare computation of res.partner.commercial_company_name in 1 records
+2026-11-24 15:38:59,985 1768 INFO golok_p08_fresh_p odoo.fields: Prepare computation of res.partner.properties in 1 records
+2026-11-24 15:38:59,995 1768 INFO golok_p08_fresh_p odoo.fields: Prepare computation of res.partner.partner_share in 1 records
+2026-11-24 15:39:00,075 1768 INFO golok_p08_fresh_p odoo.fields: Prepare computation of res.currency.decimal_places in 1 records
+2026-11-24 15:39:00,203 1768 INFO golok_p08_fresh_p odoo.fields: Prepare computation of res.company.company_details in 1 records
+2026-11-24 15:39:00,210 1768 INFO golok_p08_fresh_p odoo.fields: Prepare computation of res.company.uses_default_logo in 1 records
+2026-11-24 15:39:00,219 1768 INFO golok_p08_fresh_p odoo.models: Computing parent_path for table res_company...
+2026-11-24 15:39:00,317 1768 INFO golok_p08_fresh_p odoo.fields: Prepare computation of res.users.signature in 1 records
+2026-11-24 15:39:00,322 1768 INFO golok_p08_fresh_p odoo.fields: Prepare computation of res.users.share in 1 records
+2026-11-24 15:39:05,129 1768 INFO golok_p08_fresh_p odoo.modules.loading: loading base/data/res.lang.csv
+2026-11-24 15:39:05,252 1768 INFO golok_p08_fresh_p odoo.modules.loading: loading base/data/res_lang_data.xml
+2026-11-24 15:39:05,365 1768 INFO golok_p08_fresh_p odoo.modules.loading: loading base/data/res_partner_data.xml
+2026-11-24 15:39:05,703 1768 INFO golok_p08_fresh_p odoo.modules.loading: loading base/data/res_currency_data.xml
+2026-11-24 15:39:06,750 1768 INFO golok_p08_fresh_p odoo.modules.loading: loading base/data/res_company_data.xml
+2026-11-24 15:39:06,799 1768 INFO golok_p08_fresh_p odoo.modules.loading: loading base/data/res_users_data.xml
