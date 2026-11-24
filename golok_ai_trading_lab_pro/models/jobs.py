@@ -156,9 +156,15 @@ class ResearchJob(models.Model):
                 requester = self.requested_by
                 if not requester.active:
                     raise AccessError(_("Requester is inactive."))
+                cycle = self.env["golok.lab.research.cycle"].sudo().search([("job_id", "=", self.id)], limit=1)
+                if cycle:
+                    cycle.with_company(self.company_id)._validate_execution(requester)
                 run = self.env["golok.lab.run"].with_user(requester).with_context(
                     {"allowed_company_ids": [self.company_id.id]}
                 ).create({"dataset_id": self.dataset_id.id, "as_of": self.cutoff})
+                if cycle:
+                    cycle.with_company(self.company_id)._validate_execution(requester)
+                    cycle._publish(run)
                 vals.update(state="completed", run_id=run.id)
         except AccessError:
             vals.update(state="blocked", failure_reason="The request is no longer authorized.")

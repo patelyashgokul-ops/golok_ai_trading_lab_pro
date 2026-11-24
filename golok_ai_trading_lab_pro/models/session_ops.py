@@ -4,7 +4,7 @@ from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.fields import Domain
 
-from ..services import calendar, session_clock
+from ..services import calendar, decision, market_data, session_clock
 
 
 PHASES = [(value, label) for value, label in (
@@ -23,8 +23,11 @@ class SessionWatch(models.Model):
     active = fields.Boolean(default=True)
     checked_at = fields.Datetime(readonly=True)
     event_ids = fields.One2many("golok.lab.session.event", "watch_id")
+    cycle_minutes = fields.Integer(default=5, required=True)
+    cycle_ids = fields.One2many("golok.lab.research.cycle", "watch_id")
 
     _dataset_watch = models.Constraint("UNIQUE(dataset_id)", "A dataset may have only one session watch.")
+    _cycle_interval = models.Constraint("CHECK(cycle_minutes BETWEEN 2 AND 60)", "Set a cycle interval of 2–60 minutes.")
 
     @api.constrains("dataset_id")
     def _fixture_only(self):
@@ -44,7 +47,7 @@ class SessionWatch(models.Model):
         self.env.cr.execute("SELECT id FROM golok_lab_session_watch WHERE id=%s FOR UPDATE SKIP LOCKED", (self.id,))
         if not self.env.cr.fetchone():
             return self.env["golok.lab.session.event"]
-        self.invalidate_recordset(["active", "dataset_id", "checked_at"])
+        self.invalidate_recordset(["active", "dataset_id", "checked_at", "cycle_minutes"])
         if not self.active:
             return self.env["golok.lab.session.event"]
         dataset = self.dataset_id
@@ -57,10 +60,48 @@ class SessionWatch(models.Model):
             missed = sessions[missed_day]
             if missed.kind != "closed" and missed.closing < at:
                 self._record_phase(missed_day, missed, "post_market", at, recovery=True)
+        previous_check = self.checked_at
         self.sudo().write({"checked_at": at.replace(tzinfo=None)})
         session = sessions.get(day)
         phase = session_clock.phase(session, at)
-        return self._record_phase(day, session, phase, at)
+        event = self._record_phase(day, session, phase, at)
+        if phase in ("market_opening", "intraday"):
+            self._schedule_cycle(day, session, phase, at, previous_check)
+        return event
+
+    def _schedule_cycle(self, day, session, phase, at, previous_check):
+        dataset = self.dataset_id
+        if dataset.quarantined or dataset.integrity_conflict or not market_data.INTERVALS[dataset.interval]:
+            return
+        cycles = self.env["golok.lab.research.cycle"].sudo()
+        prior = cycles.search([("watch_id", "=", self.id), ("day", "=", day)], order="id desc", limit=1)
+        cutoff = at.replace(tzinfo=None)
+        if prior and (prior.state in ("queued", "claimed") or cutoff < prior.cutoff + timedelta(minutes=self.cycle_minutes)):
+            return
+        left = next(opening for opening, closing in session.windows() if opening <= at < closing)
+        gap_start = max(left.replace(tzinfo=None), previous_check) if previous_check else cutoff
+        missed = max(0, int((cutoff - gap_start).total_seconds() // (self.cycle_minutes * 60)) - 1)
+        candle_model = self.env["golok.lab.candle"]
+        isolation = self.env["golok.lab.holdout"]._observation_domain("close_time", "close_time", "instrument_id")
+        latest = candle_model.search(Domain([
+            ("dataset_id", "=", dataset.id), ("open_time", ">=", left.replace(tzinfo=None)),
+            ("close_time", "<=", cutoff), ("available_at", "<=", cutoff),
+        ]) & isolation, order="available_at desc, id desc", limit=1)
+        if not latest or cycles.search_count([("watch_id", "=", self.id), ("observation_id", "=", latest.id)], limit=1):
+            return
+        requester = self.create_uid
+        if (not requester.active or self.company_id not in requester.company_ids
+                or not requester.has_group("golok_ai_trading_lab_pro.group_admin")):
+            return
+        job = self.env["golok.lab.research.job"].with_user(requester).with_company(self.company_id).create({
+            "dataset_id": dataset.id, "cutoff": cutoff,
+        })
+        cycles.with_context({}).create({
+            "company_id": self.company_id.id, "watch_id": self.id, "dataset_id": dataset.id, "job_id": job.id,
+            "day": day, "phase": phase, "cutoff": cutoff, "observation_id": latest.id,
+            "observation_at": latest.close_time, "available_at": latest.available_at,
+            "missed_intervals": missed,
+        })
 
     def _record_phase(self, day, session, phase, at, *, recovery=False):
         dataset = self.dataset_id
@@ -129,3 +170,76 @@ class SessionEvent(models.Model):
     run_id = fields.Many2one("golok.lab.run", ondelete="restrict")
 
     _phase_once = models.Constraint("UNIQUE(watch_id,day,phase)", "This phase has already been recorded.")
+
+
+class ResearchCycle(models.Model):
+    _name = "golok.lab.research.cycle"
+    _description = "Recurring fixture research cycle"
+    _order = "id desc"
+    _rec_name = "observation_at"
+
+    company_id = fields.Many2one("res.company", required=True, index=True)
+    watch_id = fields.Many2one("golok.lab.session.watch", required=True, index=True, ondelete="restrict")
+    dataset_id = fields.Many2one("golok.lab.dataset", required=True, ondelete="restrict")
+    job_id = fields.Many2one("golok.lab.research.job", required=True, ondelete="restrict", index=True)
+    day = fields.Date(required=True, index=True)
+    phase = fields.Selection(PHASES, required=True)
+    cutoff = fields.Datetime(required=True)
+    observation_id = fields.Many2one("golok.lab.candle", required=True, ondelete="restrict",
+                                      groups="golok_ai_trading_lab_pro.group_admin")
+    observation_at = fields.Datetime(required=True)
+    available_at = fields.Datetime(required=True)
+    missed_intervals = fields.Integer(readonly=True)
+    state = fields.Selection(related="job_id.state")
+    run_id = fields.Many2one(related="job_id.run_id")
+    processed_at = fields.Datetime(related="job_id.finished_at")
+    elapsed_ms = fields.Float(related="job_id.elapsed_ms")
+    failure_reason = fields.Char(related="job_id.failure_reason")
+    candidate_ids = fields.One2many("golok.lab.research.candidate", "cycle_id")
+
+    _observation_once = models.Constraint("UNIQUE(watch_id,observation_id)", "This observation was already scheduled.")
+    _job_once = models.Constraint("UNIQUE(job_id)", "A job already belongs to a research cycle.")
+
+    def _validate_execution(self, requester):
+        self.ensure_one()
+        if (not self.watch_id.active or self.watch_id.dataset_id != self.dataset_id
+                or self.company_id not in requester.company_ids
+                or not requester.has_group("golok_ai_trading_lab_pro.group_admin")):
+            raise AccessError(_("The schedule was paused or changed."))
+        available = self.env["golok.lab.candle"].with_user(requester).search_count(
+            [("id", "=", self.observation_id.id)], limit=1)
+        if not available:
+            raise AccessError(_("The scheduled observation is no longer eligible."))
+
+    def _publish(self, run):
+        self.ensure_one()
+        checks = {
+            "G01": run.dataset_id.origin == "synthetic",
+            "G02": bool(run.dataset_id.instrument_id),
+            "G03": run.dataset_id.calendar_id.verification == "fixture",
+            "G04": bool(run.bar_count and not run.gap_count),
+            "G05": self.available_at <= self.cutoff,
+        }
+        evaluation = decision.evaluate(checks, mode="fixture_research", context={"dataset_version": run.input_digest})
+        self.env["golok.lab.research.candidate"].with_context({}).sudo().create({
+            "cycle_id": self.id, "company_id": self.company_id.id, "input_digest": run.input_digest,
+            "engine_version": run.engine_version, "evidence": {"research": run.evidence, "decision": evaluation},
+            "reason": "Descriptive fixture research has no validated entry, tariff and risk approval.",
+        })
+
+
+class ResearchCandidate(models.Model):
+    _name = "golok.lab.research.candidate"
+    _description = "Immutable fixture research outcome"
+    _rec_name = "reason"
+    _order = "id desc"
+
+    cycle_id = fields.Many2one("golok.lab.research.cycle", required=True, ondelete="restrict", index=True)
+    company_id = fields.Many2one("res.company", required=True, index=True)
+    input_digest = fields.Char(required=True)
+    engine_version = fields.Char(required=True)
+    evidence = fields.Json(required=True)
+    reason = fields.Char(required=True)
+    state = fields.Selection([("no_trade", "NO TRADE")], required=True, default="no_trade")
+
+    _cycle_once = models.Constraint("UNIQUE(cycle_id)", "Research outcome already published.")

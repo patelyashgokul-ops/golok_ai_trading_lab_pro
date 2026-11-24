@@ -9,7 +9,7 @@ from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, ValidationError
 from odoo.fields import Domain
 
-from ..services import (backtest, calendar, decision, eligibility, market_data, portfolio, replay_contract,
+from ..services import (backtest, calendar, decision, eligibility, market_data, performance, portfolio, replay_contract,
                         simulation, strategies, targets)
 from .lab import _input_digest
 
@@ -69,6 +69,30 @@ class Portfolio(models.Model):
         if any(record.historical_authorized for record in self):
             raise AccessError(_("Export of authorized historical replay results is disabled."))
         return super()._export_rows(fields, _is_toplevel_call=_is_toplevel_call)
+
+    def action_calculate_performance(self):
+        self.ensure_one()
+        self.check_access("read")
+        if (self.company_id != self.env.company or self.historical_authorized or self.contract_fixture
+                or not self.env.user.has_group("golok_ai_trading_lab_pro.group_analyst")):
+            raise AccessError(_("Select a synthetic portfolio from the active company."))
+        self.env.cr.execute("SELECT id FROM golok_lab_portfolio WHERE id=%s FOR UPDATE", (self.id,))
+        reports = self.env["golok.lab.performance.report"]
+        report = reports.search([("portfolio_id", "=", self.id), ("version", "=", performance.VERSION)], limit=1)
+        if not report:
+            try:
+                metrics = performance.summarize(json.loads(self.result))
+            except (KeyError, TypeError, ValueError, ArithmeticError) as exc:
+                raise ValidationError(_("The replay could not be reconciled: %s", str(exc))) from None
+            record = reports.with_context({}).sudo().create({
+                "company_id": self.company_id.id, "portfolio_id": self.id, "version": performance.VERSION,
+                "status": metrics["status"], "trades": metrics["trade_count"], "expectancy": (
+                    str(metrics["expectancy"]) if metrics["expectancy"] is not None else False),
+                "report": json.dumps(metrics, default=str, indent=2, sort_keys=True),
+            })
+            report = reports.browse(record.id)
+        return {"type": "ir.actions.act_window", "res_model": report._name, "res_id": report.id,
+                "views": [(False, "form")], "target": "current"}
 
     def _run_request(self, vals_list, *, training=None, seal=None, contract_fixture=False, historical=False):
         self.check_access("create")
@@ -198,6 +222,8 @@ class Portfolio(models.Model):
                 item["generated_fixture_digest"] = dataset.fixture_digest
             specification.update(scope="HISTORICAL_CONTRACT_FIXTURE_ONLY",
                                  publication_model="Authored fixture close plus one minute, bounded by session close")
+        if not seal or "decision_context_version" in json.loads(seal.specification):
+            specification["decision_context_version"] = "p09-dataset-digest"
         fingerprint = digest(specification)
         if training is not None:
             try:
@@ -224,6 +250,11 @@ class Portfolio(models.Model):
                                           target_policy=target_policy)
         except (ValueError, ArithmeticError) as exc:
             raise ValidationError(str(exc)) from None
+        if "decision_context_version" in specification:
+            fingerprints = {item["asset"]: item["input_digest"] for item in inputs}
+            for row in output["decisions"]:
+                for gate in row["gates"].values():
+                    gate["dataset_version"] = fingerprints[row["asset"]]
         prior = self.search([("company_id", "=", company.id), ("fingerprint", "=", fingerprint)], limit=1)
         if prior:
             return prior
@@ -253,3 +284,21 @@ class Portfolio(models.Model):
             return starts, ends, capital, tick
         except (ValueError, TypeError, ArithmeticError):
             raise ValidationError(_("Use at most 31 historical dates, a listed strategy and valid capital and tick.")) from None
+
+
+class PerformanceReport(models.Model):
+    _name = "golok.lab.performance.report"
+    _description = "Frozen synthetic portfolio performance metrics"
+    _rec_name = "portfolio_id"
+    _order = "id desc"
+
+    company_id = fields.Many2one("res.company", required=True, index=True)
+    portfolio_id = fields.Many2one("golok.lab.portfolio", required=True, ondelete="restrict", index=True)
+    version = fields.Char(required=True)
+    status = fields.Selection([("SOFTWARE_VERIFIED", "Software verified"), ("INSUFFICIENT_TRADES", "Insufficient trades")],
+                              required=True)
+    trades = fields.Integer(required=True)
+    expectancy = fields.Char()
+    report = fields.Text(required=True)
+
+    _unique_version = models.Constraint("UNIQUE(portfolio_id,version)", "This metric version already exists for the replay.")

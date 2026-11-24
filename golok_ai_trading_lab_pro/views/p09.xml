@@ -1,0 +1,73 @@
+<odoo>
+    <record id="view_session_watch_cycles" model="ir.ui.view">
+        <field name="name">golok.lab.session.watch.cycles</field>
+        <field name="model">golok.lab.session.watch</field>
+        <field name="inherit_id" ref="view_session_watch_form"/>
+        <field name="arch" type="xml">
+            <field name="active" position="after"><field name="cycle_minutes"/></field>
+            <field name="event_ids" position="after">
+                <field name="cycle_ids" readonly="1">
+                    <list><field name="observation_at"/><field name="cutoff"/><field name="state"/>
+                        <field name="failure_reason"/></list>
+                </field>
+            </field>
+        </field>
+    </record>
+    <record id="view_research_cycle_list" model="ir.ui.view">
+        <field name="name">golok.lab.research.cycle.list</field>
+        <field name="model">golok.lab.research.cycle</field>
+        <field name="arch" type="xml"><list create="0" edit="0" delete="0">
+            <field name="day"/><field name="dataset_id"/><field name="phase"/><field name="observation_at"/>
+            <field name="cutoff"/><field name="processed_at"/><field name="state"/><field name="failure_reason"/>
+        </list></field>
+    </record>
+    <record id="view_research_cycle_form" model="ir.ui.view">
+        <field name="name">golok.lab.research.cycle.form</field>
+        <field name="model">golok.lab.research.cycle</field>
+        <field name="arch" type="xml"><form create="0" edit="0" delete="0">
+            <sheet><group><field name="day"/><field name="dataset_id"/><field name="phase"/><field name="state"/>
+                <field name="observation_at"/><field name="available_at"/><field name="cutoff"/>
+                <field name="processed_at"/><field name="elapsed_ms"/><field name="missed_intervals"/>
+                <field name="failure_reason"/><field name="run_id"/>
+            </group><field name="candidate_ids"><list><field name="state"/><field name="reason"/>
+                <field name="input_digest"/><field name="engine_version"/></list></field></sheet>
+        </form></field>
+    </record>
+    <record id="action_research_cycles" model="ir.actions.act_window">
+        <field name="name">Fixture Research Cycles</field>
+        <field name="res_model">golok.lab.research.cycle</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem id="menu_research_cycles" name="Fixture Research Cycles" parent="menu_lab"
+              action="action_research_cycles" sequence="103"/>
+    <record id="view_portfolio_performance" model="ir.ui.view">
+        <field name="name">golok.lab.portfolio.calculate.performance</field>
+        <field name="model">golok.lab.portfolio</field>
+        <field name="inherit_id" ref="view_portfolio_form"/>
+        <field name="arch" type="xml"><xpath expr="//sheet" position="before">
+            <header><button name="action_calculate_performance" type="object" string="Calculate Performance"
+                            groups="golok_ai_trading_lab_pro.group_analyst" invisible="contract_fixture or historical_authorized"/></header>
+        </xpath></field>
+    </record>
+    <record id="view_performance_report_list" model="ir.ui.view">
+        <field name="name">golok.lab.performance.report.list</field>
+        <field name="model">golok.lab.performance.report</field>
+        <field name="arch" type="xml"><list create="0" edit="0" delete="0">
+            <field name="portfolio_id"/><field name="version"/><field name="status"/><field name="trades"/><field name="expectancy"/>
+        </list></field>
+    </record>
+    <record id="view_performance_report_form" model="ir.ui.view">
+        <field name="name">golok.lab.performance.report.form</field>
+        <field name="model">golok.lab.performance.report</field>
+        <field name="arch" type="xml"><form create="0" edit="0" delete="0">
+            <sheet><group><field name="portfolio_id"/><field name="version"/><field name="status"/>
+                <field name="trades"/><field name="expectancy"/></group><field name="report" nolabel="1"/></sheet>
+        </form></field>
+    </record>
+    <record id="action_performance_reports" model="ir.actions.act_window">
+        <field name="name">Synthetic Strategy Performance</field>
+        <field name="res_model">golok.lab.performance.report</field><field name="view_mode">list,form</field>
+    </record>
+    <menuitem id="menu_performance_reports" name="Synthetic Strategy Performance" parent="menu_lab"
+              action="action_performance_reports" sequence="104"/>
+</odoo>

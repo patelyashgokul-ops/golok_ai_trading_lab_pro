@@ -427,6 +427,56 @@ class TestLab(TransactionCase):
         self.assertEqual(maintenance.phase, "maintenance")
         self.assertFalse(maintenance.run_id)
 
+    def test_p09_recurring_cycles_follow_new_completed_observations(self):
+        from datetime import timezone
+
+        files = Path(__file__).parent / "fixtures/p02"
+        spec = json.loads((files / "spec.json").read_text())
+        calendar = self.env["golok.lab.calendar"].with_user(self.admin).create({
+            "name": "Recurring fixture", "source": "Test fixture", "exchange": "NSE", "verification": "fixture",
+            "verified_on": "2024-01-01", "schedule": json.dumps(spec["schedule"]),
+        })
+        dataset = self.env["golok.lab.dataset"].with_user(self.analyst).create({
+            "name": "Recurring cycle test", "source": "Incremental fixture", "origin": "synthetic",
+            "instrument_id": self.instrument.id, "interval": "5m", "calendar_id": calendar.id,
+        })
+        header, first, second, third, *_tail = (files / "candles.csv").read_bytes().splitlines()
+        importer = self.env["golok.lab.import"].with_user(self.analyst)
+        watch = self.env["golok.lab.session.watch"].with_user(self.admin).create({
+            "dataset_id": dataset.id, "cycle_minutes": 2,
+        })
+        session = calendar._sessions()[datetime(2024, 1, 2, tzinfo=timezone.utc).date()]
+        cycles = self.env["golok.lab.research.cycle"]
+        domain = [("watch_id", "=", watch.id)]
+        importer.create({"dataset_id": dataset.id, "upload": BinaryBytes(b"\n".join((header, first)))}).action_import()
+        summary = watch._dispatch(session.opening + timedelta(minutes=5))
+        cycle = cycles.search(domain)
+        self.assertEqual(cycle.state, "queued")
+        self.assertEqual(watch._dispatch(session.opening + timedelta(minutes=7)), summary)
+        self.assertEqual(cycles.search_count(domain), 1)
+        jobs = self.env["golok.lab.research.job"].sudo()
+        jobs._cron_run_next()
+        self.assertEqual(cycle.state, "completed")
+        self.assertEqual(cycle.candidate_ids.input_digest, cycle.run_id.input_digest)
+        self.assertEqual(cycle.candidate_ids.evidence["decision"]["state"], "NO_TRADE")
+        watch._dispatch(session.opening + timedelta(minutes=8))
+        self.assertEqual(cycles.search_count(domain), 1)
+        importer.create({"dataset_id": dataset.id, "upload": BinaryBytes(b"\n".join((header, second)))}).action_import()
+        self.assertEqual(watch._dispatch(session.opening + timedelta(minutes=10)), summary)
+        next_cycle = cycles.search(domain, limit=1)
+        self.assertNotEqual(cycle, next_cycle)
+        jobs._cron_run_next()
+        self.assertNotEqual(cycle.candidate_ids.input_digest, next_cycle.candidate_ids.input_digest)
+        with self.assertRaises(AccessError):
+            next_cycle.candidate_ids.with_user(self.analyst).write({"reason": "forged"})
+        importer.create({"dataset_id": dataset.id, "upload": BinaryBytes(b"\n".join((header, third)))}).action_import()
+        watch._dispatch(session.opening + timedelta(minutes=15))
+        watch.active = False
+        jobs._cron_run_next()
+        self.assertEqual(cycles.search(domain, limit=1).state, "blocked")
+        self.assertEqual(cycles.search_count(domain), 3)
+        self.assertEqual(watch.event_ids.filtered(lambda event: event.phase == "intraday"), summary)
+
     def test_p08_source_conflict_blocks_research_and_is_idempotent(self):
         files = Path(__file__).parent / "fixtures/p02"
         schedule = json.loads((files / "spec.json").read_text())["schedule"]
@@ -837,6 +887,16 @@ class TestLab(TransactionCase):
         self.assertEqual(record, portfolios.create({**vals, "dataset_ids": list(reversed(datasets.ids))}))
         self.assertEqual(self.env["golok.lab.run"].with_user(self.viewer).overview()["portfolios"], 1)
         result = json.loads(record.with_user(self.viewer).result)
+        publication = record.action_calculate_performance()
+        metrics = self.env[publication["res_model"]].with_user(self.analyst).browse(publication["res_id"])
+        self.assertEqual(metrics.id, record.action_calculate_performance()["res_id"])
+        summary = json.loads(metrics.report)
+        self.assertEqual(summary["trade_count"], record.trade_count)
+        self.assertEqual(Decimal(summary["net"]), Decimal(result["net"]))
+        self.assertIsNone(summary["intraday_mark_to_market_drawdown"])
+        fingerprints = {item["asset"]: item["input_digest"] for item in json.loads(record.specification)["inputs"]}
+        self.assertTrue(all(row["gates"]["G01"]["dataset_version"] == fingerprints[row["asset"]]
+                            for row in result["decisions"]))
         wizard = self.env["golok.lab.portfolio.wizard"].with_user(self.analyst).create({
             **vals, "dataset_ids": [(6, 0, datasets.ids)]})
         comparison = wizard.action_compare()
