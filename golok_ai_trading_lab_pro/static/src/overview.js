@@ -21,6 +21,7 @@ class TradingOverview extends Component {
             { key: "quarantined", label: _t("Quarantined datasets"), model: "golok.lab.dataset" },
             { key: "experiments", label: _t("Synthetic experiments"), model: "golok.lab.experiment" },
             { key: "paper_accounts", label: _t("Virtual replay accounts"), model: "golok.lab.paper.account" },
+            { key: "successful_syncs", label: _t("Successful historical syncs"), model: "golok.lab.sync" },
         ];
         onMounted(() => this.refresh());
     }
@@ -89,6 +90,7 @@ class TradingOverview extends Component {
                 ["company_id", "=", this.state.data.company_id],
                 ...(card.key === "instruments" ? [["active", "=", true]] : []),
                 ...(card.key === "quarantined" ? [["quarantined", "=", true]] : []),
+                ...(card.key === "successful_syncs" ? [["state", "=", "complete"]] : []),
             ],
         });
     }
@@ -101,6 +103,10 @@ class TradingOverview extends Component {
             res_id: this.state.data.last.id,
             views: [[false, "form"]],
         });
+    }
+
+    async openScanner() {
+        return this.action.doAction(await this.orm.call("golok.lab.run", "scanner_action", []));
     }
 }
 

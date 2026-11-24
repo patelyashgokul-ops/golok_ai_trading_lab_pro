@@ -42,4 +42,29 @@
     </record>
     <menuitem id="menu_sync" name="Sync History" parent="menu_lab" action="action_sync" sequence="91"/>
     <menuitem id="menu_sync_wizard" name="Synchronize Historical" parent="menu_lab" action="action_sync_wizard" sequence="92" groups="group_admin"/>
+    <record id="view_stock_scanner_list" model="ir.ui.view">
+        <field name="name">golok.lab.run.scanner.list</field><field name="model">golok.lab.run</field>
+        <field name="priority">30</field>
+        <field name="arch" type="xml"><list create="0" edit="0" delete="0" limit="40">
+            <field name="scanner_instrument_id" string="Instrument"/><field name="scanner_exchange" string="Exchange"/>
+            <field name="scanner_interval" string="Interval"/><field name="origin"/><field name="as_of"/>
+            <field name="gap_count"/><field name="scanner_quarantined" string="Quarantined"/>
+            <field name="decision"/><field name="dataset_id"/>
+        </list></field>
+    </record>
+    <record id="view_stock_scanner_search" model="ir.ui.view">
+        <field name="name">golok.lab.run.scanner.search</field><field name="model">golok.lab.run</field>
+        <field name="arch" type="xml"><search>
+            <field name="scanner_instrument_id" string="Instrument"/><field name="dataset_id"/>
+            <filter name="nse" string="NSE" domain="[('scanner_exchange','=','NSE')]"/>
+            <filter name="bse" string="BSE" domain="[('scanner_exchange','=','BSE')]"/>
+            <separator/><filter name="gaps" string="Has gaps" domain="[('gap_count','&gt;',0)]"/>
+            <filter name="synthetic" string="Synthetic only" domain="[('origin','=','synthetic')]"/>
+        </search></field>
+    </record>
+    <record id="action_stock_scanner" model="ir.actions.act_window">
+        <field name="name">Historical Stock Scanner</field><field name="res_model">golok.lab.run</field>
+        <field name="view_mode">list,form</field><field name="view_id" ref="view_stock_scanner_list"/>
+        <field name="search_view_id" ref="view_stock_scanner_search"/>
+    </record>
 </odoo>

@@ -12,7 +12,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-if ($SourceDatabase -notmatch '^golok_[a-z0-9_]+$' -or $TargetDatabase -notmatch '^golok_p0[23]_migration_[a-z0-9_]+$') {
+if ($SourceDatabase -notmatch '^golok_[a-z0-9_]+$' -or $TargetDatabase -notmatch '^golok_p0[234]_migration_[a-z0-9_]+$') {
     throw 'Use only disposable test database names.'
 }
 Push-Location (Split-Path $PSScriptRoot -Parent)

@@ -1,5 +1,7 @@
 # Golok AI Trading Lab Pro
 
+P04 adds **Synchronize Historical**, immutable **Sync History**, and a historical scanner opened from **Research Overview**. Fixture mode works without a broker account. For real read-only historical synchronization, see [owner actions](docs/OWNER_ACTION_REQUIRED.md). P04 synthetic ST-01 stops evaluating further sessions after two consecutive net losses, and replay posting requires an exact match to the frozen starting capital.
+
 An Odoo 20 Community add-on for historical NSE and BSE equity research. P03 adds effective-dated reference records, split-session calendar validation, supplemental research, bounded synthetic ST-01 experiments in Odoo, and a virtual historical replay journal. Historical analytical snapshots remain **NO TRADE**.
 
 ## Install and use

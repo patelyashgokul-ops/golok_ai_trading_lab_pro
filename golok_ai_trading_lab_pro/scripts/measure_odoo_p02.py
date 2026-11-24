@@ -11,7 +11,7 @@ from odoo.addons.golok_ai_trading_lab_pro.services import calendar, market_data
 
 
 def run(env):
-    if not env.cr.dbname.startswith(("golok_p02_migration_", "golok_p03_migration_")):
+    if not env.cr.dbname.startswith(("golok_p02_migration_", "golok_p03_migration_", "golok_p04_migration_")):
         raise ValueError("Use the disposable migration harness.")
     available = psutil.virtual_memory().available
     if available < 1024 ** 3:

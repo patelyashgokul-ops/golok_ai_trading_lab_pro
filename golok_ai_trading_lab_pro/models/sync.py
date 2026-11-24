@@ -19,12 +19,13 @@ _ADMIN = "golok_ai_trading_lab_pro.group_admin"
 class ProviderDataset(models.Model):
     _inherit = "golok.lab.dataset"
 
-    origin = fields.Selection(selection_add=[("provider", "SmartAPI history (publication unknown)")],
-                              ondelete={"provider": "restrict"})
-
     @api.model_create_multi
     def create(self, vals_list):
-        if not self.env.su and any(vals.get("origin", self.env.context.get("default_origin")) == "provider" for vals in vals_list):
+        if not self.env.su and any(
+            vals.get("origin", self.env.context.get("default_origin")) == "provider"
+            or str(vals.get("source", self.env.context.get("default_source", ""))).startswith(("SmartAPI fixture mapping ", "SmartAPI live mapping "))
+            for vals in vals_list
+        ):
             raise AccessError(_("Provider datasets must originate from the synchronization service."))
         return super().create(vals_list)
 

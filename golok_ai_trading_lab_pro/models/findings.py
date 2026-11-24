@@ -58,12 +58,25 @@ class ResearchFindings(models.Model):
 class ResearchRun(models.Model):
     _inherit = "golok.lab.run"
 
+    scanner_instrument_id = fields.Many2one(related="dataset_id.instrument_id", store=True, index=True)
+    scanner_exchange = fields.Selection(related="dataset_id.instrument_id.exchange", store=True)
+    scanner_interval = fields.Selection(related="dataset_id.interval", store=True)
+    scanner_quarantined = fields.Boolean(related="dataset_id.quarantined")
+
+    @api.model
+    def scanner_action(self):
+        self.check_access("read")
+        action = self.env["ir.actions.actions"]._for_xml_id("golok_ai_trading_lab_pro.action_stock_scanner")
+        action["domain"] = [("company_id", "=", self.env.company.id)]
+        return action
+
     @api.model
     def overview(self):
         data = super().overview()
         domain = [("company_id", "=", data["company_id"])]
         data["experiments"] = self.env["golok.lab.experiment"].search_count(domain)
         data["paper_accounts"] = self.env["golok.lab.paper.account"].search_count(domain)
+        data["successful_syncs"] = self.env["golok.lab.sync"].search_count([*domain, ("state", "=", "complete")])
         return data
 
     def action_supplemental_findings(self):

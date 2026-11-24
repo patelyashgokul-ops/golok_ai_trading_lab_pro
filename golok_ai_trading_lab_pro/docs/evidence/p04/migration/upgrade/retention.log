@@ -1,0 +1,6 @@
+PASS: upgraded populated clone from 20.0.3.0.0 to 20.0.4.0.0 in 12.9174636 s
+PASS: retained 494 existing XML IDs and record-level hashes with immutable snapshot digests
+candles:33:93d9cb6c3c053509132896fef2920fd1
+datasets:3:ccf07c7310abf58b531abccfd147d617
+instruments:2:7edd806ef0fa129c494bb0ae417ed0fc
+runs:1:45866e9464997312e5f55e52ac71c5de

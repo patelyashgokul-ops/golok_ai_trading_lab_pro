@@ -14,6 +14,7 @@
                 <p t-if="this.state.loading" role="status">Loading research data…</p>
                 <div t-elif="this.state.error" role="alert" class="alert alert-danger">Research data is unavailable. Select Refresh to retry.</div>
                 <t t-elif="this.state.data">
+                    <button class="btn btn-outline-primary mb-3" t-on-click="() => this.openScanner()">Open Historical Stock Scanner</button>
                     <dl class="o_golok_facts mb-3">
                         <div><dt>Current company</dt><dd t-esc="this.state.data.company_name"/></div>
                         <div><dt>Provider</dt><dd>Offline research</dd></div>

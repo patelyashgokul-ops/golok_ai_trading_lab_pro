@@ -1,0 +1,249 @@
+2026-11-24 12:32:34,489 13368 WARNING ? odoo.tools.config: option --without-demo: since 19.0, invalid boolean value: 'all', assume True
+2026-11-24 12:32:34,493 13368 INFO ? odoo: Odoo version 20.0
+2026-11-24 12:32:34,494 13368 INFO ? odoo: Using configuration file at c:\pycharmprojects\odoo20\odoo-20.0\odoo.conf
+2026-11-24 12:32:34,494 13368 INFO ? odoo: addons paths: _NamespacePath(['C:\\PycharmProjects\\odoo20\\odoo-20.0\\odoo\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons\\golok_ai_trading_lab_pro\\.local-test\\p03-addons\\golok_ai_trading_lab_pro\\.local-test\\odoo-data\\addons\\20.0', 'c:\\pycharmprojects\\odoo20\\odoo-20.0\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons\\golok_ai_trading_lab_pro\\.local-test\\p03-addons'])
+2026-11-24 12:32:34,494 13368 INFO ? odoo: database: golok_test@127.0.0.1:55494
+2026-11-24 12:32:36,930 13368 INFO ? odoo.service.server: HTTP service running on 127.0.0.1:18094
+2026-11-24 12:32:36,999 13368 INFO golok_p04_baseline_p03 odoo.tests.common: Importing test framework
+2026-11-24 12:32:37,073 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Initializing database golok_p04_baseline_p03
+2026-11-24 12:32:39,349 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading 1 modules...
+2026-11-24 12:32:39,349 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Loading module base (1/1)
+2026-11-24 12:32:39,394 13368 INFO golok_p04_baseline_p03 odoo.tools.version_tag_reset: Detected tp_versions_used at offset 410, reset enabled
+2026-11-24 12:32:39,395 13368 INFO golok_p04_baseline_p03 odoo.registry: module base: creating or updating database tables
+2026-11-24 12:32:40,066 13368 INFO golok_p04_baseline_p03 odoo.fields: Prepare computation of ir.module.module.menus_by_module in 658 records
+2026-11-24 12:32:40,072 13368 INFO golok_p04_baseline_p03 odoo.fields: Prepare computation of ir.module.module.reports_by_module in 658 records
+2026-11-24 12:32:40,077 13368 INFO golok_p04_baseline_p03 odoo.fields: Prepare computation of ir.module.module.views_by_module in 658 records
+2026-11-24 12:32:40,341 13368 INFO golok_p04_baseline_p03 odoo.fields: Prepare computation of res.partner.user_id in 1 records
+2026-11-24 12:32:40,348 13368 INFO golok_p04_baseline_p03 odoo.fields: Prepare computation of res.partner.commercial_partner_id in 1 records
+2026-11-24 12:32:40,353 13368 INFO golok_p04_baseline_p03 odoo.fields: Prepare computation of res.partner.complete_name in 1 records
+2026-11-24 12:32:40,356 13368 INFO golok_p04_baseline_p03 odoo.fields: Prepare computation of res.partner.lang in 1 records
+2026-11-24 12:32:40,369 13368 INFO golok_p04_baseline_p03 odoo.fields: Prepare computation of res.partner.commercial_company_name in 1 records
+2026-11-24 12:32:40,373 13368 INFO golok_p04_baseline_p03 odoo.fields: Prepare computation of res.partner.properties in 1 records
+2026-11-24 12:32:40,385 13368 INFO golok_p04_baseline_p03 odoo.fields: Prepare computation of res.partner.partner_share in 1 records
+2026-11-24 12:32:40,453 13368 INFO golok_p04_baseline_p03 odoo.fields: Prepare computation of res.currency.decimal_places in 1 records
+2026-11-24 12:32:40,564 13368 INFO golok_p04_baseline_p03 odoo.fields: Prepare computation of res.company.company_details in 1 records
+2026-11-24 12:32:40,573 13368 INFO golok_p04_baseline_p03 odoo.fields: Prepare computation of res.company.uses_default_logo in 1 records
+2026-11-24 12:32:40,580 13368 INFO golok_p04_baseline_p03 odoo.models: Computing parent_path for table res_company...
+2026-11-24 12:32:40,646 13368 INFO golok_p04_baseline_p03 odoo.fields: Prepare computation of res.users.signature in 1 records
+2026-11-24 12:32:40,652 13368 INFO golok_p04_baseline_p03 odoo.fields: Prepare computation of res.users.share in 1 records
+2026-11-24 12:32:44,268 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/data/res.lang.csv
+2026-11-24 12:32:44,346 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/data/res_lang_data.xml
+2026-11-24 12:32:44,440 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/data/res_partner_data.xml
+2026-11-24 12:32:44,653 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/data/res_currency_data.xml
+2026-11-24 12:32:45,703 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/data/res_company_data.xml
+2026-11-24 12:32:45,739 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/data/res_users_data.xml
+2026-11-24 12:32:46,812 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/data/report_paperformat_data.xml
+2026-11-24 12:32:46,824 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/data/res_country_data.xml
+2026-11-24 12:32:48,128 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/data/clearing_label_data.xml
+2026-11-24 12:32:48,178 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/data/ir_demo_data.xml
+2026-11-24 12:32:48,205 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/security/base_groups.xml
+2026-11-24 12:32:48,802 13368 INFO golok_p04_baseline_p03 odoo.addons.base.models.res_users: Group change: user 1 with IP n/a changed groups of user 3 who belonged to [] with changes [(<Command.LINK: 4>, 12, 0)]
+2026-11-24 12:32:48,898 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/wizard/wizard_ir_model_menu_create_views.xml
+2026-11-24 12:32:48,923 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/decimal_precision_views.xml
+2026-11-24 12:32:48,957 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/res_config_views.xml
+2026-11-24 12:32:48,969 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/data/res.country.state.csv
+2026-11-24 12:32:49,686 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/ir_actions_views.xml
+2026-11-24 12:32:49,936 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/ir_asset_views.xml
+2026-11-24 12:32:49,962 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/ir_config_parameter_views.xml
+2026-11-24 12:32:49,999 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/ir_cron_views.xml
+2026-11-24 12:32:50,139 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/ir_cron_trigger_views.xml
+2026-11-24 12:32:50,244 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/ir_filters_views.xml
+2026-11-24 12:32:50,358 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/ir_mail_server_views.xml
+2026-11-24 12:32:50,433 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/ir_model_views.xml
+2026-11-24 12:32:50,723 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/ir_attachment_views.xml
+2026-11-24 12:32:50,766 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/ir_access_views.xml
+2026-11-24 12:32:50,821 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/ir_sequence_views.xml
+2026-11-24 12:32:50,859 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/ir_ui_menu_views.xml
+2026-11-24 12:32:50,895 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/ir_ui_view_views.xml
+2026-11-24 12:32:50,976 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/ir_default_views.xml
+2026-11-24 12:32:51,017 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/data/ir_config_parameter_data.xml
+2026-11-24 12:32:51,023 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/data/ir_cron_data.xml
+2026-11-24 12:32:51,060 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/report/ir_model_report.xml
+2026-11-24 12:32:51,073 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/report/ir_model_templates.xml
+2026-11-24 12:32:51,093 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/ir_logging_views.xml
+2026-11-24 12:32:51,132 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/ir_qweb_widget_templates.xml
+2026-11-24 12:32:51,169 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/ir_module_views.xml
+2026-11-24 12:32:51,262 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/data/ir_module_category_data.xml
+2026-11-24 12:32:51,347 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/data/ir_module_module.xml
+2026-11-24 12:32:51,525 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/report/ir_module_reports.xml
+2026-11-24 12:32:51,533 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/report/ir_module_report_templates.xml
+2026-11-24 12:32:51,542 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/wizard/base_module_update_views.xml
+2026-11-24 12:32:51,555 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/wizard/base_language_install_views.xml
+2026-11-24 12:32:51,576 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/wizard/base_import_language_views.xml
+2026-11-24 12:32:51,590 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/wizard/base_module_upgrade_views.xml
+2026-11-24 12:32:51,616 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/wizard/base_module_uninstall_views.xml
+2026-11-24 12:32:51,627 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/wizard/base_export_language_views.xml
+2026-11-24 12:32:51,639 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/wizard/base_partner_merge_views.xml
+2026-11-24 12:32:51,660 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/data/ir_demo_failure_data.xml
+2026-11-24 12:32:51,687 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/ir_profile_views.xml
+2026-11-24 12:32:51,745 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/res_company_views.xml
+2026-11-24 12:32:51,776 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/res_lang_views.xml
+2026-11-24 12:32:51,809 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/res_partner_views.xml
+2026-11-24 12:32:51,986 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/clearing_label_views.xml
+2026-11-24 12:32:51,994 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/res_partner_bank_views.xml
+2026-11-24 12:32:52,022 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/res_country_views.xml
+2026-11-24 12:32:52,048 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/res_country_group_views.xml
+2026-11-24 12:32:52,064 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/res_country_state_views.xml
+2026-11-24 12:32:52,090 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/res_currency_views.xml
+2026-11-24 12:32:52,141 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/res_groups_views.xml
+2026-11-24 12:32:52,198 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/res_users_views.xml
+2026-11-24 12:32:52,303 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/res_users_apikeys_views.xml
+2026-11-24 12:32:52,309 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/res_device_views.xml
+2026-11-24 12:32:52,340 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/res_users_identitycheck_views.xml
+2026-11-24 12:32:52,349 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/res_config_settings_views.xml
+2026-11-24 12:32:52,357 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/report_paperformat_views.xml
+2026-11-24 12:32:52,373 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/data/ir_action_data.xml
+2026-11-24 12:32:52,384 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/data/website.xml
+2026-11-24 12:32:52,392 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/views/base_menus.xml
+2026-11-24 12:32:52,933 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base/security/ir.access.csv
+2026-11-24 12:32:53,386 13368 INFO golok_p04_baseline_p03 odoo.registry: Registry changed, signaling through the database
+2026-11-24 12:32:53,619 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Module base loaded in 14.27s, 8630 queries (+8630 other)
+2026-11-24 12:32:53,620 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: 1 modules loaded in 14.27s, 8630 queries (+8630 extra)
+2026-11-24 12:32:53,627 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: updating modules list
+2026-11-24 12:32:53,632 13368 INFO golok_p04_baseline_p03 odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via n/a
+2026-11-24 12:32:55,106 13368 INFO golok_p04_baseline_p03 odoo.addons.base.models.ir_module: ALLOW access to module.button_install on ['Golok AI Trading Lab Pro'] to user __system__ #1 via n/a
+2026-11-24 12:32:55,224 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading 17 modules...
+2026-11-24 12:32:55,224 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Loading module base_report_wkhtmltox (2/17)
+2026-11-24 12:32:55,246 13368 INFO golok_p04_baseline_p03 odoo.registry: module base_report_wkhtmltox: creating or updating database tables
+2026-11-24 12:32:55,368 13368 INFO golok_p04_baseline_p03 odoo.registry: Registry changed, signaling through the database
+2026-11-24 12:32:55,375 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Module base_report_wkhtmltox loaded in 0.15s, 44 queries (+44 other)
+2026-11-24 12:32:55,375 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Loading module rpc (3/17)
+2026-11-24 12:32:55,398 13368 INFO golok_p04_baseline_p03 odoo.registry: Caches invalidated, signaling through the database: ['default', 'stable']
+2026-11-24 12:32:55,408 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Module rpc loaded in 0.03s, 12 queries (+12 other)
+2026-11-24 12:32:55,408 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Loading module web (4/17)
+2026-11-24 12:32:55,449 13368 INFO golok_p04_baseline_p03 odoo.registry: module web: creating or updating database tables
+2026-11-24 12:32:56,274 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading web/views/webclient_templates.xml
+2026-11-24 12:32:56,414 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading web/views/report_templates.xml
+2026-11-24 12:32:56,610 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading web/views/base_document_layout_views.xml
+2026-11-24 12:32:56,650 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading web/views/partner_view.xml
+2026-11-24 12:32:56,676 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading web/views/speedscope_template.xml
+2026-11-24 12:32:56,686 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading web/views/memory_template.xml
+2026-11-24 12:32:56,696 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading web/views/speedscope_config_wizard.xml
+2026-11-24 12:32:56,710 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading web/views/neutralize_views.xml
+2026-11-24 12:32:56,726 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading web/views/ir_ui_view_views.xml
+2026-11-24 12:32:56,742 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading web/data/ir_attachment.xml
+2026-11-24 12:32:56,751 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading web/data/report_layout.xml
+2026-11-24 12:32:56,851 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading web/security/ir.access.csv
+2026-11-24 12:32:56,986 13368 INFO golok_p04_baseline_p03 odoo.registry: Registry changed, signaling through the database
+2026-11-24 12:32:57,055 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Module web loaded in 1.65s, 1384 queries (+1384 other)
+2026-11-24 12:32:57,055 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Loading module api_doc (5/17)
+2026-11-24 12:32:57,073 13368 INFO golok_p04_baseline_p03 odoo.registry: module api_doc: creating or updating database tables
+2026-11-24 12:32:57,099 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading api_doc/security/res_groups.xml
+2026-11-24 12:32:57,155 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading api_doc/views/docclient.xml
+2026-11-24 12:32:57,179 13368 INFO golok_p04_baseline_p03 odoo.registry: Registry changed, signaling through the database
+2026-11-24 12:32:57,187 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Module api_doc loaded in 0.13s, 88 queries (+88 other)
+2026-11-24 12:32:57,187 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Loading module auth_totp (6/17)
+2026-11-24 12:32:57,251 13368 INFO golok_p04_baseline_p03 odoo.registry: module auth_totp: creating or updating database tables
+2026-11-24 12:32:57,420 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading auth_totp/data/ir_action_data.xml
+2026-11-24 12:32:57,444 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading auth_totp/views/res_users_views.xml
+2026-11-24 12:32:57,513 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading auth_totp/views/templates.xml
+2026-11-24 12:32:57,527 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading auth_totp/wizard/auth_totp_wizard_views.xml
+2026-11-24 12:32:57,541 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading auth_totp/security/ir.access.csv
+2026-11-24 12:32:57,624 13368 INFO golok_p04_baseline_p03 odoo.registry: Registry changed, signaling through the database
+2026-11-24 12:32:57,640 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Module auth_totp loaded in 0.45s, 208 queries (+208 other)
+2026-11-24 12:32:57,640 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Loading module base_import (7/17)
+2026-11-24 12:32:57,699 13368 INFO golok_p04_baseline_p03 odoo.registry: module base_import: creating or updating database tables
+2026-11-24 12:32:58,526 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base_import/security/ir.access.csv
+2026-11-24 12:32:58,682 13368 INFO golok_p04_baseline_p03 odoo.registry: Registry changed, signaling through the database
+2026-11-24 12:32:58,685 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Module base_import loaded in 1.05s, 1123 queries (+1123 other)
+2026-11-24 12:32:58,685 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Loading module base_import_module (8/17)
+2026-11-24 12:32:58,716 13368 INFO golok_p04_baseline_p03 odoo.registry: module base_import_module: creating or updating database tables
+2026-11-24 12:32:58,840 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base_import_module/views/base_import_module_view.xml
+2026-11-24 12:32:58,891 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base_import_module/views/ir_module_views.xml
+2026-11-24 12:32:58,954 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base_import_module/security/ir.access.csv
+2026-11-24 12:32:58,986 13368 INFO golok_p04_baseline_p03 odoo.registry: Registry changed, signaling through the database
+2026-11-24 12:32:58,992 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Module base_import_module loaded in 0.31s, 172 queries (+172 other)
+2026-11-24 12:32:58,992 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Loading module base_setup (9/17)
+2026-11-24 12:32:59,015 13368 INFO golok_p04_baseline_p03 odoo.registry: module base_setup: creating or updating database tables
+2026-11-24 12:32:59,088 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base_setup/data/base_setup_data.xml
+2026-11-24 12:32:59,095 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base_setup/views/res_config_settings_views.xml
+2026-11-24 12:32:59,156 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading base_setup/views/res_partner_views.xml
+2026-11-24 12:32:59,188 13368 INFO golok_p04_baseline_p03 odoo.registry: Registry changed, signaling through the database
+2026-11-24 12:32:59,199 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Module base_setup loaded in 0.21s, 154 queries (+154 other)
+2026-11-24 12:32:59,199 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Loading module bus (10/17)
+2026-11-24 12:32:59,269 13368 INFO golok_p04_baseline_p03 odoo.registry: module bus: creating or updating database tables
+2026-11-24 12:32:59,407 13368 INFO golok_p04_baseline_p03 odoo.registry: Registry changed, signaling through the database
+2026-11-24 12:32:59,446 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Module bus loaded in 0.25s, 128 queries (+128 other)
+2026-11-24 12:32:59,446 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Loading module golok_ai_trading_lab_pro (11/17)
+2026-11-24 12:32:59,572 13368 INFO golok_p04_baseline_p03 odoo.registry: module golok_ai_trading_lab_pro: creating or updating database tables
+2026-11-24 12:33:00,636 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading golok_ai_trading_lab_pro/security/groups.xml
+2026-11-24 12:33:00,738 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading golok_ai_trading_lab_pro/security/ir.access.csv
+2026-11-24 12:33:00,855 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading golok_ai_trading_lab_pro/views/lab.xml
+2026-11-24 12:33:01,143 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p03.xml
+2026-11-24 12:33:01,540 13368 INFO golok_p04_baseline_p03 odoo.registry: Registry changed, signaling through the database
+2026-11-24 12:33:01,756 13368 INFO golok_p04_baseline_p03 odoo.addons.base.models.res_users: Group change: user 1 with IP n/a changed groups of user 1 who belonged to [10, 9, 5, 15] with changes [(<Command.LINK: 4>, 6, 0)]
+2026-11-24 12:33:01,906 13368 INFO golok_p04_baseline_p03 odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_database_duplicate_constraint ...
+2026-11-24 12:33:01,974 13368 ERROR golok_p04_baseline_p03 odoo.sql_db: bad query: b'INSERT INTO "golok_lab_candle" ("available_at", "close_price", "close_time", "create_date", "create_uid", "dataset_id", "high_price", "ingested_at", "low_price", "open_price", "open_time", "processing_version", "quality", "volume", "write_date", "write_uid") VALUES (NULL, \'101\', \'2024-01-02T03:50:00\'::timestamp, \'2026-11-24T12:33:01.637123\'::timestamp, 1, 1, \'103\', \'2026-11-24T12:33:01\'::timestamp, \'99\', \'100\', NULL, \'1\', \'validated\', 100, \'2026-11-24T12:33:01.637123\'::timestamp, 1) RETURNING "id"'
+ERROR: duplicate key value violates unique constraint "golok_lab_candle_unique_bar"
+DETAIL:  Key (dataset_id, close_time)=(1, 2024-01-02 03:50:00) already exists.
+
+2026-11-24 12:33:01,976 13368 INFO golok_p04_baseline_p03 odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_gap_disables_findings ...
+2026-11-24 12:33:02,019 13368 INFO golok_p04_baseline_p03 odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_import_retry_and_atomic_conflict ...
+2026-11-24 12:33:02,096 13368 INFO golok_p04_baseline_p03 odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_p03_job_worker_and_immutable_corporate_source ...
+2026-11-24 12:33:02,200 13368 INFO golok_p04_baseline_p03 odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_p03_mapping_date_scope_and_database_exclusions ...
+2026-11-24 12:33:02,227 13368 ERROR golok_p04_baseline_p03 odoo.sql_db: bad query: b'INSERT INTO "golok_lab_mapping" ("company_id", "create_date", "create_uid", "ends", "exchange", "instrument_id", "listing_status", "lot", "provider", "revision", "segment", "source", "starts", "symbol", "tick", "token", "verification", "write_date", "write_uid") VALUES (1, \'2026-11-24T12:33:01.637123\'::timestamp, 5, \'2024-01-04\'::date, \'NSE\', 1, \'listed\', 1, \'manual\', \'v1\', \'equity\', \'Synthetic reference\', \'2024-01-02\'::date, \'CHANGED\', \'0.05\', \'100\', \'fixture\', \'2026-11-24T12:33:01.637123\'::timestamp, 5) RETURNING "id"'
+ERROR: conflicting key value violates exclusion constraint "golok_lab_mapping_token_overlap"
+DETAIL:  Key (company_id, exchange, provider, token, daterange(starts, ends, '[)'::text))=(1, NSE, manual, 100, [2024-01-02,2024-01-04)) conflicts with existing key (company_id, exchange, provider, token, daterange(starts, ends, '[)'::text))=(1, NSE, manual, 100, [2024-01-01,2024-01-03)).
+
+2026-11-24 12:33:02,276 13368 INFO golok_p04_baseline_p03 odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_p03_supplemental_findings_and_offline_provider_setup ...
+2026-11-24 12:33:02,390 13368 INFO golok_p04_baseline_p03 odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_p03_synthetic_workflow_and_reproducible_immutable_results ...
+2026-11-24 12:33:02,626 13368 INFO golok_p04_baseline_p03 odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_permissions_and_company_scope ...
+2026-11-24 12:33:02,678 13368 INFO golok_p04_baseline_p03 odoo.addons.base.models.ir_access: Access Denied for operation: read on record ids: [2], uid: 7, model: golok.lab.dataset
+2026-11-24 12:33:02,708 13368 INFO golok_p04_baseline_p03 odoo.addons.base.models.ir_access: Access Denied for operation: write on record ids: [2], uid: 6, model: golok.lab.dataset
+2026-11-24 12:33:02,719 13368 INFO golok_p04_baseline_p03 odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_point_in_time_calendar_quarantine_and_chart ...
+2026-11-24 12:33:02,812 13368 INFO golok_p04_baseline_p03 odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_research_cutoff_evidence_and_no_trade ...
+2026-11-24 12:33:02,892 13368 INFO golok_p04_baseline_p03 odoo.addons.base.models.ir_attachment: filestore gc 14 checked, 3 removed
+2026-11-24 12:33:02,901 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Module golok_ai_trading_lab_pro loaded in 3.45s (incl. 1.33s test), 1331 queries (+639 test, +1331 other)
+2026-11-24 12:33:02,902 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Loading module mysubscription (12/17)
+2026-11-24 12:33:02,919 13368 INFO golok_p04_baseline_p03 odoo.registry: module mysubscription: creating or updating database tables
+2026-11-24 12:33:02,941 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading mysubscription/views/menus.xml
+2026-11-24 12:33:02,990 13368 INFO golok_p04_baseline_p03 odoo.registry: Registry changed, signaling through the database
+2026-11-24 12:33:02,992 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Module mysubscription loaded in 0.09s, 30 queries (+30 other)
+2026-11-24 12:33:02,992 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Loading module web_tour (13/17)
+2026-11-24 12:33:03,021 13368 INFO golok_p04_baseline_p03 odoo.registry: module web_tour: creating or updating database tables
+2026-11-24 12:33:03,040 13368 INFO golok_p04_baseline_p03 odoo.fields: Prepare computation of res.users.tour_enabled in 4 records
+2026-11-24 12:33:03,230 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading web_tour/views/tour_views.xml
+2026-11-24 12:33:03,369 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading web_tour/security/ir.access.csv
+2026-11-24 12:33:03,439 13368 INFO golok_p04_baseline_p03 odoo.registry: Registry changed, signaling through the database
+2026-11-24 12:33:03,448 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Module web_tour loaded in 0.46s, 206 queries (+206 other)
+2026-11-24 12:33:03,448 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Loading module auth_passkey (14/17)
+2026-11-24 12:33:03,587 13368 INFO golok_p04_baseline_p03 odoo.registry: module auth_passkey: creating or updating database tables
+2026-11-24 12:33:03,694 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading auth_passkey/views/auth_passkey_key_views.xml
+2026-11-24 12:33:03,738 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading auth_passkey/views/auth_passkey_login_templates.xml
+2026-11-24 12:33:03,758 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading auth_passkey/views/res_users_identitycheck_views.xml
+2026-11-24 12:33:03,774 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading auth_passkey/views/res_users_views.xml
+2026-11-24 12:33:03,807 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading auth_passkey/security/ir.access.csv
+2026-11-24 12:33:03,862 13368 INFO golok_p04_baseline_p03 odoo.registry: Registry changed, signaling through the database
+2026-11-24 12:33:03,869 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Module auth_passkey loaded in 0.42s, 214 queries (+214 other)
+2026-11-24 12:33:03,869 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Loading module html_editor (15/17)
+2026-11-24 12:33:04,224 13368 WARNING golok_p04_baseline_p03 odoo.addons.mail.controllers.attachment: markdown2 is not installed, markdown will not be rendered
+2026-11-24 12:33:04,351 13368 INFO golok_p04_baseline_p03 odoo.registry: module html_editor: creating or updating database tables
+2026-11-24 12:33:05,174 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading html_editor/security/ir.access.csv
+2026-11-24 12:33:05,369 13368 INFO golok_p04_baseline_p03 odoo.registry: Registry changed, signaling through the database
+2026-11-24 12:33:05,384 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Module html_editor loaded in 1.51s, 1416 queries (+1416 other)
+2026-11-24 12:33:05,384 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Loading module iap (16/17)
+2026-11-24 12:33:05,394 13368 INFO golok_p04_baseline_p03 odoo.registry: module iap: creating or updating database tables
+2026-11-24 12:33:05,538 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading iap/data/services.xml
+2026-11-24 12:33:05,545 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading iap/views/iap_views.xml
+2026-11-24 12:33:05,596 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading iap/views/res_config_settings.xml
+2026-11-24 12:33:05,613 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading iap/views/res_users_views.xml
+2026-11-24 12:33:05,621 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading iap/security/ir.access.csv
+2026-11-24 12:33:05,662 13368 INFO golok_p04_baseline_p03 odoo.registry: Registry changed, signaling through the database
+2026-11-24 12:33:05,668 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Module iap loaded in 0.28s, 238 queries (+238 other)
+2026-11-24 12:33:05,668 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Loading module web_unsplash (17/17)
+2026-11-24 12:33:05,691 13368 INFO golok_p04_baseline_p03 odoo.registry: module web_unsplash: creating or updating database tables
+2026-11-24 12:33:05,738 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: loading web_unsplash/views/res_config_settings_view.xml
+2026-11-24 12:33:05,791 13368 INFO golok_p04_baseline_p03 odoo.registry: Registry changed, signaling through the database
+2026-11-24 12:33:05,799 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Module web_unsplash loaded in 0.13s, 100 queries (+100 other)
+2026-11-24 12:33:05,799 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: 17 modules loaded in 10.58s, 6848 queries (+7487 extra)
+2026-11-24 12:33:06,470 13368 INFO golok_p04_baseline_p03 odoo.modules.loading: Modules loaded.
+2026-11-24 12:33:06,477 13368 INFO golok_p04_baseline_p03 odoo.registry: Registry changed, signaling through the database
+2026-11-24 12:33:06,484 13368 INFO golok_p04_baseline_p03 odoo.registry: Registry loaded in 29.547s
+2026-11-24 12:33:06,485 13368 INFO golok_p04_baseline_p03 odoo.service.server: Starting post tests
+2026-11-24 12:33:06,511 13368 INFO golok_p04_baseline_p03 odoo.service.server: 0 post-tests in 0.03s, 0 queries
+2026-11-24 12:33:06,511 13368 INFO golok_p04_baseline_p03 odoo.tests.stats: golok_ai_trading_lab_pro: 12 tests 1.32s 639 queries
+2026-11-24 12:33:06,511 13368 INFO golok_p04_baseline_p03 odoo.tests.result: 0 failed, 0 error(s) of 10 tests when loading database 'golok_p04_baseline_p03'
+2026-11-24 12:33:06,511 13368 INFO golok_p04_baseline_p03 odoo.service.server.ThreadedServer: Initiating shutdown
+2026-11-24 12:33:06,511 13368 INFO golok_p04_baseline_p03 odoo.service.server.ThreadedServer: Hit CTRL-C again or send a second signal to force the shutdown.
+2026-11-24 12:33:06,512 13368 INFO golok_p04_baseline_p03 odoo.addons.bus.websocket: Disconnecting 0 websockets
+2026-11-24 12:33:06,622 13368 INFO golok_p04_baseline_p03 odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 2 connections 

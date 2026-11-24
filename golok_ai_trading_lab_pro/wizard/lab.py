@@ -18,7 +18,7 @@ class ImportCandles(models.TransientModel):
         self.ensure_one()
         self.check_access("read")
         self.dataset_id.check_access("write")
-        if self.dataset_id.origin == "provider":
+        if self.dataset_id.origin == "provider" or self.dataset_id.source.startswith("SmartAPI fixture mapping "):
             raise ValidationError(_("Provider data can only be added by the synchronization service."))
         try:
             if not self.upload or self.upload.size > market_data.MAX_BYTES:

@@ -131,6 +131,12 @@ def verify(base_url, database, edge):
         page.get_by_role("button", name="Virtual replay accounts 0").click()
         expect(page.locator(".o_list_view")).to_be_visible()
         print("UI-08 company experiment and virtual-account cards opened their native lists", flush=True)
+        page.goto(f"{base_url}/odoo/action-{action_id}")
+        expect(page.get_by_role("button", name="Successful historical syncs 0")).to_be_visible()
+        page.get_by_role("button", name="Open Historical Stock Scanner").click()
+        expect(page.locator(".o_list_view")).to_contain_text("Browser Equity")
+        expect(page.locator(".o_list_view")).to_contain_text("NO TRADE")
+        print("UI-09 historical scanner opens with instrument, company data and NO TRADE", flush=True)
         browser.close()
 
 

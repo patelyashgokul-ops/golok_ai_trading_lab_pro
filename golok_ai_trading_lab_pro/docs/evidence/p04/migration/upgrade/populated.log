@@ -1,0 +1,42 @@
+2026-11-24 12:37:04,090 20476 INFO ? odoo: Odoo version 20.0
+2026-11-24 12:37:04,091 20476 INFO ? odoo: Using configuration file at c:\pycharmprojects\odoo20\odoo-20.0\odoo.conf
+2026-11-24 12:37:04,091 20476 INFO ? odoo: addons paths: _NamespacePath(['C:\\PycharmProjects\\odoo20\\odoo-20.0\\odoo\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons\\golok_ai_trading_lab_pro\\.local-test\\odoo-data\\addons\\20.0', 'c:\\pycharmprojects\\odoo20\\odoo-20.0\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons'])
+2026-11-24 12:37:04,091 20476 INFO ? odoo: database: golok_test@127.0.0.1:55494
+2026-11-24 12:37:06,734 20476 INFO golok_p04_migration_p03 odoo.modules.loading: loading 1 modules...
+2026-11-24 12:37:06,746 20476 INFO golok_p04_migration_p03 odoo.modules.loading: 1 modules loaded in 0.01s, 0 queries (+0 extra)
+2026-11-24 12:37:06,821 20476 INFO golok_p04_migration_p03 odoo.tools.version_tag_reset: Detected tp_versions_used at offset 410, reset enabled
+2026-11-24 12:37:06,822 20476 INFO golok_p04_migration_p03 odoo.modules.loading: updating modules list
+2026-11-24 12:37:06,829 20476 INFO golok_p04_migration_p03 odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via n/a
+2026-11-24 12:37:08,749 20476 WARNING golok_p04_migration_p03 odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-24 12:37:08,751 20476 WARNING golok_p04_migration_p03 odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-24 12:37:08,867 20476 WARNING golok_p04_migration_p03 odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-24 12:37:08,867 20476 WARNING golok_p04_migration_p03 odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-24 12:37:08,868 20476 WARNING golok_p04_migration_p03 odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-24 12:37:08,868 20476 WARNING golok_p04_migration_p03 odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-24 12:37:09,023 20476 INFO golok_p04_migration_p03 odoo.addons.base.models.ir_module: ALLOW access to module.button_upgrade on ['Golok AI Trading Lab Pro'] to user __system__ #1 via n/a
+2026-11-24 12:37:09,023 20476 INFO golok_p04_migration_p03 odoo.addons.base.models.ir_module: ALLOW access to module.update_list on ['Golok AI Trading Lab Pro'] to user __system__ #1 via n/a
+2026-11-24 12:37:10,316 20476 WARNING golok_p04_migration_p03 odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-24 12:37:10,381 20476 WARNING golok_p04_migration_p03 odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-24 12:37:10,381 20476 WARNING golok_p04_migration_p03 odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-24 12:37:10,470 20476 INFO golok_p04_migration_p03 odoo.addons.base.models.ir_module: ALLOW access to module.button_install on [] to user __system__ #1 via n/a
+2026-11-24 12:37:10,579 20476 INFO golok_p04_migration_p03 odoo.modules.loading: loading 17 modules...
+2026-11-24 12:37:10,799 20476 INFO golok_p04_migration_p03 odoo.modules.loading: Loading module golok_ai_trading_lab_pro (11/17)
+2026-11-24 12:37:11,068 20476 INFO golok_p04_migration_p03 odoo.registry: module golok_ai_trading_lab_pro: creating or updating database tables
+2026-11-24 12:37:11,112 20476 INFO golok_p04_migration_p03 odoo.fields: Prepare computation of golok.lab.run.scanner_exchange in 1 records
+2026-11-24 12:37:11,532 20476 INFO golok_p04_migration_p03 odoo.modules.loading: loading golok_ai_trading_lab_pro/security/groups.xml
+2026-11-24 12:37:11,769 20476 INFO golok_p04_migration_p03 odoo.modules.loading: loading golok_ai_trading_lab_pro/security/ir.access.csv
+2026-11-24 12:37:12,064 20476 INFO golok_p04_migration_p03 odoo.modules.loading: loading golok_ai_trading_lab_pro/views/lab.xml
+2026-11-24 12:37:12,335 20476 INFO golok_p04_migration_p03 odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p03.xml
+2026-11-24 12:37:12,691 20476 INFO golok_p04_migration_p03 odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p04.xml
+2026-11-24 12:37:12,826 20476 INFO golok_p04_migration_p03 odoo.registry: Registry changed, signaling through the database
+2026-11-24 12:37:12,829 20476 INFO golok_p04_migration_p03 odoo.modules.loading: Module golok_ai_trading_lab_pro loaded in 2.03s, 1165 queries (+1165 other)
+2026-11-24 12:37:13,326 20476 WARNING golok_p04_migration_p03 odoo.addons.mail.controllers.attachment: markdown2 is not installed, markdown will not be rendered
+2026-11-24 12:37:13,392 20476 INFO golok_p04_migration_p03 odoo.modules.loading: 17 modules loaded in 2.81s, 1165 queries (+1165 extra)
+2026-11-24 12:37:13,729 20476 INFO golok_p04_migration_p03 odoo.registry: verifying fields for every extended model
+2026-11-24 12:37:14,310 20476 INFO golok_p04_migration_p03 odoo.modules.loading: Modules loaded.
+2026-11-24 12:37:14,318 20476 INFO golok_p04_migration_p03 odoo.registry: Registry changed, signaling through the database
+2026-11-24 12:37:14,322 20476 INFO golok_p04_migration_p03 odoo.registry: Registry loaded in 7.729s
+2026-11-24 12:37:14,323 20476 INFO golok_p04_migration_p03 odoo.service.server.ThreadedServer: Initiating shutdown
+2026-11-24 12:37:14,323 20476 INFO golok_p04_migration_p03 odoo.service.server.ThreadedServer: Hit CTRL-C again or send a second signal to force the shutdown.
+2026-11-24 12:37:14,323 20476 INFO golok_p04_migration_p03 odoo.addons.bus.websocket: Disconnecting 0 websockets
+2026-11-24 12:37:14,435 20476 INFO golok_p04_migration_p03 odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 1 connections 

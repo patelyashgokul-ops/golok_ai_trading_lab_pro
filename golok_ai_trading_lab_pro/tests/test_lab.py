@@ -247,7 +247,7 @@ class TestLab(TransactionCase):
         with self.assertRaises(ValidationError):
             accounts.create({"name": "Forged", "available_paise": 1})
         tiny = accounts.create({"name": "Insufficient fixture cash", "initial_deposit": "1.00"})
-        with self.assertRaises(ValidationError):
+        with self.assertRaisesRegex(ValidationError, "Frozen starting capital"):
             tiny._post_replay(experiment)
         self.assertEqual(tiny.available_paise, 100)
         self.assertFalse(self.env["golok.lab.paper.batch"].search([("account_id", "=", tiny.id)]))
@@ -296,3 +296,38 @@ class TestLab(TransactionCase):
         self.assertEqual(job.run_id.decision, "no_trade")
         self.assertEqual(rejected.state, "cancelled")
         self.assertEqual(job.requested_by, self.analyst)
+
+    def test_p04_fixture_sync_atomic_viewable_and_idempotent(self):
+        mapping = self.env["golok.lab.mapping"].with_user(self.admin).create({
+            "instrument_id": self.instrument.id, "symbol": self.instrument.symbol, "provider": "smartapi",
+            "token": "123", "starts": "2024-01-02", "ends": "2024-01-03", "tick": "0.05", "lot": 1,
+            "listing_status": "listed", "source": "Synthetic source", "revision": "fixture", "verification": "fixture",
+        })
+        revision = self.env["golok.lab.calendar"].with_user(self.admin).create({
+            "name": "Sync fixture", "source": "Synthetic fixture", "exchange": "NSE", "verification": "fixture",
+            "verified_on": "2024-01-02", "schedule": json.dumps([{
+                "date": "2024-01-02", "kind": "regular", "open": "09:15", "close": "09:25",
+                "entry_cutoff": "09:20", "exit_cutoff": "09:25"}]),
+        })
+        model = self.env["golok.lab.sync.wizard"].with_user(self.admin)
+        reports = self.env["golok.lab.sync"].with_user(self.viewer)
+        vals = {"mapping_id": mapping.id, "calendar_id": revision.id, "day": "2024-01-02", "interval": "5m"}
+        rows = [["2024-01-02T09:15:00+05:30", 100, 103, 99, 100, 10],
+                ["2024-01-02T09:20:00+05:30", 100, 103, 99, 101, 20]]
+
+        def submit(response, **extra):
+            action = model.create({**vals, **extra, "fixture_rows": json.dumps(response)}).action_sync()
+            return reports.browse(action["res_id"])
+
+        for malformed in ([], rows[:1], [rows[0], rows[0]], [rows[0], ["bad"]]):
+            self.assertEqual(submit(malformed).state, "rejected")
+        first = submit(rows)
+        self.assertEqual((first.state, first.count, first.inserted, first.dataset_id.origin), ("complete", 2, 2, "synthetic"))
+        self.assertEqual(submit(rows).inserted, 0)
+        self.assertEqual(submit([rows[0], [*rows[1][:-1], 21]]).state, "rejected")
+        self.assertEqual(submit(rows, day="2024-01-03").state, "rejected")
+        self.assertEqual(self.env["golok.lab.candle"].search_count([("dataset_id", "=", first.dataset_id.id)]), 2)
+        with self.assertRaises(AccessError):
+            model.with_user(self.analyst).create(vals)
+        with self.assertRaises(AccessError):
+            self.env["golok.lab.dataset"].with_user(self.analyst).create({"origin": "provider"})

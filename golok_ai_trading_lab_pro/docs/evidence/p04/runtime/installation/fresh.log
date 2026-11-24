@@ -1,0 +1,230 @@
+2026-11-24 12:35:39,836 18984 WARNING ? odoo.tools.config: option --without-demo: since 19.0, invalid boolean value: 'all', assume True
+2026-11-24 12:35:39,837 18984 INFO ? odoo: Odoo version 20.0
+2026-11-24 12:35:39,838 18984 INFO ? odoo: Using configuration file at c:\pycharmprojects\odoo20\odoo-20.0\odoo.conf
+2026-11-24 12:35:39,838 18984 INFO ? odoo: addons paths: _NamespacePath(['C:\\PycharmProjects\\odoo20\\odoo-20.0\\odoo\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons\\golok_ai_trading_lab_pro\\.local-test\\odoo-data\\addons\\20.0', 'c:\\pycharmprojects\\odoo20\\odoo-20.0\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons'])
+2026-11-24 12:35:39,838 18984 INFO ? odoo: database: golok_test@127.0.0.1:55489
+2026-11-24 12:35:42,918 18984 INFO ? odoo.service.server: HTTP service running on 127.0.0.1:18088
+2026-11-24 12:35:42,958 18984 INFO golok_p04_fixture odoo.tests.common: Importing test framework
+2026-11-24 12:35:43,047 18984 INFO golok_p04_fixture odoo.modules.loading: Initializing database golok_p04_fixture
+2026-11-24 12:35:45,143 18984 WARNING golok_p04_fixture odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-24 12:35:45,146 18984 WARNING golok_p04_fixture odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-24 12:35:45,246 18984 WARNING golok_p04_fixture odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-24 12:35:45,246 18984 WARNING golok_p04_fixture odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-24 12:35:45,247 18984 WARNING golok_p04_fixture odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-24 12:35:45,247 18984 WARNING golok_p04_fixture odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-24 12:35:45,438 18984 INFO golok_p04_fixture odoo.modules.loading: loading 1 modules...
+2026-11-24 12:35:45,438 18984 INFO golok_p04_fixture odoo.modules.loading: Loading module base (1/1)
+2026-11-24 12:35:45,477 18984 INFO golok_p04_fixture odoo.tools.version_tag_reset: Detected tp_versions_used at offset 410, reset enabled
+2026-11-24 12:35:45,478 18984 INFO golok_p04_fixture odoo.registry: module base: creating or updating database tables
+2026-11-24 12:35:46,335 18984 INFO golok_p04_fixture odoo.fields: Prepare computation of ir.module.module.menus_by_module in 664 records
+2026-11-24 12:35:46,339 18984 INFO golok_p04_fixture odoo.fields: Prepare computation of ir.module.module.reports_by_module in 664 records
+2026-11-24 12:35:46,343 18984 INFO golok_p04_fixture odoo.fields: Prepare computation of ir.module.module.views_by_module in 664 records
+2026-11-24 12:35:46,575 18984 INFO golok_p04_fixture odoo.fields: Prepare computation of res.partner.user_id in 1 records
+2026-11-24 12:35:46,580 18984 INFO golok_p04_fixture odoo.fields: Prepare computation of res.partner.commercial_partner_id in 1 records
+2026-11-24 12:35:46,582 18984 INFO golok_p04_fixture odoo.fields: Prepare computation of res.partner.complete_name in 1 records
+2026-11-24 12:35:46,585 18984 INFO golok_p04_fixture odoo.fields: Prepare computation of res.partner.lang in 1 records
+2026-11-24 12:35:46,594 18984 INFO golok_p04_fixture odoo.fields: Prepare computation of res.partner.commercial_company_name in 1 records
+2026-11-24 12:35:46,596 18984 INFO golok_p04_fixture odoo.fields: Prepare computation of res.partner.properties in 1 records
+2026-11-24 12:35:46,604 18984 INFO golok_p04_fixture odoo.fields: Prepare computation of res.partner.partner_share in 1 records
+2026-11-24 12:35:46,662 18984 INFO golok_p04_fixture odoo.fields: Prepare computation of res.currency.decimal_places in 1 records
+2026-11-24 12:35:46,739 18984 INFO golok_p04_fixture odoo.fields: Prepare computation of res.company.company_details in 1 records
+2026-11-24 12:35:46,746 18984 INFO golok_p04_fixture odoo.fields: Prepare computation of res.company.uses_default_logo in 1 records
+2026-11-24 12:35:46,750 18984 INFO golok_p04_fixture odoo.models: Computing parent_path for table res_company...
+2026-11-24 12:35:46,819 18984 INFO golok_p04_fixture odoo.fields: Prepare computation of res.users.signature in 1 records
+2026-11-24 12:35:46,822 18984 INFO golok_p04_fixture odoo.fields: Prepare computation of res.users.share in 1 records
+2026-11-24 12:35:52,203 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/data/res.lang.csv
+2026-11-24 12:35:52,282 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/data/res_lang_data.xml
+2026-11-24 12:35:52,390 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/data/res_partner_data.xml
+2026-11-24 12:35:52,603 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/data/res_currency_data.xml
+2026-11-24 12:35:53,558 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/data/res_company_data.xml
+2026-11-24 12:35:53,596 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/data/res_users_data.xml
+2026-11-24 12:35:54,726 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/data/report_paperformat_data.xml
+2026-11-24 12:35:54,740 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/data/res_country_data.xml
+2026-11-24 12:35:55,418 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/data/clearing_label_data.xml
+2026-11-24 12:35:55,447 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/data/ir_demo_data.xml
+2026-11-24 12:35:55,463 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/security/base_groups.xml
+2026-11-24 12:35:55,855 18984 INFO golok_p04_fixture odoo.addons.base.models.res_users: Group change: user 1 with IP n/a changed groups of user 3 who belonged to [] with changes [(<Command.LINK: 4>, 12, 0)]
+2026-11-24 12:35:56,090 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/wizard/wizard_ir_model_menu_create_views.xml
+2026-11-24 12:35:56,129 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/decimal_precision_views.xml
+2026-11-24 12:35:56,182 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/res_config_views.xml
+2026-11-24 12:35:56,195 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/data/res.country.state.csv
+2026-11-24 12:35:57,373 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/ir_actions_views.xml
+2026-11-24 12:35:57,595 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/ir_asset_views.xml
+2026-11-24 12:35:57,629 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/ir_config_parameter_views.xml
+2026-11-24 12:35:57,659 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/ir_cron_views.xml
+2026-11-24 12:35:57,701 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/ir_cron_trigger_views.xml
+2026-11-24 12:35:57,727 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/ir_filters_views.xml
+2026-11-24 12:35:57,759 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/ir_mail_server_views.xml
+2026-11-24 12:35:57,785 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/ir_model_views.xml
+2026-11-24 12:35:57,903 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/ir_attachment_views.xml
+2026-11-24 12:35:57,930 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/ir_access_views.xml
+2026-11-24 12:35:57,969 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/ir_sequence_views.xml
+2026-11-24 12:35:57,997 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/ir_ui_menu_views.xml
+2026-11-24 12:35:58,021 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/ir_ui_view_views.xml
+2026-11-24 12:35:58,083 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/ir_default_views.xml
+2026-11-24 12:35:58,110 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/data/ir_config_parameter_data.xml
+2026-11-24 12:35:58,114 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/data/ir_cron_data.xml
+2026-11-24 12:35:58,143 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/report/ir_model_report.xml
+2026-11-24 12:35:58,149 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/report/ir_model_templates.xml
+2026-11-24 12:35:58,163 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/ir_logging_views.xml
+2026-11-24 12:35:58,190 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/ir_qweb_widget_templates.xml
+2026-11-24 12:35:58,221 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/ir_module_views.xml
+2026-11-24 12:35:58,285 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/data/ir_module_category_data.xml
+2026-11-24 12:35:58,337 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/data/ir_module_module.xml
+2026-11-24 12:35:58,427 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/report/ir_module_reports.xml
+2026-11-24 12:35:58,431 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/report/ir_module_report_templates.xml
+2026-11-24 12:35:58,442 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/wizard/base_module_update_views.xml
+2026-11-24 12:35:58,452 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/wizard/base_language_install_views.xml
+2026-11-24 12:35:58,465 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/wizard/base_import_language_views.xml
+2026-11-24 12:35:58,478 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/wizard/base_module_upgrade_views.xml
+2026-11-24 12:35:58,497 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/wizard/base_module_uninstall_views.xml
+2026-11-24 12:35:58,510 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/wizard/base_export_language_views.xml
+2026-11-24 12:35:58,525 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/wizard/base_partner_merge_views.xml
+2026-11-24 12:35:58,544 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/data/ir_demo_failure_data.xml
+2026-11-24 12:35:58,570 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/ir_profile_views.xml
+2026-11-24 12:35:58,636 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/res_company_views.xml
+2026-11-24 12:35:58,669 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/res_lang_views.xml
+2026-11-24 12:35:58,693 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/res_partner_views.xml
+2026-11-24 12:35:58,866 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/clearing_label_views.xml
+2026-11-24 12:35:58,875 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/res_partner_bank_views.xml
+2026-11-24 12:35:58,897 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/res_country_views.xml
+2026-11-24 12:35:58,918 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/res_country_group_views.xml
+2026-11-24 12:35:58,931 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/res_country_state_views.xml
+2026-11-24 12:35:58,951 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/res_currency_views.xml
+2026-11-24 12:35:58,997 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/res_groups_views.xml
+2026-11-24 12:35:59,063 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/res_users_views.xml
+2026-11-24 12:35:59,228 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/res_users_apikeys_views.xml
+2026-11-24 12:35:59,240 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/res_device_views.xml
+2026-11-24 12:35:59,290 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/res_users_identitycheck_views.xml
+2026-11-24 12:35:59,299 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/res_config_settings_views.xml
+2026-11-24 12:35:59,313 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/report_paperformat_views.xml
+2026-11-24 12:35:59,347 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/data/ir_action_data.xml
+2026-11-24 12:35:59,365 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/data/website.xml
+2026-11-24 12:35:59,382 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/views/base_menus.xml
+2026-11-24 12:35:59,844 18984 INFO golok_p04_fixture odoo.modules.loading: loading base/security/ir.access.csv
+2026-11-24 12:36:00,479 18984 INFO golok_p04_fixture odoo.registry: Registry changed, signaling through the database
+2026-11-24 12:36:01,303 18984 INFO golok_p04_fixture odoo.modules.loading: Module base loaded in 15.86s, 8630 queries (+8630 other)
+2026-11-24 12:36:01,304 18984 INFO golok_p04_fixture odoo.modules.loading: 1 modules loaded in 15.87s, 8630 queries (+8630 extra)
+2026-11-24 12:36:01,422 18984 INFO golok_p04_fixture odoo.modules.loading: updating modules list
+2026-11-24 12:36:01,434 18984 INFO golok_p04_fixture odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via n/a
+2026-11-24 12:36:02,659 18984 WARNING golok_p04_fixture odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-24 12:36:02,712 18984 WARNING golok_p04_fixture odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-24 12:36:02,712 18984 WARNING golok_p04_fixture odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-24 12:36:02,795 18984 INFO golok_p04_fixture odoo.addons.base.models.ir_module: ALLOW access to module.button_install on ['Golok AI Trading Lab Pro'] to user __system__ #1 via n/a
+2026-11-24 12:36:02,953 18984 INFO golok_p04_fixture odoo.modules.loading: loading 17 modules...
+2026-11-24 12:36:02,953 18984 INFO golok_p04_fixture odoo.modules.loading: Loading module base_report_wkhtmltox (2/17)
+2026-11-24 12:36:02,978 18984 INFO golok_p04_fixture odoo.registry: module base_report_wkhtmltox: creating or updating database tables
+2026-11-24 12:36:03,128 18984 INFO golok_p04_fixture odoo.registry: Registry changed, signaling through the database
+2026-11-24 12:36:03,139 18984 INFO golok_p04_fixture odoo.modules.loading: Module base_report_wkhtmltox loaded in 0.19s, 44 queries (+44 other)
+2026-11-24 12:36:03,139 18984 INFO golok_p04_fixture odoo.modules.loading: Loading module rpc (3/17)
+2026-11-24 12:36:03,164 18984 INFO golok_p04_fixture odoo.registry: Caches invalidated, signaling through the database: ['default', 'stable']
+2026-11-24 12:36:03,187 18984 INFO golok_p04_fixture odoo.modules.loading: Module rpc loaded in 0.05s, 12 queries (+12 other)
+2026-11-24 12:36:03,188 18984 INFO golok_p04_fixture odoo.modules.loading: Loading module web (4/17)
+2026-11-24 12:36:03,260 18984 INFO golok_p04_fixture odoo.registry: module web: creating or updating database tables
+2026-11-24 12:36:04,232 18984 INFO golok_p04_fixture odoo.modules.loading: loading web/views/webclient_templates.xml
+2026-11-24 12:36:04,396 18984 INFO golok_p04_fixture odoo.modules.loading: loading web/views/report_templates.xml
+2026-11-24 12:36:04,737 18984 INFO golok_p04_fixture odoo.modules.loading: loading web/views/base_document_layout_views.xml
+2026-11-24 12:36:04,774 18984 INFO golok_p04_fixture odoo.modules.loading: loading web/views/partner_view.xml
+2026-11-24 12:36:04,803 18984 INFO golok_p04_fixture odoo.modules.loading: loading web/views/speedscope_template.xml
+2026-11-24 12:36:04,812 18984 INFO golok_p04_fixture odoo.modules.loading: loading web/views/memory_template.xml
+2026-11-24 12:36:04,824 18984 INFO golok_p04_fixture odoo.modules.loading: loading web/views/speedscope_config_wizard.xml
+2026-11-24 12:36:04,844 18984 INFO golok_p04_fixture odoo.modules.loading: loading web/views/neutralize_views.xml
+2026-11-24 12:36:04,861 18984 INFO golok_p04_fixture odoo.modules.loading: loading web/views/ir_ui_view_views.xml
+2026-11-24 12:36:04,877 18984 INFO golok_p04_fixture odoo.modules.loading: loading web/data/ir_attachment.xml
+2026-11-24 12:36:04,888 18984 INFO golok_p04_fixture odoo.modules.loading: loading web/data/report_layout.xml
+2026-11-24 12:36:04,964 18984 INFO golok_p04_fixture odoo.modules.loading: loading web/security/ir.access.csv
+2026-11-24 12:36:05,134 18984 INFO golok_p04_fixture odoo.registry: Registry changed, signaling through the database
+2026-11-24 12:36:05,188 18984 INFO golok_p04_fixture odoo.modules.loading: Module web loaded in 2.00s, 1384 queries (+1384 other)
+2026-11-24 12:36:05,188 18984 INFO golok_p04_fixture odoo.modules.loading: Loading module api_doc (5/17)
+2026-11-24 12:36:05,205 18984 INFO golok_p04_fixture odoo.registry: module api_doc: creating or updating database tables
+2026-11-24 12:36:05,243 18984 INFO golok_p04_fixture odoo.modules.loading: loading api_doc/security/res_groups.xml
+2026-11-24 12:36:05,324 18984 INFO golok_p04_fixture odoo.modules.loading: loading api_doc/views/docclient.xml
+2026-11-24 12:36:05,348 18984 INFO golok_p04_fixture odoo.registry: Registry changed, signaling through the database
+2026-11-24 12:36:05,356 18984 INFO golok_p04_fixture odoo.modules.loading: Module api_doc loaded in 0.17s, 88 queries (+88 other)
+2026-11-24 12:36:05,356 18984 INFO golok_p04_fixture odoo.modules.loading: Loading module auth_totp (6/17)
+2026-11-24 12:36:05,436 18984 INFO golok_p04_fixture odoo.registry: module auth_totp: creating or updating database tables
+2026-11-24 12:36:05,622 18984 INFO golok_p04_fixture odoo.modules.loading: loading auth_totp/data/ir_action_data.xml
+2026-11-24 12:36:05,646 18984 INFO golok_p04_fixture odoo.modules.loading: loading auth_totp/views/res_users_views.xml
+2026-11-24 12:36:05,698 18984 INFO golok_p04_fixture odoo.modules.loading: loading auth_totp/views/templates.xml
+2026-11-24 12:36:05,710 18984 INFO golok_p04_fixture odoo.modules.loading: loading auth_totp/wizard/auth_totp_wizard_views.xml
+2026-11-24 12:36:05,721 18984 INFO golok_p04_fixture odoo.modules.loading: loading auth_totp/security/ir.access.csv
+2026-11-24 12:36:05,797 18984 INFO golok_p04_fixture odoo.registry: Registry changed, signaling through the database
+2026-11-24 12:36:05,812 18984 INFO golok_p04_fixture odoo.modules.loading: Module auth_totp loaded in 0.46s, 208 queries (+208 other)
+2026-11-24 12:36:05,812 18984 INFO golok_p04_fixture odoo.modules.loading: Loading module base_import (7/17)
+2026-11-24 12:36:05,879 18984 INFO golok_p04_fixture odoo.registry: module base_import: creating or updating database tables
+2026-11-24 12:36:06,727 18984 INFO golok_p04_fixture odoo.modules.loading: loading base_import/security/ir.access.csv
+2026-11-24 12:36:06,909 18984 INFO golok_p04_fixture odoo.registry: Registry changed, signaling through the database
+2026-11-24 12:36:06,911 18984 INFO golok_p04_fixture odoo.modules.loading: Module base_import loaded in 1.10s, 1123 queries (+1123 other)
+2026-11-24 12:36:06,911 18984 INFO golok_p04_fixture odoo.modules.loading: Loading module base_import_module (8/17)
+2026-11-24 12:36:06,942 18984 INFO golok_p04_fixture odoo.registry: module base_import_module: creating or updating database tables
+2026-11-24 12:36:07,162 18984 INFO golok_p04_fixture odoo.modules.loading: loading base_import_module/views/base_import_module_view.xml
+2026-11-24 12:36:07,280 18984 INFO golok_p04_fixture odoo.modules.loading: loading base_import_module/views/ir_module_views.xml
+2026-11-24 12:36:07,441 18984 INFO golok_p04_fixture odoo.modules.loading: loading base_import_module/security/ir.access.csv
+2026-11-24 12:36:07,500 18984 INFO golok_p04_fixture odoo.registry: Registry changed, signaling through the database
+2026-11-24 12:36:07,507 18984 INFO golok_p04_fixture odoo.modules.loading: Module base_import_module loaded in 0.60s, 172 queries (+172 other)
+2026-11-24 12:36:07,507 18984 INFO golok_p04_fixture odoo.modules.loading: Loading module base_setup (9/17)
+2026-11-24 12:36:07,553 18984 INFO golok_p04_fixture odoo.registry: module base_setup: creating or updating database tables
+2026-11-24 12:36:07,686 18984 INFO golok_p04_fixture odoo.modules.loading: loading base_setup/data/base_setup_data.xml
+2026-11-24 12:36:07,702 18984 INFO golok_p04_fixture odoo.modules.loading: loading base_setup/views/res_config_settings_views.xml
+2026-11-24 12:36:07,854 18984 INFO golok_p04_fixture odoo.modules.loading: loading base_setup/views/res_partner_views.xml
+2026-11-24 12:36:07,989 18984 INFO golok_p04_fixture odoo.registry: Registry changed, signaling through the database
+2026-11-24 12:36:08,009 18984 INFO golok_p04_fixture odoo.modules.loading: Module base_setup loaded in 0.50s, 154 queries (+154 other)
+2026-11-24 12:36:08,010 18984 INFO golok_p04_fixture odoo.modules.loading: Loading module bus (10/17)
+2026-11-24 12:36:08,219 18984 INFO golok_p04_fixture odoo.registry: module bus: creating or updating database tables
+2026-11-24 12:36:08,528 18984 INFO golok_p04_fixture odoo.registry: Registry changed, signaling through the database
+2026-11-24 12:36:08,567 18984 INFO golok_p04_fixture odoo.modules.loading: Module bus loaded in 0.56s, 128 queries (+128 other)
+2026-11-24 12:36:08,567 18984 INFO golok_p04_fixture odoo.modules.loading: Loading module golok_ai_trading_lab_pro (11/17)
+2026-11-24 12:36:08,810 18984 WARNING golok_p04_fixture odoo.modules.loading: Transient module states were reset
+2026-11-24 12:36:08,811 18984 ERROR golok_p04_fixture odoo.registry: Failed to load registry
+2026-11-24 12:36:08,811 18984 CRITICAL golok_p04_fixture odoo.service.server: Failed to initialize database `golok_p04_fixture`.
+Traceback (most recent call last):
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\service\server.py", line 1520, in preload_registries
+    registry = Registry.new(dbname, update_module=update_module, install_modules=config['init'], upgrade_modules=config['update'], reinit_modules=config['reinit'])
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\tools\func.py", line 67, in locked
+    return func(inst, *args, **kwargs)
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\registry.py", line 222, in new
+    contextvars.Context().run(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        load_modules,
+        ^^^^^^^^^^^^^
+    ...<6 lines>...
+        new_db_demo=new_db_demo,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\modules\loading.py", line 449, in load_modules
+    load_module_graph(
+    ~~~~~~~~~~~~~~~~~^
+        env, graph, update_module=update_module,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        report=report)
+        ^^^^^^^^^^^^^^
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\modules\loading.py", line 187, in load_module_graph
+    registry._setup_models__(env.cr, [])  # incremental setup
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\tools\func.py", line 67, in locked
+    return func(inst, *args, **kwargs)
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\registry.py", line 556, in _setup_models__
+    model_classes.setup_model_classes(env)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\model_classes.py", line 340, in setup_model_classes
+    _setup(model_cls, env)
+    ~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\model_classes.py", line 444, in _setup
+    add_field(model_cls, name, field_, shareable=True)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\model_classes.py", line 650, in add_field
+    field.__set_name__(model_cls, name)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\fields.py", line 429, in __set_name__
+    self._setup_attrs__(owner, name)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\orm\fields_selection.py", line 163, in _setup_attrs__
+    raise ValueError(
+    ...<3 lines>...
+    )
+ValueError: 'golok.lab.dataset.origin': ondelete policy 'restrict' for selection value 'provider' is not a valid ondelete policy, please choose one of 'set null', 'set default', 'set [value]', 'cascade' or a callable
+2026-11-24 12:36:08,818 18984 INFO golok_p04_fixture odoo.service.server.ThreadedServer: Initiating shutdown
+2026-11-24 12:36:08,819 18984 INFO golok_p04_fixture odoo.service.server.ThreadedServer: Hit CTRL-C again or send a second signal to force the shutdown.
+2026-11-24 12:36:08,819 18984 INFO golok_p04_fixture odoo.addons.bus.websocket: Disconnecting 0 websockets
+2026-11-24 12:36:08,926 18984 INFO golok_p04_fixture odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 1 connections 

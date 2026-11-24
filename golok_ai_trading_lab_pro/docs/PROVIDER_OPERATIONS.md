@@ -1,5 +1,7 @@
 # Provider operations
 
+P04 adds **Synchronize Historical**, a bounded single-session wizard with explicit fixture and authorized historical modes. It validates the response schema through the same adapter, checks the effective mapping and venue calendar, and stores a complete grid atomically. Repeat identical data retains first receipt availability and inserts zero rows. Sync history preserves accepted or rejected attempts. Use [the owner action report](OWNER_ACTION_REQUIRED.md) for a locally authorized connection. Only the standalone quote contract was extended. Streaming, master synchronization and authenticated quote evidence are still pending.
+
 The Trading System Administrator can open **SmartAPI Diagnostics**. **Check Local Configuration** sends no network requests. **Test Authorized Authentication** requires explicit opt-in and complete local configuration. For that one test, provide `GOLOK_SMARTAPI_CLIENT_CODE`, `GOLOK_SMARTAPI_PIN` and a current `GOLOK_SMARTAPI_TOTP_CODE` in the protected process environment. Existing host and application variables are listed in [SMARTAPI_SETUP.md](SMARTAPI_SETUP.md). Successful authentication discards the in-memory token. The UI never accepts or displays credentials.
 
 A separate committed PostgreSQL reservation paces diagnostic authentication to one attempt per 60 seconds across workers in a single database. This is a local cap. No real call was performed during P03. Historical/quote REST still require independent verification and WebSocket ingestion is pending.

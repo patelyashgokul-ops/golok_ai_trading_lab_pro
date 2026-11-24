@@ -95,7 +95,8 @@ class Dataset(models.Model):
     company_id = fields.Many2one("res.company", required=True, default=lambda self: self.env.company, index=True)
     instrument_id = fields.Many2one("golok.lab.instrument", required=True, ondelete="restrict", check_company=True)
     source = fields.Char(required=True, help="Dataset publisher or file provenance. Keep account information out of this field.")
-    origin = fields.Selection([("imported", "Imported historical"), ("synthetic", "Synthetic fixture")], required=True)
+    origin = fields.Selection([("imported", "Imported historical"), ("synthetic", "Synthetic fixture"),
+                               ("provider", "SmartAPI history (publication unknown)")], required=True)
     interval = fields.Selection([(key, key) for key in market_data.INTERVALS], required=True)
     calendar_id = fields.Many2one("golok.lab.calendar", ondelete="restrict", check_company=True)
     quarantined = fields.Boolean(readonly=True)
