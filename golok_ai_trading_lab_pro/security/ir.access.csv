@@ -47,3 +47,11 @@ research_job_company,Research job company,golok.lab.research.job,,crud,"[('compa
 sync_viewer,Historical synchronization viewer,golok.lab.sync,golok_ai_trading_lab_pro.group_viewer,r,
 sync_company,Historical synchronization company,golok.lab.sync,,crud,"[('company_id','in',company_ids)]"
 sync_wizard_admin,Historical synchronization administrator,golok.lab.sync.wizard,golok_ai_trading_lab_pro.group_admin,crud,
+portfolio_viewer,Synthetic portfolio reader,golok.lab.portfolio,golok_ai_trading_lab_pro.group_viewer,r,
+portfolio_analyst,Synthetic portfolio analyst,golok.lab.portfolio,golok_ai_trading_lab_pro.group_analyst,cr,
+portfolio_company,Synthetic portfolio company,golok.lab.portfolio,,crud,"[('company_id','in',company_ids)]"
+portfolio_wizard_analyst,Synthetic portfolio wizard,golok.lab.portfolio.wizard,golok_ai_trading_lab_pro.group_analyst,crud,
+sync_plan_admin,Sync planner administrator,golok.lab.sync.plan,golok_ai_trading_lab_pro.group_admin,cr,
+sync_plan_company,Sync plan company,golok.lab.sync.plan,,crud,"[('company_id','in',company_ids)]"
+sync_task_admin,Sync checkpoint administrator,golok.lab.sync.task,golok_ai_trading_lab_pro.group_admin,r,
+sync_task_company,Sync checkpoint company,golok.lab.sync.task,,crud,"[('company_id','in',company_ids)]"

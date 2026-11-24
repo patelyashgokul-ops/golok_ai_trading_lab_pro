@@ -7,3 +7,4 @@ from . import paper
 from . import jobs
 from . import sync
 from . import portfolio
+from . import sync_plan

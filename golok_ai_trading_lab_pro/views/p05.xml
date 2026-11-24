@@ -1,0 +1,118 @@
+<odoo>
+    <data noupdate="1">
+        <record id="strategy_st01_p05" model="golok.lab.strategy">
+            <field name="name">ST-01 Opening Range Sequential P05</field>
+            <field name="code">ST-01</field>
+            <field name="version">multi-3</field>
+        </record>
+    </data>
+    <record id="view_portfolio_list" model="ir.ui.view">
+        <field name="name">golok.lab.portfolio.list</field>
+        <field name="model">golok.lab.portfolio</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0" delete="0">
+                <field name="starts"/><field name="ends"/><field name="strategy"/>
+                <field name="trade_count"/><field name="decision_count"/><field name="suspended"/>
+                <field name="fingerprint"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_portfolio_form" model="ir.ui.view">
+        <field name="name">golok.lab.portfolio.form</field>
+        <field name="model">golok.lab.portfolio</field>
+        <field name="arch" type="xml">
+            <form create="0" edit="0" delete="0">
+                <sheet>
+                    <h2>Synthetic Portfolio Replay</h2>
+                    <group>
+                        <group><field name="dataset_ids" widget="many2many_tags"/><field name="tariff_id"/>
+                            <field name="starts"/><field name="ends"/><field name="strategy"/></group>
+                        <group><field name="capital"/><field name="tick"/><field name="trade_count"/>
+                            <field name="decision_count"/><field name="suspended"/></group>
+                        <field name="fingerprint" colspan="2"/>
+                    </group>
+                    <notebook>
+                        <page string="Decisions and Ledger"><field name="result" nolabel="1"/></page>
+                        <page string="Frozen Inputs"><field name="specification" nolabel="1"/></page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_portfolio_wizard" model="ir.ui.view">
+        <field name="name">golok.lab.portfolio.wizard.form</field>
+        <field name="model">golok.lab.portfolio.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="dataset_ids" widget="many2many_tags"
+                           domain="[('origin','=','synthetic'),('quarantined','=',False)]" options="{'no_create': True}"/>
+                    <field name="tariff_id" options="{'no_create': True}"/>
+                    <field name="starts"/><field name="ends"/><field name="strategy"/>
+                    <field name="capital"/><field name="tick"/>
+                </group>
+                <footer>
+                    <button name="action_run" type="object" string="Run Synthetic Replay" class="btn-primary"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_portfolio" model="ir.actions.act_window">
+        <field name="name">Synthetic Portfolios</field>
+        <field name="res_model">golok.lab.portfolio</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="action_portfolio_wizard" model="ir.actions.act_window">
+        <field name="name">Run Synthetic Portfolio</field>
+        <field name="res_model">golok.lab.portfolio.wizard</field>
+        <field name="view_mode">form</field><field name="target">new</field>
+    </record>
+    <menuitem id="menu_portfolio" name="Synthetic Portfolios" parent="menu_lab" action="action_portfolio" sequence="93"/>
+    <menuitem id="menu_portfolio_wizard" name="Run Synthetic Portfolio" parent="menu_lab" action="action_portfolio_wizard"
+              sequence="94" groups="group_analyst"/>
+    <record id="view_sync_plan_list" model="ir.ui.view">
+        <field name="name">golok.lab.sync.plan.list</field>
+        <field name="model">golok.lab.sync.plan</field>
+        <field name="arch" type="xml"><list edit="0" delete="0">
+            <field name="name"/><field name="mode"/><field name="interval"/><field name="starts"/>
+            <field name="ends"/><field name="state"/>
+        </list></field>
+    </record>
+    <record id="view_sync_plan_form" model="ir.ui.view">
+        <field name="name">golok.lab.sync.plan.form</field>
+        <field name="model">golok.lab.sync.plan</field>
+        <field name="arch" type="xml">
+            <form edit="0" delete="0" duplicate="0">
+                <header>
+                    <button name="action_process_next" type="object" string="Process Next Session" class="btn-primary"
+                            invisible="not id or state != 'queued'"/>
+                    <button name="action_cancel" type="object" string="Cancel Remaining" invisible="not id or state != 'queued'"/>
+                    <field name="state" widget="statusbar" readonly="1"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/><field name="mode"/><field name="interval"/>
+                        <field name="starts"/><field name="ends"/>
+                        <field name="mapping_ids" widget="many2many_tags" domain="[('provider','=','smartapi')]" options="{'no_create': True}"/>
+                        <field name="calendar_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                        <field name="fixture_input" invisible="id or mode != 'fixture'" placeholder='{"42/2024-01-02": [["2024-01-02T09:15:00+05:30",100,101,99,100,500]]}'/>
+                    </group>
+                    <field name="task_ids" invisible="not id" readonly="1">
+                        <list create="0" edit="0" delete="0">
+                            <field name="day"/><field name="mapping_id"/><field name="calendar_id"/>
+                            <field name="state"/><field name="attempts"/><field name="report_id"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_sync_plan" model="ir.actions.act_window">
+        <field name="name">Historical Sync Plans</field>
+        <field name="res_model">golok.lab.sync.plan</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem id="menu_sync_plan" name="Historical Sync Plans" parent="menu_lab" action="action_sync_plan"
+              sequence="95" groups="group_admin"/>
+</odoo>
