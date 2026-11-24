@@ -6,8 +6,10 @@ from . import indicators
 
 VERSION = "structure-1"
 EXPERIMENTAL_VERSION = "atr-barrier-1"
+JOINT_POLICY = "causal_levels"
 POLICY_CHOICES = (("structure", "Completed market structure"), ("fixed_4r", "Fixed 4R benchmark"),
-                  ("atr_barrier", "Experimental ATR-capped resistance"))
+                  ("atr_barrier", "Experimental ATR-capped resistance"),
+                  (JOINT_POLICY, "Experimental causal entry, stop and target"))
 POLICIES = tuple(code for code, _label in POLICY_CHOICES)
 
 

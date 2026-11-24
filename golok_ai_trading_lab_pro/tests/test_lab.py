@@ -688,6 +688,22 @@ class TestLab(TransactionCase):
         review = setup[approval["res_model"]].browse(approval["res_id"])
         self.assertEqual(review.evidence["financial_validation"], "BLOCKED")
         self.assertEqual(review.frozen_sha256, record.fingerprint)
+        wizard.target_policy = "causal_levels"
+        grid_action = wizard.action_experiment()
+        grid = analyst[grid_action["res_model"]].browse(grid_action["res_id"])
+        self.assertEqual(grid.version, "r01-policy-grid-1")
+        self.assertEqual(grid.id, wizard.action_experiment()["res_id"])
+        for current in json.loads(grid.report)["folds"]:
+            self.assertEqual(len(current["training_trials"]), 20)
+            choices = {(trial["strategy"], trial["target_policy"]) for trial in current["training_trials"]}
+            self.assertEqual(len(choices), 20)
+            self.assertEqual(current["status"], "EVALUATED")
+            for stage in ("validation", "evaluation"):
+                result = current[stage]
+                self.assertEqual(result["strategy"], current["selected"])
+                self.assertEqual(result["target_policy"], current["selected_target_policy"])
+                saved = analyst["golok.lab.portfolio"].browse(result["portfolio"])
+                self.assertEqual(saved.starts.isoformat(), current["windows"][stage][0])
 
     def test_p08_source_conflict_blocks_research_and_is_idempotent(self):
         files = Path(__file__).parent / "fixtures/p02"
@@ -963,6 +979,12 @@ class TestLab(TransactionCase):
             self.env[setup._name].with_user(self.admin).create({"status": "CONNECTED"})
         with self.assertRaises(AccessError):
             self.env[setup._name].with_user(self.analyst).create({})
+        with patch.dict("os.environ", {"GOLOK_UPSTOX_AUTHORIZED": "1",
+                                       "GOLOK_UPSTOX_ANALYTICS_TOKEN": "authored-test-value"}):
+            setup.action_check_upstox()
+        self.assertEqual(setup.status, "REVIEW REQUIRED")
+        self.assertIn("Company historical import permission current: No", setup.details)
+        self.assertNotIn("authored-test-value", setup.details)
 
     def test_p03_job_worker_and_immutable_corporate_source(self):
         actions = self.env["golok.lab.corporate.action"].with_user(self.admin)

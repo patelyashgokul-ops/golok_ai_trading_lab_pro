@@ -5,7 +5,7 @@ from datetime import timedelta
 from decimal import Decimal
 from itertools import groupby
 
-from . import decision, eligibility, simulation, strategies, targets
+from . import decision, eligibility, level_research, simulation, strategies, targets
 
 MAX_INSTRUMENTS = 16
 MAX_BARS = 12000
@@ -103,13 +103,22 @@ def _replay(series, starts, ends, seconds, codes, costs, *, capital, portfolio_p
     def evaluate_candidate(key, when, bar, session, candidate, *, record):
         nonlocal cash, entries
         asset = assets[key]
-        code, observed, stop = candidate
+        code, observed, stop, proposal = candidate
         valid_time = (observed.available_at < when <= observed.available_at + timedelta(seconds=seconds)
                       and when < min(session.entry_cutoff, session.exit_cutoff))
         exposure = sum(position["loss"] for position in positions.values())
         risk_room = max(Decimal(0), daily_open * portfolio_policy.daily_loss + min(daily_realized, 0) - exposure)
-        levels, target_reason = targets.levels(histories[key], bar.open, stop, target_policy, when, session.exit_cutoff)
-        target = levels[0] if levels else None
+        entry_ok = True
+        if proposal is not None:
+            entry_ok = level_research.eligible_open(proposal, when, bar.open)
+            selected = proposal.get("selected")
+            target = selected["target"] if entry_ok else None
+            stop = selected["stop"] if entry_ok else stop
+            target_reason = selected["target_reason"] if entry_ok else (
+                "OUTSIDE_FROZEN_ENTRY_RANGE" if selected else proposal["reason"])
+        else:
+            levels, target_reason = targets.levels(histories[key], bar.open, stop, target_policy, when, session.exit_cutoff)
+            target = levels[0] if levels else None
         if target is not None and target_policy == "atr_barrier":
             target = target // asset.tick * asset.tick
         risk_capital = min(cash, daily_open)
@@ -142,7 +151,7 @@ def _replay(series, starts, ends, seconds, codes, costs, *, capital, portfolio_p
             "G04": (len(history), "validated complete replay grid", bool(history) and observed in history),
             "G05": (observed.available_at, "strictly before execution", observed.available_at < when),
             "G06": (target_reason, "causal level and entry within 1% of signal close",
-                    target is not None and stop < bar.open <= observed.close * Decimal("1.01")),
+                    entry_ok and target is not None and stop < bar.open <= observed.close * Decimal("1.01")),
             "G07": (code, "registered strategy", code in strategies.REGISTRY),
             "G08": (asset.origin, "research-mode permission only" if historical else "synthetic experiment permission only",
                     eligible and code in strategies.REGISTRY),
@@ -160,6 +169,7 @@ def _replay(series, starts, ends, seconds, codes, costs, *, capital, portfolio_p
             "source_record": observed.close_time})
         decisions.append({"asset": key, "strategy": code, "time": when, "sizing": sizing.reason,
                           "target_policy": target_policy, "target": target, "rank": rank,
+                          **({"level_proposal": proposal, "observed_open": bar.open} if proposal is not None else {}),
                           "outcome_reason": "SELECTED" if outcome["state"] == "SIMULATION_CANDIDATE" else "GATE_VETO",
                           **outcome})
         if outcome["state"] != "SIMULATION_CANDIDATE":
@@ -194,13 +204,14 @@ def _replay(series, starts, ends, seconds, codes, costs, *, capital, portfolio_p
 
     def expire_candidates():
         for key, candidates in sorted(pending.items()):
-            for code, bar, _ in candidates:
+            for code, bar, _stop, proposal in candidates:
                 outcome = decision.evaluate({"G12": ("no later open", "strictly later open", False)},
                                             mode=mode, context={"evaluated_at": bar.available_at,
                                             "dataset_version": key, "source_record": bar.close_time,
                                             "strategy_version": strategies.VERSION})
                 decisions.append({"asset": key, "strategy": code, "time": bar.available_at,
-                                  "sizing": "NO_LATER_OPEN", **outcome})
+                                  "sizing": "NO_LATER_OPEN",
+                                  **({"level_proposal": proposal} if proposal is not None else {}), **outcome})
 
     for (when, phase), grouped in groupby(events, key=lambda event: event[:2]):
         batch = list(grouped)
@@ -244,8 +255,28 @@ def _replay(series, starts, ends, seconds, codes, costs, *, capital, portfolio_p
             history = histories.setdefault(key, [])
             history.append(bar)
             if key not in positions and key not in pending and when < session.entry_cutoff:
-                candidates = [(code, bar, stop) for code in sorted(codes)
-                              if (stop := strategies.REGISTRY[code].signal(history, session)) is not None]
+                candidates = []
+                signal_history = history
+                if target_policy == targets.JOINT_POLICY:
+                    signal_history = sorted(history, key=lambda item: item.close_time)
+                    if signal_history[-1] is not bar:
+                        continue
+                    if any(left.close_time != right.open_time for left, right in zip(signal_history, signal_history[1:])):
+                        continue
+                for code in sorted(codes):
+                    stop = strategies.REGISTRY[code].signal(signal_history, session)
+                    if stop is None:
+                        continue
+                    proposal = None
+                    if target_policy == targets.JOINT_POLICY:
+                        # Include this event in the signal snapshot. One interval from publication
+                        # is eligible, subject to the strict session entry cutoff.
+                        instant = timedelta(microseconds=1)
+                        proposal = level_research.evaluate(
+                            signal_history, session, when + instant, when + timedelta(seconds=seconds) + instant,
+                            stop, assets[key].tick, assets[key].exchange, costs,
+                            replace(simulation.RiskPolicy(), capital=min(cash, daily_open)))
+                    candidates.append((code, bar, stop, proposal))
                 if candidates:
                     pending[key] = candidates
     if positions:

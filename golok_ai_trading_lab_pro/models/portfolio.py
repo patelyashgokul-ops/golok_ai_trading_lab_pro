@@ -9,8 +9,8 @@ from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, ValidationError
 from odoo.fields import Domain
 
-from ..services import (backtest, calendar, decision, eligibility, market_data, performance, portfolio, replay_contract,
-                        simulation, strategies, targets)
+from ..services import (backtest, calendar, decision, eligibility, level_research, market_data, performance, portfolio,
+                        replay_contract, simulation, strategies, targets)
 from .lab import _input_digest
 
 
@@ -229,8 +229,10 @@ class Portfolio(models.Model):
             "interval_seconds": seconds, "capital": capital, "inputs": inputs, "tariff": tariff.id,
             "tariffs": [asdict(rule) for rule in costs.tariffs], "policy": asdict(portfolio.PortfolioPolicy()),
             "strategies": codes, "strategy_version": strategies.VERSION,
-            "target_policy": target_policy, "target_version": (
-                targets.EXPERIMENTAL_VERSION if target_policy == "atr_barrier" else targets.VERSION),
+            "target_policy": target_policy, "target_version": {
+                "atr_barrier": targets.EXPERIMENTAL_VERSION,
+                targets.JOINT_POLICY: level_research.VERSION,
+            }.get(target_policy, targets.VERSION),
             "code_digests": {module.__name__.rsplit(".", 1)[-1]: hashlib.sha256(Path(module.__file__).read_bytes()).hexdigest()
                              for module in (portfolio, strategies, decision, eligibility, simulation, calendar, targets)},
         }

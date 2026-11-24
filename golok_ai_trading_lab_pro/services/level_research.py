@@ -5,6 +5,7 @@ from decimal import Decimal, ROUND_CEILING, ROUND_FLOOR
 from . import indicators, simulation, targets
 
 VERSION = "entry-stop-target-1"
+MAX_HISTORY = 40
 
 
 def _tick(price, tick, rounding):
@@ -17,7 +18,7 @@ def completed(history, as_of):
 
 def evaluate(history, session, as_of, expiry, baseline_stop, tick, exchange, costs, risk):
     """Return auditable experimental levels using only information available before as_of."""
-    bars = completed(history, as_of)
+    bars = completed(history[-MAX_HISTORY:], as_of)
     if not bars or not as_of < min(expiry, session.entry_cutoff, session.exit_cutoff) or tick <= 0:
         return {"version": VERSION, "status": "NO_TRADE", "reason": "MISSING_HISTORY_OR_EXPIRED"}
     signal = bars[-1]

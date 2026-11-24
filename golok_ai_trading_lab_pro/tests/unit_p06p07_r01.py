@@ -6,7 +6,7 @@ from decimal import Decimal
 from urllib.error import HTTPError, URLError
 
 from scripts.reproduce_p05 import fixture
-from services import calendar, indicators, ingestion, level_research, providers, simulation, targets, upstox
+from services import calendar, indicators, ingestion, level_research, portfolio, providers, simulation, targets, upstox
 from services.smartapi import ProviderError
 
 
@@ -128,10 +128,42 @@ class LevelsTest(unittest.TestCase):
         self.assertEqual(values["ema20"][-1], None)
         entry, stop = Decimal("100"), Decimal("99.50")
         results = [targets.levels(history, entry, stop, policy, self.as_of, self.session.exit_cutoff)[0]
-                   for policy in targets.POLICIES]
+                   for policy in ("structure", "fixed_4r", "atr_barrier")]
         self.assertEqual(results, [(Decimal("101"),), (Decimal("102.00"),), (Decimal("101"),)])
         high_resistance = [replace(bar, high=Decimal("110"), low=Decimal("99.5")) for bar in self.history[:1]]
         high_resistance += [replace(bar, open=Decimal("99"), close=Decimal("99"),
                                     high=Decimal("100"), low=Decimal("98.5")) for bar in self.history[1:]]
         self.assertLess(targets.levels(high_resistance, entry, stop, "atr_barrier", self.as_of,
                                        self.session.exit_cutoff)[0][0], Decimal("110"))
+
+    def test_portfolio_freezes_joint_levels_and_checks_next_open(self):
+        session = replace(self.session, entry_cutoff=self.session.opening + timedelta(minutes=105),
+                          exit_cutoff=self.session.opening + timedelta(minutes=110),
+                          closing=self.session.opening + timedelta(minutes=110))
+        prices = Decimal
+        history = [
+            replace(self.history[0], open_time=start, close_time=end, available_at=end,
+                    open=prices("100"), high=prices("100.20"), low=prices("99.95"),
+                    close=prices("100"), volume=10000)
+            for start, end in session.slots(300)
+        ]
+        history[2] = replace(history[2], high=prices("115"))
+        history[16] = replace(history[16], high=prices("101"), close=prices("101"), volume=40000)
+        history[17] = replace(history[17], open=prices("101"), high=prices("101.1"), close=prices("101"))
+        history[18] = replace(history[18], open=prices("100.20"), high=prices("101.30"), close=prices("101"))
+        asset = portfolio.Series("FIXTURE", "NSE", prices(".05"), tuple(history), {session.day: session})
+
+        def experiment(series):
+            return portfolio.replay((series,), session.day, session.day, 300, ("ST-06",), self.costs,
+                                    target_policy=targets.JOINT_POLICY)
+
+        filled = experiment(asset)
+        first = filled["decisions"][0]
+        self.assertEqual(first["level_proposal"]["status"], "RESEARCH_PROPOSAL")
+        self.assertTrue(first["gates"]["G06"]["passed"])
+        self.assertEqual(filled["trades"][0]["stop"], first["level_proposal"]["selected"]["stop"])
+        altered = list(history)
+        altered[18] = replace(altered[18], open=prices("101.25"))
+        missed = experiment(replace(asset, bars=tuple(altered)))
+        self.assertEqual(missed["decisions"][0]["level_proposal"], first["level_proposal"])
+        self.assertFalse(missed["decisions"][0]["gates"]["G06"]["passed"])

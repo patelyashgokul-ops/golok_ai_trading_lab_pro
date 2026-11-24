@@ -9,7 +9,7 @@ from psycopg2 import errors
 from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, ValidationError
 
-from ..services import session_policy
+from ..services import session_policy, upstox
 from ..services.smartapi import CAPABILITIES, ProviderError, SmartAPI
 
 _ADMIN = "golok_ai_trading_lab_pro.group_admin"
@@ -131,6 +131,33 @@ class ProviderSetup(models.TransientModel):
         configuration = self._configuration()
         status, details = configuration[2:]
         return self._finish(status, details + _(" Adapter capabilities: %s.", ", ".join(sorted(CAPABILITIES))))
+
+    def action_check_upstox(self):
+        self._check_setup_rights()
+        enabled = environ.get("GOLOK_UPSTOX_AUTHORIZED") == "1"
+        configured = upstox.credential_present(environ.get("GOLOK_UPSTOX_ANALYTICS_TOKEN"))
+        reviews = self.env["golok.lab.source.review"]
+        try:
+            reviews._authorize("upstox", "historical", "import")
+            authorized = True
+        except AccessError:
+            authorized = False
+        last = self.env["golok.lab.sync"].search([
+            ("company_id", "=", self.env.company.id), ("mapping_id.provider", "=", "upstox"),
+            ("mode", "=", "live"), ("state", "=", "complete"),
+        ], limit=1)
+        status = ("DISABLED" if not enabled else "NOT CONFIGURED" if not configured else
+                  "REVIEW REQUIRED" if not authorized else "READY FOR AUTHORIZED HISTORY CHECK")
+        details = [
+            _("Capability: read-only historical NSE cash equity, one closed session."),
+            _("Local transport enabled: %s", _("Yes") if enabled else _("No")),
+            _("Local credentials configured: %s", _("Yes") if configured else _("No")),
+            _("Company historical import permission current: %s", _("Yes") if authorized else _("No")),
+            _("Last recorded genuine successful receipt (UTC): %s",
+              fields.Datetime.to_string(last.received_at) if last.received_at else _("None")),
+            _("Verified current connectivity, live data and financial use: Unavailable."),
+        ]
+        return self._finish(status, "\n".join(details))
 
     def action_test_authentication(self):
         self._check_setup_rights()

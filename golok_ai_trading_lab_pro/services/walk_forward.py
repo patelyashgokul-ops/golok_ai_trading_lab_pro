@@ -1,6 +1,7 @@
 """Plan disjoint training, validation and evaluation windows over trading dates."""
 
 VERSION = "p09-walk-forward-1"
+GRID_VERSION = "r01-policy-grid-1"
 
 
 def folds(days, *, training, validation, evaluation, embargo, expanding):
@@ -25,3 +26,11 @@ def rank_summary(metrics):
         return None
     drawdown = metrics["closed_trade_cash_drawdown"]["amount"]
     return metrics["expectancy"], -drawdown, metrics["trade_count"], -metrics["fees"]
+
+
+def choose_training_trial(trials):
+    """Use only already-produced training trials, with explicit deterministic ties."""
+    scored = [(rank_summary(trial["metrics"]), trial) for trial in trials]
+    eligible = sorted((row for row in scored if row[0] is not None),
+                      key=lambda row: (row[1]["strategy"], row[1]["target_policy"]))
+    return max(eligible, key=lambda row: row[0])[1] if eligible else None

@@ -35,8 +35,12 @@ def identity(exchange, key, isin):
             and key == "NSE_EQ|" + isin)
 
 
+def credential_present(token):
+    return isinstance(token, str) and re.fullmatch(r"[A-Za-z0-9._~+/=-]{1,4096}", token) is not None
+
+
 def history(token, key, isin, interval, session, reserve, *, transport=_https):
-    if not isinstance(token, str) or not re.fullmatch(r"[A-Za-z0-9._~+/=-]{1,4096}", token):
+    if not credential_present(token):
         raise ProviderError("LOCAL_CREDENTIALS_REQUIRED")
     if not identity("NSE", key, isin) or interval not in INTERVALS:
         raise ProviderError("DEGRADED")

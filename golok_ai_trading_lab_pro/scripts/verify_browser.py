@@ -267,6 +267,13 @@ def verify(base_url, database, edge):
         expect(page.locator(".o_list_view")).to_contain_text("Browser prospective fixture")
         expect(page.locator(".o_list_view")).to_contain_text("Remaining Daily Risk")
         print("UI-20 account risk monitor displays the native remaining budget", flush=True)
+        page.goto(f"{base_url}/odoo/action-{xml_id('action_provider_setup')}")
+        page.get_by_role("button", name="Check Upstox Readiness").click()
+        expect(page.locator(".o_form_view [name=details]")).to_contain_text("read-only historical NSE cash equity")
+        expect(page.locator(".o_form_view [name=details]")).to_contain_text("successful receipt (UTC): None")
+        page.screenshot(path=EVIDENCE / "screenshots/upstox-readiness.png")
+        assert not errors, errors
+        print("UI-21 Upstox readiness distinguishes local setup, authorization and historical receipts", flush=True)
         browser.close()
 
 
