@@ -1,0 +1,201 @@
+{
+  "date": "2024-01-02",
+  "exchange": "NSE",
+  "interval": "5m",
+  "tick": "0.05",
+  "source": "Explicit synthetic correctness fixture",
+  "origin": "synthetic",
+  "partition": "validation",
+  "schedule": [
+    {
+      "date": "2024-01-02",
+      "kind": "regular",
+      "open": "09:15",
+      "close": "10:00",
+      "entry_cutoff": "09:45",
+      "exit_cutoff": "10:00"
+    }
+  ],
+  "tariffs": [
+    {
+      "name": "brokerage",
+      "starts": "2024-01-02",
+      "exchange": "NSE",
+      "segment": "equity_intraday",
+      "side": "buy",
+      "basis": "fixed",
+      "amount": "1.005",
+      "source": "Hypothetical synthetic fixture"
+    },
+    {
+      "name": "brokerage",
+      "starts": "2024-01-02",
+      "exchange": "NSE",
+      "segment": "equity_intraday",
+      "side": "sell",
+      "basis": "fixed",
+      "amount": "1.005",
+      "source": "Hypothetical synthetic fixture"
+    },
+    {
+      "name": "exchange",
+      "starts": "2024-01-02",
+      "exchange": "NSE",
+      "segment": "equity_intraday",
+      "side": "buy",
+      "basis": "fixed",
+      "amount": "0",
+      "source": "Hypothetical synthetic fixture"
+    },
+    {
+      "name": "exchange",
+      "starts": "2024-01-02",
+      "exchange": "NSE",
+      "segment": "equity_intraday",
+      "side": "sell",
+      "basis": "fixed",
+      "amount": "0",
+      "source": "Hypothetical synthetic fixture"
+    },
+    {
+      "name": "gst",
+      "starts": "2024-01-02",
+      "exchange": "NSE",
+      "segment": "equity_intraday",
+      "side": "buy",
+      "basis": "tax_base",
+      "amount": "0",
+      "source": "Hypothetical synthetic fixture"
+    },
+    {
+      "name": "gst",
+      "starts": "2024-01-02",
+      "exchange": "NSE",
+      "segment": "equity_intraday",
+      "side": "sell",
+      "basis": "tax_base",
+      "amount": "0",
+      "source": "Hypothetical synthetic fixture"
+    },
+    {
+      "name": "other",
+      "starts": "2024-01-02",
+      "exchange": "NSE",
+      "segment": "equity_intraday",
+      "side": "buy",
+      "basis": "fixed",
+      "amount": "0",
+      "source": "Hypothetical synthetic fixture"
+    },
+    {
+      "name": "other",
+      "starts": "2024-01-02",
+      "exchange": "NSE",
+      "segment": "equity_intraday",
+      "side": "sell",
+      "basis": "fixed",
+      "amount": "0",
+      "source": "Hypothetical synthetic fixture"
+    },
+    {
+      "name": "sebi",
+      "starts": "2024-01-02",
+      "exchange": "NSE",
+      "segment": "equity_intraday",
+      "side": "buy",
+      "basis": "fixed",
+      "amount": "0",
+      "source": "Hypothetical synthetic fixture"
+    },
+    {
+      "name": "sebi",
+      "starts": "2024-01-02",
+      "exchange": "NSE",
+      "segment": "equity_intraday",
+      "side": "sell",
+      "basis": "fixed",
+      "amount": "0",
+      "source": "Hypothetical synthetic fixture"
+    },
+    {
+      "name": "slippage",
+      "starts": "2024-01-02",
+      "exchange": "NSE",
+      "segment": "equity_intraday",
+      "side": "buy",
+      "basis": "fixed",
+      "amount": "0",
+      "source": "Hypothetical synthetic fixture"
+    },
+    {
+      "name": "slippage",
+      "starts": "2024-01-02",
+      "exchange": "NSE",
+      "segment": "equity_intraday",
+      "side": "sell",
+      "basis": "fixed",
+      "amount": "0",
+      "source": "Hypothetical synthetic fixture"
+    },
+    {
+      "name": "spread",
+      "starts": "2024-01-02",
+      "exchange": "NSE",
+      "segment": "equity_intraday",
+      "side": "buy",
+      "basis": "fixed",
+      "amount": "0",
+      "source": "Hypothetical synthetic fixture"
+    },
+    {
+      "name": "spread",
+      "starts": "2024-01-02",
+      "exchange": "NSE",
+      "segment": "equity_intraday",
+      "side": "sell",
+      "basis": "fixed",
+      "amount": "0",
+      "source": "Hypothetical synthetic fixture"
+    },
+    {
+      "name": "stamp",
+      "starts": "2024-01-02",
+      "exchange": "NSE",
+      "segment": "equity_intraday",
+      "side": "buy",
+      "basis": "fixed",
+      "amount": "0",
+      "source": "Hypothetical synthetic fixture"
+    },
+    {
+      "name": "stamp",
+      "starts": "2024-01-02",
+      "exchange": "NSE",
+      "segment": "equity_intraday",
+      "side": "sell",
+      "basis": "fixed",
+      "amount": "0",
+      "source": "Hypothetical synthetic fixture"
+    },
+    {
+      "name": "stt",
+      "starts": "2024-01-02",
+      "exchange": "NSE",
+      "segment": "equity_intraday",
+      "side": "buy",
+      "basis": "fixed",
+      "amount": "0",
+      "source": "Hypothetical synthetic fixture"
+    },
+    {
+      "name": "stt",
+      "starts": "2024-01-02",
+      "exchange": "NSE",
+      "segment": "equity_intraday",
+      "side": "sell",
+      "basis": "fixed",
+      "amount": "0",
+      "source": "Hypothetical synthetic fixture"
+    }
+  ]
+}
