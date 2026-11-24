@@ -315,11 +315,15 @@ class ResearchRun(models.Model):
         self.check_access("read")
         domain = [("company_id", "=", self.env.company.id)]
         last = self.search(domain, limit=1)
+        candle_model = self.env["golok.lab.candle"]
+        current_ingest = candle_model.search(domain, order="ingested_at desc, id desc", limit=1)
         return {
             "company_id": self.env.company.id,
+            "company_name": self.env.company.display_name,
             "instruments": self.env["golok.lab.instrument"].search_count([*domain, ("active", "=", True)]),
             "datasets": self.env["golok.lab.dataset"].search_count(domain),
-            "candles": self.env["golok.lab.candle"].search_count(domain),
+            "candles": candle_model.search_count(domain),
+            "last_ingestion": fields.Datetime.to_string(current_ingest.ingested_at) if current_ingest else False,
             "quarantined": self.env["golok.lab.dataset"].search_count([*domain, ("quarantined", "=", True)]),
             "runs": self.search_count(domain),
             "last": last.read(["dataset_id", "as_of", "last_close", "bar_count", "gap_count", "reason", "origin"])[0]

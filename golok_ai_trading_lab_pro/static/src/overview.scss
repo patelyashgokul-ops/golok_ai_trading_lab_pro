@@ -60,6 +60,43 @@
         font-weight: 700;
     }
 
+    .o_golok_notice {
+        border-inline-start: 3px solid #a8691b;
+        padding: 8px 12px;
+        font-size: .78rem;
+        font-weight: 700;
+        background: $o-view-background-color;
+    }
+
+    .o_golok_plot {
+        display: flex;
+        height: 170px;
+        align-items: stretch;
+        padding: 8px 0;
+        border-block: 1px solid $o-border-color;
+    }
+
+    .o_golok_plot_col {
+        flex: 1;
+        min-width: 0;
+        --golok-price: #23816a;
+        &[data-direction="down"] { --golok-price: #c6505d; }
+    }
+
+    .o_golok_wick_area, .o_golok_volume_area {
+        position: relative;
+        height: 72%;
+        i { position: absolute; background: var(--golok-price); }
+    }
+
+    .o_golok_wick { left: 50%; width: 1px; min-height: 1px; }
+    .o_golok_body { left: 20%; right: 20%; min-height: 2px; }
+    .o_golok_volume_area {
+        height: 20%;
+        margin-top: 8px;
+        i { inset-inline: 20%; bottom: 0; opacity: .55; }
+    }
+
     .o_golok_facts {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));

@@ -5,14 +5,20 @@
             <div class="o_golok_content">
                 <header class="o_golok_header">
                     <div>
-                        <div class="o_golok_brand">Golok Technology</div>
+                        <div class="o_golok_brand">Golok AI Trading Lab Pro</div>
                         <h1>Research Overview</h1>
                     </div>
-                    <button class="btn btn-outline-secondary align-self-start" t-att-disabled="this.state.loading" t-on-click="() => this.refresh()">Refresh</button>
+                    <button class="btn btn-outline-secondary align-self-start" t-att-disabled="this.state.loading || this.state.chartLoading" t-on-click="() => this.refresh()">Refresh</button>
                 </header>
+                <p class="o_golok_notice">RESEARCH / SIMULATION ONLY — NOT CONNECTED TO REAL ORDER EXECUTION.</p>
                 <p t-if="this.state.loading" role="status">Loading research data…</p>
                 <div t-elif="this.state.error" role="alert" class="alert alert-danger">Research data is unavailable. Select Refresh to retry.</div>
                 <t t-elif="this.state.data">
+                    <dl class="o_golok_facts mb-3">
+                        <div><dt>Current company</dt><dd t-esc="this.state.data.company_name"/></div>
+                        <div><dt>Provider</dt><dd>Offline research</dd></div>
+                        <div><dt>Last recorded ingestion (IST)</dt><dd t-esc="this.displayTime(this.state.data.last_ingestion)"/></div>
+                    </dl>
                     <div class="o_golok_cards">
                         <button t-foreach="this.cards" t-as="card" t-key="card.key" class="o_golok_card"
                                 t-on-click="() => this.openList(card)">
@@ -33,6 +39,29 @@
                                 <div><dt>Intraday gaps</dt><dd t-esc="this.state.data.last.gap_count"/></div>
                             </dl>
                             <button class="btn btn-primary" t-on-click="() => this.openRun()">Open snapshot</button>
+                            <button t-if="this.state.data.last.bar_count" class="btn btn-outline-secondary ms-2"
+                                    t-att-disabled="this.state.chartLoading" t-on-click="() => this.loadChart()">Show historical chart</button>
+                            <p t-if="this.state.chartLoading" role="status">Loading historical chart…</p>
+                            <p t-elif="this.state.chartError" role="alert" class="mt-3">The chart is unavailable for this snapshot.</p>
+                            <figure t-elif="this.state.chart" class="o_golok_chart mt-3 mb-0">
+                                <figcaption class="mb-2">Historical OHLC and volume · <t t-if="this.state.data.last.origin === 'synthetic'">Synthetic fixture</t><t t-else="">Imported historical</t></figcaption>
+                                <div class="small text-muted">High <t t-esc="this.state.chart.high"/> · Low <t t-esc="this.state.chart.low"/> · <t t-esc="this.state.chart.bars.length"/> candles</div>
+                                <div class="o_golok_plot" role="img" aria-label="Chronological candlestick chart with volume">
+                                    <div t-foreach="this.state.chart.bars" t-as="bar" t-key="bar.time" class="o_golok_plot_col"
+                                         t-att-data-direction="bar.up ? 'up' : 'down'" t-att-title="bar.label">
+                                        <div class="o_golok_wick_area">
+                                            <i class="o_golok_wick" t-attf-style="top:{{bar.wickTop}}%;height:{{bar.wickHeight}}%"/>
+                                            <i class="o_golok_body" t-attf-style="top:{{bar.bodyTop}}%;height:{{bar.bodyHeight}}%"/>
+                                        </div>
+                                        <div class="o_golok_volume_area">
+                                            <i t-attf-style="height:{{bar.volume}}%"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-wrap justify-content-between gap-1 small text-muted">
+                                    <t t-esc="this.displayTime(this.state.chart.first)"/><t t-esc="this.displayTime(this.state.chart.last)"/>
+                                </div>
+                            </figure>
                         </div>
                         <p t-else="" class="mb-0">Create a dataset, import candles, and run historical research to see a snapshot here.</p>
                     </section>
