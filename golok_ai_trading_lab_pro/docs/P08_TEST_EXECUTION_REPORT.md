@@ -22,3 +22,8 @@ Environment was Windows, Odoo 20 Community, PostgreSQL 18.4, Python 3.11.9 for s
     ./scripts/verify_p01_upgrade.ps1 -SourceDatabase golok_p07_fresh_a -TargetDatabase golok_p05_migration_p08b -SourceVersion 20.0.7.0.0 -TargetVersion 20.0.8.0.0 -EvidenceDir docs/evidence/p08/migration-final -ClusterDir .local-test/pg-p06 -PostgresPort 55497
 
 Earlier attempts used suffixes a and b for fresh databases. Their logs remain in the archive. Repeated tests should use new disposable database names.
+
+P08.1 reran the full local workflow after adding holdout read protections and seven-day recovery. ORM tests assert sealed candle search, direct read and export denial. They also recover one missed post-market phase with the original session cutoff. End-to-end evidence is under completion and migration-completion.
+
+    ./scripts/verify_odoo.ps1 -Browser -ClusterDir .local-test/pg-p08 -EvidenceDir docs/evidence/p08/completion -PostgresPort 55498 -HttpPort 18098 -Database golok_p08_fresh_d
+    ./scripts/verify_p01_upgrade.ps1 -SourceDatabase golok_p07_fresh_a -TargetDatabase golok_p05_migration_p08c -SourceVersion 20.0.7.0.0 -TargetVersion 20.0.8.1.0 -EvidenceDir docs/evidence/p08/migration-completion -ClusterDir .local-test/pg-p06 -PostgresPort 55497

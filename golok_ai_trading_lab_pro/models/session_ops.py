@@ -1,7 +1,8 @@
-from datetime import timezone
+from datetime import timedelta, timezone
 
 from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, UserError, ValidationError
+from odoo.fields import Domain
 
 from ..services import calendar, session_clock
 
@@ -43,14 +44,26 @@ class SessionWatch(models.Model):
         self.env.cr.execute("SELECT id FROM golok_lab_session_watch WHERE id=%s FOR UPDATE SKIP LOCKED", (self.id,))
         if not self.env.cr.fetchone():
             return self.env["golok.lab.session.event"]
-        self.invalidate_recordset(["active", "dataset_id"])
+        self.invalidate_recordset(["active", "dataset_id", "checked_at"])
         if not self.active:
             return self.env["golok.lab.session.event"]
-        self.sudo().write({"checked_at": at.replace(tzinfo=None)})
         dataset = self.dataset_id
         day = at.astimezone(calendar.IST).date()
-        session = dataset.calendar_id._sessions().get(day)
+        sessions = dataset.calendar_id._sessions()
+        previous_day = self.checked_at.replace(tzinfo=timezone.utc).astimezone(calendar.IST).date() if self.checked_at else day
+        # Recover only explicit completed sessions, within the last seven calendar days.
+        lower_bound = max(previous_day, day - timedelta(days=7))
+        for missed_day in sorted(day_ for day_ in sessions if lower_bound <= day_ < day):
+            missed = sessions[missed_day]
+            if missed.kind != "closed" and missed.closing < at:
+                self._record_phase(missed_day, missed, "post_market", at, recovery=True)
+        self.sudo().write({"checked_at": at.replace(tzinfo=None)})
+        session = sessions.get(day)
         phase = session_clock.phase(session, at)
+        return self._record_phase(day, session, phase, at)
+
+    def _record_phase(self, day, session, phase, at, *, recovery=False):
+        dataset = self.dataset_id
         events = self.env["golok.lab.session.event"].sudo()
         domain = [("watch_id", "=", self.id), ("day", "=", day), ("phase", "=", phase)]
         known = events.search(domain, limit=1)
@@ -58,12 +71,13 @@ class SessionWatch(models.Model):
             return known
         vals = {"watch_id": self.id, "company_id": self.company_id.id, "day": day, "phase": phase,
                 "observed_at": at.replace(tzinfo=None), "mode": "fixture", "state": "completed",
-                "summary": "NO TRADE · fixture research only"}
+                "summary": "NO TRADE · fixture research only", "recovered": recovery}
         if phase in ("market_opening", "intraday", "post_market"):
             cutoff = min(at, session.closing).replace(tzinfo=None)
-            eligible = self.env["golok.lab.candle"].search_count([
+            eligible = self.env["golok.lab.candle"].search_count(Domain([
                 ("dataset_id", "=", dataset.id), ("available_at", "<=", cutoff),
                 ("close_time", ">=", session.opening.replace(tzinfo=None))])
+                & self.env["golok.lab.holdout"]._observation_domain("close_time", "close_time", "instrument_id"))
             vals["observation_count"] = eligible
             if eligible and not dataset.quarantined:
                 try:
@@ -80,6 +94,8 @@ class SessionWatch(models.Model):
             previous = events.search_count([("watch_id", "=", self.id), ("day", "=", day),
                                             ("phase", "in", ("pre_market", "market_opening", "intraday"))])
             vals["summary"] += f" · {previous} recorded earlier phases"
+        if recovery:
+            vals["summary"] += " · historical recovery"
         return events.create(vals)
 
     def action_check_now(self):
@@ -109,6 +125,7 @@ class SessionEvent(models.Model):
     state = fields.Selection([("completed", "Completed"), ("blocked", "Blocked")], required=True)
     summary = fields.Char(required=True)
     observation_count = fields.Integer()
+    recovered = fields.Boolean(readonly=True)
     run_id = fields.Many2one("golok.lab.run", ondelete="restrict")
 
     _phase_once = models.Constraint("UNIQUE(watch_id,day,phase)", "This phase has already been recorded.")

@@ -44,6 +44,6 @@ test_calendar_phase_uses_explicit_windows (unit_p08.P08Tests.test_calendar_phase
 test_historical_intake_requires_affirmative_evidence_and_prior_publication (unit_p08.P08Tests.test_historical_intake_requires_affirmative_evidence_and_prior_publication) ... ok
 
 ----------------------------------------------------------------------
-Ran 44 tests in 0.129s
+Ran 44 tests in 0.281s
 
 OK

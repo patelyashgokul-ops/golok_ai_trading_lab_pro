@@ -154,6 +154,16 @@ class TestLab(TransactionCase):
             if expected in ("intraday", "post_market"):
                 self.assertGreater(event.observation_count, 0)
                 self.assertEqual(event.run_id.decision, "no_trade")
+        replay_watch = watch.sudo()
+        events = self.env["golok.lab.session.event"].sudo()
+        events.search([("watch_id", "=", watch.id), ("phase", "=", "post_market")]).unlink()
+        replay_watch.write({"checked_at": session.opening.replace(tzinfo=None)})
+        watch._dispatch(cases[-1][0])
+        recovered = events.search([("watch_id", "=", watch.id), ("recovered", "=", True)])
+        self.assertEqual((recovered.phase, recovered.mode, recovered.run_id.as_of),
+                         ("post_market", "fixture", session.closing.replace(tzinfo=None)))
+        watch._dispatch(cases[-1][0])
+        self.assertEqual(events.search_count([("watch_id", "=", watch.id), ("recovered", "=", True)]), 1)
 
     def _wizard(self, lines, dataset=None):
         raw = ("close_time,open,high,low,close,volume\n" + "\n".join(lines)).encode()
@@ -537,6 +547,16 @@ class TestLab(TransactionCase):
         seal_action = wizard.action_seal()
         seal = self.env["golok.lab.holdout"].with_user(self.admin).browse(seal_action["res_id"])
         self.assertFalse(seal.result_id)
+        candles = self.env["golok.lab.candle"].with_user(self.viewer)
+        restricted = [("dataset_id", "in", wizard.dataset_ids.ids), ("close_time", ">=", "2024-01-04 00:00:00"),
+                      ("close_time", "<", "2024-01-05 00:00:00")]
+        raw = candles.sudo().search(restricted, limit=1)
+        self.assertTrue(raw)
+        self.assertFalse(candles.search(restricted))
+        with self.assertRaises(AccessError):
+            candles.browse(raw.id).read(["close_price"])
+        with self.assertRaises(AccessError):
+            candles.browse(raw.id).export_data(["close_price"])
         with self.assertRaises(ValidationError):
             wizard.action_run()
         with self.assertRaises(AccessError):

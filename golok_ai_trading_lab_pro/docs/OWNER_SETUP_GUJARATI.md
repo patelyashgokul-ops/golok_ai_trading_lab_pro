@@ -1,6 +1,6 @@
 # Golok AI Trading Lab Pro ચલાવવાની રીત
 
-P08માં **Research Schedules** ખોલીને fixture calendar ધરાવતો dataset પસંદ કરો. **Check Session Now** હાલની સ્થિતિ નોંધે છે. **Daily Research Operations**માં તબક્કો, observations અને **NO TRADE**નું કારણ જુઓ. Laptop બંધ હોય ત્યારે સ્થાનિક scheduler ચાલતો નથી.
+P08માં **Research Schedules** ખોલીને fixture calendar ધરાવતો dataset પસંદ કરો. **Check Session Now** હાલની સ્થિતિ નોંધે છે. **Daily Research Operations**માં તબક્કો, observations અને **NO TRADE**નું કારણ જુઓ. Laptop બંધ હોય ત્યારે સ્થાનિક scheduler ચાલતો નથી. ફરી ચાલુ થાય ત્યારે છેલ્લા ચેક પછીના છેલ્લાં સાત દિવસમાં પૂર્ણ થયેલાં સત્રોના post-market reports પુનઃબનાવી શકે છે. તેમાં **historical recovery** દેખાય છે.
 
 અધિકૃત daily ફાઇલ આયાત કર્યા પછી **Normalize to Research Datasets** દબાવો. તારીખને આવરી લેતું NSE instrument mapping અને મેળ ખાતો ISIN હોવો જોઈએ. વાસ્તવિક CSV માટે **Source Authorizations**માં ચોક્કસ publisher અને ઉપયોગની મંજૂરી નોંધો.
 

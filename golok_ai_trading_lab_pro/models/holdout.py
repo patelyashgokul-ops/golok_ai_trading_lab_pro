@@ -1,5 +1,10 @@
+from datetime import datetime, time, timedelta, timezone
+
 from odoo import api, fields, models
 from odoo.exceptions import AccessError, ValidationError
+from odoo.fields import Domain
+
+from ..services.calendar import IST
 
 
 class ReplayGuard(models.Model):
@@ -36,6 +41,17 @@ class Holdout(models.Model):
     consumed_by = fields.Many2one("res.users")
     consumed_at = fields.Datetime()
     result_id = fields.Many2one("golok.lab.portfolio", ondelete="restrict")
+
+    @api.model
+    def _observation_domain(self, first, last, instrument):
+        """Keep reserved observations hidden through native search, read and export."""
+        terms = []
+        for holdout in self.sudo().search([("company_id", "in", self.env.companies.ids)]):
+            left = datetime.combine(holdout.starts, time.min, IST).astimezone(timezone.utc).replace(tzinfo=None)
+            right = datetime.combine(holdout.ends + timedelta(days=1), time.min, IST).astimezone(timezone.utc).replace(tzinfo=None)
+            terms.append(Domain(instrument, "in", holdout.dataset_ids.instrument_id.ids)
+                         & Domain(first, "<", right) & Domain(last, ">=", left))
+        return ~Domain.OR(terms)
 
     def action_consume(self):
         self.ensure_one()

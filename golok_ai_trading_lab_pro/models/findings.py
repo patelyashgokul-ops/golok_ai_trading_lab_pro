@@ -26,6 +26,14 @@ class ResearchFindings(models.Model):
 
     _identity = models.Constraint("UNIQUE(run_id, calculation_version)", "Supplemental findings already exist.")
 
+    @api.model
+    def _access_domain(self, operation):
+        domain = super()._access_domain(operation)
+        if operation == "read" and not self.env.su:
+            domain &= self.env["golok.lab.holdout"]._observation_domain(
+                "run_id.first_close", "run_id.last_close", "run_id.dataset_id.instrument_id")
+        return domain
+
     def export_data(self, fields_to_export):
         self.check_access("read")
         if any(row.dataset_id.origin != "synthetic" for row in self):

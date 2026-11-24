@@ -42,7 +42,7 @@
         <field name="name">golok.lab.session.event.list</field><field name="model">golok.lab.session.event</field>
         <field name="arch" type="xml"><list create="0" edit="0" delete="0">
             <field name="day"/><field name="observed_at"/><field name="phase"/><field name="state"/>
-            <field name="mode"/><field name="observation_count"/><field name="summary"/><field name="run_id"/>
+            <field name="mode"/><field name="recovered"/><field name="observation_count"/><field name="summary"/><field name="run_id"/>
         </list></field>
     </record>
     <record id="action_session_watch" model="ir.actions.act_window">

@@ -258,6 +258,13 @@ class Candle(models.Model):
             self.available_at.replace(tzinfo=timezone.utc) if self.available_at else None,
         )
 
+    @api.model
+    def _access_domain(self, operation):
+        domain = super()._access_domain(operation)
+        if operation == "read" and not self.env.su:
+            domain &= self.env["golok.lab.holdout"]._observation_domain("close_time", "close_time", "instrument_id")
+        return domain
+
     def export_data(self, fields_to_export):
         self.check_access("read")
         if any(row.dataset_id.origin != "synthetic" for row in self):
@@ -290,6 +297,14 @@ class ResearchRun(models.Model):
         "UNIQUE(dataset_id, as_of, engine_version, input_digest)", "This research snapshot already exists."
     )
 
+    @api.model
+    def _access_domain(self, operation):
+        domain = super()._access_domain(operation)
+        if operation == "read" and not self.env.su:
+            domain &= self.env["golok.lab.holdout"]._observation_domain(
+                "first_close", "last_close", "dataset_id.instrument_id")
+        return domain
+
     @api.depends("evidence")
     def _compute_evidence_text(self):
         for run in self:
@@ -318,10 +333,13 @@ class ResearchRun(models.Model):
         if dataset.quarantined:
             raise ValidationError(_("The dataset is quarantined."))
         dataset._permit("research")
+        self.env["golok.lab.replay.guard"]._lock(dataset.instrument_id)
         domain = [("dataset_id", "=", dataset.id), ("close_time", "<=", cutoff)]
         if dataset.calendar_id:
             domain.append(("available_at", "<=", cutoff))
-        candles = self.env["golok.lab.candle"].search(domain, limit=250)
+        candle_model = self.env["golok.lab.candle"]
+        isolation = self.env["golok.lab.holdout"]._observation_domain("close_time", "close_time", "instrument_id")
+        candles = candle_model.search(Domain(domain) & isolation, limit=250)
         bars = [candle._to_bar() for candle in reversed(candles)]
         version = "2" if dataset.calendar_id else research.VERSION
         digest = _input_digest(bars, dataset.calendar_id)
