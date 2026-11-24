@@ -136,6 +136,8 @@ class Dataset(models.Model):
         self.check_access("write")
         if self.quarantined:
             raise ValidationError(_("The dataset is quarantined."))
+        if self.origin == "imported":
+            self.env["golok.lab.source.review"]._authorize("manual", "historical", ("query", "display", "persist"))
         if self.calendar_id:
             sessions = self.calendar_id._sessions()
             try:

@@ -1,8 +1,10 @@
-# Owner actions for P06
+# Owner actions for P07
+
+Offline synthetic research requires no external setup. For real historical files, record the relevant permissions in **Source Authorizations**, including permission for ongoing internal storage. Genuine intraday research requires authorized coverage and verifiable publication timing. Prospective paper and actionable live features still require software and operating evidence.
 
 **Offline research requires no external owner action.** Start with the bundled synthetic fixtures. The current workflows support five strategy replays, chronological comparison and single-use synthetic holdout evaluation. [ગુજરાતી સેટઅપ](OWNER_SETUP_GUJARATI.md)
 
-Only import an actual legacy NSE daily file if the organization has evidence permitting its intended use and ongoing internal archival. Record the review under **Source Authorizations** and use **End-of-day File Imports**. The source's modern UDiFF format still needs an importer. An authorized live feed and separately validated financial workflow remain prerequisites for future live decision support.
+Use **End-of-day File Imports** for legacy NSE cash Bhavcopy or the targeted UDiFF cash profile. An authorized live feed and separately validated financial workflow remain prerequisites for future live decision support.
 
 The optional broker setup below is needed only for an owner-authorized SmartAPI test. P06 additionally requires an effective SmartAPI source review allowing query, display and archival storage.
 

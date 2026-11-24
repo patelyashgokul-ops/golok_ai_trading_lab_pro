@@ -8,7 +8,7 @@ from pathlib import Path
 from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, ValidationError
 
-from ..services import backtest, calendar, decision, eligibility, market_data, portfolio, simulation, strategies
+from ..services import backtest, calendar, decision, eligibility, market_data, portfolio, simulation, strategies, targets
 
 
 def digest(value):
@@ -33,6 +33,7 @@ class Portfolio(models.Model):
     capital = fields.Char(required=True)
     tick = fields.Char(required=True)
     strategy = fields.Selection(STRATEGIES, required=True)
+    target_policy = fields.Selection([("structure", "Completed market structure"), ("fixed_4r", "Fixed 4R benchmark")])
     fingerprint = fields.Char(required=True)
     trade_count = fields.Integer()
     decision_count = fields.Integer()
@@ -49,9 +50,12 @@ class Portfolio(models.Model):
     def _run_request(self, vals_list, *, training=None, seal=None):
         self.check_access("create")
         allowed = {"dataset_ids", "tariff_id", "starts", "ends", "capital", "tick", "strategy"}
-        if len(vals_list) != 1 or set(vals_list[0]) != allowed:
+        if len(vals_list) != 1 or not allowed <= set(vals_list[0]) <= allowed | {"target_policy"}:
             raise ValidationError(_("Supply one portfolio request with no generated fields."))
         vals = vals_list[0]
+        target_policy = vals.get("target_policy", "structure")
+        if target_policy not in ("structure", "fixed_4r"):
+            raise ValidationError(_("Select a supported target policy."))
         identifiers, tariff_id = vals["dataset_ids"], vals["tariff_id"]
         if (not isinstance(identifiers, (tuple, list)) or not 1 <= len(identifiers) <= portfolio.MAX_INSTRUMENTS
                 or any(type(item) is not int or item <= 0 for item in identifiers)
@@ -82,6 +86,7 @@ class Portfolio(models.Model):
             if (not training or training.company_id != company or training.tariff_id != tariff
                     or set(training.dataset_ids.ids) != set(datasets.ids) or training.strategy != vals["strategy"]
                     or training.strategy == "all" or training.ends + timedelta(days=1) >= starts
+                    or (training.target_policy or "fixed_4r") != target_policy
                     or Decimal(training.capital) != capital or Decimal(training.tick) != tick
                     or previous_experiment or self.search_count(overlap)):
                 raise ValidationError(_("Select a matching earlier single-strategy replay and a previously unused holdout after an embargo."))
@@ -114,8 +119,9 @@ class Portfolio(models.Model):
             "interval_seconds": seconds, "capital": capital, "inputs": inputs, "tariff": tariff.id,
             "tariffs": [asdict(rule) for rule in costs.tariffs], "policy": asdict(portfolio.PortfolioPolicy()),
             "strategies": codes, "strategy_version": strategies.VERSION,
+            "target_policy": target_policy, "target_version": targets.VERSION,
             "code_digests": {module.__name__.rsplit(".", 1)[-1]: hashlib.sha256(Path(module.__file__).read_bytes()).hexdigest()
-                             for module in (portfolio, strategies, decision, eligibility, simulation, calendar)},
+                             for module in (portfolio, strategies, decision, eligibility, simulation, calendar, targets)},
         }
         fingerprint = digest(specification)
         if training is not None:
@@ -132,7 +138,8 @@ class Portfolio(models.Model):
         if seal is not None and (not reserved or seal.fingerprint != fingerprint or seal.result_id):
             raise ValidationError(_("Holdout consumed or frozen inputs changed."))
         try:
-            output = portfolio.replay(assets, starts, ends, seconds, codes, costs, capital=capital)
+            output = portfolio.replay(assets, starts, ends, seconds, codes, costs, capital=capital,
+                                      target_policy=target_policy)
         except (ValueError, ArithmeticError) as exc:
             raise ValidationError(str(exc)) from None
         prior = self.search([("company_id", "=", company.id), ("fingerprint", "=", fingerprint)], limit=1)
@@ -140,7 +147,7 @@ class Portfolio(models.Model):
             return prior
         return super(Portfolio, self.with_context({})).create([{
             **vals, "dataset_ids": [fields.Command.set(datasets.ids)], "company_id": company.id,
-            "fingerprint": fingerprint, "trade_count": len(output["trades"]),
+            "fingerprint": fingerprint, "target_policy": target_policy, "trade_count": len(output["trades"]),
             "decision_count": len(output["decisions"]), "suspended": output["suspended"],
             "specification": json.dumps(specification, default=str, indent=2, sort_keys=True),
             "result": json.dumps(output, default=str, indent=2, sort_keys=True),

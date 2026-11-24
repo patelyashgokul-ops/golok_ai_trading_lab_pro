@@ -18,7 +18,7 @@ def run():
     for label, tariff in (("baseline", costs), ("double_tariff_rates", stressed)):
         rows = {}
         for code in sorted(strategies.REGISTRY):
-            result = portfolio.replay(assets, day, day, 300, (code,), tariff)
+            result = portfolio.replay(assets, day, day, 300, (code,), tariff, target_policy="fixed_4r")
             gross, fees, net = (result[key] for key in ("gross", "fees", "net"))
             assert gross - fees == net == result["ending_cash"] - Decimal("50000")
             assert sum(row["delta"] for row in result["ledger"]) == net

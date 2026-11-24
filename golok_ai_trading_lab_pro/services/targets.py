@@ -14,7 +14,7 @@ def levels(history, entry, stop, release, after_open, exit_cutoff):
         raise ValueError("Unknown target policy.")
     # Nearest completed resistance is the first barrier. A farther level cannot
     # rescue a poor risk/reward ratio at the nearest one.
-    highs = {bar.high for bar in history[-20:] if bar.available_at <= after_open and bar.high > entry}
+    highs = {bar.high for bar in history[-20:] if bar.available_at < after_open and bar.high > entry}
     return ((min(highs),), "NEAREST_COMPLETED_RESISTANCE") if highs else ((), "NO_CAUSAL_TARGET")
 
 

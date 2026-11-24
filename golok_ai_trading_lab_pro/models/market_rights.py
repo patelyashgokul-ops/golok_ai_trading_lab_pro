@@ -58,7 +58,7 @@ class SourceReview(models.Model):
 
     @api.model
     def _authorize(self, source, feed, required):
-        review = self.search([("company_id", "=", self.env.company.id), ("provider", "=", source)], limit=1)
+        review = self.sudo().search([("company_id", "=", self.env.company.id), ("provider", "=", source)], limit=1)
         grants = {source: {name: review[name] for name in providers.PERMISSIONS}} if review else {}
         if (not review or review.expires < fields.Date.today()
                 or ("persist" in required and review.storage_policy != "archive")

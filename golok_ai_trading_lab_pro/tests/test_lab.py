@@ -12,6 +12,25 @@ MODULE = "golok_ai_trading_lab_pro"
 
 @tagged("at_install", "-post_install")
 class TestLab(TransactionCase):
+    def test_p07_manual_market_csv_requires_active_company_grant(self):
+        analyst = self.env["golok.lab.dataset"].with_user(self.analyst)
+        data = analyst.create({"name": "External source fixture", "source": "Licensed source test",
+                               "instrument_id": self.instrument.id, "interval": "5m", "origin": "imported"})
+        importer = self._wizard(self._lines(1), data)
+        with self.assertRaises(AccessError):
+            importer.action_import()
+        values = {"provider": "manual", "terms_url": "https://example.test/terms",
+                  "documentation": "https://example.test/schema", "evidence": "Generated test grant",
+                  "purpose": "Internal descriptive analysis", "restrictions": "Local use",
+                  "expires": "2099-01-01", "query": True, "display": True, "persist": True, "storage_policy": "archive"}
+        reviews = self.env["golok.lab.source.review"].with_user(self.admin)
+        reviews.create(values)
+        importer.action_import()
+        self.assertEqual(self.env["golok.lab.candle"].search_count([("dataset_id", "=", data.id)]), 1)
+        reviews.create({**values, "expires": "2000-01-01"})
+        with self.assertRaises(AccessError):
+            self._wizard(self._lines(2), data).action_import()
+
     def test_p06_review_and_daily_fixture(self):
         import base64
         from ..services.bhavcopy import COLUMNS
@@ -435,7 +454,7 @@ class TestLab(TransactionCase):
                 "dataset_id": dataset.id, "upload": BinaryBytes(payload),
             }).action_import()
         vals = {"dataset_ids": datasets.ids, "tariff_id": tariff.id, "starts": "2024-01-02", "ends": "2024-01-02",
-                "capital": "50000", "tick": "0.05", "strategy": "ST-01"}
+                "capital": "50000", "tick": "0.05", "strategy": "ST-01", "target_policy": "fixed_4r"}
         portfolios = self.env["golok.lab.portfolio"].with_user(self.analyst)
         record = portfolios.create(vals)
         self.assertEqual(record, portfolios.create({**vals, "dataset_ids": list(reversed(datasets.ids))}))

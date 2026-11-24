@@ -19,6 +19,9 @@ class PortfolioWizard(models.TransientModel):
     capital = fields.Char(required=True, default="50000")
     tick = fields.Char(required=True, default="0.05", string="Unmapped Tick Size")
     strategy = fields.Selection(STRATEGIES, required=True, default="all")
+    target_policy = fields.Selection([
+        ("structure", "Completed market structure"), ("fixed_4r", "Fixed 4R benchmark")],
+        required=True, default="structure")
     training_id = fields.Many2one("golok.lab.portfolio", string="Training replay for sealing")
 
     def action_seal(self):
@@ -29,6 +32,7 @@ class PortfolioWizard(models.TransientModel):
         seal = self.env["golok.lab.portfolio"]._run_request([{
             "dataset_ids": self.dataset_ids.ids, "tariff_id": self.tariff_id.id, "starts": self.starts,
             "ends": self.ends, "capital": self.capital, "tick": self.tick, "strategy": self.strategy,
+            "target_policy": self.target_policy,
         }], training=self.training_id)
         return {"type": "ir.actions.act_window", "res_model": seal._name, "res_id": seal.id,
                 "views": [(False, "form")], "target": "current"}
@@ -39,6 +43,7 @@ class PortfolioWizard(models.TransientModel):
         record = self.env["golok.lab.portfolio"].create({
             "dataset_ids": self.dataset_ids.ids, "tariff_id": self.tariff_id.id, "starts": self.starts,
             "ends": self.ends, "capital": self.capital, "tick": self.tick, "strategy": self.strategy,
+            "target_policy": self.target_policy,
         })
         return {"type": "ir.actions.act_window", "res_model": record._name, "res_id": record.id,
                 "views": [(False, "form")], "target": "current"}
@@ -52,6 +57,7 @@ class PortfolioWizard(models.TransientModel):
                 records |= records.create({
                     "dataset_ids": self.dataset_ids.ids, "tariff_id": self.tariff_id.id, "starts": self.starts,
                     "ends": self.ends, "capital": self.capital, "tick": self.tick, "strategy": code,
+                    "target_policy": self.target_policy,
                 })
         return {"type": "ir.actions.act_window", "name": "Synthetic Strategy Comparison",
                 "res_model": records._name, "domain": [("id", "in", records.ids)],
@@ -68,7 +74,7 @@ class PortfolioWizard(models.TransientModel):
         for offset in range(duration - 2):
             start = self.starts + timedelta(days=offset)
             inputs = {"dataset_ids": self.dataset_ids.ids, "tariff_id": self.tariff_id.id,
-                      "capital": self.capital, "tick": self.tick}
+                      "capital": self.capital, "tick": self.tick, "target_policy": self.target_policy}
             portfolios = self.env["golok.lab.portfolio"]
             scored = []
             for code, _label in STRATEGIES:

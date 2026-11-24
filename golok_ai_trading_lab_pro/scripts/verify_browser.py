@@ -175,7 +175,7 @@ def verify(base_url, database, edge):
                 call("golok.lab.import", "action_import", [importer])
         wizard = call("golok.lab.portfolio.wizard", "create", {
             "dataset_ids": [[6, 0, datasets]], "tariff_id": tariff, "starts": "2024-01-02",
-            "ends": "2024-01-02", "strategy": "ST-01",
+            "ends": "2024-01-02", "strategy": "ST-01", "target_policy": "fixed_4r",
         })
         training = call("golok.lab.portfolio.wizard", "action_run", [wizard])["res_id"]
         page.goto(f"{base_url}/odoo/action-{action_id}")

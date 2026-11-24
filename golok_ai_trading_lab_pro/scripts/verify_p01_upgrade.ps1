@@ -44,13 +44,17 @@ order by 1
             throw 'The clone lacks the required populated P01 records.'
         }
         $extra = @{}
-        if ($SourceVersion -in @('20.0.4.0.0','20.0.5.0.0')) {
+        if ($SourceVersion -in @('20.0.4.0.0','20.0.5.0.0','20.0.6.0.0')) {
             $tables = @('calendar','mapping','tariff','experiment','paper_account','paper_batch','paper_event','findings','sync','research_job')
-            if ($SourceVersion -eq '20.0.5.0.0') { $tables += @('portfolio','sync_plan','sync_task') }
+            if ($SourceVersion -in @('20.0.5.0.0','20.0.6.0.0')) { $tables += @('sync_plan','sync_task') }
+            if ($SourceVersion -eq '20.0.5.0.0') { $tables += @('portfolio') }
+            if ($SourceVersion -eq '20.0.6.0.0') { $tables += @('holdout','source_review','daily_import') }
             foreach ($table in $tables) {
                 $extra[$table] = Query "select count(*) || ':' || coalesce(md5(string_agg(row_to_json(t)::text,';' order by id)), 'empty') from golok_lab_$table t"
             }
         }
+        $portfolioQuery = "select count(*) || ':' || coalesce(md5(string_agg((to_jsonb(t)-'target_policy')::text,';' order by id)), 'empty') from golok_lab_portfolio t"
+        if ($SourceVersion -eq '20.0.6.0.0') { $oldPortfolio = Query $portfolioQuery }
         $addons = "--addons-path=$OdooRoot/addons,$(Resolve-Path ..)"
         $common = @($addons, '--data-dir=.local-test/odoo-data', '--db_host=127.0.0.1',
                     "--db_port=$PostgresPort", '--db_user=golok_test', '-d', $TargetDatabase)
@@ -60,6 +64,9 @@ order by 1
         $timer.Stop()
         if ($code) { throw "Module upgrade exited $code" }
         $after = @(Query $data)
+        if ($SourceVersion -eq '20.0.6.0.0' -and (Query $portfolioQuery) -ne $oldPortfolio) {
+            throw 'Historical portfolio retention failed.'
+        }
         $afterXML = @(Query $xml)
         if ((Query $revision) -ne $TargetVersion -or (Compare-Object $before $after) -or
             @($beforeXML | Where-Object { $_ -notin $afterXML }).Count) {

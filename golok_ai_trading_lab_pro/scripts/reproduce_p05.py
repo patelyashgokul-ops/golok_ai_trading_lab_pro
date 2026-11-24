@@ -27,8 +27,9 @@ def fixture():
 def run():
     series, day, cost = fixture()
     policy = portfolio.PortfolioPolicy(daily_loss=Decimal(".0026"))
-    result = portfolio.replay(series, day, day, 300, ("ST-01",), cost, portfolio_policy=policy)
-    assert result == portfolio.replay(series[::-1], day, day, 300, ("ST-01",), cost, portfolio_policy=policy)
+    result = portfolio.replay(series, day, day, 300, ("ST-01",), cost, portfolio_policy=policy, target_policy="fixed_4r")
+    assert result == portfolio.replay(series[::-1], day, day, 300, ("ST-01",), cost,
+                                      portfolio_policy=policy, target_policy="fixed_4r")
     balance = Decimal("50000")
     for row in result["ledger"]:
         balance += row["delta"]

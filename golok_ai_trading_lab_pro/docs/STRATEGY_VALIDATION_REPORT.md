@@ -1,5 +1,7 @@
 # Strategy validation — P06
 
+P07 defaults to nearest prior completed resistance from a twenty-bar trailing window strictly available before entry. Fixed 4R is an explicit benchmark. A fee-aware net ratio below 2:1 stops the candidate. Concurrent candidates are ranked by reaching 3:1 net reward-to-risk, the ratio, absolute net reward and observed volume. Identity breaks substantive ties. Shared risk is checked again before each allocation. The model is synthetic. [P07 comparison](evidence/p07/target-comparison.json)
+
 The experimental portfolio registry now contains ST-01, ST-02, ST-04, ST-06 and ST-08. ST-04 requires a fast average above a slower average, a pullback, and a close above the preceding high. ST-06 requires a close above the preceding ten highs with at least twice the preceding mean volume. Both use the shared portfolio stop, cost, liquidity and risk checks. They run on information available by the synthetic bar close.
 
 **Compare Five Strategies** creates five independently reproducible replays with identical dates, universe, capital, tick and tariff. **Walk-forward Validation** evaluates each strategy on two training dates, skips one embargo date and evaluates the best training net result among strategies with trades on the following date. A stable code ordering breaks ties. Each fold starts at the frozen input capital. A fold without a training trade yields no selection. Full fold-lineage reporting and statistical inference remain open.

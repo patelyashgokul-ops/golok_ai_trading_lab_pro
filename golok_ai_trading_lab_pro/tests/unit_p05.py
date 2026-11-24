@@ -56,7 +56,7 @@ class P05Tests(unittest.TestCase):
             replace(bar, open_time=bar.open_time + shift, close_time=bar.close_time + shift,
                     available_at=bar.available_at + shift) for bar in asset.bars),
         ) for asset in series[:2]]
-        output = portfolio.replay(assets, day, next_day, 300, ("ST-01",), costs)
+        output = portfolio.replay(assets, day, next_day, 300, ("ST-01",), costs, target_policy="fixed_4r")
         self.assertEqual([row["date"] for row in output["days"]], [day, next_day])
         self.assertEqual(len(output["trades"]), 2)
         self.assertEqual(output["days"][-1]["return"], 0)

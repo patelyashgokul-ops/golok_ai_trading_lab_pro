@@ -50,6 +50,7 @@ class Holdout(models.Model):
         result = self.env["golok.lab.portfolio"]._run_request([{
             "dataset_ids": self.dataset_ids.ids, "starts": self.starts, "ends": self.ends,
             "strategy": training.strategy, "tick": training.tick, "capital": training.capital,
+            "target_policy": training.target_policy or "fixed_4r",
             "tariff_id": training.tariff_id.id,
         }], seal=self)
         self.sudo().write({"result_id": result.id, "consumed_by": self.env.user.id, "consumed_at": fields.Datetime.now()})
