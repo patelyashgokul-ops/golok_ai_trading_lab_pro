@@ -12,3 +12,6 @@ run_analyst,Research analyst,golok.lab.run,golok_ai_trading_lab_pro.group_analys
 run_company,Research company,golok.lab.run,,crud,"[('company_id', 'in', company_ids)]"
 import_analyst,Import analyst,golok.lab.import,golok_ai_trading_lab_pro.group_analyst,crud,
 research_analyst,Research wizard analyst,golok.lab.research,golok_ai_trading_lab_pro.group_analyst,crud,
+calendar_viewer,Calendar reader,golok.lab.calendar,golok_ai_trading_lab_pro.group_viewer,r,
+calendar_admin,Calendar administrator,golok.lab.calendar,golok_ai_trading_lab_pro.group_admin,cr,
+calendar_company,Calendar company,golok.lab.calendar,,crud,"[('company_id', 'in', company_ids)]"

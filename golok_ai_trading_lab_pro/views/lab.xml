@@ -27,10 +27,13 @@
         <field name="name">golok.lab.dataset.form</field>
         <field name="model">golok.lab.dataset</field>
         <field name="arch" type="xml">
-            <form><sheet><group>
+            <form><header>
+                <button name="action_toggle_quarantine" type="object" string="Toggle quarantine" invisible="not id" groups="golok_ai_trading_lab_pro.group_admin"/>
+            </header><sheet><group>
                 <field name="name"/><field name="company_id" readonly="id"/>
                 <field name="instrument_id" readonly="id"/><field name="source" readonly="id"/>
                 <field name="origin" readonly="id"/><field name="interval" readonly="id"/>
+                <field name="calendar_id" readonly="id"/><field name="quarantined" invisible="not id"/>
             </group></sheet></form>
         </field>
     </record>
@@ -43,6 +46,7 @@
                 <field name="open_price"/><field name="high_price"/><field name="low_price"/>
                 <field name="close_price"/><field name="volume"/><field name="quality"/>
                 <field name="ingested_at" optional="hide"/><field name="processing_version" optional="hide"/>
+                <field name="open_time" optional="hide"/><field name="available_at" optional="hide"/>
             </list>
         </field>
     </record>
@@ -120,6 +124,26 @@
     <record id="action_research" model="ir.actions.act_window">
         <field name="name">Run historical research</field><field name="res_model">golok.lab.research</field><field name="view_mode">form</field><field name="target">new</field>
     </record>
+    <record id="view_calendar_list" model="ir.ui.view">
+        <field name="name">golok.lab.calendar.list</field>
+        <field name="model">golok.lab.calendar</field>
+        <field name="arch" type="xml">
+            <list><field name="name"/><field name="exchange"/><field name="verification"/><field name="verified_on"/><field name="company_id"/></list>
+        </field>
+    </record>
+    <record id="view_calendar_form" model="ir.ui.view">
+        <field name="name">golok.lab.calendar.form</field>
+        <field name="model">golok.lab.calendar</field>
+        <field name="arch" type="xml">
+            <form><sheet><group><field name="name"/><field name="company_id"/><field name="exchange"/>
+                <field name="source"/><field name="verification"/><field name="verified_on"/>
+                <field name="schedule"/>
+            </group></sheet></form>
+        </field>
+    </record>
+    <record id="action_calendar" model="ir.actions.act_window">
+        <field name="name">Exchange Calendars</field><field name="res_model">golok.lab.calendar</field><field name="view_mode">list,form</field>
+    </record>
     <menuitem id="menu_lab" name="Trading Lab" action="action_overview" groups="group_viewer"/>
     <menuitem id="menu_overview" name="Overview" parent="menu_lab" action="action_overview" sequence="10"/>
     <menuitem id="menu_instruments" name="Instruments" parent="menu_lab" action="action_instruments" sequence="20"/>
@@ -128,4 +152,5 @@
     <menuitem id="menu_candles" name="Candles" parent="menu_lab" action="action_candles" sequence="50"/>
     <menuitem id="menu_research" name="Run Research" parent="menu_lab" action="action_research" groups="group_analyst" sequence="60"/>
     <menuitem id="menu_runs" name="Research History" parent="menu_lab" action="action_runs" sequence="70"/>
+    <menuitem id="menu_calendar" name="Exchange Calendars" parent="menu_lab" action="action_calendar" sequence="80"/>
 </odoo>

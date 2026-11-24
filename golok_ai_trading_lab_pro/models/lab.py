@@ -2,11 +2,66 @@ import hashlib
 import json
 from datetime import timezone
 from decimal import Decimal
+from urllib.parse import urlsplit
 
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError, ValidationError
+from odoo.exceptions import AccessError, UserError, ValidationError
 
-from ..services import market_data, research
+from ..services import calendar, market_data, research
+
+
+def _input_digest(bars, revision):
+    rows = [[bar.close_time.isoformat(), str(bar.open), str(bar.high), str(bar.low), str(bar.close), bar.volume]
+            for bar in bars]
+    payload = rows
+    if revision:
+        payload = {
+            "calendar_revision": revision.name,
+            "schedule": revision.schedule,
+            "bars": [row + [bar.open_time.isoformat(), bar.available_at.isoformat()] for row, bar in zip(rows, bars)],
+        }
+    return hashlib.sha256(json.dumps(payload, separators=(",", ":")).encode()).hexdigest()
+
+
+class ExchangeCalendar(models.Model):
+    _name = "golok.lab.calendar"
+    _description = "Explicit exchange calendar revision"
+    _check_company_auto = True
+
+    name = fields.Char(required=True)
+    company_id = fields.Many2one("res.company", required=True, default=lambda self: self.env.company, index=True)
+    exchange = fields.Selection([("NSE", "NSE"), ("BSE", "BSE")], required=True)
+    source = fields.Char(required=True)
+    verification = fields.Selection([("reviewed", "Operator reviewed official source"), ("fixture", "Synthetic calendar")], required=True)
+    verified_on = fields.Date(required=True)
+    schedule = fields.Text(required=True)
+
+    _version = models.Constraint("UNIQUE(company_id, exchange, name)", "Calendar revisions must be unique per exchange.")
+
+    @api.constrains("schedule", "source", "exchange", "verification", "verified_on")
+    def _check_schedule(self):
+        for revision in self:
+            revision._sessions()
+            if revision.verified_on > fields.Date.today():
+                raise ValidationError(_("The review date cannot be in the future."))
+            if revision.verification == "reviewed":
+                domains = {"NSE": {"nseindia.com", "www.nseindia.com", "nsearchives.nseindia.com", "archives.nseindia.com"},
+                           "BSE": {"bseindia.com", "www.bseindia.com"}}
+                try:
+                    location = urlsplit(revision.source)
+                    valid = (location.scheme == "https" and location.netloc.lower() in domains[revision.exchange]
+                             and bool(location.path.strip("/")))
+                except ValueError:
+                    valid = False
+                if not valid:
+                    raise ValidationError(_("A reviewed calendar needs a direct HTTPS source on the official exchange website."))
+
+    def _sessions(self):
+        self.ensure_one()
+        try:
+            return calendar.load_schedule(self.schedule)
+        except ValueError as exc:
+            raise ValidationError(str(exc)) from None
 
 
 class Instrument(models.Model):
@@ -41,19 +96,53 @@ class Dataset(models.Model):
     source = fields.Char(required=True, help="Dataset publisher or file provenance. Keep account information out of this field.")
     origin = fields.Selection([("imported", "Imported historical"), ("synthetic", "Synthetic fixture")], required=True)
     interval = fields.Selection([(key, key) for key in market_data.INTERVALS], required=True)
+    calendar_id = fields.Many2one("golok.lab.calendar", ondelete="restrict", check_company=True)
+    quarantined = fields.Boolean(readonly=True)
 
     _identity = models.Constraint(
         "UNIQUE(company_id, instrument_id, source, origin, interval)", "This source and interval are already registered."
     )
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        if any(vals.get("quarantined") for vals in vals_list):
+            raise ValidationError(_("Use the administrator quarantine operation."))
+        return super(Dataset, self.with_context(default_quarantined=False)).create(vals_list)
+
+    @api.constrains("calendar_id", "instrument_id", "origin")
+    def _check_calendar(self):
+        for dataset in self.filtered("calendar_id"):
+            if dataset.calendar_id.exchange != dataset.instrument_id.exchange:
+                raise ValidationError(_("The calendar and instrument exchanges must match."))
+            if dataset.calendar_id.verification == "fixture" and dataset.origin != "synthetic":
+                raise ValidationError(_("Only synthetic datasets may use fixture calendars."))
+
     def write(self, vals):
-        if set(vals) - {"name"}:
+        if set(vals) - {"name", "quarantined"}:
             raise UserError(_("Dataset provenance is immutable. Register a new dataset for a new source."))
+        if "quarantined" in vals and not self.env.user.has_group("golok_ai_trading_lab_pro.group_admin"):
+            raise ValidationError(_("Only a Trading System Administrator may change dataset quarantine."))
         return super().write(vals)
+
+    def action_toggle_quarantine(self):
+        self.ensure_one()
+        self.check_access("write")
+        self.write({"quarantined": not self.quarantined})
 
     def _import_bars(self, bars):
         self.ensure_one()
         self.check_access("write")
+        if self.quarantined:
+            raise ValidationError(_("The dataset is quarantined."))
+        if self.calendar_id:
+            sessions = self.calendar_id._sessions()
+            try:
+                for bar in bars:
+                    calendar.validate_bar(bar, sessions, market_data.INTERVALS[self.interval])
+            except ValueError as exc:
+                raise ValidationError(str(exc)) from None
+        elif any(bar.open_time or bar.available_at for bar in bars):
+            raise ValidationError(_("Temporal bars require a calendar revision."))
         model = self.env["golok.lab.candle"]
         rows = {bar.close_time.replace(tzinfo=None): bar for bar in bars}
         existing = model.search([("dataset_id", "=", self.id), ("close_time", "in", list(rows))])
@@ -65,11 +154,14 @@ class Dataset(models.Model):
             {
                 "dataset_id": self.id,
                 "close_time": timestamp,
+                "open_time": bar.open_time.replace(tzinfo=None) if bar.open_time else False,
+                "available_at": bar.available_at.replace(tzinfo=None) if bar.available_at else False,
                 "open_price": str(bar.open),
                 "high_price": str(bar.high),
                 "low_price": str(bar.low),
                 "close_price": str(bar.close),
                 "volume": bar.volume,
+                "processing_version": "2" if self.calendar_id else market_data.VERSION,
             }
             for timestamp, bar in rows.items()
         ])
@@ -90,6 +182,8 @@ class Candle(models.Model):
     origin = fields.Selection(related="dataset_id.origin")
     interval = fields.Selection(related="dataset_id.interval")
     close_time = fields.Datetime(required=True)
+    open_time = fields.Datetime()
+    available_at = fields.Datetime()
     ingested_at = fields.Datetime(required=True, default=fields.Datetime.now)
     # Capture the imported decimal representation without binary rounding.
     open_price = fields.Char(required=True)
@@ -102,6 +196,11 @@ class Candle(models.Model):
 
     _unique_bar = models.Constraint("UNIQUE(dataset_id, close_time)", "A candle already exists for this close time.")
     _valid_volume = models.Constraint("CHECK(volume >= 0)", "Volume cannot be negative.")
+    _time_order = models.Constraint(
+        "CHECK ((open_time IS NULL AND available_at IS NULL) OR "
+        "(open_time IS NOT NULL AND available_at IS NOT NULL AND open_time < close_time AND close_time <= available_at))",
+        "Opening and availability timestamps must bracket the close.",
+    )
 
     def _to_bar(self):
         self.ensure_one()
@@ -109,6 +208,8 @@ class Candle(models.Model):
             self.close_time.replace(tzinfo=timezone.utc),
             Decimal(self.open_price), Decimal(self.high_price),
             Decimal(self.low_price), Decimal(self.close_price), self.volume,
+            self.open_time.replace(tzinfo=timezone.utc) if self.open_time else None,
+            self.available_at.replace(tzinfo=timezone.utc) if self.available_at else None,
         )
 
 
@@ -144,28 +245,44 @@ class ResearchRun(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        self.check_access("create")
         if len(vals_list) != 1 or set(vals_list[0]) != {"dataset_id", "as_of"}:
             raise ValidationError(_("Supply one dataset and one cutoff. Research results are computed by the server."))
         request = vals_list[0]
-        dataset = self.env["golok.lab.dataset"].browse(request["dataset_id"]).exists()
+        dataset_id = request["dataset_id"]
+        if type(dataset_id) is not int or dataset_id <= 0:
+            raise ValidationError(_("Select one valid dataset."))
+        dataset = self.env["golok.lab.dataset"].search([("id", "=", dataset_id)], limit=1)
         if not dataset:
-            raise ValidationError(_("Dataset does not exist."))
-        dataset.ensure_one()
-        dataset.check_access("read")
-        cutoff = fields.Datetime.to_datetime(request["as_of"])
-        if not cutoff or cutoff > fields.Datetime.now():
+            # Use a uniform response for absent and inaccessible records.
+            raise AccessError(_("Dataset is unavailable."))
+        try:
+            cutoff = fields.Datetime.to_datetime(request["as_of"])
+        except (TypeError, ValueError):
+            cutoff = None
+        if not cutoff or cutoff.tzinfo is not None or cutoff > fields.Datetime.now():
             raise ValidationError(_("The research cutoff must be present and no later than now."))
-        candles = self.env["golok.lab.candle"].search(
-            [("dataset_id", "=", dataset.id), ("close_time", "<=", cutoff)], limit=250,
-        )
+        if dataset.quarantined:
+            raise ValidationError(_("The dataset is quarantined."))
+        domain = [("dataset_id", "=", dataset.id), ("close_time", "<=", cutoff)]
+        if dataset.calendar_id:
+            domain.append(("available_at", "<=", cutoff))
+        candles = self.env["golok.lab.candle"].search(domain, limit=250)
         bars = [candle._to_bar() for candle in reversed(candles)]
-        payload = [
-            [bar.close_time.isoformat(), str(bar.open), str(bar.high), str(bar.low), str(bar.close), bar.volume]
-            for bar in bars
-        ]
-        digest = hashlib.sha256(json.dumps(payload, separators=(",", ":")).encode()).hexdigest()
-        gaps = market_data.check_series(bars, dataset.interval)
-        values = research.describe(bars) if not gaps else {}
+        version = "2" if dataset.calendar_id else research.VERSION
+        digest = _input_digest(bars, dataset.calendar_id)
+        quality_warning = None
+        if dataset.calendar_id:
+            try:
+                gaps = calendar.missing_observations(bars, dataset.calendar_id._sessions(), market_data.INTERVALS[dataset.interval])
+            except ValueError as exc:
+                gaps = 0
+                quality_warning = str(exc)
+        else:
+            gaps = market_data.check_series(bars, dataset.interval)
+        if gaps:
+            quality_warning = "Missing observations in selected window"
+        values = research.describe(bars) if not quality_warning else {}
         status = "INSUFFICIENT_DATA"
         evidence = {}
         metric_keys = ("sma20", "relative_volume20", "atr14")
@@ -177,9 +294,9 @@ class ResearchRun(models.Model):
                 "required_input": "Validated historical OHLCV",
                 "status": "COMPLETED" if value is not None else status,
                 "finding": str(value) if value is not None else None,
-                "quality_warning": "Intraday gaps in selected window" if gaps else None,
+                "quality_warning": quality_warning,
             }
-        identity = {"dataset_id": dataset.id, "as_of": cutoff, "input_digest": digest, "engine_version": research.VERSION}
+        identity = {"dataset_id": dataset.id, "as_of": cutoff, "input_digest": digest, "engine_version": version}
         prior = self.search([(key, "=", val) for key, val in identity.items()], limit=1)
         if prior:
             return prior
@@ -203,7 +320,30 @@ class ResearchRun(models.Model):
             "instruments": self.env["golok.lab.instrument"].search_count([*domain, ("active", "=", True)]),
             "datasets": self.env["golok.lab.dataset"].search_count(domain),
             "candles": self.env["golok.lab.candle"].search_count(domain),
+            "quarantined": self.env["golok.lab.dataset"].search_count([*domain, ("quarantined", "=", True)]),
             "runs": self.search_count(domain),
             "last": last.read(["dataset_id", "as_of", "last_close", "bar_count", "gap_count", "reason", "origin"])[0]
             if last else None,
         }
+
+    @api.model
+    def chart_data(self, run_id):
+        self.check_access("read")
+        if type(run_id) is not int or run_id <= 0:
+            return None
+        run = self.search([("id", "=", run_id), ("company_id", "=", self.env.company.id)], limit=1)
+        if not run or not run.last_close or run.dataset_id.quarantined:
+            return None
+        domain = [("dataset_id", "=", run.dataset_id.id), ("close_time", ">=", run.first_close),
+                  ("close_time", "<=", run.last_close)]
+        if run.engine_version == "2":
+            domain.append(("available_at", "<=", run.as_of))
+        candles = self.env["golok.lab.candle"].search(domain, limit=251)
+        if len(candles) != run.bar_count or _input_digest(
+            [row._to_bar() for row in reversed(candles)], run.dataset_id.calendar_id
+        ) != run.input_digest:
+            return None
+        return {"origin": run.origin, "bars": [
+            [fields.Datetime.to_string(row.close_time), row.open_price, row.high_price,
+             row.low_price, row.close_price, row.volume] for row in reversed(candles[:60])
+        ]}

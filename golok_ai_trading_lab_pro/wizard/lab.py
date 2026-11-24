@@ -21,7 +21,8 @@ class ImportCandles(models.TransientModel):
         try:
             if not self.upload or self.upload.size > market_data.MAX_BYTES:
                 raise ValueError("Select a CSV of up to 512 KiB.")
-            bars = market_data.parse_csv(self.upload.content, as_of=datetime.now(timezone.utc))
+            bars = market_data.parse_csv(self.upload.content, as_of=datetime.now(timezone.utc),
+                                         temporal=bool(self.dataset_id.calendar_id))
         except UnicodeError:
             raise ValidationError(_("CSV must use UTF-8 encoding.")) from None
         except ValueError as exc:
