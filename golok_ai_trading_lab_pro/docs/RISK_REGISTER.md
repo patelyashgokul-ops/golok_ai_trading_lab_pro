@@ -11,3 +11,7 @@
 | R-07 | Resource saturation or failed workstation jobs | 4,000-row import limit, 250-bar research limit, manual refresh | Performance profiles, retention, queue, recovery and workload budgets |
 | R-08 | Misleading accounting or unintended transaction | No paper or real order path | Implement paper ledger and reconcile virtual balances before paper readiness |
 | R-09 | Dataset correction misrepresented as original history | Immutable stored rows and hash-addressed snapshots | Add explicit revision lineage and data availability metadata |
+| R-10 | Vendor publication timestamp is incorrect | Strict format and cutoff checks; provenance stays operator-supplied | Independently authenticate publication and revision history |
+| R-11 | Wrong provider token on a historic date | In-memory overlap and effective-date checks | Persist validated mappings and require them on ingestion |
+| R-12 | Closing auction or special timetable incorrectly applied | Explicit single continuous date-specific grid | Integrate revised calendars, split sessions and instrument calendars |
+| R-13 | Synthetic backtest overinterpreted | Test fixtures and CLI results identify synthetic-only provenance | Verified fee pack, approved data and preregistered holdout |

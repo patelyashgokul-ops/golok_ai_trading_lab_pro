@@ -10,3 +10,5 @@
 | 4 | Broader strategy and research library | Sufficient point-in-time datasets | Walk-forward, stability, uncertainty and prospective paper evidence |
 
 Keep research candidates inactivated until their validation and approval paths exist. Add authorized broker streaming only after a read-only adapter passes contract tests. Document the workload before publishing throughput figures.
+
+P03 should persist effective-dated references, introduce verified source/adjustment policies, and link the REST adapter to a supervised diagnostic workflow. Follow with chronological experiment manifests, multi-session replay and independently reconciled tariffs. Add automatic virtual fills only after the ledger and portfolio invariants are independently verified.

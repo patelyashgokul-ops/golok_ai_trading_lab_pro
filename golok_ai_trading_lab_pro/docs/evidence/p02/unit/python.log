@@ -13,10 +13,11 @@ test_session_reset_and_opening_range (unit_p02.IndicatorsTests.test_session_rese
 test_disabled_transport_and_endpoint_scope (unit_p02.ProviderTests.test_disabled_transport_and_endpoint_scope) ... ok
 test_fixture_auth_history_quote_and_rate_limit (unit_p02.ProviderTests.test_fixture_auth_history_quote_and_rate_limit) ... ok
 test_timeout_sanitizes_transport_error (unit_p02.ProviderTests.test_timeout_sanitizes_transport_error) ... ok
+test_token_reuse_and_ineligible_mapping (unit_p02.ReferenceTests.test_token_reuse_and_ineligible_mapping) ... ok
 test_breakout_reproducibility_and_stop_first (unit_p02.SimulationTests.test_breakout_reproducibility_and_stop_first) ... ok
 test_tariffs_effective_date_and_risk (unit_p02.SimulationTests.test_tariffs_effective_date_and_risk) ... ok
 
 ----------------------------------------------------------------------
-Ran 17 tests in 0.028s
+Ran 18 tests in 0.047s
 
 OK

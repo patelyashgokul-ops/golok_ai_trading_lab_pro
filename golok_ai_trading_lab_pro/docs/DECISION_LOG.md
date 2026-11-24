@@ -10,3 +10,8 @@
 | D-006 | Use the installed Odoo 20 `ir.access` API | The first install exposed a security-model change. ACLs and company rules share the native Odoo 20 CSV afterward. |
 | D-007 | Use isolated disposable localhost databases and headless Edge | Verification avoids changes to owner databases. Test credentials stay out of the source and evidence. |
 | D-008 | Offer manual dashboard refresh | The initial overview sends no periodic polling traffic. It has one RPC per refresh. |
+| D-009 | Make calendar coverage and source publication time explicit | Unknown dates fail closed and existing legacy datasets remain readable. |
+| D-010 | Keep broker REST opt-in and outside Odoo | Fixture tests can verify constraints without transmitting credentials. |
+| D-011 | Prefer session-exact synthetic replay and code/input fingerprints | Reproducibility is measurable while financial validation remains blocked. |
+| D-012 | Require digest match for a chart | Historical display cannot silently adopt new bars after a backfill. |
+| D-013 | Preserve the P01 source as a ZIP and independently verify the populated migration | No Git repository exists in the workspace or its add-on parent. A future repository should import the checkpoint as a local baseline, excluding runtime and credential data. |

@@ -36,7 +36,7 @@ try {
             $log = "$EvidenceDir/installation/$($stage.Name).log"
             $logOffset = if (Test-Path $log) { (Get-Item $log).Length } else { 0 }
             $timer = [Diagnostics.Stopwatch]::StartNew()
-            & $Python -B "$OdooRoot/odoo-bin" @common --without-demo=all --stop-after-init --no-http `
+            & $Python -B "$OdooRoot/odoo-bin" @common --without-demo=all --stop-after-init --no-http "--http-port=$HttpPort" `
                 --test-tags=/golok_ai_trading_lab_pro:TestLab $stage.Flag golok_ai_trading_lab_pro "--logfile=$log"
             $code = $LASTEXITCODE
             $timer.Stop()

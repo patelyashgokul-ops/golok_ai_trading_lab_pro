@@ -5,6 +5,7 @@ import json
 from dataclasses import asdict, dataclass
 from datetime import timedelta
 from decimal import Decimal, localcontext
+from pathlib import Path
 
 from .calendar import validate_bar
 from .simulation import FRICTION, RiskPolicy, size_long
@@ -69,6 +70,10 @@ def replay(bars, session, exchange, seconds, tick, costs, *, source, partition, 
         "partition": partition, "exchange": exchange, "tick": tick, "interval_seconds": seconds,
         "session": asdict(session),
         "bars_digest": hashlib.sha256(canonical([asdict(bar) for bar in bars]).encode()).hexdigest(),
+        "implementation_digests": {
+            name: hashlib.sha256(Path(__file__).with_name(name).read_bytes()).hexdigest()
+            for name in ("backtest.py", "calendar.py", "simulation.py")
+        },
     }
     experiment = hashlib.sha256(canonical(specification).encode()).hexdigest()
     candidates = []
@@ -124,10 +129,15 @@ def replay(bars, session, exchange, seconds, tick, costs, *, source, partition, 
                          "gross": gross, "costs": total_fees, "net": gross - total_fees, "buy_fees": buy, "sell_fees": sell,
                          "friction": sum(buy[k] + sell[k] for k in FRICTION)}
     net = trade["net"] if trade else None
+    gross = trade["gross"] if trade else None
     return {
         "experiment": experiment, "specification": specification, "status": "SYNTHETIC_CORRECTNESS_ONLY",
         "candidates": candidates, "trade": trade,
         "metrics": {"trade_count": int(trade is not None), "net": net,
                     "drawdown_closed_equity": max(-net, 0) if net is not None else None,
-                    "equity_closed": [risk.capital, risk.capital + net] if net is not None else [risk.capital]},
+                    "equity_closed": [risk.capital, risk.capital + net] if net is not None else [risk.capital],
+                    "gross_profit": max(gross, 0) if gross is not None else None,
+                    "gross_loss": max(-gross, 0) if gross is not None else None,
+                    "costs": trade["costs"] if trade else None,
+                    "outcome": ("WIN" if net > 0 else "LOSS" if net < 0 else "NEUTRAL") if net is not None else None},
     }

@@ -5,7 +5,7 @@ from datetime import date, datetime, timedelta, timezone
 from decimal import Decimal as D
 from unittest.mock import patch
 
-from services import backtest, calendar, indicators, market_data, simulation, smartapi
+from services import backtest, calendar, indicators, market_data, reference, simulation, smartapi
 
 DAY = date(2024, 1, 2)
 NOW = datetime(2024, 2, 1, tzinfo=timezone.utc)
@@ -118,6 +118,9 @@ class SimulationTests(unittest.TestCase):
         self.assertEqual(outcome.quantity, 10)
         self.assertEqual(outcome.loss, D("22.52"))
         self.assertEqual(simulation.size_long(D(100), D(98), D(101), D(".05"), 1000, DAY, "NSE", schedule).quantity, 0)
+        expired = simulation.CostSchedule([replace(rule, ends=DAY + timedelta(days=1)) for rule in schedule.tariffs])
+        with self.assertRaisesRegex(ValueError, "missing"):
+            expired.fees(DAY + timedelta(days=1), "NSE", "sell", D(100), 10)
 
     def test_breakout_reproducibility_and_stop_first(self):
         session = session_schedule()[DAY]
@@ -137,6 +140,22 @@ class SimulationTests(unittest.TestCase):
             run(bars, "imported")
         with self.assertRaisesRegex(ValueError, "complete"):
             run(bars[:2] + bars[3:])
+
+
+class ReferenceTests(unittest.TestCase):
+    def test_token_reuse_and_ineligible_mapping(self):
+        old = reference.Mapping("old", "NSE", "OLD", "fixture", "1", DAY, DAY + timedelta(days=1),
+                                D(".05"), 1, "listed", "Fixture", "v1", "fixture")
+        new = replace(old, instrument_key="new", symbol="NEW", starts=old.ends, ends=None)
+        with self.assertRaisesRegex(ValueError, "Overlapping"):
+            reference.MappingBook([old, replace(new, starts=DAY)])
+        book = reference.MappingBook([old, new])
+        self.assertEqual(book.resolve("fixture", "NSE", "1", DAY, synthetic=True).instrument_key, "old")
+        self.assertEqual(book.resolve("fixture", "NSE", "1", old.ends, synthetic=True).instrument_key, "new")
+        with self.assertRaises(ValueError):
+            book.resolve("fixture", "NSE", "1", DAY)
+        with self.assertRaises(ValueError):
+            reference.MappingBook([replace(old, status="suspended")]).resolve("fixture", "NSE", "1", DAY, synthetic=True)
 
 
 class ProviderTests(unittest.TestCase):

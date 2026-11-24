@@ -26,3 +26,9 @@ The research state currently consists of `NO TRADE` and an explicit reason. The 
 ## Access boundaries
 
 Viewer can read. Analyst can create datasets, use input wizards and create server-computed snapshots. System Administrator adds instrument registration and archival. Risk Manager inherits analyst access and has no separate configuration surface yet. The import checks dataset write access, validates the upload and invokes a private insert path that elevates only the candle create operation with a clean context. User-facing records have no delete grant. A deployment PostgreSQL administrator remains capable of changing the underlying database and is outside the application trust boundary.
+
+## P02 extensions
+
+An immutable company/exchange calendar revision links to a dataset. For these datasets, temporal bars record both boundaries and operator-supplied publication time. The ORM applies that time at the cutoff and fingerprints the calendar plus temporal observations. P01 datasets continue to use the old contract. Only System Administrators may create calendar revisions or toggle dataset quarantine. A quarantined dataset blocks imports, new research and chart reads.
+
+The chart endpoint checks read rights and the active company, recomputes its snapshot digest and supplies at most 60 bars. The Python SmartAPI client has no Odoo button, route, cron job or saved credentials. Independent simulation services apply Decimal costs and a risk veto to one complete synthetic session. A versioned reference directory resolves supplied mappings in memory. It does not populate the ORM or authorize a provider read.

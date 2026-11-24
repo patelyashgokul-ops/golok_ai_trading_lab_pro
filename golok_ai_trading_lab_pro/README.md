@@ -1,6 +1,6 @@
 # Golok AI Trading Lab Pro
 
-An Odoo 20 Community add-on for historical NSE and BSE equity research. This milestone imports historical or synthetic OHLCV, stores validated candles, computes descriptive research and displays a database-backed overview. Each snapshot has a historical **NO TRADE** decision.
+An Odoo 20 Community add-on for historical NSE and BSE equity research. P02 adds explicit session calendars, point-in-time OHLCV import, an expanded indicator library, a database-backed candlestick chart, and a fee-aware synthetic ST-01 replay. Historical Odoo snapshots remain **NO TRADE**.
 
 ## Install and use
 
@@ -15,12 +15,19 @@ An Odoo 20 Community add-on for historical NSE and BSE equity research. This mil
    ```
 
    Use candle close times with an explicit time offset and zero seconds. Supply ascending, unique timestamps. Maximum upload is 512 KiB or 4,000 rows. An identical re-import adds zero duplicates. A conflicting observation requires a distinct source revision.
-5. In **Run Research**, choose the dataset and a cutoff, then open the result. The overview shows counts and the latest snapshot for the active company. SMA(20), relative volume and ATR(14) appear when their required inputs are available.
+5. For point-in-time research, create an immutable revision in **Exchange Calendars** and select it when registering a new dataset. Follow the [calendar contract](docs/EXCHANGE_CALENDAR.md) to include explicit opening and publication times. Legacy datasets retain the six-column import and original research digest.
+6. In **Run Research**, choose the dataset and a cutoff, then open the result. In **Overview**, use **Show historical chart** to display up to 60 observations from the latest intact snapshot. Company counts, ingestion time, quarantine status and the research-only decision are server-backed.
 
-Paper account setup and SmartAPI connection are pending implementation.
+Run the synthetic [ST-01 replay](docs/BACKTEST_EXECUTION_POLICY.md) with the provided fixture:
+
+```powershell
+python -B scripts/run_backtest.py tests/fixtures/p02/spec.json tests/fixtures/p02/candles.csv
+```
+
+The [SmartAPI REST groundwork](docs/SMARTAPI_SETUP.md) is fixture-tested. The Odoo UI runs offline, and live SmartAPI verification and paper accounts are pending.
 
 ## Verify
 
-Run `python -B -m unittest discover -s tests -p "unit_*.py" -v` from the add-on root. On Windows, run `./scripts/verify_odoo.ps1` with the appropriate path parameters for the disposable PostgreSQL cluster and Odoo stack. Add `-Browser` to exercise the real workflow using Playwright and installed Edge. The harness binds temporary services to loopback and stops them after the run. Allow localhost connections and headless browser process creation in restricted environments.
+Run `python -B -m unittest discover -s tests -p "unit_*.py" -v` from the add-on root. On Windows, run `./scripts/verify_odoo.ps1` with the appropriate path parameters for the disposable PostgreSQL cluster and Odoo stack. Add `-Browser` to exercise the real workflow using Playwright and installed Edge. The harness binds temporary services to loopback and stops them after the run. Run the harness directly and avoid piping the entire script. `scripts/verify_p01_upgrade.ps1` expects a populated disposable P01 database and clones it before modification.
 
 See [Development report](DEVELOPMENT_REPORT.md) and [architecture](docs/ARCHITECTURE.md).
