@@ -2007,3 +2007,72 @@ This error occurred while compiling the bundle 'web.assets_web_print' containing
 2026-11-24 10:46:21,832 1928 INFO golok_20261124161546 odoo.modules.loading: loading golok_ai_trading_lab_pro/security/groups.xml
 2026-11-24 10:46:21,990 1928 INFO golok_20261124161546 odoo.modules.loading: loading golok_ai_trading_lab_pro/security/ir.access.csv
 2026-11-24 10:46:22,058 1928 INFO golok_20261124161546 odoo.modules.loading: loading golok_ai_trading_lab_pro/views/lab.xml
+2026-11-24 10:46:22,314 1928 INFO golok_20261124161546 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:46:22,798 1928 INFO golok_20261124161546 odoo.addons.base.models.res_users: Group change: user 1 with IP n/a changed groups of user 1 who belonged to [10, 9, 5, 15] with changes [(<Command.LINK: 4>, 6, 0)]
+2026-11-24 10:46:23,146 1928 INFO golok_20261124161546 odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_database_duplicate_constraint ...
+2026-11-24 10:46:23,264 1928 ERROR golok_20261124161546 odoo.sql_db: bad query: b'INSERT INTO "golok_lab_candle" ("close_price", "close_time", "create_date", "create_uid", "dataset_id", "high_price", "ingested_at", "low_price", "open_price", "processing_version", "quality", "volume", "write_date", "write_uid") VALUES (\'101\', \'2024-01-02T03:50:00\'::timestamp, \'2026-11-24T10:46:22.472921\'::timestamp, 1, 1, \'103\', \'2026-11-24T10:46:23\'::timestamp, \'99\', \'100\', \'1\', \'validated\', 100, \'2026-11-24T10:46:22.472921\'::timestamp, 1) RETURNING "id"'
+ERROR: duplicate key value violates unique constraint "golok_lab_candle_unique_bar"
+DETAIL:  Key (dataset_id, close_time)=(1, 2024-01-02 03:50:00) already exists.
+
+2026-11-24 10:46:23,267 1928 INFO golok_20261124161546 odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_gap_disables_findings ...
+2026-11-24 10:46:23,317 1928 INFO golok_20261124161546 odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_import_retry_and_atomic_conflict ...
+2026-11-24 10:46:23,359 1928 INFO golok_20261124161546 odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_permissions_and_company_scope ...
+2026-11-24 10:46:23,448 1928 INFO golok_20261124161546 odoo.addons.base.models.ir_access: Access Denied for operation: read on record ids: [2], uid: 7, model: golok.lab.dataset
+2026-11-24 10:46:23,493 1928 INFO golok_20261124161546 odoo.addons.base.models.ir_access: Access Denied for operation: read on record ids: [2], uid: 6, model: golok.lab.dataset
+2026-11-24 10:46:23,514 1928 INFO golok_20261124161546 odoo.addons.base.models.ir_access: Access Denied for operation: write on record ids: [2], uid: 6, model: golok.lab.dataset
+2026-11-24 10:46:23,526 1928 INFO golok_20261124161546 odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_research_cutoff_evidence_and_no_trade ...
+2026-11-24 10:46:23,631 1928 INFO golok_20261124161546 odoo.addons.base.models.ir_attachment: filestore gc 14 checked, 3 removed
+2026-11-24 10:46:23,643 1928 INFO golok_20261124161546 odoo.modules.loading: Module golok_ai_trading_lab_pro loaded in 2.51s (incl. 1.28s test), 524 queries (+323 test, +524 other)
+2026-11-24 10:46:23,643 1928 INFO golok_20261124161546 odoo.modules.loading: Loading module mysubscription (12/17)
+2026-11-24 10:46:23,663 1928 INFO golok_20261124161546 odoo.registry: module mysubscription: creating or updating database tables
+2026-11-24 10:46:23,722 1928 INFO golok_20261124161546 odoo.modules.loading: loading mysubscription/views/menus.xml
+2026-11-24 10:46:23,742 1928 INFO golok_20261124161546 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:46:23,745 1928 INFO golok_20261124161546 odoo.modules.loading: Module mysubscription loaded in 0.10s, 30 queries (+30 other)
+2026-11-24 10:46:23,745 1928 INFO golok_20261124161546 odoo.modules.loading: Loading module web_tour (13/17)
+2026-11-24 10:46:23,767 1928 INFO golok_20261124161546 odoo.registry: module web_tour: creating or updating database tables
+2026-11-24 10:46:23,775 1928 INFO golok_20261124161546 odoo.fields: Prepare computation of res.users.tour_enabled in 4 records
+2026-11-24 10:46:23,995 1928 INFO golok_20261124161546 odoo.modules.loading: loading web_tour/views/tour_views.xml
+2026-11-24 10:46:24,057 1928 INFO golok_20261124161546 odoo.modules.loading: loading web_tour/security/ir.access.csv
+2026-11-24 10:46:24,135 1928 INFO golok_20261124161546 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:46:24,146 1928 INFO golok_20261124161546 odoo.modules.loading: Module web_tour loaded in 0.40s, 206 queries (+206 other)
+2026-11-24 10:46:24,146 1928 INFO golok_20261124161546 odoo.modules.loading: Loading module auth_passkey (14/17)
+2026-11-24 10:46:24,318 1928 INFO golok_20261124161546 odoo.registry: module auth_passkey: creating or updating database tables
+2026-11-24 10:46:24,472 1928 INFO golok_20261124161546 odoo.modules.loading: loading auth_passkey/views/auth_passkey_key_views.xml
+2026-11-24 10:46:24,541 1928 INFO golok_20261124161546 odoo.modules.loading: loading auth_passkey/views/auth_passkey_login_templates.xml
+2026-11-24 10:46:24,582 1928 INFO golok_20261124161546 odoo.modules.loading: loading auth_passkey/views/res_users_identitycheck_views.xml
+2026-11-24 10:46:24,612 1928 INFO golok_20261124161546 odoo.modules.loading: loading auth_passkey/views/res_users_views.xml
+2026-11-24 10:46:24,718 1928 INFO golok_20261124161546 odoo.modules.loading: loading auth_passkey/security/ir.access.csv
+2026-11-24 10:46:24,880 1928 INFO golok_20261124161546 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:46:24,893 1928 INFO golok_20261124161546 odoo.modules.loading: Module auth_passkey loaded in 0.75s, 214 queries (+214 other)
+2026-11-24 10:46:24,895 1928 INFO golok_20261124161546 odoo.modules.loading: Loading module html_editor (15/17)
+2026-11-24 10:46:27,203 1928 WARNING golok_20261124161546 odoo.addons.mail.controllers.attachment: markdown2 is not installed, markdown will not be rendered
+2026-11-24 10:46:27,487 1928 INFO golok_20261124161546 odoo.registry: module html_editor: creating or updating database tables
+2026-11-24 10:46:28,814 1928 INFO golok_20261124161546 odoo.modules.loading: loading html_editor/security/ir.access.csv
+2026-11-24 10:46:29,012 1928 INFO golok_20261124161546 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:46:29,030 1928 INFO golok_20261124161546 odoo.modules.loading: Module html_editor loaded in 4.14s, 1272 queries (+1272 other)
+2026-11-24 10:46:29,030 1928 INFO golok_20261124161546 odoo.modules.loading: Loading module iap (16/17)
+2026-11-24 10:46:29,039 1928 INFO golok_20261124161546 odoo.registry: module iap: creating or updating database tables
+2026-11-24 10:46:29,296 1928 INFO golok_20261124161546 odoo.modules.loading: loading iap/data/services.xml
+2026-11-24 10:46:29,304 1928 INFO golok_20261124161546 odoo.modules.loading: loading iap/views/iap_views.xml
+2026-11-24 10:46:29,365 1928 INFO golok_20261124161546 odoo.modules.loading: loading iap/views/res_config_settings.xml
+2026-11-24 10:46:29,388 1928 INFO golok_20261124161546 odoo.modules.loading: loading iap/views/res_users_views.xml
+2026-11-24 10:46:29,402 1928 INFO golok_20261124161546 odoo.modules.loading: loading iap/security/ir.access.csv
+2026-11-24 10:46:29,470 1928 INFO golok_20261124161546 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:46:29,478 1928 INFO golok_20261124161546 odoo.modules.loading: Module iap loaded in 0.45s, 238 queries (+238 other)
+2026-11-24 10:46:29,478 1928 INFO golok_20261124161546 odoo.modules.loading: Loading module web_unsplash (17/17)
+2026-11-24 10:46:29,511 1928 INFO golok_20261124161546 odoo.registry: module web_unsplash: creating or updating database tables
+2026-11-24 10:46:29,578 1928 INFO golok_20261124161546 odoo.modules.loading: loading web_unsplash/views/res_config_settings_view.xml
+2026-11-24 10:46:29,649 1928 INFO golok_20261124161546 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:46:29,654 1928 INFO golok_20261124161546 odoo.modules.loading: Module web_unsplash loaded in 0.18s, 100 queries (+100 other)
+2026-11-24 10:46:29,654 1928 INFO golok_20261124161546 odoo.modules.loading: 17 modules loaded in 16.38s, 5897 queries (+6220 extra)
+2026-11-24 10:46:30,453 1928 INFO golok_20261124161546 odoo.modules.loading: Modules loaded.
+2026-11-24 10:46:30,468 1928 INFO golok_20261124161546 odoo.registry: Registry changed, signaling through the database
+2026-11-24 10:46:30,472 1928 INFO golok_20261124161546 odoo.registry: Registry loaded in 37.338s
+2026-11-24 10:46:30,472 1928 INFO golok_20261124161546 odoo.service.server: Starting post tests
+2026-11-24 10:46:30,501 1928 INFO golok_20261124161546 odoo.service.server: 0 post-tests in 0.03s, 0 queries
+2026-11-24 10:46:30,501 1928 INFO golok_20261124161546 odoo.tests.stats: golok_ai_trading_lab_pro: 7 tests 1.27s 323 queries
+2026-11-24 10:46:30,501 1928 INFO golok_20261124161546 odoo.tests.result: 0 failed, 0 error(s) of 5 tests when loading database 'golok_20261124161546'
+2026-11-24 10:46:30,501 1928 INFO golok_20261124161546 odoo.service.server.ThreadedServer: Initiating shutdown
+2026-11-24 10:46:30,501 1928 INFO golok_20261124161546 odoo.service.server.ThreadedServer: Hit CTRL-C again or send a second signal to force the shutdown.
+2026-11-24 10:46:30,501 1928 INFO golok_20261124161546 odoo.addons.bus.websocket: Disconnecting 0 websockets
+2026-11-24 10:46:30,610 1928 INFO golok_20261124161546 odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 2 connections 
