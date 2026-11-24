@@ -26,6 +26,12 @@ class ResearchFindings(models.Model):
 
     _identity = models.Constraint("UNIQUE(run_id, calculation_version)", "Supplemental findings already exist.")
 
+    def export_data(self, fields_to_export):
+        self.check_access("read")
+        if any(row.dataset_id.origin != "synthetic" for row in self):
+            raise AccessError(_("Historical market research is not exportable."))
+        return super().export_data(fields_to_export)
+
     @api.model_create_multi
     def create(self, vals_list):
         self.check_access("create")

@@ -6,6 +6,7 @@ from time import perf_counter
 from urllib.parse import urlsplit
 
 from odoo import _, api, fields, models
+from odoo.fields import Domain
 from odoo.exceptions import AccessError, UserError, ValidationError
 
 from ..services import calendar, indicators, market_data, research
@@ -100,6 +101,10 @@ class Dataset(models.Model):
     interval = fields.Selection([(key, key) for key in market_data.INTERVALS], required=True)
     calendar_id = fields.Many2one("golok.lab.calendar", ondelete="restrict", check_company=True)
     quarantined = fields.Boolean(readonly=True)
+    source_review_id = fields.Many2one("golok.lab.source.review", readonly=True, check_company=True, ondelete="restrict")
+    publication_basis = fields.Selection([("fixture", "Simulation input"), ("operator", "Operator timestamps"),
+                                          ("receipt", "First observed receipt")], readonly=True)
+    protected_read = fields.Boolean(search="_search_protected_read")
 
     _identity = models.Constraint(
         "UNIQUE(company_id, instrument_id, source, origin, interval)", "This source and interval are already registered."
@@ -107,9 +112,45 @@ class Dataset(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        vals_list = [dict(vals) for vals in vals_list]
         if any(vals.get("quarantined") for vals in vals_list):
             raise ValidationError(_("Use the administrator quarantine operation."))
-        return super(Dataset, self.with_context(default_quarantined=False)).create(vals_list)
+        for vals in vals_list:
+            if not self.env.su and {"source_review_id", "publication_basis"} & vals.keys():
+                raise AccessError(_("Lineage is assigned by the server."))
+            if vals.get("origin") == "imported" and not vals.get("source_review_id"):
+                review = self.env["golok.lab.source.review"]._authorize(
+                    "manual", "historical", ("query", "display", "persist"), upstream=vals.get("source"))
+                vals.update(source_review_id=review.id, publication_basis="operator")
+            if vals.get("origin") == "synthetic":
+                vals.update(source_review_id=False, publication_basis="fixture")
+        return super(Dataset, self.with_context(default_quarantined=False, default_source_review_id=False,
+                                                default_publication_basis=False)).create(vals_list)
+
+    def _search_protected_read(self, operator, value):
+        if operator != "in" or value != [True]:
+            return NotImplemented
+        today = fields.Date.today()
+        review = (Domain("revoked_at", "=", False) & Domain("expires", ">=", today)
+                  & (Domain("retain_until", "=", False) | Domain("retain_until", ">=", today))
+                  & Domain("display", "=", True))
+        return Domain("origin", "=", "synthetic") | Domain("source_review_id", "any!", review)
+
+    def _permit(self, purpose):
+        self.ensure_one()
+        if self.company_id != self.env.company or self.quarantined:
+            raise AccessError(_("The dataset is unavailable for this operation."))
+        if self.origin == "synthetic" and purpose in ("import", "research"):
+            return
+        review = self.sudo().source_review_id
+        if not review:
+            raise AccessError(_("The historical dataset has no effective authorization lineage."))
+        commands = {"import": ("query", "display", "persist"), "research": ("display", "research")}
+        if purpose not in commands or review.provider not in ("smartapi", "bhavcopy", "manual"):
+            raise AccessError(_("The data is ineligible for this operation."))
+        return self.env["golok.lab.source.review"]._authorize(
+            review.provider, "daily" if review.provider == "bhavcopy" else "historical", commands[purpose],
+            upstream=self.source, bound=review)
 
     @api.constrains("calendar_id", "instrument_id", "origin")
     def _check_calendar(self):
@@ -136,8 +177,7 @@ class Dataset(models.Model):
         self.check_access("write")
         if self.quarantined:
             raise ValidationError(_("The dataset is quarantined."))
-        if self.origin == "imported":
-            self.env["golok.lab.source.review"]._authorize("manual", "historical", ("query", "display", "persist"))
+        self._permit("import")
         if self.calendar_id:
             sessions = self.calendar_id._sessions()
             try:
@@ -216,6 +256,12 @@ class Candle(models.Model):
             self.available_at.replace(tzinfo=timezone.utc) if self.available_at else None,
         )
 
+    def export_data(self, fields_to_export):
+        self.check_access("read")
+        if any(row.dataset_id.origin != "synthetic" for row in self):
+            raise AccessError(_("Historical market observations are not exportable."))
+        return super().export_data(fields_to_export)
+
 
 class ResearchRun(models.Model):
     _name = "golok.lab.run"
@@ -269,6 +315,7 @@ class ResearchRun(models.Model):
             raise ValidationError(_("The research cutoff must be present and no later than now."))
         if dataset.quarantined:
             raise ValidationError(_("The dataset is quarantined."))
+        dataset._permit("research")
         domain = [("dataset_id", "=", dataset.id), ("close_time", "<=", cutoff)]
         if dataset.calendar_id:
             domain.append(("available_at", "<=", cutoff))
@@ -379,6 +426,7 @@ class ResearchRun(models.Model):
         run = self
         if not run.last_close or run.dataset_id.quarantined:
             return self.env["golok.lab.candle"]
+        run.dataset_id._permit("research")
         domain = [("dataset_id", "=", run.dataset_id.id), ("close_time", ">=", run.first_close),
                   ("close_time", "<=", run.last_close)]
         if run.engine_version == "2":
@@ -389,3 +437,9 @@ class ResearchRun(models.Model):
         ) != run.input_digest:
             return self.env["golok.lab.candle"]
         return candles
+
+    def export_data(self, fields_to_export):
+        self.check_access("read")
+        if any(row.dataset_id.origin != "synthetic" for row in self):
+            raise AccessError(_("Historical market research is not exportable."))
+        return super().export_data(fields_to_export)

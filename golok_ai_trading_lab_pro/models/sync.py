@@ -109,6 +109,8 @@ class Synchronization(models.Model):
                     raise ValidationError(_("Select a closed, covered trading session."))
                 if wizard.mode == "fixture" and (not wizard.fixture_rows or len(wizard.fixture_rows) > 256 * 1024):
                     raise ValidationError(_("Supply bounded synthetic fixture rows."))
+                review = self.env["golok.lab.source.review"]._authorize(
+                    "smartapi", "historical", ("query", "display", "persist")) if origin == "provider" else None
                 rows, receipt = self._fetch(wizard, session)
                 bars = ingestion.normalize(rows, session, seconds, receipt)
                 source = f"SmartAPI {wizard.mode} mapping {mapping.id} calendar {revision.id}"
@@ -120,6 +122,8 @@ class Synchronization(models.Model):
                         "name": source, "source": source, "origin": origin, "instrument_id": mapping.instrument_id.id,
                         "company_id": company.id, "calendar_id": revision.id, "mapping_id": mapping.id,
                         "interval": wizard.interval,
+                        "source_review_id": review.id if review else False,
+                        "publication_basis": "receipt" if review else "fixture",
                     }).with_user(self.env.user)
                 if dataset.mapping_id != mapping or dataset.calendar_id != revision:
                     raise ValidationError(_("The stored dataset has incompatible provenance."))
@@ -133,7 +137,7 @@ class Synchronization(models.Model):
                 report.update(state="complete", dataset_id=dataset.id, received_at=receipt.replace(tzinfo=None),
                               first_close=bars[0].close_time.replace(tzinfo=None), last_close=bars[-1].close_time.replace(tzinfo=None),
                               inserted=inserted, count=len(bars), reason="Descriptive research only; historical publication is unverified.")
-        except (ProviderError, ValidationError, ValueError, TypeError, RecursionError) as exc:
+        except (ProviderError, AccessError, ValidationError, ValueError, TypeError, RecursionError) as exc:
             safe_codes = {"LOCAL_AUTHORIZATION_REQUIRED", "LOCAL_CREDENTIALS_REQUIRED", "PROVIDER_BUSY", "RATE_LIMITED",
                           "AUTH_REQUIRED", "DISCONNECTED", "DEGRADED"}
             report["reason"] = (str(exc) if str(exc) in safe_codes else

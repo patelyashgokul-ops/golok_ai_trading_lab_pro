@@ -12,14 +12,14 @@ class Source:
 
 
 PERMISSIONS = frozenset({"query", "display", "persist", "automatic", "backtest", "optimize",
-                         "fit", "live", "export"})
+                         "fit", "live", "export", "research"})
 SOURCES = {
     "fixture": Source("Synthetic fixture", "synthetic", PERMISSIONS - {"live"}, "fixture"),
-    "bhavcopy": Source("NSE Bhavcopy local file", "daily", frozenset({"query", "display", "persist"}), "NSE"),
-    "manual": Source("Authorized local CSV", "historical", frozenset({"query", "display", "persist"}), "declared"),
+    "bhavcopy": Source("NSE Bhavcopy local file", "daily", frozenset({"query", "display", "persist", "research"}), "NSE"),
+    "manual": Source("Authorized local CSV", "historical", frozenset({"query", "display", "persist", "research"}), "declared"),
     "nse_mcp": Source("NSE official MCP", "informational", frozenset(), "NSE"),
     "yahoo": Source("Yahoo Finance", "unverified", frozenset(), "unknown"),
-    "smartapi": Source("Angel One historical", "historical", frozenset({"query", "display", "persist"}), "exchange"),
+    "smartapi": Source("Angel One historical", "historical", frozenset({"query", "display", "persist", "research"}), "exchange"),
     "upstox": Source("Upstox", "unverified", frozenset(), "exchange"),
 }
 
