@@ -15,3 +15,9 @@ research_analyst,Research wizard analyst,golok.lab.research,golok_ai_trading_lab
 calendar_viewer,Calendar reader,golok.lab.calendar,golok_ai_trading_lab_pro.group_viewer,r,
 calendar_admin,Calendar administrator,golok.lab.calendar,golok_ai_trading_lab_pro.group_admin,cr,
 calendar_company,Calendar company,golok.lab.calendar,,crud,"[('company_id', 'in', company_ids)]"
+mapping_viewer,Reference mapping viewer,golok.lab.mapping,golok_ai_trading_lab_pro.group_viewer,r,
+mapping_admin,Reference mapping administrator,golok.lab.mapping,golok_ai_trading_lab_pro.group_admin,cr,
+mapping_company,Reference mapping company,golok.lab.mapping,,crud,"[('company_id', 'in', company_ids)]"
+corporate_viewer,Corporate action viewer,golok.lab.corporate.action,golok_ai_trading_lab_pro.group_viewer,r,
+corporate_admin,Corporate action administrator,golok.lab.corporate.action,golok_ai_trading_lab_pro.group_admin,cr,
+corporate_company,Corporate action company,golok.lab.corporate.action,,crud,"[('company_id', 'in', company_ids)]"
