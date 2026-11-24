@@ -98,7 +98,12 @@ def replay(series, starts, ends, seconds, codes, costs, *, capital=Decimal("5000
         risk = replace(simulation.RiskPolicy(), capital=risk_capital)
         sizing = simulation.size_long(bar.open, stop, target, asset.tick, observed.volume, session.day,
                                       asset.exchange, costs, risk)
-        cost_available = sizing.reason != "COST_MODEL_UNAVAILABLE"
+        try:
+            costs.fees(session.day, asset.exchange, "buy", bar.open, 1)
+            costs.fees(session.day, asset.exchange, "sell", bar.open, 1)
+            cost_available = True
+        except ValueError:
+            cost_available = False
         independent = bool(sizing.quantity) and not suspended and entries < portfolio_policy.daily_entries and (
             len(positions) < portfolio_policy.max_positions and key not in positions
             and sizing.loss <= risk_room and daily_realized > -daily_open * portfolio_policy.daily_loss
@@ -142,9 +147,16 @@ def replay(series, starts, ends, seconds, codes, costs, *, capital=Decimal("5000
                        "gross": (price - position["entry"]) * qty, "fees": position["buy_fees"] + sell_fees, "net": net})
         ledger.append({"asset": key, "time": when, "kind": "CLOSE", "delta": credit, "cash": cash})
 
+    def expire_candidates():
+        for key, (code, bar, _) in sorted(pending.items()):
+            outcome = decision.evaluate({}, mode="synthetic_replay")
+            decisions.append({"asset": key, "strategy": code, "time": bar.available_at,
+                              "sizing": "NO_LATER_OPEN", **outcome})
+
     for when, phase, key, bar, session in events:
         if session.day != day:
             if day is not None:
+                expire_candidates()
                 daily.append({"date": day, "cash": cash, "return": cash / daily_open - 1 if daily_open else None})
             if positions:
                 raise ValueError("Unresolved overnight position; no fictional closing value.")
@@ -178,6 +190,7 @@ def replay(series, starts, ends, seconds, codes, costs, *, capital=Decimal("5000
     if positions:
         raise ValueError("Unresolved closing observation.")
     if day is not None:
+        expire_candidates()
         daily.append({"date": day, "cash": cash, "return": cash / daily_open - 1 if daily_open else None})
     peak = capital
     drawdown = Decimal(0)

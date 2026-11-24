@@ -1,5 +1,6 @@
 import json
 from datetime import datetime, timedelta
+from decimal import Decimal
 from pathlib import Path
 
 from odoo.exceptions import AccessError, ValidationError
@@ -331,3 +332,121 @@ class TestLab(TransactionCase):
             model.with_user(self.analyst).create(vals)
         with self.assertRaises(AccessError):
             self.env["golok.lab.dataset"].with_user(self.analyst).create({"origin": "provider"})
+
+        plans = self.env["golok.lab.sync.plan"].with_user(self.admin)
+        other = self.env["golok.lab.instrument"].with_user(self.admin).create({
+            "name": "Plan Equity", "symbol": "PLAN", "exchange": "NSE",
+        })
+        third = self.env["golok.lab.instrument"].with_user(self.admin).create({
+            "name": "Other Plan Equity", "symbol": "PLAN2", "exchange": "NSE",
+        })
+        second = mapping.copy({"instrument_id": other.id, "symbol": other.symbol, "token": "456", "ends": "2024-01-04"})
+        third_mapping = mapping.copy({
+            "instrument_id": third.id, "symbol": third.symbol, "token": "789", "ends": "2024-01-04",
+        })
+        first_day = json.loads(revision.schedule)[0]
+        both = revision.copy({"name": "Two closed historical sessions",
+                              "schedule": json.dumps([first_day, {**first_day, "date": "2024-01-03"}])})
+        next_rows = [[row[0].replace("2024-01-02", "2024-01-03"), *row[1:]] for row in rows]
+        plan_vals = {"name": "Two instruments and two sessions", "starts": "2024-01-02", "ends": "2024-01-03",
+                     "mapping_ids": [(6, 0, [second.id, third_mapping.id])], "calendar_ids": [(6, 0, both.ids)],
+                     "fixture_input": json.dumps({f"{item.id}/{day}": samples for item in (second, third_mapping)
+                                                  for day, samples in (("2024-01-02", rows), ("2024-01-03", next_rows))})}
+        with self.assertRaises(AccessError):
+            plans.with_user(self.viewer).create(plan_vals)
+        plan = plans.create(plan_vals)
+        self.assertEqual(plan.task_ids.mapped("state"), ["queued"] * 4)
+        plan.action_process_next()
+        self.assertEqual(plan.task_ids.mapped("state"), ["done", "queued", "queued", "queued"])
+        self.assertEqual(plan.task_ids[0].report_id.inserted, 2)
+        for _ in range(3):
+            plan.invalidate_recordset()
+            plans.browse(plan.id).action_process_next()
+        self.assertEqual(plan.state, "done")
+        self.assertEqual(plan.task_ids[1].report_id.inserted, 2)
+        self.assertFalse(any(plan.task_ids.mapped("fixture_rows")))
+        with self.assertRaises(AccessError):
+            plan.write({"state": "queued"})
+        cancelled = plans.create(plan_vals)
+        cancelled.action_process_next()
+        self.assertEqual(cancelled.task_ids[0].report_id.inserted, 0)
+        cancelled.action_cancel()
+        cancelled.action_process_next()
+        self.assertEqual(cancelled.task_ids.mapped("state"), ["done", "cancelled", "cancelled", "cancelled"])
+
+    def test_p05_portfolio_fixture_and_role_boundaries(self):
+        files = Path(__file__).parent / "fixtures/p02"
+        spec = json.loads((files / "spec.json").read_text())
+        revision = self.env["golok.lab.calendar"].with_user(self.admin).create({
+            "name": "Synthetic portfolio calendar", "source": "Fixture", "exchange": "NSE",
+            "verification": "fixture", "verified_on": "2024-01-01", "schedule": json.dumps(spec["schedule"]),
+        })
+        tariff = self.env["golok.lab.tariff"].with_user(self.admin).create({
+            "name": "Synthetic portfolio tariff", "lines": json.dumps(spec["tariffs"]),
+        })
+        second = self.env["golok.lab.instrument"].with_user(self.admin).create({
+            "name": "Second portfolio instrument", "symbol": "SECOND", "exchange": "NSE",
+        })
+        datasets = self.env["golok.lab.dataset"].with_user(self.analyst).create([{
+            "name": instrument.name, "source": "P05 fixture", "origin": "synthetic",
+            "instrument_id": instrument.id, "interval": "5m", "calendar_id": revision.id,
+        } for instrument in self.instrument | second])
+        for dataset in datasets:
+            self.env["golok.lab.import"].with_user(self.analyst).create({
+                "dataset_id": dataset.id, "upload": BinaryBytes((files / "candles.csv").read_bytes()),
+            }).action_import()
+        vals = {"dataset_ids": datasets.ids, "tariff_id": tariff.id, "starts": "2024-01-02", "ends": "2024-01-02",
+                "capital": "50000", "tick": "0.05", "strategy": "ST-01"}
+        portfolios = self.env["golok.lab.portfolio"].with_user(self.analyst)
+        record = portfolios.create(vals)
+        self.assertEqual(record, portfolios.create({**vals, "dataset_ids": list(reversed(datasets.ids))}))
+        self.assertEqual(self.env["golok.lab.run"].with_user(self.viewer).overview()["portfolios"], 1)
+        result = json.loads(record.with_user(self.viewer).result)
+        self.assertGreaterEqual(len(result["decisions"]), 2)
+        self.assertGreaterEqual(len(result["trades"]), 1)
+        self.assertEqual(Decimal(result["initial_cash"]) + sum(Decimal(row["delta"]) for row in result["ledger"]),
+                         Decimal(result["ending_cash"]))
+        self.assertEqual(Decimal(result["gross"]) - Decimal(result["fees"]), Decimal(result["net"]))
+        with self.assertRaises(AccessError):
+            record.write({"result": "{}"})
+        with self.assertRaises(AccessError):
+            portfolios.with_user(self.viewer).create(vals)
+        with self.assertRaises(AccessError):
+            portfolios.create({**vals, "dataset_ids": self.other_dataset.ids})
+
+    def test_p05_provider_diagnostics_reuse_session_and_do_not_auto_login(self):
+        from datetime import timezone
+        from unittest.mock import Mock, patch
+
+        from ..models import provider
+        from ..services.smartapi import ProviderError
+
+        setup = self.env["golok.lab.provider.setup"].with_user(self.admin).create({})
+        sync = self.env["golok.lab.sync"].with_user(self.admin)
+        client = Mock(state="AUTH_REQUIRED")
+        config = dict.fromkeys(provider._IDENTITY_ENV, "fixture")
+        config.update({"GOLOK_SMARTAPI_AUTHORIZED": "1", "GOLOK_SMARTAPI_HISTORY_OPEN_STAMPED": "1",
+                       "GOLOK_SMARTAPI_TOTP_ISSUED_AT": "2000-01-01T00:00:00+00:00"})
+        credentials = ("fixture", "fixture", "000000")
+        with (
+            patch.dict("os.environ", config),
+            patch.object(provider, "_SESSIONS", {}),
+            patch.object(type(setup), "_configuration", return_value=(client, credentials, "", "")),
+            patch.object(type(self.env["golok.lab.provider.budget"]), "_reserve_auth", return_value=True),
+        ):
+            with self.assertRaisesRegex(ProviderError, "AUTH_REQUIRED"):
+                sync._client()
+            setup.action_test_authentication()
+            self.assertEqual(setup.status, "AUTHORIZATION REQUIRED")
+            client.authenticate.assert_not_called()
+            with patch.dict("os.environ", {"GOLOK_SMARTAPI_TOTP_ISSUED_AT": datetime.now(timezone.utc).isoformat()}):
+                setup.action_test_authentication()
+            self.assertEqual(setup.status, "AUTHENTICATED")
+            self.assertIs(sync._client(), client)
+            setup.action_test_authentication()
+            client.authenticate.assert_called_once_with(*credentials)
+            with patch.dict("os.environ", {"GOLOK_SMARTAPI_AUTHORIZED": "0"}):
+                with self.assertRaisesRegex(ProviderError, "LOCAL_AUTHORIZATION_REQUIRED"):
+                    sync._client()
+            with self.assertRaisesRegex(ProviderError, "AUTH_REQUIRED"):
+                sync._client()

@@ -7,8 +7,8 @@ from odoo import SUPERUSER_ID, api
 
 
 def run(env):
-    if not env.cr.dbname.startswith("golok_p04_migration_"):
-        raise ValueError("Use the isolated P04 migration test database.")
+    if not env.cr.dbname.startswith(("golok_p04_migration_", "golok_p05_migration_")):
+        raise ValueError("Use an isolated P04 or P05 migration test database.")
     registry = env.registry
     for operation in ("authenticate", "history", "quote"):
         barrier = Barrier(2)

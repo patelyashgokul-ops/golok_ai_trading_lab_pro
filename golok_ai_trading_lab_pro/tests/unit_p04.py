@@ -55,3 +55,5 @@ class P04Tests(unittest.TestCase):
                                        "Synthetic suspension test", simulation.RiskPolicy())
         self.assertEqual(outcome["metrics"]["trades"], 2)
         self.assertEqual(outcome["days"][-1]["status"], "RISK_SUSPENDED")
+        self.assertEqual((outcome["status"], outcome["requested_dates"], outcome["evaluated_dates"]),
+                         ("risk_suspended", 3, 2))

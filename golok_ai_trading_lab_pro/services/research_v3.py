@@ -2,8 +2,10 @@
 
 from collections import Counter
 from dataclasses import dataclass
+from decimal import Decimal
+from statistics import median
 
-VERSION = "1"
+VERSION = "2"
 
 
 @dataclass(frozen=True)
@@ -49,10 +51,53 @@ def momentum(bars):
             "net_return": str(recent[-1].close / recent[0].close - 1)}
 
 
+def breakout(bars):
+    current = bars[-1]
+    prior_high = max(bar.high for bar in bars[-11:-1])
+    prior_low = min(bar.low for bar in bars[-11:-1])
+    direction = "up" if current.close > prior_high else "down" if current.close < prior_low else "inside"
+    return {"direction": direction, "prior_high": str(prior_high), "prior_low": str(prior_low)}
+
+
+def failed_breakout(bars):
+    prior_high = max(bar.high for bar in bars[-12:-2])
+    prior_low = min(bar.low for bar in bars[-12:-2])
+    excursion, current = bars[-2:]
+    return {"failed_up": excursion.close > prior_high >= current.close >= prior_low,
+            "failed_down": excursion.close < prior_low <= current.close <= prior_high,
+            "prior_high": str(prior_high), "prior_low": str(prior_low)}
+
+
+def instrument_regime(bars):
+    closes = [bar.close for bar in bars[-21:]]
+    steps = [right / left - 1 for left, right in zip(closes, closes[1:])]
+    direction = closes[-1] / closes[0] - 1
+    travel = sum(abs(step) for step in steps)
+    strength = abs(direction) / travel if travel else 0
+    movement = median(abs(step) for step in steps)
+    return {"trend": "up" if strength >= Decimal(".5") and direction > 0 else
+            "down" if strength >= Decimal(".5") and direction < 0 else "range",
+            "directional_return": str(direction),
+            "momentum": "up" if sum(steps[-5:]) > 0 else "down" if sum(steps[-5:]) < 0 else "flat",
+            "efficiency": str(strength), "median_absolute_return": str(movement),
+            "volatility": "high" if movement >= Decimal(".02") else "low",
+            "stress": abs(steps[-1]) > max(movement * 4, Decimal(".02")), "scope": "instrument_only"}
+
+
+def turnover_proxy(bars):
+    recent = bars[-20:]
+    return {"median_close_times_volume": str(median(bar.close * bar.volume for bar in recent)),
+            "zero_volume_observations": sum(bar.volume == 0 for bar in recent)}
+
+
 REGISTRY = {
     "RE-03": Engine("Price structure", 6, price_structure),
     "RE-04": Engine("Candle shape", 1, candle_shape),
     "RE-06": Engine("Preceding support and resistance", 21, levels),
+    "RE-07": Engine("Close outside a preceding ten-bar range", 11, breakout),
+    "RE-08": Engine("Close back inside the pre-breakout range", 12, failed_breakout),
+    "RE-09": Engine("Instrument regime", 21, instrument_regime),
+    "RE-17": Engine("Median turnover proxy", 20, turnover_proxy),
     "RE-19": Engine("Directional momentum", 11, momentum),
 }
 

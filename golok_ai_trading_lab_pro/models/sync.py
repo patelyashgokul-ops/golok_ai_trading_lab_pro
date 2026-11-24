@@ -2,17 +2,14 @@ import json
 from dataclasses import replace
 from datetime import datetime, timezone
 from os import environ
-from threading import Lock
-from time import monotonic
 
 from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, UserError, ValidationError
 
 from ..services import ingestion, market_data
 from ..services.smartapi import ProviderError, SmartAPI
+from .provider import _SESSION_LOCK, _SESSIONS, cached_client
 
-_SESSION_LOCK = Lock()
-_SESSIONS = {}
 _ADMIN = "golok_ai_trading_lab_pro.group_admin"
 
 
@@ -53,24 +50,12 @@ class Synchronization(models.Model):
 
     @api.model
     def _client(self):
-        if environ.get("GOLOK_SMARTAPI_AUTHORIZED") != "1" or environ.get("GOLOK_SMARTAPI_HISTORY_OPEN_STAMPED") != "1":
+        if environ.get("GOLOK_SMARTAPI_AUTHORIZED") != "1":
+            _SESSIONS.pop(self.env.cr.dbname, None)
             raise ProviderError("LOCAL_AUTHORIZATION_REQUIRED")
-        key = self.env.cr.dbname
-        cached = _SESSIONS.get(key)
-        if cached and monotonic() < cached[0]:
-            return cached[1]
-        _SESSIONS.pop(key, None)
-        if len(_SESSIONS) >= 8:
-            _SESSIONS.pop(next(iter(_SESSIONS)))
-        client = SmartAPI.from_environment()
-        client._quota = self.env["golok.lab.provider.budget"]._reserve
-        creds = [environ.get(name, "") for name in
-                 ("GOLOK_SMARTAPI_CLIENT_CODE", "GOLOK_SMARTAPI_PIN", "GOLOK_SMARTAPI_TOTP_CODE")]
-        if client.state == "NOT_CONFIGURED" or not all(0 < len(value) <= 128 for value in creds):
-            raise ProviderError("LOCAL_CREDENTIALS_REQUIRED")
-        client.authenticate(*creds)
-        _SESSIONS[key] = (monotonic() + 300, client)
-        return client
+        if environ.get("GOLOK_SMARTAPI_HISTORY_OPEN_STAMPED") != "1":
+            raise ProviderError("LOCAL_AUTHORIZATION_REQUIRED")
+        return cached_client(self.env.cr.dbname)
 
     @api.model
     def _fetch(self, wizard, session):

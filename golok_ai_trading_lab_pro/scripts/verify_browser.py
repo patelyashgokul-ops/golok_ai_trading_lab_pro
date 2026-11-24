@@ -1,5 +1,7 @@
 """Smoke-test the installed research workflow using headless Edge."""
 
+import base64
+import json
 import os
 import re
 import sys
@@ -137,6 +139,53 @@ def verify(base_url, database, edge):
         expect(page.locator(".o_list_view")).to_contain_text("Browser Equity")
         expect(page.locator(".o_list_view")).to_contain_text("NO TRADE")
         print("UI-09 historical scanner opens with instrument, company data and NO TRADE", flush=True)
+        page.goto(f"{base_url}/odoo/action-{action_id}")
+        page.get_by_role("button", name="Synthetic portfolios 0").click()
+        expect(page.locator(".o_list_view")).to_be_visible()
+        wizard_id = xml_id("action_portfolio_wizard")
+        assert wizard_id
+        page.screenshot(path=EVIDENCE / "screenshots/portfolio-list.png")
+        assert not errors, errors
+        print("UI-10 portfolio KPI reconciles to the company-scoped native portfolio list", flush=True)
+        fixture = ROOT / "tests/fixtures/p02"
+        spec = json.loads((fixture / "spec.json").read_text())
+        revision = call("golok.lab.calendar", "create", {
+            "name": "Browser portfolio calendar", "source": "Synthetic fixture", "exchange": "NSE",
+            "verification": "fixture", "verified_on": "2024-01-01", "schedule": json.dumps(spec["schedule"]),
+        })
+        tariff = call("golok.lab.tariff", "create", {
+            "name": "Browser portfolio tariff", "lines": json.dumps(spec["tariffs"]),
+        })
+        second = call("golok.lab.instrument", "create", {
+            "name": "Second Browser Equity", "symbol": "BROWSER2", "exchange": "NSE",
+        })
+        datasets = []
+        for index, asset in enumerate((instrument, second), 1):
+            dataset_id = call("golok.lab.dataset", "create", {
+                "name": f"Portfolio fixture {index}", "instrument_id": asset, "origin": "synthetic",
+                "source": "Browser portfolio public fixture", "interval": "5m", "calendar_id": revision,
+            })
+            datasets.append(dataset_id)
+            importer = call("golok.lab.import", "create", {
+                "dataset_id": dataset_id, "upload": base64.b64encode((fixture / "candles.csv").read_bytes()).decode(),
+            })
+            call("golok.lab.import", "action_import", [importer])
+        wizard = call("golok.lab.portfolio.wizard", "create", {
+            "dataset_ids": [[6, 0, datasets]], "tariff_id": tariff, "starts": "2024-01-02",
+            "ends": "2024-01-02", "strategy": "ST-01",
+        })
+        call("golok.lab.portfolio.wizard", "action_run", [wizard])
+        page.goto(f"{base_url}/odoo/action-{action_id}")
+        page.get_by_role("button", name="Synthetic portfolios 1").click()
+        page.locator(".o_list_view .o_data_row").first.click()
+        expect(page.get_by_role("heading", name="Synthetic Portfolio Replay")).to_be_visible()
+        expect(page.locator(".o_form_view [name=result]")).to_contain_text("SYNTHETIC_SOFTWARE_ONLY")
+        expect(page.locator(".o_form_view [name=result]")).to_contain_text("G14")
+        page.screenshot(path=EVIDENCE / "screenshots/portfolio-result.png")
+        page.get_by_role("tab", name="Frozen Inputs").click()
+        expect(page.locator(".o_form_view [name=specification]")).to_contain_text("input_digest")
+        assert not errors, errors
+        print("UI-11 synthetic replay submitted through Odoo wizard RPC and persisted result, gates and frozen inputs inspected in Edge", flush=True)
         browser.close()
 
 

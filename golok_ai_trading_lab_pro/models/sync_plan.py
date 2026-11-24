@@ -59,7 +59,8 @@ class SyncPlan(models.Model):
                            or (command[0] == fields.Command.LINK and (type(command[1]) is not int or command[1] <= 0))
                            for command in commands)):
                 raise ValidationError(_("Select existing mapping and calendar records."))
-        plan = super(SyncPlan, self.with_context({})).create([vals])
+        plan = super(SyncPlan, self.with_context({})).create([{**vals, "company_id": self.env.company.id}])
+        plan = self.browse(plan.id)
         plan._populate(raw)
         return plan
 
@@ -131,7 +132,9 @@ class SyncPlan(models.Model):
         self._lock_plan()
         if self.state != "queued":
             return
-        task = self.task_ids.filtered(lambda item: item.state in ("queued", "retry"))[:1]
+        now = fields.Datetime.now()
+        task = self.task_ids.filtered(lambda item: item.state == "queued"
+                                      or item.state == "retry" and item.next_attempt <= now)[:1]
         if not task:
             return
         previous = self.env["golok.lab.sync"].search([
@@ -147,6 +150,7 @@ class SyncPlan(models.Model):
             state = ("done" if report.state == "complete" else
                      "retry" if report.reason in RETRY and attempts < 3 else "failed")
             task.sudo().write({"report_id": report.id, "attempts": attempts, "state": state,
+                               "next_attempt": now + timedelta(seconds=60 * attempts) if state == "retry" else False,
                                **({"fixture_rows": False} if state != "retry" else {})})
         if not self.task_ids.filtered(lambda item: item.state in ("queued", "retry")):
             self.sudo().write({"state": "partial" if "failed" in self.task_ids.mapped("state") else "done"})
@@ -175,6 +179,7 @@ class SyncTask(models.Model):
     fixture_rows = fields.Text(groups="golok_ai_trading_lab_pro.group_admin")
     report_id = fields.Many2one("golok.lab.sync", check_company=True, ondelete="restrict")
     attempts = fields.Integer()
+    next_attempt = fields.Datetime()
     state = fields.Selection([("queued", "Queued"), ("retry", "Retry available"), ("done", "Done"),
                               ("failed", "Failed"), ("skipped", "Already synchronized"),
                               ("cancelled", "Cancelled")], required=True, default="queued")

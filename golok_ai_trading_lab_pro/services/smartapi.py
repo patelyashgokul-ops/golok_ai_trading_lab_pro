@@ -101,7 +101,7 @@ class SmartAPI:
             raise ProviderError("AUTH_REQUIRED")
         now = self._clock()
         # Local caps, not provider limits. A client has a finite lifetime budget.
-        if now < self._next_request or self._calls >= 30:
+        if now < self._next_request or (self._quota is None and self._calls >= 30):
             self.state = "RATE_LIMITED"
             raise ProviderError(self.state)
         if self._quota and not self._quota(operation):

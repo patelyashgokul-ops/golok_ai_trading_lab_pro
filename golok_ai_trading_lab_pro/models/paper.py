@@ -67,6 +67,8 @@ class PaperAccount(models.Model):
                 if paper.paise(experiment.capital) != self.available_paise:
                     raise ValueError("Frozen starting capital does not match available virtual cash.")
                 outcome = json.loads(experiment.result)
+                if any(day["status"] not in ("REPLAYED", "CLOSED") for day in outcome["days"]):
+                    raise ValueError("The requested replay dates were not fully evaluated.")
                 available, lines = paper.postings(outcome["trades"], self.available_paise)
             except (KeyError, TypeError, ValueError, ArithmeticError) as exc:
                 raise ValidationError(_("The synthetic replay cannot be reconciled: %s", str(exc))) from None

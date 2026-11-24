@@ -12,7 +12,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-if ($SourceDatabase -notmatch '^golok_[a-z0-9_]+$' -or $TargetDatabase -notmatch '^golok_p0[234]_migration_[a-z0-9_]+$') {
+if ($SourceDatabase -notmatch '^golok_[a-z0-9_]+$' -or $TargetDatabase -notmatch '^golok_p0[2345]_migration_[a-z0-9_]+$') {
     throw 'Use only disposable test database names.'
 }
 Push-Location (Split-Path $PSScriptRoot -Parent)
@@ -43,6 +43,12 @@ order by 1
         if ($before.Count -ne 4 -or $beforeXML.Count -lt 20 -or ($before -match '^[^:]+:0:')) {
             throw 'The clone lacks the required populated P01 records.'
         }
+        $extra = @{}
+        if ($SourceVersion -eq '20.0.4.0.0') {
+            foreach ($table in @('calendar','mapping','tariff','experiment','paper_account','paper_batch','paper_event','findings','sync','research_job')) {
+                $extra[$table] = Query "select count(*) || ':' || coalesce(md5(string_agg(row_to_json(t)::text,';' order by id)), 'empty') from golok_lab_$table t"
+            }
+        }
         $addons = "--addons-path=$OdooRoot/addons,$(Resolve-Path ..)"
         $common = @($addons, '--data-dir=.local-test/odoo-data', '--db_host=127.0.0.1',
                     "--db_port=$PostgresPort", '--db_user=golok_test', '-d', $TargetDatabase)
@@ -57,8 +63,13 @@ order by 1
             @($beforeXML | Where-Object { $_ -notin $afterXML }).Count) {
             throw 'P01 data, XML ID or module version verification failed.'
         }
+        $extraLines = foreach ($table in ($extra.Keys | Sort-Object)) {
+            $retained = Query "select count(*) || ':' || coalesce(md5(string_agg(row_to_json(t)::text,';' order by id)), 'empty') from golok_lab_$table t"
+            if ($retained -ne $extra[$table]) { throw "Historical $table retention failed." }
+            "${table}:${retained}"
+        }
         @("PASS: upgraded populated clone from $SourceVersion to $TargetVersion in $($timer.Elapsed.TotalSeconds) s",
-          "PASS: retained $($beforeXML.Count) existing XML IDs and record-level hashes with immutable snapshot digests") + $before |
+          "PASS: retained $($beforeXML.Count) existing XML IDs and record-level hashes with immutable snapshot digests") + $before + @($extraLines) |
             Tee-Object "$EvidenceDir/upgrade/retention.log"
         "from odoo.addons.golok_ai_trading_lab_pro.scripts.measure_odoo_p02 import run; run(env)" |
             & $Python -B "$OdooRoot/odoo-bin" shell @common --no-http --logfile=.local-test/benchmark-p02.log |

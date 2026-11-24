@@ -1,0 +1,291 @@
+{
+  "calculation": {
+    "daily_closed_drawdown": "124.04",
+    "days": [
+      {
+        "cash": "49875.96",
+        "date": "2024-01-02",
+        "return": "-0.0024808"
+      }
+    ],
+    "decisions": [
+      {
+        "asset": "NSE:FIXTURE1",
+        "gates": {
+          "G01": {
+            "label": "Source eligibility",
+            "passed": true
+          },
+          "G02": {
+            "label": "Instrument eligibility",
+            "passed": true
+          },
+          "G03": {
+            "label": "Session validity",
+            "passed": true
+          },
+          "G04": {
+            "label": "Candle completeness",
+            "passed": true
+          },
+          "G05": {
+            "label": "Required freshness",
+            "passed": true
+          },
+          "G06": {
+            "label": "Research inputs",
+            "passed": true
+          },
+          "G07": {
+            "label": "Strategy implementation",
+            "passed": true
+          },
+          "G08": {
+            "label": "Mode-specific strategy validation",
+            "passed": true
+          },
+          "G09": {
+            "label": "Cost availability",
+            "passed": true
+          },
+          "G10": {
+            "label": "Position sizing",
+            "passed": true
+          },
+          "G11": {
+            "label": "Independent risk",
+            "passed": true
+          },
+          "G12": {
+            "label": "Decision expiry",
+            "passed": true
+          },
+          "G13": {
+            "label": "Evidence integrity",
+            "passed": true
+          },
+          "G14": {
+            "label": "Research mode restriction",
+            "passed": true
+          }
+        },
+        "sizing": "SIMULATION_ONLY",
+        "state": "SIMULATION_CANDIDATE",
+        "strategy": "ST-01",
+        "time": "2024-01-02 04:10:00+00:00"
+      },
+      {
+        "asset": "NSE:FIXTURE2",
+        "gates": {
+          "G01": {
+            "label": "Source eligibility",
+            "passed": true
+          },
+          "G02": {
+            "label": "Instrument eligibility",
+            "passed": true
+          },
+          "G03": {
+            "label": "Session validity",
+            "passed": true
+          },
+          "G04": {
+            "label": "Candle completeness",
+            "passed": true
+          },
+          "G05": {
+            "label": "Required freshness",
+            "passed": true
+          },
+          "G06": {
+            "label": "Research inputs",
+            "passed": true
+          },
+          "G07": {
+            "label": "Strategy implementation",
+            "passed": true
+          },
+          "G08": {
+            "label": "Mode-specific strategy validation",
+            "passed": true
+          },
+          "G09": {
+            "label": "Cost availability",
+            "passed": true
+          },
+          "G10": {
+            "label": "Position sizing",
+            "passed": true
+          },
+          "G11": {
+            "label": "Independent risk",
+            "passed": true
+          },
+          "G12": {
+            "label": "Decision expiry",
+            "passed": true
+          },
+          "G13": {
+            "label": "Evidence integrity",
+            "passed": true
+          },
+          "G14": {
+            "label": "Research mode restriction",
+            "passed": true
+          }
+        },
+        "sizing": "SIMULATION_ONLY",
+        "state": "SIMULATION_CANDIDATE",
+        "strategy": "ST-01",
+        "time": "2024-01-02 04:10:00+00:00"
+      },
+      {
+        "asset": "NSE:FIXTURE3",
+        "gates": {
+          "G01": {
+            "label": "Source eligibility",
+            "passed": true
+          },
+          "G02": {
+            "label": "Instrument eligibility",
+            "passed": true
+          },
+          "G03": {
+            "label": "Session validity",
+            "passed": true
+          },
+          "G04": {
+            "label": "Candle completeness",
+            "passed": true
+          },
+          "G05": {
+            "label": "Required freshness",
+            "passed": true
+          },
+          "G06": {
+            "label": "Research inputs",
+            "passed": true
+          },
+          "G07": {
+            "label": "Strategy implementation",
+            "passed": true
+          },
+          "G08": {
+            "label": "Mode-specific strategy validation",
+            "passed": true
+          },
+          "G09": {
+            "label": "Cost availability",
+            "passed": true
+          },
+          "G10": {
+            "label": "Position sizing",
+            "passed": true
+          },
+          "G11": {
+            "label": "Independent risk",
+            "passed": false
+          },
+          "G12": {
+            "label": "Decision expiry",
+            "passed": true
+          },
+          "G13": {
+            "label": "Evidence integrity",
+            "passed": true
+          },
+          "G14": {
+            "label": "Research mode restriction",
+            "passed": true
+          }
+        },
+        "sizing": "SIMULATION_ONLY",
+        "state": "NO_TRADE",
+        "strategy": "ST-01",
+        "time": "2024-01-02 04:10:00+00:00"
+      }
+    ],
+    "ending_cash": "49875.96",
+    "fees": "4.04",
+    "gross": "-120",
+    "initial_cash": "50000",
+    "ledger": [
+      {
+        "asset": "NSE:FIXTURE1",
+        "cash": "47958.99",
+        "delta": "-2041.01",
+        "kind": "RESERVE_AND_FILL",
+        "time": "2024-01-02 04:10:00+00:00"
+      },
+      {
+        "asset": "NSE:FIXTURE2",
+        "cash": "45917.98",
+        "delta": "-2041.01",
+        "kind": "RESERVE_AND_FILL",
+        "time": "2024-01-02 04:10:00+00:00"
+      },
+      {
+        "asset": "NSE:FIXTURE1",
+        "cash": "47896.97",
+        "delta": "1978.99",
+        "kind": "CLOSE",
+        "time": "2024-01-02 04:15:00+00:00"
+      },
+      {
+        "asset": "NSE:FIXTURE2",
+        "cash": "49875.96",
+        "delta": "1978.99",
+        "kind": "CLOSE",
+        "time": "2024-01-02 04:15:00+00:00"
+      }
+    ],
+    "net": "-124.04",
+    "policy": {
+      "consecutive_losses": 2,
+      "daily_entries": 3,
+      "daily_loss": "0.0026",
+      "max_positions": 4
+    },
+    "scope": "SYNTHETIC_SOFTWARE_ONLY",
+    "suspended": true,
+    "trades": [
+      {
+        "asset": "NSE:FIXTURE1",
+        "buy_fees": "1.01",
+        "entry": "102",
+        "entry_debit": "2041.01",
+        "exit": "99",
+        "exit_time": "2024-01-02 04:15:00+00:00",
+        "fees": "2.02",
+        "gross": "-60",
+        "loss": "63.02",
+        "net": "-62.02",
+        "quantity": 20,
+        "reason": "STOP_FIRST",
+        "stop": "99",
+        "strategy": "ST-01",
+        "target": "114",
+        "time": "2024-01-02 04:10:00+00:00"
+      },
+      {
+        "asset": "NSE:FIXTURE2",
+        "buy_fees": "1.01",
+        "entry": "102",
+        "entry_debit": "2041.01",
+        "exit": "99",
+        "exit_time": "2024-01-02 04:15:00+00:00",
+        "fees": "2.02",
+        "gross": "-60",
+        "loss": "63.02",
+        "net": "-62.02",
+        "quantity": 20,
+        "reason": "STOP_FIRST",
+        "stop": "99",
+        "strategy": "ST-01",
+        "target": "114",
+        "time": "2024-01-02 04:10:00+00:00"
+      }
+    ]
+  },
+  "reconciliation": "PASS"
+}

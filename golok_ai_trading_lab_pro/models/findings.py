@@ -4,7 +4,7 @@ from time import perf_counter
 from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, ValidationError
 
-from ..services import research_v3
+from ..services import eligibility, research_v3
 
 
 class ResearchFindings(models.Model):
@@ -46,7 +46,8 @@ class ResearchFindings(models.Model):
         prior = self.search(identity, limit=1)
         if prior:
             return prior
-        warning = run.gap_count or any(item.get("quality_warning") for item in (run.evidence or {}).values())
+        source_allowed = eligibility.evaluate(run.origin, "descriptive", quarantined=run.dataset_id.quarantined)[1]
+        warning = not source_allowed or run.gap_count or any(item.get("quality_warning") for item in (run.evidence or {}).values())
         results = research_v3.analyze([row._to_bar() for row in reversed(candles)], warning)
         return super(ResearchFindings, self.with_context({})).create([{
             "company_id": company.id, "run_id": run.id, "input_digest": run.input_digest,
@@ -77,6 +78,7 @@ class ResearchRun(models.Model):
         data["experiments"] = self.env["golok.lab.experiment"].search_count(domain)
         data["paper_accounts"] = self.env["golok.lab.paper.account"].search_count(domain)
         data["successful_syncs"] = self.env["golok.lab.sync"].search_count([*domain, ("state", "=", "complete")])
+        data["portfolios"] = self.env["golok.lab.portfolio"].search_count(domain)
         return data
 
     def action_supplemental_findings(self):
