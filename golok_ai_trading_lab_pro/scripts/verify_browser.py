@@ -9,6 +9,7 @@ from playwright.sync_api import expect, sync_playwright
 
 MODULE = "golok_ai_trading_lab_pro"
 ROOT = Path(__file__).resolve().parent.parent
+EVIDENCE = ROOT / os.environ.get("GOLOK_EVIDENCE_DIR", "docs/evidence/p02")
 
 
 def verify(base_url, database, edge):
@@ -90,7 +91,12 @@ def verify(base_url, database, edge):
         notification = page.locator(".o_notification").filter(has_text="21 inserted")
         if notification.is_visible():
             notification.get_by_role("button").click()
-        page.screenshot(path=ROOT / "docs/evidence/screenshots/overview-desktop.png")
+        page.get_by_role("button", name="Show historical chart").click()
+        expect(page.get_by_role("img", name="Chronological candlestick chart with volume")).to_be_visible()
+        expect(page.locator(".o_golok_plot_col")).to_have_count(21)
+        expect(page.locator(".o_golok_plot_col").first).to_have_attribute("title", re.compile(r"O 100.*H 102.*L 99.*C 101"))
+        print("UI-06 database-backed OHLC and volume matched the uploaded fixture", flush=True)
+        page.screenshot(path=EVIDENCE / "screenshots/overview-desktop.png")
         page.get_by_role("button", name="Open snapshot").click()
         expect(page.locator(".o_form_view").get_by_text("NO TRADE", exact=True)).to_be_visible()
         print("UI-03 historical research, accurate KPIs, refresh and snapshot drill-down", flush=True)
@@ -100,7 +106,7 @@ def verify(base_url, database, edge):
         expect(heading).to_be_visible()
         expect(page.get_by_text("Synthetic fixture", exact=True)).to_be_visible()
         assert page.locator(".o_golok_overview").evaluate("(el) => el.scrollWidth <= el.clientWidth")
-        page.screenshot(path=ROOT / "docs/evidence/screenshots/overview-mobile.png")
+        page.screenshot(path=EVIDENCE / "screenshots/overview-mobile.png")
         assert not errors, errors
         print("UI-04 mobile viewport without horizontal overflow and no uncaught page errors", flush=True)
 

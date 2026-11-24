@@ -5,6 +5,7 @@ param(
     [int]$PostgresPort = 55489,
     [string]$Database = ('golok_' + (Get-Date -Format yyyyMMddHHmmss)),
     [switch]$Browser,
+    [string]$EvidenceDir = 'docs/evidence/p02',
     [int]$HttpPort = 18089,
     [string]$Edge = 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'
 )
@@ -13,8 +14,9 @@ $ErrorActionPreference = 'Stop'
 $moduleRoot = Split-Path $PSScriptRoot -Parent
 Push-Location $moduleRoot
 try {
-    foreach ($directory in @('.local-test', '.local-test/odoo-data', 'docs/evidence/installation',
-        'docs/evidence/browser', 'docs/evidence/screenshots', 'docs/evidence/security')) {
+    $env:GOLOK_EVIDENCE_DIR = $EvidenceDir
+    foreach ($directory in @('.local-test', '.local-test/odoo-data', "$EvidenceDir/installation",
+        "$EvidenceDir/browser", "$EvidenceDir/screenshots", "$EvidenceDir/security")) {
         New-Item -ItemType Directory -Force $directory | Out-Null
     }
     $cluster = Join-Path $moduleRoot '.local-test/pg'
@@ -31,7 +33,7 @@ try {
             '--data-dir=.local-test/odoo-data', '--db_host=127.0.0.1', "--db_port=$PostgresPort",
             '--db_user=golok_test', '-d', $Database)
         foreach ($stage in @(@{ Name = 'fresh'; Flag = '-i' }, @{ Name = 'upgrade'; Flag = '-u' })) {
-            $log = "docs/evidence/installation/$($stage.Name).log"
+            $log = "$EvidenceDir/installation/$($stage.Name).log"
             $logOffset = if (Test-Path $log) { (Get-Item $log).Length } else { 0 }
             $timer = [Diagnostics.Stopwatch]::StartNew()
             & $Python -B "$OdooRoot/odoo-bin" @common --without-demo=all --stop-after-init --no-http `
@@ -39,7 +41,7 @@ try {
             $code = $LASTEXITCODE
             $timer.Stop()
             Write-Output "$($stage.Name) exit=$code seconds=$($timer.Elapsed.TotalSeconds) database=$Database"
-            $file = [IO.File]::OpenRead((Join-Path $moduleRoot $log))
+            $file = [IO.File]::OpenRead((Resolve-Path $log))
             try {
                 $file.Position = $logOffset
                 $runOutput = [IO.StreamReader]::new($file).ReadToEnd()
@@ -52,7 +54,7 @@ try {
         $timer = [Diagnostics.Stopwatch]::StartNew()
         "from odoo.addons.golok_ai_trading_lab_pro.scripts.verify_contention import run; run(env)" |
             & $Python -B "$OdooRoot/odoo-bin" shell @common --no-http --logfile=.local-test/contention-server.log |
-            Tee-Object docs/evidence/security/contention.log
+            Tee-Object "$EvidenceDir/security/contention.log"
         $code = $LASTEXITCODE
         Write-Output "contention exit=$code seconds=$($timer.Elapsed.TotalSeconds)"
         if ($code) { throw "PostgreSQL contention test exited $code" }
@@ -84,9 +86,9 @@ try {
                         }
                     }
                     $timer = [Diagnostics.Stopwatch]::StartNew()
-                    "Browser check database=$Database" | Tee-Object docs/evidence/browser/edge.log -Append
+                    "Browser check database=$Database" | Tee-Object "$EvidenceDir/browser/edge.log" -Append
                     & $Python -B ./scripts/verify_browser.py $endpoint $Database $Edge 2>&1 |
-                        Tee-Object docs/evidence/browser/edge.log -Append
+                        Tee-Object "$EvidenceDir/browser/edge.log" -Append
                     $code = $LASTEXITCODE
                     Write-Output "browser exit=$code seconds=$($timer.Elapsed.TotalSeconds)"
                     if ($code) { throw "Browser verification exited $code" }
@@ -102,5 +104,6 @@ try {
         & "$PostgresBin/pg_ctl.exe" -D $cluster -w stop
     }
 } finally {
+    Remove-Item Env:GOLOK_EVIDENCE_DIR -ErrorAction SilentlyContinue
     Pop-Location
 }

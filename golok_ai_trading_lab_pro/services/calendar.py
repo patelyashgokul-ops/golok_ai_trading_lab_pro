@@ -83,7 +83,10 @@ def validate_bar(bar, sessions, seconds):
         raise ValueError(f"No eligible continuous trading session on {day}.")
     if bar.open_time is None or bar.available_at is None:
         raise ValueError("Calendar datasets require open_time and available_at.")
-    if (bar.open_time, bar.close_time) not in session.slots(seconds):
+    elapsed = (bar.open_time - session.opening).total_seconds()
+    expected_close = min(bar.open_time + timedelta(seconds=seconds), session.closing) if seconds else session.closing
+    if (elapsed < 0 or bar.open_time >= session.closing or bar.close_time != expected_close
+            or (elapsed % seconds if seconds else elapsed)):
         raise ValueError(f"Candle is outside the session grid on {day}.")
     return session
 

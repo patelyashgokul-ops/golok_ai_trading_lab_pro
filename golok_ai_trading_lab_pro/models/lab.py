@@ -2,12 +2,13 @@ import hashlib
 import json
 from datetime import timezone
 from decimal import Decimal
+from time import perf_counter
 from urllib.parse import urlsplit
 
 from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, UserError, ValidationError
 
-from ..services import calendar, market_data, research
+from ..services import calendar, indicators, market_data, research
 
 
 def _input_digest(bars, revision):
@@ -184,7 +185,7 @@ class Candle(models.Model):
     close_time = fields.Datetime(required=True)
     open_time = fields.Datetime()
     available_at = fields.Datetime()
-    ingested_at = fields.Datetime(required=True, default=fields.Datetime.now)
+    ingested_at = fields.Datetime(required=True, default=fields.Datetime.now, index=True)
     # Capture the imported decimal representation without binary rounding.
     open_price = fields.Char(required=True)
     high_price = fields.Char(required=True)
@@ -246,6 +247,7 @@ class ResearchRun(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         self.check_access("create")
+        started = perf_counter()
         if len(vals_list) != 1 or set(vals_list[0]) != {"dataset_id", "as_of"}:
             raise ValidationError(_("Supply one dataset and one cutoff. Research results are computed by the server."))
         request = vals_list[0]
@@ -272,9 +274,11 @@ class ResearchRun(models.Model):
         version = "2" if dataset.calendar_id else research.VERSION
         digest = _input_digest(bars, dataset.calendar_id)
         quality_warning = None
+        sessions = None
         if dataset.calendar_id:
+            sessions = dataset.calendar_id._sessions()
             try:
-                gaps = calendar.missing_observations(bars, dataset.calendar_id._sessions(), market_data.INTERVALS[dataset.interval])
+                gaps = calendar.missing_observations(bars, sessions, market_data.INTERVALS[dataset.interval])
             except ValueError as exc:
                 gaps = 0
                 quality_warning = str(exc)
@@ -296,6 +300,26 @@ class ResearchRun(models.Model):
                 "finding": str(value) if value is not None else None,
                 "quality_warning": quality_warning,
             }
+        if dataset.calendar_id:
+            series = indicators.calculate(bars, sessions=sessions) if bars and not quality_warning else {}
+            groups = {"RE-01": ("ema20", "rsi14", "macd", "adx14", "stochastic14", "roc10", "trend_slope20",
+                                "high_low20", "opening_range15", "relative_strength", "gap"),
+                      "RE-05": ("vwap", "obv", "volume_spike"),
+                      "RE-18": ("volatility20", "bollinger20")}
+            elapsed = round(1000 * (perf_counter() - started), 3)
+            for key, finding in evidence.items():
+                finding.update({
+                    "version": "2", "engine_id": key, "input_digest": digest, "dataset": dataset.id,
+                    "instrument": dataset.instrument_id.id, "cutoff_utc": fields.Datetime.to_string(cutoff),
+                    "source": dataset.source, "origin": dataset.origin, "freshness": "historical_only",
+                    "supporting_evidence": {"bars": len(bars), "gaps": gaps},
+                    "contradictory_evidence": [quality_warning] if quality_warning else [],
+                    "missing_inputs": [] if finding["finding"] is not None else ["Eligible sample for primary finding"],
+                    "limits": ["Source availability supplied by the operator", "Research only"],
+                    "applicable_strategies": [], "snapshot_duration_ms": elapsed,
+                    "indicators": {name: str(series[name][-1]) if series[name][-1] is not None else None
+                                   for name in groups[key]} if series else {},
+                })
         identity = {"dataset_id": dataset.id, "as_of": cutoff, "input_digest": digest, "engine_version": version}
         prior = self.search([(key, "=", val) for key, val in identity.items()], limit=1)
         if prior:
