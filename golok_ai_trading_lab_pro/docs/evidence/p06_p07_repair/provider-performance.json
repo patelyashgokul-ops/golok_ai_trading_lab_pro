@@ -1,0 +1,10 @@
+{
+  "fixture_sessions": 50,
+  "observations": 18750,
+  "parse_seconds": 5.375480100046843,
+  "validate_seconds": 4.184117900033016,
+  "process_cpu_seconds": 9.46875,
+  "wall_seconds": 9.561831300030462,
+  "python_allocation_peak_bytes": 988259,
+  "scope": "offline fixture without network or persistence"
+}

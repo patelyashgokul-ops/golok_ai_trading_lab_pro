@@ -20037,3 +20037,2170 @@ A correct NO TRADE decision is preferable to an unsupported recommendation.
 Implement, test, repair, document and package the actual P09 development.
 
 **BEGIN P09 DEVELOPMENT NOW.**
+
+
+## P06P07-R01 specification addition
+
+# MASTER AGENTIC DEVELOPMENT PROMPT
+
+# GOLOK AI TRADING LAB PRO
+
+## P06–P07 PENDING DEVELOPMENT COMPLETION, CRITICAL DEFECT REPAIR AND CONSOLIDATED REGRESSION AFTER P09.1
+
+**Milestone Identifier: P06P07-R01**
+
+**IMPORTANT: THIS IS NOT P10.**
+
+---
+
+## 1. ROLE AND EXECUTION AUTHORITY
+
+Act as a complete senior implementation and verification team consisting of:
+
+- Principal Odoo Community Architect.
+- Senior Python Software Engineer.
+- Financial Market Data Engineer.
+- Quantitative Trading Research Engineer.
+- Statistical Validation Specialist.
+- Algorithmic Strategy Research Engineer.
+- Financial Risk Management Engineer.
+- PostgreSQL Database Engineer.
+- Native OWL Frontend Developer.
+- Cybersecurity Engineer.
+- Automated Testing Engineer.
+- Release and Documentation Engineer.
+
+Your responsibility is to complete unfinished development from P06 and P07 using the latest P09.1 implementation as the baseline.
+
+Inspect the actual repository, reconcile historical requirements with current functionality, implement missing components, repair defects, execute tests and deliver verifiable evidence.
+
+Do not return only a plan, architectural suggestions, sample code or documentation.
+
+Do not begin the P10 development scope.
+
+---
+
+## 2. EXPLICIT OWNER DECISION
+
+The owner has explicitly decided that P06 and P07 must be reviewed and their remaining development addressed before proceeding to Master Development Prompt 10.
+
+P08 and P09 have already implemented portions of the earlier pending requirements.
+
+Therefore:
+
+1. Preserve all P01–P09 development.
+2. Identify functionality already completed in later milestones.
+3. Revalidate that functionality.
+4. Do not unnecessarily implement completed functionality again.
+5. Complete remaining P06–P07 technical requirements.
+6. Repair discovered regressions.
+7. Document unavoidable external blockers separately.
+8. Produce a dedicated repair milestone review package.
+9. Stop before beginning P10.
+
+Do not overwrite or downgrade the current P09.1 implementation with older P06 or P07 code.
+
+P06 and P07 are historical development milestones. This repair phase must extend the latest implementation.
+
+---
+
+## 3. PROJECT ENVIRONMENT
+
+| Property | Requirement |
+|---|---|
+| Product | Golok AI Trading Lab Pro |
+| Company | Golok Technology |
+| Technical Module | golok_ai_trading_lab_pro |
+| Platform | Existing Odoo 20 Community |
+| Current Version | 20.0.9.1.0 |
+| Backend | Python |
+| Database | PostgreSQL |
+| Frontend | Native OWL |
+| Deployment | Localhost |
+| Operating System | Windows |
+| Timezone | Asia/Kolkata |
+| Currency | INR |
+| Primary Market | NSE cash equities |
+| Internet | Jio Mobile Hotspot |
+| Static Public IP | Unavailable |
+| Mandatory Paid AI | Prohibited |
+| Mandatory Paid Market Data | Prohibited |
+| Local LLM | Not required |
+| Dedicated GPU | Not required |
+| Real Broker Execution | Prohibited |
+| Existing License | LGPL-3 |
+
+Expected module location:
+
+`C:/PycharmProjects/odoo20/custom_addons/golok_ai_trading_lab_pro`
+
+Reported hardware:
+
+- Intel Core i5-10210U.
+- Four physical CPU cores.
+- Eight logical processors.
+- 16 GB RAM.
+- Integrated Intel UHD graphics.
+
+Verify the actual environment before implementation.
+
+Preserve the existing license and architecture.
+
+Do not introduce unnecessary cloud services, paid AI, distributed infrastructure or heavyweight ML dependencies.
+
+---
+
+## 4. INDEPENDENTLY VERIFIED P09.1 BASELINE
+
+Latest P09 archive SHA-256:
+
+`a95b09e7f664a7281ab05e436d298754bea8371fcb5f8bb8f72d8ce2b224e4f4`
+
+Independent review established:
+
+- Archive entries: 668.
+- Complete manifest entries: 667.
+- Complete manifest mismatches: zero.
+- Source manifest entries: 95.
+- Source manifest mismatches: zero.
+- External archive SHA-256 matched.
+- Separately supplied reports matched their archived counterparts.
+- Separately supplied complete manifest matched.
+- Standalone Python tests independently executed: 52.
+- Standalone Python tests passed: 52.
+- Runtime source files inspected: 66.
+- Python AST and XML basic parsing passed.
+- Static scan found no broker order methods or versioned order paths.
+- All 11 P09 synthetic stress scenarios independently reproduced their recorded results.
+
+Additional reported execution evidence includes:
+
+- 24 Odoo fresh installation test cases.
+- 24 Odoo update test cases.
+- 20 Edge browser scenarios.
+- Independent PostgreSQL contention tests.
+- Actual process interruption and recovery.
+- Shared virtual capital and risk protection.
+- Populated P08 database upgrade.
+- Historical P09 clone preserving 1,156 XML IDs.
+- A 50-instrument synthetic reference benchmark of approximately 4.23 seconds.
+
+The Windows-specific Odoo, PostgreSQL and Edge tests were reviewed through supplied evidence rather than independently rerun outside the original development environment.
+
+Re-execute them where relevant.
+
+### P09 acceptance status
+
+- PASSED: 48.
+- PARTIAL: 0.
+- BLOCKED: 2.
+- NOT_RUN: 0.
+- TOTAL: 50.
+
+The two blocked requirements are:
+
+- P09-AC-042: Genuine market-data verification.
+- P09-AC-043: Genuine financial strategy validation.
+
+Current genuine market-data acquisitions: zero.
+
+Current financially validated strategies: zero.
+
+Verified live feed: unavailable.
+
+Actual prospective market-data paper performance: unavailable.
+
+Do not reinterpret technical completion as financial readiness.
+
+---
+
+# PART A — COMPLETE HISTORICAL REQUIREMENT RECONCILIATION
+
+## 5. MANDATORY P06–P07 ACCEPTANCE AUDIT
+
+The archived P06 acceptance matrix contains:
+
+| Status | Count |
+|---|---:|
+| PASSED | 41 |
+| PARTIAL | 33 |
+| BLOCKED | 2 |
+| NOT_RUN | 4 |
+| TOTAL | 80 |
+
+The archived P07 acceptance matrix contains:
+
+| Status | Count |
+|---|---:|
+| PASSED | 42 |
+| PARTIAL | 33 |
+| BLOCKED | 2 |
+| NOT_RUN | 23 |
+| TOTAL | 100 |
+
+Across both milestones:
+
+- Total acceptance criteria: 180.
+- Historically passed: 83.
+- Historically partial: 66.
+- Historically blocked: 4.
+- Historically not run: 27.
+
+There are 97 historically non-passed entries.
+
+These do not necessarily represent 97 currently missing implementations.
+
+Many were addressed in P08 and P09.
+
+Review every one of the 180 criteria individually.
+
+For every criterion determine:
+
+- Original requirement.
+- Original milestone status.
+- Current implementation.
+- Relevant P08 evidence.
+- Relevant P09 evidence.
+- Current test coverage.
+- Current software verification status.
+- Actual external dependency.
+- Financial validation status.
+- Remaining technical work.
+- Required regression test.
+- Final repair disposition.
+
+Do not blindly repeat all historical tasks.
+
+---
+
+## 6. EXACT HISTORICAL NON-PASSED CRITERIA
+
+### P06 PARTIAL criteria
+
+Reconcile:
+
+002, 004, 006, 008, 009, 012, 017, 019, 025, 026, 027, 029, 030, 032, 034, 035, 036, 045, 046, 050, 052, 054, 056, 057, 058, 059, 062, 066, 069, 072, 073, 075 and 076.
+
+All numbers refer to the original `P06-AC-xxx` namespace.
+
+### P06 NOT_RUN criteria
+
+015, 044, 068 and 070.
+
+### P06 BLOCKED criteria
+
+011 and 047.
+
+### P07 PARTIAL criteria
+
+Reconcile:
+
+002, 004, 010, 011, 012, 013, 015, 019, 022, 023, 025, 029, 035, 039, 041, 045, 048, 052, 056, 058, 062, 063, 067, 074, 079, 080, 082, 083, 085, 087, 089, 093 and 094.
+
+All numbers refer to the original `P07-AC-xxx` namespace.
+
+### P07 NOT_RUN criteria
+
+016, 017, 021, 024, 031, 033, 044, 046, 047, 050, 051, 053, 054, 057, 066, 070, 071, 072, 073, 075, 077, 078 and 084.
+
+### P07 BLOCKED criteria
+
+026 and 059.
+
+Reconcile these lists against the actual repository and archived acceptance matrices.
+
+If any discrepancy exists, document it rather than silently changing historical records.
+
+---
+
+## 7. PRESERVE P01–P09
+
+Before changing any source file:
+
+1. Verify the latest P09 archive.
+2. Verify both manifests.
+3. Create a protected P09.1 source checkpoint.
+4. Execute all 52 existing standalone tests.
+5. Execute source verification.
+6. Reproduce the 11 P09 stress scenarios.
+7. Inspect historical P06 and P07 reports.
+8. Inspect P07-F01–P07-F18 defect definitions.
+9. Inspect P08 and P09 acceptance evidence.
+10. Create a baseline inventory.
+
+Preserve all:
+
+- Original RE-01–RE-25 definitions.
+- Original ST-01–ST-20 definitions.
+- Original INV-01–INV-30.
+- Original AC-001–AC-050.
+- Every P02–P09 acceptance identifier.
+- Historical XML IDs.
+- Database records.
+- Source authorizations.
+- Dataset fingerprints.
+- Holdout records.
+- Experiment results.
+- Research schedules.
+- Research cycles.
+- Candidate records.
+- Prospective fixture accounts.
+- Virtual orders and positions.
+- Virtual journal records.
+- Financial reports.
+- Promotion reviews.
+- Historical losing experiments.
+- Existing security policies.
+
+Do not rewrite previously recorded outcomes.
+
+Use new implementation versions for behavioral changes.
+
+---
+
+## 8. REPAIR STATUS GOVERNANCE
+
+Create a consolidated current verification matrix without modifying historical snapshots.
+
+Use separate dimensions for:
+
+- Implementation status.
+- Software test status.
+- External authorization status.
+- Genuine data verification.
+- Financial validation.
+- Prospective operational verification.
+- Overall requirement disposition.
+
+Supported dispositions:
+
+- VERIFIED_CURRENT.
+- VERIFIED_BY_LATER_MILESTONE.
+- REPAIRED_AND_VERIFIED.
+- PARTIAL.
+- BLOCKED_EXTERNAL.
+- FAILED.
+- NOT_RUN.
+- NOT_APPLICABLE with justified scope.
+
+A fixture-tested feature must not be classified as genuine-market verified.
+
+A blocked external integration must not be classified as complete merely because its documentation exists.
+
+For compound requirements, separate technical completion from external verification.
+
+Preserve the original P06 and P07 matrix entries and append the current reconciliation.
+
+---
+
+# PART B — MULTI-PROVIDER ARCHITECTURE COMPLETION
+
+## 9. CURRENT SOURCE LIMITATIONS
+
+The independent P09 source review found:
+
+`services/providers.py` contains a lightweight source registry and a capability-based routing function.
+
+However:
+
+- Upstox has an empty capability ceiling.
+- Yahoo Finance has an empty capability ceiling.
+- NSE MCP has an empty capability ceiling.
+- `prospective_paper` and `live` are explicitly disabled purposes.
+- Automatic provider acquisition is not connected to the complete recurring research workflow.
+- The scheduler still requires explicitly synthetic datasets and fixture calendars.
+
+These restrictions must not simply be removed.
+
+Implement the remaining provider architecture behind appropriate authorization, capability and operational verification boundaries.
+
+Preserve all existing denial controls.
+
+---
+
+## 10. VERSIONED PROVIDER INTERFACE
+
+Create or complete an extensible provider contract supporting:
+
+- Provider identity.
+- Source publisher identity.
+- Upstream feed lineage.
+- Authentication state.
+- Capability discovery.
+- Historical daily data.
+- Historical intraday data.
+- Delayed quotations.
+- Real-time market data where independently permitted.
+- Instrument discovery.
+- Calendar information.
+- Corporate actions where supported.
+- Data adjustment basis.
+- Timestamp semantics.
+- Request limits.
+- Response size limits.
+- Health checks.
+- Permission checks.
+- Retry eligibility.
+- Circuit-breaker state.
+- Diagnostic evidence.
+
+Distinguish:
+
+1. Documented provider capability.
+2. Implemented adapter capability.
+3. Configured capability.
+4. Authorized capability.
+5. Connectivity-verified capability.
+6. Data-quality-verified capability.
+7. Operationally eligible capability.
+
+Do not collapse these into a single enabled flag.
+
+Implement purpose-aware routing based on permission, freshness, granularity, provider health and source quality.
+
+A provider must not be selected merely because it responds successfully.
+
+---
+
+## 11. UPSTOX READ-ONLY ADAPTER — PRIMARY PRACTICAL ROUTE
+
+P09 provider research identifies the owner's existing Upstox account as the most practical route to investigate.
+
+The owner previously reported that Analytics Token generation failed because no trading segments were active.
+
+Official starting references:
+
+`https://upstox.com/developer/api-documentation/analytics-token/`
+
+`https://upstox.com/developer/api-documentation/v3/get-historical-candle-data/`
+
+`https://upstox.com/developer/api-documentation/rate-limiting/`
+
+Verify the current documentation before implementation.
+
+Implement a disabled-by-default Upstox Analytics read-only adapter.
+
+Required software functionality:
+
+- Local protected token configuration.
+- Read-only HTTPS client.
+- Explicit endpoint and HTTP method allowlist.
+- Historical candle request construction.
+- Instrument-key mapping.
+- URL-safe parameter encoding.
+- Supported interval validation.
+- Historical date-window validation.
+- Response schema validation.
+- Timezone normalization.
+- Candle ordering.
+- Duplicate detection.
+- Completeness checks.
+- Error classification.
+- Rate-limit handling.
+- Token expiry handling.
+- Secret redaction.
+- Provider diagnostics.
+- Integration with the existing unified dataset pipeline.
+- Authorization enforcement.
+
+Use authored protocol fixtures and mocked HTTP responses for testing without credentials.
+
+Test successful responses, malformed responses, unauthorized requests, expired tokens, throttling, timeout, partial responses and unsupported intervals.
+
+Do not require a real token to complete software testing.
+
+Do not mark actual connectivity PASSED without an authorized real request.
+
+Do not assume that every documented read-only endpoint is permitted for automated acquisition, persistence, optimization or simulation.
+
+Do not activate an account, trading segment or subscription on behalf of the owner.
+
+No real order endpoints are permitted.
+
+---
+
+## 12. NSE MCP ADAPTER COMPLETION
+
+Inspect:
+
+`services/mcp_history.py`
+
+Preserve the existing deterministic protocol fixture tests.
+
+Investigate the official service documentation:
+
+`https://www.nseindia.com/nse-mcp`
+
+Implement a bounded transport and protocol adapter using the officially documented interface where permitted.
+
+Support:
+
+- Initialization.
+- Protocol negotiation.
+- Tool discovery.
+- Tool schema verification.
+- Structured tool requests.
+- Structured response validation.
+- Response size limits.
+- Timeouts.
+- Rate limits.
+- Retry handling.
+- Circuit breaker.
+- Tool allowlisting.
+- External content isolation.
+- Provenance.
+
+Do not invent unsupported tools.
+
+Do not use a paid LLM to invoke deterministic MCP tools.
+
+Do not treat informational access as authorization for persistent market-data storage.
+
+If transient informational access is clearly permitted, support only that scope.
+
+If the production interface or intended usage remains unauthorized, keep it disabled and complete the software contract using authored fixtures.
+
+Any delayed market information must remain explicitly classified as delayed.
+
+---
+
+## 13. NSE BHAVCOPY COMPLETION
+
+Inspect:
+
+- `services/bhavcopy.py`
+- `models/market_rights.py`
+- Existing daily normalization workflows.
+- Existing daily revision workflows.
+
+P08 already implements targeted modern UDiFF and legacy normalization.
+
+Do not rebuild these completed components unnecessarily.
+
+Complete remaining requirements:
+
+- Official modern schema verification.
+- Exact field-definition validation.
+- Schema version identification.
+- Instrument type and series mapping.
+- ISIN consistency.
+- Trading calendar association.
+- Source correction lineage.
+- Duplicate and gap handling.
+- Idempotent normalization.
+- Source fingerprinting.
+- Authorized research integration.
+
+Where a genuine sample and required rights are available, verify actual file compatibility.
+
+If not available, retain the existing authored fixture scope and document the external blocker.
+
+Do not fabricate official exchange-file evidence.
+
+Do not turn daily data into fabricated intraday candles.
+
+Do not automate NSE file downloading unless the intended acquisition is authorized.
+
+---
+
+## 14. YAHOO FINANCE OPTIONAL ADAPTER
+
+Investigate applicable current Yahoo Finance data terms and yfinance documentation.
+
+The previous implementation deliberately disables this provider.
+
+Complete any permissible adapter development without weakening restrictions.
+
+Support:
+
+- NSE symbol mapping.
+- Historical interval validation.
+- Date-range validation.
+- Explicit adjustment settings.
+- Corporate-action metadata.
+- Timestamp validation.
+- Missing-observation handling.
+- Source classification.
+- Provenance.
+- Capability checks.
+
+Use fixture-based adapter tests where production authorization is absent.
+
+Do not install unnecessary dependencies.
+
+Do not assume that an open-source software license grants unrestricted market-data rights.
+
+Do not use Yahoo Finance as a verified live execution-grade data source.
+
+If actual production permissions cannot be established, retain the disabled production state and explain the precise reason.
+
+---
+
+## 15. PRESERVE ANGEL ONE SMARTAPI
+
+Preserve the existing read-only SmartAPI architecture, historical synchronization and quota protections.
+
+The owner uses dynamic-IP Jio Mobile Hotspot.
+
+Do not bypass static-IP requirements.
+
+Do not implement VPN or proxy workarounds intended to circumvent provider restrictions.
+
+Do not expose credentials.
+
+Retest:
+
+- Secure local authentication configuration.
+- Session expiry.
+- Historical request validation.
+- Mapping.
+- Quota controls.
+- Retry handling.
+- Sanitized errors.
+- Authorization enforcement.
+
+Actual broker access remains separately blocked until legitimate owner authorization and applicable connectivity requirements are satisfied.
+
+---
+
+## 16. FREE-PROVIDER DECISION AND STOP CONDITION
+
+Preserve and update the P09 provider investigation.
+
+Do not spend the entire repair milestone repeating the same provider searches.
+
+Review only unresolved, practical routes:
+
+- Existing Upstox Analytics account.
+- Existing Angel One account.
+- NSE-authorized historical files.
+- Legitimately licensed historical datasets.
+- FYERS only within its applicable permitted uses.
+- Other suitable free providers with explicit relevant rights.
+
+Distinguish:
+
+- Free API.
+- Free market-data entitlement.
+- Account fees.
+- Storage rights.
+- Backtesting rights.
+- Prospective paper-trading rights.
+- Optimization rights.
+- Live decision-support rights.
+
+The owner intends private localhost research.
+
+Do not unnecessarily demand commercial redistribution rights for a workflow that does not redistribute data.
+
+Do not activate any paid service.
+
+If no genuinely suitable free source is available, report the exact external dependency and continue completing all unrelated technical requirements.
+
+---
+
+# PART C — AUTOMATIC DATA ACQUISITION AND ACCURACY
+
+## 17. INTEGRATE PROVIDERS WITH THE EXISTING PIPELINE
+
+Extend P08 and P09 rather than introducing a second disconnected data platform.
+
+The required architecture is:
+
+Provider adapter
+→ Purpose authorization
+→ Request scheduling
+→ Response validation
+→ Instrument mapping
+→ Calendar validation
+→ Timestamp validation
+→ Data quality checks
+→ Cross-source integrity
+→ Dataset lineage
+→ Research cycle
+→ Strategy evaluation
+→ Risk checks
+→ Research or permitted virtual simulation.
+
+Implement provider acquisition jobs using the existing durable scheduler and recovery mechanisms.
+
+Test the complete pipeline with authored provider responses.
+
+Do not use real acquisition without applicable entitlement.
+
+A successful provider response must not bypass dataset authorization.
+
+Do not claim automated genuine market research when only fixture ingestion was executed.
+
+---
+
+## 18. AUTOMATIC CROSS-SOURCE VERIFICATION
+
+The existing `models/source_integrity.py` comparator is operator-triggered.
+
+Complete automatic comparison for eligible equivalent observations.
+
+Compare:
+
+- Instrument identity.
+- ISIN.
+- Exchange.
+- Trading series.
+- Currency.
+- Candle interval.
+- Candle opening and closing times.
+- Session.
+- Adjustment basis.
+- Volume units.
+- Source publication semantics.
+- OHLCV values.
+
+Implement versioned tolerances.
+
+Distinguish:
+
+- VERIFIED_MATCH.
+- SHARED_UPSTREAM.
+- SINGLE_SOURCE.
+- UNKNOWN_LINEAGE.
+- NON_EQUIVALENT.
+- MATERIAL_CONFLICT.
+- INSUFFICIENT_EVIDENCE.
+- INVALID.
+- STALE.
+
+Do not count two feeds as independent when they originate from the same upstream source.
+
+Persist comparison evidence.
+
+Automatically block affected new research and candidate eligibility on material unresolved conflicts.
+
+Ensure pending virtual entries cannot proceed on newly invalidated data.
+
+Do not invent resolution prices.
+
+Create a controlled conflict-resolution and dataset-revision workflow.
+
+Preserve the original conflicting observations where retention rights permit.
+
+Test duplicate comparisons, simultaneous imports and conflicting provider revisions.
+
+---
+
+## 19. WRONG INFORMATION PREVENTION
+
+Complete centralized data-quality enforcement.
+
+Validate:
+
+- Price units.
+- Currency.
+- Tick size.
+- Instrument identity.
+- Exchange series.
+- Session.
+- Timezone.
+- Event timestamps.
+- Publication timestamps.
+- Receipt timestamps.
+- OHLC relationships.
+- Nonnegative volume.
+- Positive finite prices.
+- Duplicate records.
+- Missing observations.
+- Out-of-order records.
+- Future timestamps.
+- Stale observations.
+- Incomplete candles.
+- Adjustment basis.
+- Corporate-action consistency.
+- Provider authorization.
+- Dataset lineage.
+
+Do not automatically interpolate missing candles for executable decisions.
+
+Do not use previous prices as though they were fresh observations.
+
+Classify unknown data honestly.
+
+Required negative tests include:
+
+- Incorrect symbol.
+- Incorrect ISIN.
+- Wrong price units.
+- Future candle.
+- Negative price.
+- Invalid high or low.
+- Missing candle.
+- Conflicting provider price.
+- Corporate-action mismatch.
+- Stale observation.
+- Expired permission.
+- Unexpected provider schema.
+- Incomplete response.
+
+Every invalid case must produce an appropriate rejection, quarantine or NO TRADE state.
+
+---
+
+## 20. FRESHNESS AND SIGNAL EXPIRY
+
+Complete the outstanding P06–P07 freshness requirements.
+
+Distinguish:
+
+- Synthetic.
+- Historical.
+- End-of-day.
+- Delayed.
+- Verified live.
+- Stale.
+- Unknown.
+
+Every new candidate must identify:
+
+- Source observation timestamp.
+- Source publication time.
+- Local receipt time.
+- Research execution time.
+- Entry validity period.
+- Expiry timestamp.
+- Required provider state.
+- Applicable data mode.
+- Invalidation conditions.
+
+A candidate must become invalid when:
+
+- Required data becomes stale.
+- Provider permission is revoked.
+- Material source conflict is detected.
+- Entry range is exceeded.
+- Required risk checks fail.
+- Session ends.
+- Candidate expiry is reached.
+
+Enforce these checks server-side and in displayed states.
+
+Do not label historical or delayed observations as verified live.
+
+Keep actionable real-money recommendations disabled throughout this repair milestone.
+
+---
+
+# PART D — ENTRY, STOP-LOSS AND TARGET OPTIMIZATION
+
+## 21. CURRENT TARGET ENGINE LIMITATION
+
+Inspect:
+
+`services/targets.py`
+
+The current structure policy uses the nearest completed resistance among a bounded historical set.
+
+The explicit fixed 4R benchmark is also available.
+
+This is a useful causal baseline, but it is not a complete advanced target optimization engine.
+
+Preserve:
+
+- Nearest resistance baseline.
+- Explicit fixed 4R comparison.
+- Existing target-policy versions.
+- Archived P07 and P09 experiments.
+
+Implement a separate versioned experimental optimization framework.
+
+Do not silently alter historical target-policy results.
+
+---
+
+## 22. RE-21 ENTRY OPTIMIZATION
+
+Implement or complete a genuine entry evaluation engine.
+
+Evaluate candidate entry levels using relevant causal evidence:
+
+- Completed candle confirmation.
+- Prior breakout levels.
+- Pullback zones.
+- Prior support and resistance.
+- Approximate VWAP where applicable.
+- Volatility.
+- Expected execution friction.
+- Tick size.
+- Available liquidity.
+- Remaining session time.
+
+Distinguish:
+
+- Signal reference price.
+- Proposed limit price.
+- Simulated execution price.
+- Valid entry range.
+- Entry expiry.
+- Entry invalidation.
+
+Do not use future observations to select an earlier entry.
+
+Reject entries that have moved beyond the permitted range.
+
+A profitable future candle must never be used retrospectively to improve a historical entry.
+
+Create independent numerical and chronological tests.
+
+---
+
+## 23. RE-22 STOP-LOSS OPTIMIZATION
+
+Implement a versioned stop evaluation service.
+
+Support appropriate experimental alternatives:
+
+- Structure-based stops.
+- Prior swing stops.
+- ATR-adjusted stops.
+- Volatility-based stops.
+- Strategy-specific invalidation levels.
+
+Evaluate:
+
+- Stop distance.
+- Tick-size validity.
+- Volatility sensitivity.
+- Historical adverse excursion where available.
+- Modeled execution costs.
+- Available virtual capital.
+- Liquidity.
+- Gap exposure.
+
+Reject invalid or economically infeasible stops.
+
+Never widen a stop after entry merely to avoid recording a loss.
+
+Do not optimize stops using final holdout outcomes.
+
+Preserve existing strategy stop methodologies as versioned baselines.
+
+---
+
+## 24. RE-23 PROFIT TARGET OPTIMIZATION
+
+Implement target evaluation beyond the nearest-resistance baseline.
+
+Consider:
+
+- Completed market structure.
+- Support and resistance barriers.
+- ATR.
+- Volatility.
+- Historical favorable excursion.
+- Time remaining in the session.
+- Strategy-specific performance.
+- Liquidity.
+- Trading costs.
+- Execution uncertainty.
+
+Use training-only historical statistics where required.
+
+Do not bypass nearer resistance merely to manufacture a larger reward-to-risk ratio.
+
+Do not invent additional targets merely to populate the UI.
+
+Required controls:
+
+- Minimum planned net reward-to-risk: 2:1.
+- Preferred planned net reward-to-risk: 3:1.
+- Conservative cost-adjusted reward.
+- Conservative planned loss.
+- Clear target-feasibility evidence.
+- NO TRADE when no defensible target qualifies.
+
+Implement deterministic comparison between:
+
+1. Existing structure policy.
+2. Existing fixed 4R benchmark.
+3. New experimental optimized target policy.
+
+Report all results, including losses and zero-trade experiments.
+
+Do not claim the optimized policy is superior without genuine independent financial evidence.
+
+---
+
+# PART E — STRATEGY COMPETITION COMPLETION
+
+## 25. CURRENT RANKING LIMITATION
+
+Inspect:
+
+- `services/targets.py`
+- `services/portfolio.py`
+- `services/strategies.py`
+- `models/prospective.py`
+- `services/fixture_execution.py`
+
+The current historical candidate ranking considers:
+
+- Whether the reward-to-risk ratio reaches 3.
+- Reward-to-risk ratio.
+- Estimated reward.
+- Volume.
+
+This is not a complete evidence-supported strategy selection framework.
+
+The prospective fixture account also selects one configured strategy.
+
+Complete shared strategy evaluation across historical and prospective fixture workflows.
+
+Do not remove the existing single-strategy comparison mode.
+
+---
+
+## 26. PRESERVE FIVE EXISTING STRATEGIES
+
+Preserve and strengthen:
+
+- ST-01 Opening Range Breakout.
+- ST-02 VWAP Pullback.
+- ST-04 Trend Following.
+- ST-06 Volume Confirmed Breakout.
+- ST-08 Mean Reversion.
+
+For each strategy implement or verify:
+
+- Original identifier.
+- Version.
+- Required indicators.
+- Required lookback.
+- Market regime applicability.
+- Supported timeframe.
+- Entry methodology.
+- Stop methodology.
+- Target methodology.
+- Invalidation rules.
+- Fee requirements.
+- Liquidity requirements.
+- Risk constraints.
+- Validation state.
+- Reproducible evidence.
+
+Do not expand to all 20 strategies during this repair milestone.
+
+The priority is completing the five strategies and shared evaluation architecture that P06–P07 already attempted.
+
+---
+
+## 27. MASTER CANDIDATE COMPETITION
+
+Implement an explainable, versioned selection framework.
+
+When multiple strategies generate candidates:
+
+1. Evaluate all applicable strategies.
+2. Preserve all candidate evidence.
+3. Apply data-quality vetoes.
+4. Apply strategy eligibility vetoes.
+5. Evaluate target feasibility.
+6. Evaluate trading costs.
+7. Evaluate planned risk.
+8. Evaluate available historical performance.
+9. Evaluate out-of-sample evidence.
+10. Evaluate regime compatibility.
+11. Rank eligible candidates.
+12. Apply shared portfolio allocation.
+13. Revalidate risk immediately before reservation.
+14. Record selected and rejected candidates.
+
+Use evidence-supported criteria including:
+
+- Net expectancy.
+- Sample size.
+- Out-of-sample drawdown.
+- Parameter stability.
+- Cost sensitivity.
+- Market-regime compatibility.
+- Liquidity.
+- Planned net reward-to-risk.
+- Available portfolio risk.
+
+Missing financial evidence must remain explicitly unknown.
+
+Do not assign positive default financial scores.
+
+An experimental fixture ranking may use documented heuristic criteria, but it must never be represented as a validated probability.
+
+Use deterministic tie-breaking only after substantive ranking criteria.
+
+---
+
+## 28. CROSS-INSTRUMENT PROSPECTIVE COMPETITION
+
+P09 verifies shared capital and one permitted exposure slot.
+
+Preserve that protection.
+
+However, verify whether multiple eligible schedules can consume the available slot according to cron iteration order rather than substantive candidate ranking.
+
+If confirmed, implement cycle-level competition for simultaneously available candidates.
+
+The system must:
+
+- Collect eligible candidates from the relevant observation window.
+- Apply deterministic bounded ranking.
+- Reject stale candidates.
+- Reserve capital atomically.
+- Prevent duplicate exposure.
+- Recheck risk.
+- Record allocation reasons.
+
+Do not indefinitely wait for every instrument.
+
+Use a documented decision deadline and only information genuinely available before that deadline.
+
+Test reordered watches, reordered instruments, reordered strategies and simultaneous candidate arrival.
+
+Equivalent inputs should produce equivalent selection outcomes except where genuine observation availability differs.
+
+Preserve the one-exposure safety restriction unless a future explicitly authorized requirement changes it.
+
+---
+
+## 29. G01–G14 COMPLETE EVIDENCE AUDIT
+
+Preserve original gate definitions.
+
+Inspect every caller of `services/decision.py`.
+
+Verify that each mandatory gate receives appropriate evidence rather than an arbitrary affirmative value.
+
+Cover:
+
+- Source eligibility.
+- Instrument eligibility.
+- Session validity.
+- Candle completeness.
+- Required freshness.
+- Research inputs.
+- Strategy implementation.
+- Mode-specific strategy validation.
+- Cost availability.
+- Position sizing.
+- Independent risk.
+- Decision expiry.
+- Evidence integrity.
+- Research-mode restriction.
+
+Independent inspection found that the low-level portfolio service still uses the asset key as dataset-version context in some paths, while the Odoo portfolio persistence layer replaces it with an observation fingerprint.
+
+Ensure all newly emitted or persisted decision paths carry correct immutable evidence, including standalone services, expired candidates, prospective candidates and authorized historical replay.
+
+Preserve historical records without retroactively rewriting them.
+
+Test all 14 mandatory gates independently.
+
+Also test:
+
+- Missing gate.
+- Invalid evidence type.
+- Forged metadata.
+- False authorization.
+- Stale observation.
+- Invalid dataset fingerprint.
+- Expired candidate.
+- Risk failure.
+- Unsupported operating mode.
+
+No score may override a hard gate.
+
+No fixture result may establish live eligibility.
+
+---
+
+# PART F — PROFIT OPTIMIZATION AND RESEARCH COVERAGE
+
+## 30. TRAINING-ONLY PARAMETER OPTIMIZATION
+
+P09 implements multi-fold comparison across five strategy hypotheses.
+
+Its current financial report identifies genuine parameter optimization and independent regime coverage as unfinished.
+
+Implement a bounded versioned parameter-search framework.
+
+Support appropriate parameters for:
+
+- Entry rules.
+- Indicator periods.
+- Stop distance.
+- Target methodology.
+- Volatility filters.
+- Liquidity filters.
+- Session timing.
+- Regime filters.
+
+Requirements:
+
+- Predefined search spaces.
+- Maximum trial count.
+- Deterministic execution.
+- Frozen training data.
+- Independent validation.
+- Out-of-sample evaluation.
+- Sealed final holdout.
+- Complete trial records.
+- Reproducible hashes.
+- Resource limits.
+
+Do not search against evaluation or final holdout results.
+
+Do not select an isolated maximum-profit configuration without examining stability.
+
+Do not relax risk protections to improve historical returns.
+
+Rank according to documented net expectancy, drawdown, costs and robustness.
+
+Retain every attempted configuration.
+
+Use authored fixtures for technical verification when genuine data is unavailable.
+
+---
+
+## 31. COMPLETE THE RESEARCH ENGINE CONTRACT
+
+P06–P07 targeted expansion toward 18 meaningful research capabilities.
+
+Current implementation coverage remains approximately 12 partially implemented capabilities.
+
+Do not count empty registry entries as implemented engines.
+
+Complete a common versioned result contract containing:
+
+- Engine identifier.
+- Engine version.
+- Instrument.
+- Timeframe.
+- Research timestamp.
+- Dataset fingerprint.
+- Required inputs.
+- Available inputs.
+- Input freshness.
+- Research finding.
+- Supporting metrics.
+- Contradictory evidence.
+- Missing inputs.
+- Quality warnings.
+- Applicable strategies.
+- Execution duration.
+- Result status.
+
+Preserve the original RE-01–RE-25 definitions.
+
+Prioritize completion of:
+
+- RE-21 Entry Optimization.
+- RE-22 Stop-Loss Optimization.
+- RE-23 Profit Target Optimization.
+- RE-24 Historical Strategy Performance.
+- RE-25 Net Expected Profit and Risk Validation.
+
+Also implement one appropriate additional research capability toward the earlier 18-engine target where actual data prerequisites permit.
+
+Prefer meaningful verified functionality over numerical coverage.
+
+Report the exact capability count after implementation.
+
+---
+
+## 32. INDEPENDENT INDICATOR REFERENCE TESTING
+
+Preserve the existing indicator implementations.
+
+Expand mathematical reference tests for:
+
+- SMA.
+- EMA.
+- RSI.
+- MACD.
+- ATR.
+- ADX.
+- Approximate VWAP.
+- Bollinger Bands.
+- Stochastic Oscillator.
+- Relative Volume.
+- Rate of Change.
+- On-Balance Volume.
+- Historical Volatility.
+- Rolling Highs and Lows.
+- Opening Range.
+- Relative Strength.
+- Price Gaps.
+- Volume Spikes.
+- Trend Slopes.
+
+Include:
+
+- Nonflat numerical examples.
+- Rising and falling series.
+- Flat series.
+- Zero volume.
+- Missing inputs.
+- Insufficient warm-up.
+- Session resets.
+- Precision checks.
+- Prefix invariance.
+- Future-data exclusion.
+
+Use independently calculated expected results.
+
+Do not generate test expectations by calling the same implementation under test.
+
+Do not claim true trade-level VWAP when only OHLCV approximations are available.
+
+---
+
+## 33. FINANCIAL EVIDENCE AND STATISTICAL LIMITATIONS
+
+Preserve P09 financial metrics.
+
+Complete applicable P06–P07 requirements concerning:
+
+- Net expectancy.
+- Trade sample size.
+- Cost-aware performance.
+- Profit factor.
+- Drawdown.
+- Parameter sensitivity.
+- Out-of-sample stability.
+- Historical regime coverage.
+- Statistical uncertainty.
+- Strategy rejection.
+
+Use appropriate uncertainty estimation when sufficient suitable observations exist.
+
+Do not invent confidence intervals from inadequate data.
+
+Do not classify synthetic stress tests as actual market robustness.
+
+Do not declare a strategy financially validated without genuine authorized historical evidence and the required prospective validation.
+
+Current financially validated strategy count must remain zero unless genuine new evidence justifies a change.
+
+---
+
+# PART G — DASHBOARD AND OWNER EXPERIENCE
+
+## 34. COMPLETE PREVIOUS DASHBOARD GAPS
+
+P06–P07 include unfinished premium-dashboard requirements.
+
+P09 implements useful native portfolio, risk and strategy reporting forms.
+
+Preserve those forms and workflows.
+
+Inspect the original Dashboard A–I requirements.
+
+Complete remaining technical gaps within the existing nine-workspace roadmap:
+
+1. Market Overview.
+2. Stock Research Scanner.
+3. Trading Opportunities.
+4. Stock Research Detail.
+5. Paper Trading Portfolio.
+6. Strategy Performance.
+7. Risk Management.
+8. Data and System Health.
+9. Daily Research Report.
+
+Prioritize:
+
+- Provider capability and authorization.
+- Automatic comparison evidence.
+- Data freshness.
+- Candidate explanations.
+- Entry, stop and target diagnostics.
+- Strategy competition.
+- Experimental optimization reports.
+- Actual rejection reasons.
+
+Use native Odoo and OWL.
+
+Use real database-backed values.
+
+Where genuine data is unavailable, show an explicit unavailable state.
+
+Do not show fictional prices, profits, research scores or strategy probabilities.
+
+---
+
+## 35. PROVIDER CONTROL CENTER
+
+Implement a unified authorized provider workspace.
+
+Display:
+
+- Provider identity.
+- Documented capabilities.
+- Implemented capabilities.
+- Authorization status.
+- Configuration status.
+- Connectivity status.
+- Data mode.
+- Last successful permitted acquisition.
+- Last failed request.
+- Rate-limit status.
+- Source health.
+- Freshness.
+- Retention requirements.
+- Available operations.
+- Blocked operations.
+- Remaining owner action.
+
+Provide working controls for permitted operations:
+
+- Inspect provider configuration.
+- Test fixture adapter.
+- Inspect authorized acquisition jobs.
+- Inspect data lineage.
+- Inspect comparison conflicts.
+- Retry eligible failed jobs.
+- Disable provider.
+
+A control that requires credentials or entitlement must clearly explain the prerequisite.
+
+Do not add fake or nonfunctional controls.
+
+---
+
+## 36. EXPLAINABLE TRADING RESEARCH WORKSPACE
+
+Every experimental candidate must display:
+
+- Instrument.
+- Strategy.
+- Strategy version.
+- Data mode.
+- Entry reference.
+- Entry validity.
+- Stop-loss reference.
+- Target reference.
+- Planned net reward-to-risk.
+- Estimated costs.
+- Estimated planned risk.
+- Candidate ranking components.
+- Applicable research engines.
+- Gate outcomes.
+- Rejection reasons.
+- Data source.
+- Observation timestamp.
+- Dataset fingerprint.
+- Expiry.
+- Financial validation status.
+
+Include clearly visible:
+
+`EXPERIMENTAL RESEARCH — NOT FINANCIALLY VALIDATED`
+
+when appropriate.
+
+No actionable real-money recommendation may be enabled by this repair.
+
+---
+
+# PART H — GENUINE DATA EXTERNAL DEPENDENCY
+
+## 37. UPSTOX OWNER ACTION
+
+Preserve the P09 prepared owner-support request.
+
+If genuine market access remains blocked, provide one concise Gujarati action guide directing the owner to the appropriate official support channel.
+
+Request confirmation of:
+
+- Existing account eligibility.
+- Analytics Token availability.
+- Cash-equity historical access.
+- Dynamic-IP compatibility.
+- Any applicable charges.
+- Private local storage.
+- Internal descriptive research.
+- Backtesting.
+- Prospective virtual simulation.
+- Retention requirements.
+- Timestamp and publication semantics.
+
+Do not require the owner to send private credentials to ChatGPT or include them in a review archive.
+
+If the owner later authorizes one legitimate read-only test, perform only the explicitly authorized operation.
+
+---
+
+## 38. GENUINE HISTORICAL SMOKE TEST
+
+Only if the required permissions and access become available:
+
+1. Acquire the smallest permitted completed-session sample.
+2. Record the actual publisher.
+3. Verify permission.
+4. Validate instruments.
+5. Verify timestamps.
+6. Import through the existing unified pipeline.
+7. Run permitted descriptive research.
+8. Record sanitized evidence.
+
+A single daily historical file does not validate intraday strategy profitability.
+
+Authorized intraday financial testing requires a separate suitable panel, historical publication evidence and appropriate simulation permissions.
+
+If the prerequisite remains unavailable:
+
+- Mark genuine acquisition BLOCKED_EXTERNAL.
+- Mark genuine financial validation BLOCKED_EXTERNAL.
+- Retain all necessary safety restrictions.
+- Continue completing unrelated technical functionality.
+
+Do not fabricate genuine market-data evidence.
+
+---
+
+# PART I — CAPITAL PROTECTION AND SECURITY
+
+## 39. NON-NEGOTIABLE RISK SETTINGS
+
+Preserve:
+
+- Starting virtual capital: INR 50,000.
+- Maximum planned risk per trade: 0.5%.
+- Daily planned loss threshold: 1%.
+- Maximum daily new entries: 3.
+- Suspension after two consecutive losses.
+- Minimum planned net reward-to-risk: 2:1.
+- Preferred planned net reward-to-risk: 3:1.
+- One prospective exposure slot under the current P09 policy.
+- Long-only cash-equity simulation.
+- No leverage.
+- No averaging down.
+- No martingale.
+- No planned overnight intraday exposure.
+
+Do not weaken these controls to generate more trades.
+
+A stop loss is not a guarantee of maximum loss.
+
+Preserve independent risk vetoes, shared capital and atomic reservations.
+
+---
+
+## 40. SECURITY AND CONCURRENCY REGRESSION
+
+Retest:
+
+- Source authorization.
+- Dataset access.
+- Holdout isolation.
+- Provider destination allowlists.
+- TLS validation.
+- SSRF prevention.
+- Protected configuration.
+- Secret redaction.
+- Company isolation.
+- Candidate integrity.
+- Ledger immutability.
+- Atomic virtual reservations.
+- Duplicate-fill prevention.
+- Scheduler concurrency.
+- Recovery.
+- Unauthorized export.
+- Stale-worker rejection.
+- Permission revocation during execution.
+
+Use independent PostgreSQL sessions for contention tests.
+
+Perform actual process-interruption testing for modified durable execution paths.
+
+Never classify sequential operations in one transaction as concurrency evidence.
+
+Never mutate real Odoo accounting records.
+
+---
+
+## 41. ABSOLUTE REAL TRADING PROHIBITION
+
+Do not implement:
+
+- Real buy orders.
+- Real sell orders.
+- Real order modification.
+- Real order cancellation.
+- Real fund transfers.
+- Real margin allocation.
+- Real account capital allocation.
+- Real automatic portfolio liquidation.
+
+Do not add hidden, dormant or future-activation broker-order paths.
+
+The current product remains a research and virtual simulation application.
+
+---
+
+# PART J — FOCUSED REPAIR ACCEPTANCE MATRIX
+
+## 42. NEW REPAIR ACCEPTANCE CRITERIA
+
+Create the following 45 repair criteria in addition to the mandatory reconciliation of all 180 P06–P07 criteria.
+
+| ID | Requirement |
+|---|---|
+| R67-AC-001 | P09.1 archive and baseline verified |
+| R67-AC-002 | All existing standalone regressions executed |
+| R67-AC-003 | All P01–P09 requirement identifiers preserved |
+| R67-AC-004 | Complete 180-row P06–P07 reconciliation delivered |
+| R67-AC-005 | All 97 historically non-passed entries individually evaluated |
+| R67-AC-006 | P07-F01–P07-F18 defect dispositions updated |
+| R67-AC-007 | Provider interface and capability states completed |
+| R67-AC-008 | Upstox read-only adapter verified with fixtures |
+| R67-AC-009 | Upstox local credential protection verified |
+| R67-AC-010 | NSE MCP permitted-scope transport readiness evaluated |
+| R67-AC-011 | NSE Bhavcopy schema and normalization regression verified |
+| R67-AC-012 | Yahoo optional adapter and authorization disposition documented |
+| R67-AC-013 | Existing Angel One read-only regression passed |
+| R67-AC-014 | Capability-based provider routing integrated |
+| R67-AC-015 | Provider acquisition pipeline fixture-tested |
+| R67-AC-016 | Purpose-specific authorization enforced |
+| R67-AC-017 | Automatic cross-source comparison verified |
+| R67-AC-018 | Material source conflicts block affected decisions |
+| R67-AC-019 | Corporate-action and adjustment mismatch handling verified |
+| R67-AC-020 | Wrong-data negative test matrix executed |
+| R67-AC-021 | Freshness and candidate expiry verified |
+| R67-AC-022 | RE-21 causal entry optimization verified |
+| R67-AC-023 | RE-22 causal stop optimization verified |
+| R67-AC-024 | RE-23 target optimization framework verified |
+| R67-AC-025 | Historical target-policy baselines preserved |
+| R67-AC-026 | Existing five strategies regression-tested |
+| R67-AC-027 | Shared multi-strategy competition verified |
+| R67-AC-028 | Prospective cross-instrument competition verified |
+| R67-AC-029 | All G01–G14 evidence and vetoes tested |
+| R67-AC-030 | Immutable decision provenance verified |
+| R67-AC-031 | Training-only parameter optimization verified |
+| R67-AC-032 | Holdout and evaluation contamination prevented |
+| R67-AC-033 | Standardized research contract verified |
+| R67-AC-034 | Research coverage accurately reconciled |
+| R67-AC-035 | Independent indicator reference tests executed |
+| R67-AC-036 | P09 capital protection and prospective regression passed |
+| R67-AC-037 | Provider and research workspaces verified |
+| R67-AC-038 | All applicable P06–P07 dashboard gaps assessed and addressed |
+| R67-AC-039 | Genuine data and financial validation separately evaluated |
+| R67-AC-040 | Security and company isolation regression passed |
+| R67-AC-041 | True concurrency and interruption tests executed |
+| R67-AC-042 | Real Odoo browser tests executed |
+| R67-AC-043 | Fresh install and populated P09.1 upgrade verified |
+| R67-AC-044 | Consolidated traceability and Gujarati guide delivered |
+| R67-AC-045 | Final archive and manifests verified |
+
+Do not force every criterion to PASSED.
+
+For criteria containing multiple scopes, report partial or blocked portions separately.
+
+---
+
+## 43. MANDATORY COMPLETION GATES
+
+### Gate A — Historical reconciliation
+
+Pass only if:
+
+- All 180 historical criteria are individually reconciled.
+- All 97 historically non-passed entries are evaluated.
+- Previously completed work is not unnecessarily duplicated.
+- Remaining work is explicitly classified.
+
+### Gate B — Provider architecture
+
+Pass technical scope only if:
+
+- Provider contracts are implemented.
+- Upstox adapter is fixture-tested.
+- Existing providers are preserved.
+- Authorization is enforced.
+- Acquisition routing is integrated.
+- Unavailable production access remains disabled.
+
+### Gate C — Data accuracy
+
+Pass only if:
+
+- Automatic equivalent-source comparison operates.
+- Conflicting data blocks affected decisions.
+- Invalid data is rejected.
+- Freshness and expiry are enforced.
+- Negative tests execute.
+
+### Gate D — Strategy and optimization
+
+Pass only if:
+
+- Entry optimization operates.
+- Stop evaluation operates.
+- Target evaluation operates.
+- Historical baselines remain reproducible.
+- Multi-strategy selection is deterministic.
+- Shared portfolio risk cannot be bypassed.
+- All mandatory gates are independently tested.
+
+### Gate E — Regression and owner experience
+
+Pass only if:
+
+- P08 scheduler and recovery behavior remain functional.
+- P09 prospective fixture trading remains functional.
+- Virtual ledger integrity remains intact.
+- Actual Odoo browser workflows pass.
+- Applicable dashboard values reconcile.
+
+### Gate F — Release integrity
+
+Pass only if:
+
+- Fresh installation passes.
+- Populated P09.1 upgrade passes.
+- Security regression passes.
+- Historical records and XML IDs remain protected.
+- Archive integrity passes.
+- Evidence is complete.
+
+External access and genuine financial validation may remain blocked.
+
+However, do not use external blockers to excuse unfinished unrelated technical work.
+
+---
+
+# PART K — ACTUAL TESTING
+
+## 44. MANDATORY COMMANDS
+
+Execute the existing standalone suite:
+
+```bash
+python -B -m unittest discover -s tests -p "unit_*.py" -v
+```
+
+Execute source verification:
+
+```bash
+python -B scripts/check_source.py
+```
+
+Reproduce the P09 stress suite:
+
+```bash
+python -B scripts/reproduce_p09_stress.py
+```
+
+Compare reproduced historical baseline outputs against the preserved evidence.
+
+Create new versioned experiments for intentionally changed strategy behavior.
+
+Execute:
+
+- New repair-specific unit tests.
+- Odoo ORM tests.
+- Provider integration tests using permitted fixtures.
+- Authorization regression.
+- Strategy competition tests.
+- Parameter optimization tests.
+- True concurrency tests.
+- Process interruption and recovery.
+- Real browser tests.
+- Fresh installation.
+- Populated upgrade.
+- Repeated update.
+
+Retain initial failed tests and repaired reruns.
+
+Do not delete failing tests merely to report a successful result.
+
+---
+
+## 45. PERFORMANCE
+
+Preserve the existing 50-instrument reference workload.
+
+Measure:
+
+- Provider parsing.
+- Data validation.
+- Dataset creation.
+- Automatic source comparison.
+- Research cycles.
+- Candidate ranking.
+- Parameter optimization.
+- Virtual reservation.
+- Database query usage.
+- CPU usage.
+- Peak memory.
+- Dashboard latency.
+
+Benchmark larger synthetic workloads where practical.
+
+Do not claim verified large-universe live scanning from offline benchmark results.
+
+Use bounded resource consumption suitable for the owner's existing laptop.
+
+---
+
+## 46. MIGRATION
+
+Preserve the current P09.1 implementation as the upgrade baseline.
+
+A suitable next repair version may be:
+
+`20.0.9.2.0`
+
+Verify existing version conventions before changing the manifest.
+
+Do not identify this version as P10.
+
+Test migration using a representative populated P09.1 database containing:
+
+- Source authorizations.
+- Datasets.
+- Research schedules.
+- Completed research cycles.
+- Candidate records.
+- Virtual accounts.
+- Pending virtual orders.
+- Open fixture positions.
+- Closed positions.
+- Journal entries.
+- Historical experiments.
+- Financial reports.
+- Holdouts.
+- Promotion reviews.
+
+Verify historical record hashes and XML IDs.
+
+Ensure new configuration defaults cannot unexpectedly activate external providers.
+
+Never destroy the owner's working database.
+
+---
+
+# PART L — REQUIRED DOCUMENTATION
+
+## 47. CONSOLIDATED P06–P07 RECONCILIATION REPORT
+
+Create:
+
+`P06_P07_COMPLETION_MATRIX.md`
+
+This is the primary repair deliverable.
+
+Include all 180 original acceptance criteria.
+
+For each criterion provide:
+
+- Original milestone.
+- Original status.
+- Current requirement.
+- Existing implementation.
+- P08/P09 evidence.
+- New repair implementation where applicable.
+- Test evidence.
+- Current technical status.
+- External dependency.
+- Financial validation status.
+- Remaining work.
+
+Summarize:
+
+- Previously complete and reverified.
+- Completed in P08.
+- Completed in P09.
+- Newly completed in this repair.
+- Technically partial.
+- Externally blocked.
+- Failed.
+- Not run.
+
+Do not inflate completion percentages.
+
+---
+
+## 48. OTHER REQUIRED REPORTS
+
+Create or update:
+
+### DEVELOPMENT_REPORT.md
+
+Include the repair milestone name, baseline, implemented changes, test outcomes, limitations and final readiness.
+
+### REQUIREMENTS_TRACEABILITY.md
+
+Preserve every historical identifier and append consolidated current dispositions.
+
+### P06_P07_DEFECT_CLOSURE_REPORT.md
+
+Include P07-F01–P07-F18 and every additional confirmed defect.
+
+### PROVIDER_CAPABILITY_MATRIX.md
+
+Update current adapter implementation and production authorization states.
+
+### FREE_MARKET_DATA_PROVIDER_EVALUATION.md
+
+Preserve prior findings and record the selected practical route and exact owner dependency.
+
+### P06_P07_DATA_INTEGRITY_REPORT.md
+
+Document source comparison, conflict handling, data validation, freshness and expiry.
+
+### P06_P07_STRATEGY_OPTIMIZATION_REPORT.md
+
+Document entry, stop, target, strategy competition, parameter optimization and limitations.
+
+### P06_P07_RESEARCH_COVERAGE_REPORT.md
+
+Document research contracts, indicators and actual RE capability coverage.
+
+### P06_P07_TEST_EXECUTION_REPORT.md
+
+Document commands, actual outcomes, test failures and repairs.
+
+### P06_P07_ISSUE_REGISTER.md
+
+Document every remaining technical and external blocker.
+
+### OWNER_ACTION_REQUIRED.md
+
+Separate necessary external owner actions from ordinary offline usage.
+
+### OWNER_SETUP_GUJARATI.md
+
+Provide simple Gujarati instructions for completed repair functionality.
+
+---
+
+## 49. EVIDENCE DIRECTORY
+
+Create:
+
+`docs/evidence/p06_p07_repair/`
+
+Include:
+
+- Baseline verification.
+- Original acceptance reconciliation.
+- Source verification.
+- Unit-test logs.
+- Provider fixture tests.
+- Authorization tests.
+- Automatic comparison tests.
+- Data-quality tests.
+- Freshness tests.
+- Entry optimization.
+- Stop evaluation.
+- Target optimization.
+- Strategy competition.
+- Parameter optimization.
+- Indicator references.
+- Capital protection regression.
+- Virtual ledger regression.
+- Concurrency logs.
+- Process interruption logs.
+- Browser logs.
+- Actual application screenshots.
+- Fresh installation evidence.
+- Populated migration evidence.
+- Performance measurements.
+- Failure and repair history.
+
+Do not include private credentials or unauthorized market data.
+
+Do not include temporary databases or unnecessary caches.
+
+---
+
+## 50. REQUIRED HANDOFF PACKAGE
+
+Generate:
+
+`P06_P07_COMPLETION_REVIEW_HANDOFF.zip`
+
+Generate:
+
+`P06_P07_COMPLETION_REVIEW_HANDOFF.zip.sha256`
+
+Generate:
+
+`manifest.sha256`
+
+The archive must include:
+
+- Latest complete source code.
+- All required reports.
+- Updated traceability.
+- All applicable tests.
+- Migrations.
+- Test evidence.
+- Actual screenshots.
+- Owner action guide.
+- Gujarati setup guide.
+- Complete manifest.
+- Source manifest.
+
+After final packaging:
+
+1. Reopen the archive.
+2. Verify CRC.
+3. Verify every manifest entry.
+4. Verify source hashes.
+5. Verify separate reports match archived copies.
+6. Verify final external SHA-256.
+7. Detect unmanifested files.
+8. Scan for credentials.
+9. Exclude unauthorized datasets.
+10. Record final archive size and entry count.
+
+Never reuse an earlier milestone checksum.
+
+---
+
+## 51. FINAL READINESS DECISION
+
+Use one of the following:
+
+### P06–P07 TECHNICAL REPAIR COMPLETE — READY FOR P10 REVIEW
+
+Use only if applicable technical completion gates and regression requirements are satisfied.
+
+### P06–P07 REPAIR PARTIAL — TECHNICAL OR EXTERNAL BLOCKERS REMAIN
+
+Use when mandatory technical work remains incomplete.
+
+### P06–P07 REPAIR FAILED — CRITICAL DEFECTS REMAIN
+
+Use when integrity, security, financial simulation or migration defects prevent safe continuation.
+
+Separately report:
+
+- Provider architecture readiness.
+- Actual authorized provider connectivity.
+- Actual historical market-data availability.
+- Data accuracy protection.
+- Entry optimization.
+- Stop-loss optimization.
+- Target optimization.
+- Strategy competition.
+- Research coverage.
+- Parameter optimization.
+- Automatic research.
+- Prospective fixture paper trading.
+- Genuine prospective paper trading.
+- Financial validation.
+- Verified live data.
+- Actionable live decision support.
+
+Even if technical repair is complete, genuine market-data or financial validation blockers must remain explicitly visible.
+
+Do not generate or begin P10 automatically.
+
+---
+
+## 52. EXECUTION PRIORITY
+
+### Priority 0 — Reconciliation
+
+- Verify P09.1.
+- Preserve historical requirements.
+- Reconcile all 180 P06–P07 criteria.
+- Identify genuinely unfinished technical work.
+
+### Priority 1 — Provider architecture
+
+- Complete the read-only Upstox adapter.
+- Complete appropriate provider contracts.
+- Integrate provider routing and acquisition jobs.
+- Preserve authorization boundaries.
+- Complete practical external dependency assessment.
+
+### Priority 2 — Wrong-information protection
+
+- Automatic source comparison.
+- Centralized data validation.
+- Corporate-action consistency.
+- Data freshness.
+- Signal invalidation.
+- Immutable provenance.
+
+### Priority 3 — Strategy improvement
+
+- Entry optimization.
+- Stop evaluation.
+- Target optimization.
+- Shared strategy competition.
+- Prospective candidate ranking.
+- All G01–G14 evidence.
+
+### Priority 4 — Research and financial intelligence
+
+- Training-only parameter optimization.
+- Research contracts.
+- Earlier research-engine coverage targets.
+- Independent indicator tests.
+- Financial limitations.
+
+### Priority 5 — Operational completion
+
+- Provider control center.
+- Research explanation.
+- Remaining applicable dashboard gaps.
+- Owner usability.
+
+### Priority 6 — Full regression and delivery
+
+- Regression tests.
+- Concurrency tests.
+- Actual browser tests.
+- Populated upgrade.
+- Consolidated acceptance matrix.
+- Final review archive.
+
+Complete critical vertical slices before introducing additional optional functionality.
+
+---
+
+## 53. NON-NEGOTIABLE FINAL RULES
+
+1. Preserve P01–P09.
+2. Do not begin P10.
+3. Do not downgrade the P09.1 implementation.
+4. Do not repeat completed work unnecessarily.
+5. Do not fabricate market data.
+6. Do not fabricate data permissions.
+7. Do not fabricate test evidence.
+8. Do not fabricate strategy performance.
+9. Do not treat synthetic results as real results.
+10. Do not treat delayed data as verified live data.
+11. Do not create actionable tips from stale data.
+12. Do not generate unsupported confidence percentages.
+13. Do not optimize against final holdout results.
+14. Do not conceal losing experiments.
+15. Do not bypass provider restrictions.
+16. Do not purchase paid services.
+17. Do not expose credentials.
+18. Do not weaken capital protection.
+19. Do not allow duplicate virtual financial effects.
+20. Do not execute real orders.
+21. Do not transfer real funds.
+22. Do not allocate actual account capital.
+23. Do not claim financial readiness without evidence.
+24. Do not force trading recommendations.
+25. Do not declare historical requirements completed without reconciliation and actual supporting evidence.
+
+The objective is to complete previously unfinished technical development without compromising data accuracy, financial integrity or the owner's capital protection.
+
+Reliable evidence is more important than a high completion percentage.
+
+Implement, test, repair, document and package the actual P06–P07 completion work.
+
+Stop after delivering the repair milestone.
+
+**BEGIN P06P07-R01 DEVELOPMENT NOW.**

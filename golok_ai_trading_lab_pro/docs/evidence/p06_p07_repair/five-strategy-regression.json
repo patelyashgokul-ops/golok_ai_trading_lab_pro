@@ -1,0 +1,96 @@
+{
+  "origin": "synthetic",
+  "date": "2024-01-02",
+  "assets": [
+    "NSE:FIXTURE1",
+    "NSE:FIXTURE2",
+    "NSE:FIXTURE3"
+  ],
+  "scenarios": {
+    "baseline": {
+      "ST-01": {
+        "net": "-186.06",
+        "gross": "-180",
+        "fees": "6.06",
+        "trades": 3,
+        "considered": 3,
+        "suspended": true
+      },
+      "ST-02": {
+        "net": "0",
+        "gross": "0",
+        "fees": "0",
+        "trades": 0,
+        "considered": 0,
+        "suspended": false
+      },
+      "ST-04": {
+        "net": "0",
+        "gross": "0",
+        "fees": "0",
+        "trades": 0,
+        "considered": 0,
+        "suspended": false
+      },
+      "ST-06": {
+        "net": "0",
+        "gross": "0",
+        "fees": "0",
+        "trades": 0,
+        "considered": 0,
+        "suspended": false
+      },
+      "ST-08": {
+        "net": "0",
+        "gross": "0",
+        "fees": "0",
+        "trades": 0,
+        "considered": 0,
+        "suspended": false
+      }
+    },
+    "double_tariff_rates": {
+      "ST-01": {
+        "net": "-192.06",
+        "gross": "-180",
+        "fees": "12.06",
+        "trades": 3,
+        "considered": 3,
+        "suspended": true
+      },
+      "ST-02": {
+        "net": "0",
+        "gross": "0",
+        "fees": "0",
+        "trades": 0,
+        "considered": 0,
+        "suspended": false
+      },
+      "ST-04": {
+        "net": "0",
+        "gross": "0",
+        "fees": "0",
+        "trades": 0,
+        "considered": 0,
+        "suspended": false
+      },
+      "ST-06": {
+        "net": "0",
+        "gross": "0",
+        "fees": "0",
+        "trades": 0,
+        "considered": 0,
+        "suspended": false
+      },
+      "ST-08": {
+        "net": "0",
+        "gross": "0",
+        "fees": "0",
+        "trades": 0,
+        "considered": 0,
+        "suspended": false
+      }
+    }
+  },
+  "financial_eligibility": "INSUFFICIENT"
+}

@@ -33,3 +33,11 @@ Publisher સુધારેલી દૈનિક ફાઇલ આપે ત્
 7. હોટસ્પોટ બંધ થાય તો offline પરીક્ષણ ચાલુ રાખી શકો છો. બ્રોકર માટે **Sync History**માં કારણ જુઓ. કનેક્શન અને પરવાનગી પાછાં મળે ત્યાર પછી **Historical Sync Plans**માં આગળનું સત્ર ચલાવો. જૂના ભાવને live quote તરીકે વાપરશો નહીં.
 
 હાલના offline અભ્યાસ માટે બહારનું ખાતું, static IP કે subscription લેવાની જરૂર નથી. વાસ્તવિક ડેટા માટે સંબંધિત સ્રોતના ઉપયોગ અને સંગ્રહની મંજૂરી જરૂરી છે.
+## P06P07-R01 માં Upstox historical sync
+
+1. Offline ચકાસણી માટે Trading System Administrator તરીકે Odooમાં NSE fixture calendar અને Upstox mapping બનાવો. Mappingની key `NSE_EQ|ISIN` સ્વરૂપમાં હોવી જોઈએ.
+2. **Synchronize Historical** ખોલીને **Synthetic fixture** પસંદ કરો. Upstox V3નું synthetic JSON અને પૂર્ણ fixture session આપો. **Sync History** માં count અને status જુઓ.
+3. અસલી data માટે Upstox accountમાંથી Analytics Tokenની ઉપલબ્ધતા અને query, display, local storage તથા internal researchની લેખિત મંજૂરી ચકાસો. **Market Data Authorization** માં મંજૂરીની નોંધ કરો.
+4. મંજૂરી મળ્યા પછી reviewed mapping અને calendar વાપરો. સ્થાનિક Odoo workerના environmentમાં token masked promptથી દાખલ કરો અને explicit authorization setting સક્રિય કરો. પ્રક્રિયા પછી token સ્થાનિક જ રાખો.
+5. Historical portfolio wizardમાં **Experimental ATR-capped resistance** પસંદ કરીને synthetic replay ચલાવી શકો. પરિણામમાં virtual fills, ખર્ચ અને veto તપાસો. આ આવૃત્તિનું અસલી market dataset અને નફાકારકતાનું validation બાકી છે.
+

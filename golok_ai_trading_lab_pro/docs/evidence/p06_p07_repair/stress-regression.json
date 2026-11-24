@@ -1,0 +1,75 @@
+{
+  "scope": "SYNTHETIC_SOFTWARE_ONLY",
+  "date": "2024-01-02",
+  "cases": {
+    "baseline": {
+      "gross": "-180",
+      "fees": "6.06",
+      "net": "-186.06",
+      "suspended": true,
+      "trades": 3
+    },
+    "doubled_fees": {
+      "gross": "-180",
+      "fees": "12.06",
+      "net": "-192.06",
+      "suspended": true,
+      "trades": 3
+    },
+    "extra_slippage": {
+      "gross": "-180",
+      "fees": "18.06",
+      "net": "-198.06",
+      "suspended": true,
+      "trades": 3
+    },
+    "delayed_publication": {
+      "net": "-186.06",
+      "trades": 3,
+      "scope": "HISTORICAL_CONTRACT_FIXTURE_ONLY"
+    },
+    "missed_entry": {
+      "gross": "0",
+      "fees": "0",
+      "net": "0",
+      "suspended": false,
+      "trades": 0
+    },
+    "adverse_gap": {
+      "gross": "-300",
+      "fees": "6.06",
+      "net": "-306.06",
+      "suspended": true,
+      "trades": 3
+    },
+    "lower_volume": {
+      "gross": "-18",
+      "fees": "6.06",
+      "net": "-24.06",
+      "suspended": true,
+      "trades": 3
+    },
+    "missing_observation": {
+      "status": "REJECTED",
+      "reason": "Incomplete session coverage; no portfolio result was priced."
+    },
+    "structure_target": {
+      "gross": "0",
+      "fees": "0",
+      "net": "0",
+      "suspended": false,
+      "trades": 0
+    },
+    "single_instrument": {
+      "gross": "-60",
+      "fees": "2.02",
+      "net": "-62.02",
+      "suspended": false,
+      "trades": 1
+    },
+    "uncovered_window": {
+      "status": "REJECTED",
+      "reason": "Requested coverage needs explicit regular or closed session dates."
+    }
+  }
+}

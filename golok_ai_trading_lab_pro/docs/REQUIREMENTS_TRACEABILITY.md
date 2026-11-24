@@ -5192,3 +5192,55 @@ Original identifiers remain stable. The archived report preserves the historical
 | P09-AC-048 | Fresh install and populated P08 upgrade verified | PASSED | Fresh and update passed. Populated P08 and P09 clones preserved prior XML IDs and stored results. Initial P09 retained 1156 IDs. | lifecycle-final/installation · direct-p08-migration/upgrade · lifecycle-migration/upgrade |
 | P09-AC-049 | Current traceability and Gujarati documentation delivered | PASSED | Prior trace rows preserved, current acceptance and Gujarati setup delivered. | ../../REQUIREMENTS_TRACEABILITY.md · ../../OWNER_SETUP_GUJARATI.md |
 | P09-AC-050 | Final archive, manifests and SHA-256 verified | PASSED | ZIP CRC, entry manifests, checkpoints and external SHA-256 checked. | manifest.sha256 · source.sha256 |
+
+## P06P07-R01
+
+[180 original dispositions](P06_P07_COMPLETION_MATRIX.md).
+
+| Requirement ID | Requirement | Current status | Evidence and boundary |
+|---|---|---|---|
+| R67-AC-001 | P09.1 archive and baseline verified | PASSED | Archive, reports, both manifests and protected source checkpoint verified. |
+| R67-AC-002 | All existing standalone regressions executed | PASSED | 52 archived standalone tests and the complete R01 suite executed. |
+| R67-AC-003 | All P01–P09 requirement identifiers preserved | PASSED | P09.1 traceability preserved as a byte prefix and 180 original IDs reconciled. |
+| R67-AC-004 | Complete 180-row P06–P07 reconciliation delivered | PASSED | P06_P07_COMPLETION_MATRIX.md contains 180 unique original rows. |
+| R67-AC-005 | All 97 historically non-passed entries individually evaluated | PASSED | Historical non-passed audit verified against 97 original entries. |
+| R67-AC-006 | P07-F01–P07-F18 defect dispositions updated | PASSED | P06_P07_DEFECT_CLOSURE_REPORT.md records 18 original dispositions. |
+| R67-AC-007 | Provider interface and capability states completed | PARTIAL | Capability ceiling and Upstox sync path implemented. Unified provider health and adapters incomplete. |
+| R67-AC-008 | Upstox read-only adapter verified with fixtures | PASSED | Four Upstox standalone tests and the Odoo sync test exercise closed NSE session acquisition with an injected response. |
+| R67-AC-009 | Upstox local credential protection verified | PASSED | Strict local credential validation, fixed GET endpoint, redirects denied, sanitized injected failures. |
+| R67-AC-010 | NSE MCP permitted-scope transport readiness evaluated | PASSED | Existing offline protocol retained. Production transport and operating scope remain unverified. |
+| R67-AC-011 | NSE Bhavcopy schema and normalization regression verified | PASSED | Legacy CM and targeted UDiFF cash fixtures passed. |
+| R67-AC-012 | Yahoo optional adapter and authorization disposition documented | PASSED | Optional adapter remains disabled pending authorized terms. |
+| R67-AC-013 | Existing Angel One read-only regression passed | PASSED | SmartAPI fixture workflow and independent unit regression reran. |
+| R67-AC-014 | Capability-based provider routing integrated | PARTIAL | Exact-feed capability routing and two explicit mapping paths. Automatic authorized fallback remains open. |
+| R67-AC-015 | Provider acquisition pipeline fixture-tested | PASSED | Four Upstox standalone tests and the Odoo sync test exercise closed NSE session acquisition with an injected response. |
+| R67-AC-016 | Purpose-specific authorization enforced | PASSED | P08 company authorization, expiry, revocation, retention and nested export tests reran. Upstox adds the same bounded authorization before sending a historical request. |
+| R67-AC-017 | Automatic cross-source comparison verified | PARTIAL | Odoo test_p06p07_r01_upstox_fixture_and_automatic_comparison exercises equal data, a volume conflict and both vetoes. |
+| R67-AC-018 | Material source conflicts block affected decisions | PASSED | Odoo test_p06p07_r01_upstox_fixture_and_automatic_comparison exercises equal data, a volume conflict and both vetoes. |
+| R67-AC-019 | Corporate-action and adjustment mismatch handling verified | PARTIAL | Adjustment dimensions and unadjusted-source eligibility checked. Full corporate-action workflow remains open. |
+| R67-AC-020 | Wrong-data negative test matrix executed | PARTIAL | Schema, wrong timestamps, gaps, duplicates, malformed prices and volume tested. Expanded anomaly tests remain. |
+| R67-AC-021 | Freshness and candidate expiry verified | PARTIAL | Historical eligibility and fixture expiry verified. Live-feed freshness remains unavailable. |
+| R67-AC-022 | RE-21 causal entry optimization verified | PARTIAL | R01 entry/stop causal reference tests and the experimental ATR-capped target replay exercise synthetic observations. |
+| R67-AC-023 | RE-22 causal stop optimization verified | PARTIAL | R01 entry/stop causal reference tests and the experimental ATR-capped target replay exercise synthetic observations. |
+| R67-AC-024 | RE-23 target optimization framework verified | PARTIAL | ATR-capped structure option wired into portfolio replay. Training-only favorable excursion statistics remain open. |
+| R67-AC-025 | Historical target-policy baselines preserved | PASSED | The eleven archived P09.1 stress scenarios reproduced and matched. |
+| R67-AC-026 | Existing five strategies regression-tested | PASSED | Five strategy trigger and portfolio regressions reran. |
+| R67-AC-027 | Shared multi-strategy competition verified | PARTIAL | Cross-strategy, cross-symbol ranking reran in historical portfolio replay. A shared engine for all pathways remains open. |
+| R67-AC-028 | Prospective cross-instrument competition verified | PARTIAL | Single-account fixture reservations tested. Full prospective competition across strategies and instruments remains open. |
+| R67-AC-029 | All G01–G14 evidence and vetoes tested | PARTIAL | Structured G01–G14 replay and fixture gates reran. Full scenario-by-gate proof remains open. |
+| R67-AC-030 | Immutable decision provenance verified | PARTIAL | Snapshot digests and immutable fixture provenance reran. Broader shared provenance contract remains open. |
+| R67-AC-031 | Training-only parameter optimization verified | PARTIAL | P09 disjoint walk-forward folds verified. Full train-only parameter grid remains open. |
+| R67-AC-032 | Holdout and evaluation contamination prevented | PARTIAL | In-app holdout guards and independent contention verified. Broader data access isolation remains open. |
+| R67-AC-033 | Standardized research contract verified | PARTIAL | Descriptive snapshot versioning retained. Uniform RE-01–RE-30 runtime contract remains open. |
+| R67-AC-034 | Research coverage accurately reconciled | PASSED | Coverage and absent integration explicitly recorded in research report. |
+| R67-AC-035 | Independent indicator reference tests executed | PARTIAL | Independent flat-price ATR/RSI and warm-up numerical checks passed. Complete indicator reference suite remains open. |
+| R67-AC-036 | P09 capital protection and prospective regression passed | PASSED | P09 observation-driven fixture candidates, reservations, exit fills and virtual ledger checks reran. |
+| R67-AC-037 | Provider and research workspaces verified | PARTIAL | Existing workspaces exercised. Unified provider control and explainability remain open. |
+| R67-AC-038 | All applicable P06–P07 dashboard gaps assessed and addressed | PARTIAL | Current Odoo views cover scanner, daily research operations, authorization and the fixture paper journal. Feature parity remains scoped. |
+| R67-AC-039 | Genuine data and financial validation separately evaluated | PASSED | Zero genuine sessions and blocked financial validation reported separately. |
+| R67-AC-040 | Security and company isolation regression passed | PASSED | Current Odoo access and company isolation tests passed. |
+| R67-AC-041 | True concurrency and interruption tests executed | PASSED | Independent PostgreSQL workers overlapped. Termination, rollback and recover-once behavior were observed. |
+| R67-AC-042 | Real Odoo browser tests executed | PASSED | Actual Edge logs and screenshots in the evidence directory. |
+| R67-AC-043 | Fresh install and populated P09.1 upgrade verified | PASSED | Fresh install, module update and populated 20.0.9.1.0 clone validated. |
+| R67-AC-044 | Consolidated traceability and Gujarati guide delivered | PASSED | Consolidated matrix, traceability and Gujarati setup guide delivered. |
+| R67-AC-045 | Final archive and manifests verified | PASSED | Handoff generator reopens archive and verifies full/source manifests, checkpoint, CRC and external hash. |

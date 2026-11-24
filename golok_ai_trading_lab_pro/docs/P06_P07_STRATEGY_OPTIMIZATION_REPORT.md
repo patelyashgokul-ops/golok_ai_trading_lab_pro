@@ -1,0 +1,8 @@
+# P06–P07 strategy optimization
+
+- RE-21 has a versioned experimental service. It uses completed observations before the cutoff to propose tick-aligned signal, prior breakout and approximate VWAP limit alternatives. The range bounds permitted movement, and the expiry and execution eligibility check reject a later out-of-range open. The entry service currently runs as a standalone research evaluator.
+- RE-22 evaluates strategy invalidation, recent swing, ATR and volatility-buffer stops before entry. The inherited Decimal sizing service checks conservative gap stress, hypothetical costs, liquidity, capital, tick size and the two-to-one minimum net reward-to-risk. The three-to-one preference uses the existing rank. Training excursion and cross-strategy deployment remain open.
+- RE-23 adds **Experimental ATR-capped resistance** to historical portfolio replay. It uses the nearer completed resistance or two ATR above the entry, whichever is lower, with tick alignment in the replay. Insufficient volatility history or a missing defensible barrier yields no target. Published structure and fixed 4R benchmark policies retained their definitions and archived synthetic results.
+- Five existing strategies, deterministic historical competition, policy outcomes and the eleven archived stress cases reran. The comparison includes all fills and zero-trade outcomes. The fixture comparison is software evidence. Training-only target statistics, broad parameter optimization, prospective competition and genuine performance remain open.
+
+[Target policy comparison and strategy evidence](evidence/p06_p07_repair/INDEX.md)

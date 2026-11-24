@@ -1,4 +1,10 @@
-# Owner actions for P09
+# Owner actions for P06P07-R01
+
+## Upstox historical connection
+
+The read-only adapter is implemented. The owner must confirm that the existing account can generate an Analytics Token for NSE cash-equity historical access and obtain documented permission to query, display, retain and perform internal descriptive research on the requested data. An active account segment or an approved local sample remains the external dependency. Keep any token on the local Odoo host and enter no token in the application, reports or chat.
+
+After authorization, a Trading System Administrator records the grant in **Market Data Authorization**, creates a reviewed NSE mapping with the instrument key in the form `NSE_EQ|ISIN`, and supplies a reviewed calendar. Set `GOLOK_UPSTOX_ANALYTICS_TOKEN` through a private masked prompt and `GOLOK_UPSTOX_AUTHORIZED=1` in the local Odoo process environment. Run **Synchronize Historical** for one approved completed session. Report the date, interval, expected/actual candle count and sanitized result. The fixture mode is available without credentials.
 
 ## P09 owner action
 

@@ -1,0 +1,10 @@
+Initial independent level tests, relevant failure transcript
+
+test_atr_target_caps_without_bypassing_barrier_and_independent_values: FAIL
+AssertionError: None != Decimal('4.5')
+test_entry_stop_and_future_data_invariance: FAIL
+AssertionError: 'NO_TRADE' != 'RESEARCH_PROPOSAL'
+
+Cause: the seed replay fixture did not contain the 15 completed bars required by ATR warm-up.
+Repair: provide 18 independent ordered bars and model a session with sufficient remaining time.
+Observed rerun: both level tests and the complete 58-test suite passed.
