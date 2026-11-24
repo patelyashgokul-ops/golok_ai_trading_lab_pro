@@ -1,6 +1,10 @@
 param(
     [string]$SourceDatabase = 'golok_20261124162731',
     [string]$TargetDatabase = ('golok_p02_migration_' + (Get-Date -Format yyyyMMddHHmmss)),
+    [string]$SourceVersion = '20.0.1.0.0',
+    [string]$TargetVersion = '20.0.3.0.0',
+    [string]$EvidenceDir = 'docs/evidence/p03/migration',
+    [string]$ClusterDir = '.local-test/pg',
     [string]$OdooRoot = 'C:/PycharmProjects/odoo20/odoo-20.0',
     [string]$Python = 'C:/PycharmProjects/odoo20/.venv/Scripts/python.exe',
     [string]$PostgresBin = 'C:/Program Files/PostgreSQL/18/bin',
@@ -8,13 +12,13 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-if ($SourceDatabase -notmatch '^golok_[a-z0-9_]+$' -or $TargetDatabase -notmatch '^golok_p02_migration_[a-z0-9_]+$') {
+if ($SourceDatabase -notmatch '^golok_[a-z0-9_]+$' -or $TargetDatabase -notmatch '^golok_p0[23]_migration_[a-z0-9_]+$') {
     throw 'Use only disposable test database names.'
 }
 Push-Location (Split-Path $PSScriptRoot -Parent)
 try {
-    New-Item -ItemType Directory -Force docs/evidence/p02/upgrade,docs/evidence/p02/performance | Out-Null
-    & "$PostgresBin/pg_ctl.exe" -D .local-test/pg -l .local-test/postgres.log -o "-h 127.0.0.1 -p $PostgresPort" -w start
+    New-Item -ItemType Directory -Force "$EvidenceDir/upgrade","$EvidenceDir/performance" | Out-Null
+    & "$PostgresBin/pg_ctl.exe" -D $ClusterDir -l .local-test/postgres-migration.log -o "-h 127.0.0.1 -p $PostgresPort" -w start
     if ($LASTEXITCODE) { throw "PostgreSQL start exited $LASTEXITCODE" }
     try {
         $connection = @('-h', '127.0.0.1', '-p', "$PostgresPort", '-U', 'golok_test')
@@ -33,7 +37,7 @@ union all select 'candles:'||count(*)||':'||md5(string_agg(row(id,dataset_id,clo
 union all select 'runs:'||count(*)||':'||md5(string_agg(row(id,dataset_id,as_of,first_close,last_close,input_digest,engine_version,decision,reason,evidence)::text,';' order by id)) from golok_lab_run
 order by 1
 '@
-        if ((Query $revision) -ne '20.0.1.0.0') { throw 'The cloned database must contain the released P01 module.' }
+        if ((Query $revision) -ne $SourceVersion) { throw "The cloned database must contain release $SourceVersion." }
         $before = @(Query $data)
         $beforeXML = @(Query $xml)
         if ($before.Count -ne 4 -or $beforeXML.Count -lt 20 -or ($before -match '^[^:]+:0:')) {
@@ -43,25 +47,25 @@ order by 1
         $common = @($addons, '--data-dir=.local-test/odoo-data', '--db_host=127.0.0.1',
                     "--db_port=$PostgresPort", '--db_user=golok_test', '-d', $TargetDatabase)
         $timer = [Diagnostics.Stopwatch]::StartNew()
-        & $Python -B "$OdooRoot/odoo-bin" @common --no-http --stop-after-init -u golok_ai_trading_lab_pro '--logfile=docs/evidence/p02/upgrade/populated.log'
+        & $Python -B "$OdooRoot/odoo-bin" @common --no-http --stop-after-init -u golok_ai_trading_lab_pro "--logfile=$EvidenceDir/upgrade/populated.log"
         $code = $LASTEXITCODE
         $timer.Stop()
         if ($code) { throw "Module upgrade exited $code" }
         $after = @(Query $data)
         $afterXML = @(Query $xml)
-        if ((Query $revision) -ne '20.0.2.0.0' -or (Compare-Object $before $after) -or
+        if ((Query $revision) -ne $TargetVersion -or (Compare-Object $before $after) -or
             @($beforeXML | Where-Object { $_ -notin $afterXML }).Count) {
             throw 'P01 data, XML ID or module version verification failed.'
         }
-        @("PASS: upgraded populated P01 clone from 20.0.1.0.0 to 20.0.2.0.0 in $($timer.Elapsed.TotalSeconds) s",
+        @("PASS: upgraded populated clone from $SourceVersion to $TargetVersion in $($timer.Elapsed.TotalSeconds) s",
           "PASS: retained $($beforeXML.Count) existing XML IDs and record-level hashes with immutable snapshot digests") + $before |
-            Tee-Object docs/evidence/p02/upgrade/retention.log
+            Tee-Object "$EvidenceDir/upgrade/retention.log"
         "from odoo.addons.golok_ai_trading_lab_pro.scripts.measure_odoo_p02 import run; run(env)" |
             & $Python -B "$OdooRoot/odoo-bin" shell @common --no-http --logfile=.local-test/benchmark-p02.log |
-            Tee-Object docs/evidence/p02/performance/orm.json
+            Tee-Object "$EvidenceDir/performance/orm.json"
         if ($LASTEXITCODE) { throw "Benchmark exited $LASTEXITCODE" }
     } finally {
-        & "$PostgresBin/pg_ctl.exe" -D .local-test/pg -w stop
+        & "$PostgresBin/pg_ctl.exe" -D $ClusterDir -w stop
     }
 } finally {
     Pop-Location

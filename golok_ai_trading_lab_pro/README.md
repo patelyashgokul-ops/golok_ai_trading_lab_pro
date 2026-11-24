@@ -1,6 +1,6 @@
 # Golok AI Trading Lab Pro
 
-An Odoo 20 Community add-on for historical NSE and BSE equity research. P02 adds explicit session calendars, point-in-time OHLCV import, an expanded indicator library, a database-backed candlestick chart, and a fee-aware synthetic ST-01 replay. Historical Odoo snapshots remain **NO TRADE**.
+An Odoo 20 Community add-on for historical NSE and BSE equity research. P03 adds effective-dated reference records, split-session calendar validation, supplemental research, bounded synthetic ST-01 experiments in Odoo, and a virtual historical replay journal. Historical analytical snapshots remain **NO TRADE**.
 
 ## Install and use
 
@@ -24,10 +24,14 @@ Run the synthetic [ST-01 replay](docs/BACKTEST_EXECUTION_POLICY.md) with the pro
 python -B scripts/run_backtest.py tests/fixtures/p02/spec.json tests/fixtures/p02/candles.csv
 ```
 
-The [SmartAPI REST groundwork](docs/SMARTAPI_SETUP.md) is fixture-tested. The Odoo UI runs offline, and live SmartAPI verification and paper accounts are pending.
+Trading Risk Managers can create **Virtual Accounts** and use **Post Replay** to post a completed synthetic experiment. Prospective simulation and real trading are disabled. See the [owner quick start](docs/OWNER_QUICK_START.md) and [virtual accounting policy](docs/PAPER_LEDGER_INVARIANTS.md).
+
+The [SmartAPI diagnostics](docs/SMARTAPI_SETUP.md) are offline by default. Authorized broker verification is pending.
 
 ## Verify
 
-Run `python -B -m unittest discover -s tests -p "unit_*.py" -v` from the add-on root. On Windows, run `./scripts/verify_odoo.ps1` with the appropriate path parameters for the disposable PostgreSQL cluster and Odoo stack. Add `-Browser` to exercise the real workflow using Playwright and installed Edge. The harness binds temporary services to loopback and stops them after the run. Run the harness directly and avoid piping the entire script. `scripts/verify_p01_upgrade.ps1` expects a populated disposable P01 database and clones it before modification.
+P03 uses PostgreSQL's bundled `btree_gist` extension for effective-date constraints. The Odoo database role must be able to create this trusted extension in the database, or the database administrator can install it beforehand.
+
+Run `python -B -m unittest discover -s tests -p "unit_*.py" -v` from the add-on root. On Windows, run `./scripts/verify_odoo.ps1` for disposable verification. Add `-Browser` for Playwright and Edge. Run the harness directly and avoid piping the entire script. The parameterized `scripts/verify_p01_upgrade.ps1` clones a disposable populated database as its migration target.
 
 See [Development report](DEVELOPMENT_REPORT.md) and [architecture](docs/ARCHITECTURE.md).

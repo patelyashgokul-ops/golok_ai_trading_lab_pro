@@ -1,0 +1,5 @@
+# Reference data model
+
+The immutable instrument ID remains stable as dated symbols and provider tokens change. The mapping model stores cash-equity venue, token, symbol, date range, listing status, tick, lot, source, revision and operator review category. ISIN and sector may be unknown. Three PostgreSQL exclusion constraints cover provider token, case-insensitive provider symbol and instrument/provider identity. Adjacent half-open periods are valid; overlapping records fail even with independent transactions. This uses PostgreSQL's trusted `btree_gist` extension. [PostgreSQL documentation](https://www.postgresql.org/docs/18/btree-gist.html)
+
+Mapping creation uses the instrument's exchange and company. Administrators enter mappings in the native list/form; Viewer access is read-only and company-scoped. Catalog ingestion and authoritative instrument-master sync remain pending. A dataset can reference one mapping and one calendar. Every imported bar must then fit the mapped listing period, category and tick grid. A missing mapping remains accepted for compatibility and does not establish source authenticity.

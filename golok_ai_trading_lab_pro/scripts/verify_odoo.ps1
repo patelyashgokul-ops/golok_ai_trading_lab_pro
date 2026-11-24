@@ -5,7 +5,7 @@ param(
     [int]$PostgresPort = 55489,
     [string]$Database = ('golok_' + (Get-Date -Format yyyyMMddHHmmss)),
     [switch]$Browser,
-    [string]$EvidenceDir = 'docs/evidence/p02',
+    [string]$EvidenceDir = 'docs/evidence/p03/verification',
     [int]$HttpPort = 18089,
     [string]$Edge = 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'
 )

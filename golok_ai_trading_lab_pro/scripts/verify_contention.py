@@ -29,10 +29,10 @@ def run(env):
         "instrument_id": instrument.id, "interval": "5m", "company_id": company.id,
     })
     env.cr.commit()
-    registry, dataset_id = env.registry, dataset.id
+    dataset_id = dataset.id
     bar = parse_bar("2024-01-02T09:20:00+05:30", "100", "102", "99", "101", "1000",
                     as_of=datetime.now(timezone.utc))
-    _race(env, registry, dataset, dataset_id, bar, [bar])
+    _race(env, dataset, dataset_id, bar, [bar])
     assert dataset._import_bars([bar]) == 0
     assert env["golok.lab.candle"].search_count([("dataset_id", "=", dataset.id)]) == 1
     print("PASS: a new transaction replayed the identical import with one total stored candle")
@@ -40,7 +40,7 @@ def run(env):
     second = replace(bar, close_time=bar.close_time + timedelta(minutes=5))
     third = replace(bar, close_time=bar.close_time + timedelta(minutes=10))
     conflicting = replace(second, close=Decimal("101.50"))
-    _race(env, registry, dataset, dataset_id, second, [third, conflicting])
+    _race(env, dataset, dataset_id, second, [third, conflicting])
     candles = env["golok.lab.candle"].search([("dataset_id", "=", dataset.id)], order="close_time")
     assert [record._to_bar() for record in candles] == [bar, second]
     try:
@@ -55,7 +55,7 @@ def run(env):
     _p03_races(env, company, instrument)
 
 
-def _race(env, registry, dataset, dataset_id, lead, requests):
+def _race(env, dataset, dataset_id, lead, requests):
     def lead_insert():
         assert dataset._import_bars([lead]) == 1
 
