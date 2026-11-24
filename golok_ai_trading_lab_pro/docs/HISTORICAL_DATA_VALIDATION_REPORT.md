@@ -1,0 +1,7 @@
+# Historical data validation — P06
+
+**Authorized external acquisition recorded zero market sessions.** The review established public documentation and report listings. It did not establish the required permission to automate retrieval, retain market panels and optimize strategies. The archive contains synthetic OHLCV only.
+
+The local reader recognizes the legacy NSE cash-market CSV header and its optional empty trailing column. It validates UTF-8, EQ series, trading date, symbol, ISIN syntax, positive OHLC consistency and bounded integer volume. It accepts a bounded single-member CSV ZIP, rejects unsafe member names and oversized expansions, and requires an explicit completed session on an NSE calendar with matching provenance. No timestamp inside the daily record is treated as an intraday publication time.
+
+Accepted daily rows, original file SHA-256, calendar, authorization reference and receipt audit remain in the company database. Invalid imports retain a quarantine decision and digest without storing their raw bytes. A conflicting accepted session is blocked. Exact repeats return the existing record. The comparison service checks venue, ISIN, currency, interval, adjustment, close, receipt and upstream identity. Automated cross-provider comparison, UDiFF, gap enumeration across files and downstream replay of these daily batches remain open. [Unit cases](../tests/unit_p06.py) · [Odoo cases](../tests/test_lab.py)

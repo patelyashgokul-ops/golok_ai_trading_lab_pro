@@ -34,10 +34,11 @@ test_vwap_and_reversion_use_distinct_prior_observations (unit_p05.P05Tests.test_
 test_walk_forward_excludes_holdout_and_embargo (unit_p05.P05Tests.test_walk_forward_excludes_holdout_and_embargo) ... ok
 test_csv_and_zip_match_and_invalid_members_fail (unit_p06.P06Tests.test_csv_and_zip_match_and_invalid_members_fail) ... ok
 test_equivalence_conflict_and_lineage (unit_p06.P06Tests.test_equivalence_conflict_and_lineage) ... ok
+test_offline_mcp_handshake_discovery_and_pinned_schema (unit_p06.P06Tests.test_offline_mcp_handshake_discovery_and_pinned_schema) ... ok
 test_provider_caps_and_decisions (unit_p06.P06Tests.test_provider_caps_and_decisions) ... ok
 test_strategy_triggers_and_anomaly (unit_p06.P06Tests.test_strategy_triggers_and_anomaly) ... ok
 
 ----------------------------------------------------------------------
-Ran 38 tests in 0.072s
+Ran 39 tests in 0.244s
 
 OK

@@ -35,10 +35,15 @@ class TestLab(TransactionCase):
         accepted = imports.create(vals)
         self.assertEqual((accepted.status, accepted.count), ("accepted", 1))
         self.assertEqual(accepted, imports.create(vals))
+        self.assertEqual(imports.create({**vals, "upload": base64.b64encode(
+            payload.replace(",100,1000,", ",101,1000,").encode()).decode()}).status, "quarantine")
         self.assertEqual(imports.create({**vals, "upload": "eA=="}).status, "quarantine")
         with self.assertRaises(AccessError):
             imports.with_user(self.viewer).create(vals)
         reviews.create({**grant, "persist": False})
+        with self.assertRaises(AccessError):
+            imports.create(vals)
+        reviews.create({**grant, "expires": "2000-01-01"})
         with self.assertRaises(AccessError):
             imports.create(vals)
 

@@ -1,0 +1,3 @@
+QUOTA PASS authenticate: two workers, one committed reservation, immediate retry denied
+QUOTA PASS history: two workers, one committed reservation, immediate retry denied
+QUOTA PASS quote: two workers, one committed reservation, immediate retry denied

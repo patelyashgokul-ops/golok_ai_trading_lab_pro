@@ -151,7 +151,8 @@ def verify(base_url, database, edge):
         spec = json.loads((fixture / "spec.json").read_text())
         revision = call("golok.lab.calendar", "create", {
             "name": "Browser portfolio calendar", "source": "Synthetic fixture", "exchange": "NSE",
-            "verification": "fixture", "verified_on": "2024-01-01", "schedule": json.dumps(spec["schedule"]),
+            "verification": "fixture", "verified_on": "2024-01-01", "schedule": json.dumps([
+                *spec["schedule"], {**spec["schedule"][0], "date": "2024-01-05"}]),
         })
         tariff = call("golok.lab.tariff", "create", {
             "name": "Browser portfolio tariff", "lines": json.dumps(spec["tariffs"]),
@@ -166,15 +167,17 @@ def verify(base_url, database, edge):
                 "source": "Browser portfolio public fixture", "interval": "5m", "calendar_id": revision,
             })
             datasets.append(dataset_id)
-            importer = call("golok.lab.import", "create", {
-                "dataset_id": dataset_id, "upload": base64.b64encode((fixture / "candles.csv").read_bytes()).decode(),
-            })
-            call("golok.lab.import", "action_import", [importer])
+            for day in (b"2024-01-02", b"2024-01-05"):
+                payload = (fixture / "candles.csv").read_bytes().replace(b"2024-01-02", day)
+                importer = call("golok.lab.import", "create", {
+                    "dataset_id": dataset_id, "upload": base64.b64encode(payload).decode(),
+                })
+                call("golok.lab.import", "action_import", [importer])
         wizard = call("golok.lab.portfolio.wizard", "create", {
             "dataset_ids": [[6, 0, datasets]], "tariff_id": tariff, "starts": "2024-01-02",
             "ends": "2024-01-02", "strategy": "ST-01",
         })
-        call("golok.lab.portfolio.wizard", "action_run", [wizard])
+        training = call("golok.lab.portfolio.wizard", "action_run", [wizard])["res_id"]
         page.goto(f"{base_url}/odoo/action-{action_id}")
         summary = page.get_by_role("region", name="Latest synthetic portfolio")
         expect(summary).to_contain_text("49875.96")
@@ -199,6 +202,15 @@ def verify(base_url, database, edge):
         page.screenshot(path=EVIDENCE / "screenshots/daily-import.png")
         assert not errors, errors
         print("UI-12 end-of-day import list and authorized-file form opened in Edge", flush=True)
+        call("golok.lab.portfolio.wizard", "write", [wizard], {
+            "training_id": training, "starts": "2024-01-05", "ends": "2024-01-05"})
+        call("golok.lab.portfolio.wizard", "action_seal", [wizard])
+        page.goto(f"{base_url}/odoo/action-{xml_id('action_holdout')}")
+        page.locator(".o_list_view .o_data_row").first.click()
+        page.get_by_role("button", name="Consume Final Holdout").click()
+        expect(page.get_by_role("heading", name="Synthetic Portfolio Replay")).to_be_visible()
+        expect(page.locator(".o_form_view [name=result]")).to_contain_text("SYNTHETIC_SOFTWARE_ONLY")
+        print("UI-14 risk-authorized holdout consumed through native form and result displayed", flush=True)
         browser.close()
 
 

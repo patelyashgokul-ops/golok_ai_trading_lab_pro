@@ -12,7 +12,7 @@
         <field name="name">golok.lab.holdout.form</field><field name="model">golok.lab.holdout</field>
         <field name="arch" type="xml"><form create="0" edit="0" delete="0">
             <header><button name="action_consume" string="Consume Final Holdout" type="object"
-                invisible="result_id" groups="group_risk" class="btn-primary"/></header>
+                invisible="result_id" groups="golok_ai_trading_lab_pro.group_risk" class="btn-primary"/></header>
             <sheet><group><field name="training_id"/><field name="starts"/><field name="ends"/>
             <field name="sealed_by"/><field name="consumed_by"/><field name="consumed_at"/>
             <field name="result_id"/><field name="fingerprint"/></group><field name="specification"/></sheet></form></field>
