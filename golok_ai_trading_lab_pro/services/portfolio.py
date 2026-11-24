@@ -3,8 +3,9 @@
 from dataclasses import asdict, dataclass, replace
 from datetime import timedelta
 from decimal import Decimal
+from itertools import groupby
 
-from . import decision, eligibility, simulation, strategies
+from . import decision, eligibility, simulation, strategies, targets
 
 MAX_INSTRUMENTS = 16
 MAX_BARS = 12000
@@ -63,12 +64,12 @@ def _events(series, starts, ends, seconds):
 
 
 def replay(series, starts, ends, seconds, codes, costs, *, capital=Decimal("50000"),
-           portfolio_policy=PortfolioPolicy()):
+           portfolio_policy=PortfolioPolicy(), target_policy="structure"):
     if (not 1 <= len(series) <= MAX_INSTRUMENTS or len({asset.key for asset in series}) != len(series)
             or sum(len(asset.bars) for asset in series) > MAX_BARS
             or not starts <= ends < starts + timedelta(days=31) or seconds not in (60, 180, 300, 900)
             or not codes or len(set(codes)) != len(codes) or not set(codes) <= strategies.REGISTRY.keys()
-            or not simulation.finite(capital) or capital <= 0):
+            or target_policy not in ("structure", "fixed_4r") or not simulation.finite(capital) or capital <= 0):
         raise ValueError("Use bounded, distinct synthetic instruments, known strategies and positive virtual capital.")
     if (not simulation.finite(portfolio_policy.daily_loss) or not 0 < portfolio_policy.daily_loss <= 1
             or any(type(value) is not int or value <= 0 for value in (
@@ -85,7 +86,7 @@ def replay(series, starts, ends, seconds, codes, costs, *, capital=Decimal("5000
     histories, pending, positions = {}, {}, {}
     trades, decisions, ledger, daily = [], [], [], []
 
-    def attempt(key, when, bar, session, candidate):
+    def evaluate_candidate(key, when, bar, session, candidate, *, record):
         nonlocal cash, entries
         asset = assets[key]
         code, observed, stop = candidate
@@ -93,11 +94,16 @@ def replay(series, starts, ends, seconds, codes, costs, *, capital=Decimal("5000
                       and when < min(session.entry_cutoff, session.exit_cutoff))
         exposure = sum(position["loss"] for position in positions.values())
         risk_room = max(Decimal(0), daily_open * portfolio_policy.daily_loss + min(daily_realized, 0) - exposure)
-        target = bar.open + (bar.open - stop) * 4
+        levels, target_reason = targets.levels(histories[key], bar.open, stop, target_policy, when, session.exit_cutoff)
+        target = levels[0] if levels else None
         risk_capital = min(cash, daily_open)
         risk = replace(simulation.RiskPolicy(), capital=risk_capital)
-        sizing = simulation.size_long(bar.open, stop, target, asset.tick, observed.volume, session.day,
-                                      asset.exchange, costs, risk)
+        sizing = (simulation.size_long(bar.open, stop, target, asset.tick, observed.volume, session.day,
+                                       asset.exchange, costs, risk) if target is not None
+                  else simulation.Sizing(0, target_reason))
+        rank = targets.rank(sizing, observed.volume)
+        if not record:
+            return rank
         try:
             costs.fees(session.day, asset.exchange, "buy", bar.open, 1)
             costs.fees(session.day, asset.exchange, "sell", bar.open, 1)
@@ -108,15 +114,33 @@ def replay(series, starts, ends, seconds, codes, costs, *, capital=Decimal("5000
             len(positions) < portfolio_policy.max_positions and key not in positions
             and sizing.loss <= risk_room and daily_realized > -daily_open * portfolio_policy.daily_loss
         )
+        source, eligible = eligibility.evaluate(asset.origin, "synthetic_replay", quarantined=asset.quarantined)
+        history = histories[key]
         checks = {
-            "G01": True, "G02": True, "G03": session.kind == "regular", "G04": True,
-            "G05": observed.available_at <= when, "G06": stop < bar.open <= observed.close * Decimal("1.01"),
-            "G07": code in strategies.REGISTRY, "G08": True,  # Synthetic software research permission only.
-            "G09": cost_available, "G10": sizing.quantity > 0, "G11": independent,
-            "G12": valid_time, "G13": True, "G14": True,
+            "G01": (source, "eligible synthetic source", eligible),
+            "G02": (asset.exchange, "NSE or BSE; positive tick", asset.exchange in ("NSE", "BSE") and asset.tick > 0),
+            "G03": (session.kind, "regular", session.kind == "regular"),
+            "G04": (len(history), "validated complete replay grid", bool(history) and observed in history),
+            "G05": (observed.available_at, "strictly before execution", observed.available_at < when),
+            "G06": (target_reason, "causal level and entry within 1% of signal close",
+                    target is not None and stop < bar.open <= observed.close * Decimal("1.01")),
+            "G07": (code, "registered strategy", code in strategies.REGISTRY),
+            "G08": (asset.origin, "synthetic experiment permission only", eligible and code in strategies.REGISTRY),
+            "G09": (cost_available, "complete hypothetical tariff", cost_available),
+            "G10": ((sizing.quantity, sizing.reward, sizing.loss), "positive quantity and at least 2:1 net", sizing.quantity > 0),
+            "G11": ((risk_room, entries, suspended), "shared risk and cash available; no duplicate position", independent),
+            "G12": (when - observed.available_at, "later open within one interval and cutoff", valid_time),
+            "G13": (observed.close_time, "validated source observation available at close",
+                    observed.available_at == observed.close_time and observed in history),
+            "G14": (source, "synthetic simulation only", eligible),
         }
-        outcome = decision.evaluate(checks, mode="synthetic_replay")
-        decisions.append({"asset": key, "strategy": code, "time": when, "sizing": sizing.reason, **outcome})
+        outcome = decision.evaluate(checks, mode="synthetic_replay", context={
+            "evaluated_at": when, "strategy_version": strategies.VERSION, "dataset_version": asset.key,
+            "source_record": observed.close_time})
+        decisions.append({"asset": key, "strategy": code, "time": when, "sizing": sizing.reason,
+                          "target_policy": target_policy, "target": target, "rank": rank,
+                          "outcome_reason": "SELECTED" if outcome["state"] == "SIMULATION_CANDIDATE" else "GATE_VETO",
+                          **outcome})
         if outcome["state"] != "SIMULATION_CANDIDATE":
             return
         quantity = sizing.quantity
@@ -148,12 +172,18 @@ def replay(series, starts, ends, seconds, codes, costs, *, capital=Decimal("5000
         ledger.append({"asset": key, "time": when, "kind": "CLOSE", "delta": credit, "cash": cash})
 
     def expire_candidates():
-        for key, (code, bar, _) in sorted(pending.items()):
-            outcome = decision.evaluate({}, mode="synthetic_replay")
-            decisions.append({"asset": key, "strategy": code, "time": bar.available_at,
-                              "sizing": "NO_LATER_OPEN", **outcome})
+        for key, candidates in sorted(pending.items()):
+            for code, bar, _ in candidates:
+                outcome = decision.evaluate({"G12": ("no later open", "strictly later open", False)},
+                                            mode="synthetic_replay", context={"evaluated_at": bar.available_at,
+                                            "dataset_version": key, "source_record": bar.close_time,
+                                            "strategy_version": strategies.VERSION})
+                decisions.append({"asset": key, "strategy": code, "time": bar.available_at,
+                                  "sizing": "NO_LATER_OPEN", **outcome})
 
-    for when, phase, key, bar, session in events:
+    for (when, phase), grouped in groupby(events, key=lambda event: event[:2]):
+        batch = list(grouped)
+        session = batch[0][4]
         if session.day != day:
             if day is not None:
                 expire_candidates()
@@ -163,30 +193,38 @@ def replay(series, starts, ends, seconds, codes, costs, *, capital=Decimal("5000
             day, daily_open, daily_realized, entries = session.day, cash, Decimal(0), 0
             histories, pending = {}, {}
         if phase:
-            position = positions.get(key)
-            if position and bar.open <= position["stop"]:
-                close(key, when, bar.open, "GAP_STOP")
-            candidate = pending.get(key)
-            if candidate and candidate[1].available_at < when:
-                pending.pop(key)
-                attempt(key, when, bar, session, candidate)
+            competing = []
+            for _, _, key, bar, session in batch:
+                position = positions.get(key)
+                if position and bar.open <= position["stop"]:
+                    close(key, when, bar.open, "GAP_STOP")
+            for _, _, key, bar, session in batch:
+                candidates = pending.get(key)
+                if candidates and candidates[0][1].available_at < when:
+                    for candidate in pending.pop(key):
+                        rank = evaluate_candidate(key, when, bar, session, candidate, record=False)
+                        competing.append((rank, key, candidate[0], bar, session, candidate))
+            competing.sort(key=lambda entry: (entry[1], entry[2]))
+            competing.sort(key=lambda entry: entry[0], reverse=True)
+            for _, key, _, bar, session, candidate in competing:
+                evaluate_candidate(key, when, bar, session, candidate, record=True)
             continue
-        position = positions.get(key)
-        if position:
-            if bar.low <= position["stop"]:
-                close(key, when, position["stop"], "STOP_FIRST")
-            elif bar.high > position["target"]:
-                close(key, when, position["target"], "TRADE_THROUGH_TARGET")
-            elif when >= session.exit_cutoff or when - position["time"] >= timedelta(seconds=12 * seconds):
-                close(key, when, bar.close, "TIME_EXIT")
-        history = histories.setdefault(key, [])
-        history.append(bar)
-        if key not in positions and key not in pending and when < session.entry_cutoff:
-            for code in sorted(codes):
-                stop = strategies.REGISTRY[code].signal(history, session)
-                if stop is not None:
-                    pending[key] = (code, bar, stop)
-                    break
+        for _, _, key, bar, session in batch:
+            position = positions.get(key)
+            if position:
+                if bar.low <= position["stop"]:
+                    close(key, when, position["stop"], "STOP_FIRST")
+                elif bar.high > position["target"]:
+                    close(key, when, position["target"], "TRADE_THROUGH_TARGET")
+                elif when >= session.exit_cutoff or when - position["time"] >= timedelta(seconds=12 * seconds):
+                    close(key, when, bar.close, "TIME_EXIT")
+            history = histories.setdefault(key, [])
+            history.append(bar)
+            if key not in positions and key not in pending and when < session.entry_cutoff:
+                candidates = [(code, bar, stop) for code in sorted(codes)
+                              if (stop := strategies.REGISTRY[code].signal(history, session)) is not None]
+                if candidates:
+                    pending[key] = candidates
     if positions:
         raise ValueError("Unresolved closing observation.")
     if day is not None:
