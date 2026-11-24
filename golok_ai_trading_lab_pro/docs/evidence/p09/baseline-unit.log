@@ -1,0 +1,52 @@
+test_duplicate_and_reversed_csv (unit_market_research.MarketDataTests.test_duplicate_and_reversed_csv) ... ok
+test_empty_and_size_limits (unit_market_research.MarketDataTests.test_empty_and_size_limits) ... ok
+test_gap_count_and_date_boundary (unit_market_research.MarketDataTests.test_gap_count_and_date_boundary) ... ok
+test_invalid_prices_volume_and_timestamps (unit_market_research.MarketDataTests.test_invalid_prices_volume_and_timestamps) ... ok
+test_utc_normalization_and_exact_prices (unit_market_research.MarketDataTests.test_utc_normalization_and_exact_prices) ... ok
+test_atr_gaps_wilder_smoothing (unit_market_research.ResearchTests.test_atr_gaps_wilder_smoothing) ... ok
+test_reference_values_and_relative_volume_baseline (unit_market_research.ResearchTests.test_reference_values_and_relative_volume_baseline) ... ok
+test_warmup_and_no_future_access (unit_market_research.ResearchTests.test_warmup_and_no_future_access) ... ok
+test_calendar_and_time_availability (unit_p02.CalendarTests.test_calendar_and_time_availability) ... ok
+test_temporal_csv_rejects_early_availability_and_future (unit_p02.CalendarTests.test_temporal_csv_rejects_early_availability_and_future) ... ok
+test_reference_values_and_all_prefixes (unit_p02.IndicatorsTests.test_reference_values_and_all_prefixes) ... ok
+test_session_reset_and_opening_range (unit_p02.IndicatorsTests.test_session_reset_and_opening_range) ... ok
+test_disabled_transport_and_endpoint_scope (unit_p02.ProviderTests.test_disabled_transport_and_endpoint_scope) ... ok
+test_fixture_auth_history_quote_and_rate_limit (unit_p02.ProviderTests.test_fixture_auth_history_quote_and_rate_limit) ... ok
+test_timeout_sanitizes_transport_error (unit_p02.ProviderTests.test_timeout_sanitizes_transport_error) ... ok
+test_token_reuse_and_ineligible_mapping (unit_p02.ReferenceTests.test_token_reuse_and_ineligible_mapping) ... ok
+test_breakout_reproducibility_and_stop_first (unit_p02.SimulationTests.test_breakout_reproducibility_and_stop_first) ... ok
+test_tariffs_effective_date_and_risk (unit_p02.SimulationTests.test_tariffs_effective_date_and_risk) ... ok
+test_multiple_sessions_stop_at_unknown_calendar_and_reconcile_trades (unit_p03.P03Tests.test_multiple_sessions_stop_at_unknown_calendar_and_reconcile_trades) ... ok
+test_split_calendar_has_no_cross_segment_bars (unit_p03.P03Tests.test_split_calendar_has_no_cross_segment_bars) ... ok
+test_supplemental_algorithms_warmup_and_preceding_levels (unit_p03.P03Tests.test_supplemental_algorithms_warmup_and_preceding_levels) ... ok
+test_flat_zero_volume_indicator_reference (unit_p04.P04Tests.test_flat_zero_volume_indicator_reference) ... ok
+test_provider_normalization_rejects_future_close_and_wrong_stamp (unit_p04.P04Tests.test_provider_normalization_rejects_future_close_and_wrong_stamp) ... ok
+test_third_losing_session_is_suspended (unit_p04.P04Tests.test_third_losing_session_is_suspended) ... ok
+test_time_and_receipt_are_distinct (unit_p04.P04Tests.test_time_and_receipt_are_distinct) ... ok
+test_eligibility_is_fail_closed (unit_p05.P05Tests.test_eligibility_is_fail_closed) ... ok
+test_every_gate_vetoes_and_unrecognized_modes_fail (unit_p05.P05Tests.test_every_gate_vetoes_and_unrecognized_modes_fail) ... ok
+test_fixture_reconciles_and_risk_rejects_a_third_instrument (unit_p05.P05Tests.test_fixture_reconciles_and_risk_rejects_a_third_instrument) ... ok
+test_incomplete_late_and_quarantined_data_reject (unit_p05.P05Tests.test_incomplete_late_and_quarantined_data_reject) ... ok
+test_portfolio_suspension_carries_across_completed_sessions (unit_p05.P05Tests.test_portfolio_suspension_carries_across_completed_sessions) ... ok
+test_research_preceding_levels_and_turnover (unit_p05.P05Tests.test_research_preceding_levels_and_turnover) ... ok
+test_session_deadline_and_expired_authorization (unit_p05.P05Tests.test_session_deadline_and_expired_authorization) ... ok
+test_vwap_and_reversion_use_distinct_prior_observations (unit_p05.P05Tests.test_vwap_and_reversion_use_distinct_prior_observations) ... ok
+test_walk_forward_excludes_holdout_and_embargo (unit_p05.P05Tests.test_walk_forward_excludes_holdout_and_embargo) ... ok
+test_csv_and_zip_match_and_invalid_members_fail (unit_p06.P06Tests.test_csv_and_zip_match_and_invalid_members_fail) ... ok
+test_equivalence_conflict_and_lineage (unit_p06.P06Tests.test_equivalence_conflict_and_lineage) ... ok
+test_offline_mcp_handshake_discovery_and_pinned_schema (unit_p06.P06Tests.test_offline_mcp_handshake_discovery_and_pinned_schema) ... ok
+test_provider_caps_and_decisions (unit_p06.P06Tests.test_provider_caps_and_decisions) ... ok
+test_strategy_triggers_and_anomaly (unit_p06.P06Tests.test_strategy_triggers_and_anomaly) ... ok
+test_causal_targets_and_cost_veto (unit_p07.P07Tests.test_causal_targets_and_cost_veto) ... ok
+test_rank_all_strategies_and_instruments_before_reserving (unit_p07.P07Tests.test_rank_all_strategies_and_instruments_before_reserving) ... ok
+test_udiff_validates_venue_date_and_series (unit_p07.P07Tests.test_udiff_validates_venue_date_and_series) ... ok
+test_calendar_phase_uses_explicit_windows (unit_p08.P08Tests.test_calendar_phase_uses_explicit_windows) ... ok
+test_gate_context_cannot_override_a_veto (unit_p08.P08Tests.test_gate_context_cannot_override_a_veto) ... ok
+test_historical_intake_requires_affirmative_evidence_and_prior_publication (unit_p08.P08Tests.test_historical_intake_requires_affirmative_evidence_and_prior_publication) ... ok
+test_intraday_contract_never_executes_at_or_before_publication (unit_p08.P08Tests.test_intraday_contract_never_executes_at_or_before_publication) ... ok
+test_storage_disposition_is_bounded_by_declared_rights (unit_p08.P08Tests.test_storage_disposition_is_bounded_by_declared_rights) ... ok
+
+----------------------------------------------------------------------
+Ran 47 tests in 0.139s
+
+OK
