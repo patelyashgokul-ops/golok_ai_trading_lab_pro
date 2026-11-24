@@ -61,7 +61,7 @@ class Dataset(models.Model):
             if candle._to_bar() != rows.pop(candle.close_time):
                 raise ValidationError(_("A stored candle differs from the import. No candles were imported."))
         # The unique index is the final arbiter if two transactions race.
-        model.sudo().create([
+        model.with_context({}).sudo().create([
             {
                 "dataset_id": self.id,
                 "close_time": timestamp,
@@ -129,12 +129,18 @@ class ResearchRun(models.Model):
     input_digest = fields.Char(string="Input SHA-256", required=True)
     engine_version = fields.Char(required=True)
     evidence = fields.Json()
+    evidence_text = fields.Text(compute="_compute_evidence_text")
     decision = fields.Selection([("no_trade", "NO TRADE")], default="no_trade", required=True)
     reason = fields.Char(required=True)
 
     _snapshot = models.Constraint(
         "UNIQUE(dataset_id, as_of, engine_version, input_digest)", "This research snapshot already exists."
     )
+
+    @api.depends("evidence")
+    def _compute_evidence_text(self):
+        for run in self:
+            run.evidence_text = json.dumps(run.evidence or {}, indent=2)
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -193,6 +199,7 @@ class ResearchRun(models.Model):
         domain = [("company_id", "=", self.env.company.id)]
         last = self.search(domain, limit=1)
         return {
+            "company_id": self.env.company.id,
             "instruments": self.env["golok.lab.instrument"].search_count(domain),
             "datasets": self.env["golok.lab.dataset"].search_count(domain),
             "candles": self.env["golok.lab.candle"].search_count(domain),

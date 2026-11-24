@@ -5,7 +5,7 @@ import io
 import re
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
-from decimal import Decimal, InvalidOperation
+from decimal import Decimal
 
 VERSION = "1"
 MAX_BYTES = 512 * 1024

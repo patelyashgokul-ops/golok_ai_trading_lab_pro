@@ -1,0 +1,68 @@
+.o_golok_overview {
+    min-height: 100%;
+    background: var(--bs-tertiary-bg, #f5f7fa);
+    color: var(--bs-body-color);
+
+    .o_golok_content {
+        max-width: 1220px;
+        margin: 0 auto;
+        padding: clamp(16px, 4vw, 48px);
+    }
+
+    .o_golok_header {
+        display: flex;
+        gap: 16px;
+        justify-content: space-between;
+        margin-bottom: 28px;
+        border-bottom: 1px solid var(--bs-border-color);
+        padding-bottom: 18px;
+    }
+
+    .o_golok_brand {
+        color: var(--bs-secondary-color);
+        font-size: .875rem;
+        font-weight: 600;
+        margin-bottom: 6px;
+    }
+
+    h1 { font-size: clamp(1.45rem, 3vw, 2rem); margin: 0; }
+    h2 { font-size: 1.15rem; margin: 0 0 16px; }
+    h3 { font-size: 1rem; margin-top: 12px; }
+
+    .o_golok_cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 185px), 1fr));
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+
+    .o_golok_card, .o_golok_latest {
+        background: var(--bs-body-bg);
+        border: 1px solid var(--bs-border-color);
+        border-radius: 8px;
+        color: inherit;
+        padding: 18px;
+    }
+
+    .o_golok_card {
+        text-align: start;
+        &:hover { border-color: var(--bs-primary); }
+        strong { display: block; font-size: 1.75rem; font-variant-numeric: tabular-nums; }
+    }
+
+    .o_golok_status {
+        display: inline-block;
+        padding: 3px 8px;
+        border: 1px solid var(--bs-border-color);
+        border-radius: 4px;
+        font-size: .8rem;
+        font-weight: 700;
+    }
+
+    .o_golok_facts {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 155px), 1fr));
+        gap: 12px;
+        dd { margin: 0; font-variant-numeric: tabular-nums; }
+    }
+}
