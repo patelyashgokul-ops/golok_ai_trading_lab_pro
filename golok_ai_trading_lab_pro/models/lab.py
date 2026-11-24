@@ -200,7 +200,7 @@ class ResearchRun(models.Model):
         last = self.search(domain, limit=1)
         return {
             "company_id": self.env.company.id,
-            "instruments": self.env["golok.lab.instrument"].search_count(domain),
+            "instruments": self.env["golok.lab.instrument"].search_count([*domain, ("active", "=", True)]),
             "datasets": self.env["golok.lab.dataset"].search_count(domain),
             "candles": self.env["golok.lab.candle"].search_count(domain),
             "runs": self.search_count(domain),

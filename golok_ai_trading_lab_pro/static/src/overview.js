@@ -46,7 +46,10 @@ class TradingOverview extends Component {
             name: card.label,
             res_model: card.model,
             views: card.key === "candles" ? [[false, "list"]] : [[false, "list"], [false, "form"]],
-            domain: [["company_id", "=", this.state.data.company_id]],
+            domain: [
+                ["company_id", "=", this.state.data.company_id],
+                ...(card.key === "instruments" ? [["active", "=", true]] : []),
+            ],
         });
     }
 

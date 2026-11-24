@@ -1,0 +1,14 @@
+id,name,model_id,group_id/id,operation,domain
+instrument_viewer,Instrument viewer,golok.lab.instrument,golok_ai_trading_lab_pro.group_viewer,r,
+instrument_admin,Instrument administrator,golok.lab.instrument,golok_ai_trading_lab_pro.group_admin,cru,
+instrument_company,Instrument company,golok.lab.instrument,,crud,"[('company_id', 'in', company_ids)]"
+dataset_viewer,Dataset viewer,golok.lab.dataset,golok_ai_trading_lab_pro.group_viewer,r,
+dataset_analyst,Dataset analyst,golok.lab.dataset,golok_ai_trading_lab_pro.group_analyst,cru,
+dataset_company,Dataset company,golok.lab.dataset,,crud,"[('company_id', 'in', company_ids)]"
+candle_viewer,Candle viewer,golok.lab.candle,golok_ai_trading_lab_pro.group_viewer,r,
+candle_company,Candle company,golok.lab.candle,,crud,"[('company_id', 'in', company_ids)]"
+run_viewer,Research viewer,golok.lab.run,golok_ai_trading_lab_pro.group_viewer,r,
+run_analyst,Research analyst,golok.lab.run,golok_ai_trading_lab_pro.group_analyst,cr,
+run_company,Research company,golok.lab.run,,crud,"[('company_id', 'in', company_ids)]"
+import_analyst,Import analyst,golok.lab.import,golok_ai_trading_lab_pro.group_analyst,crud,
+research_analyst,Research wizard analyst,golok.lab.research,golok_ai_trading_lab_pro.group_analyst,crud,

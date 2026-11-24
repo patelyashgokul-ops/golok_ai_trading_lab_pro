@@ -30,6 +30,8 @@ class Candle:
 def parse_bar(timestamp, open_, high, low, close, volume, *, as_of):
     if not TIMESTAMP.fullmatch(timestamp):
         raise ValueError("Use an ISO 8601 close timestamp with an explicit offset and zero seconds.")
+    if not timestamp.endswith("Z") and (int(timestamp[-5:-3]) > 23 or int(timestamp[-2:]) > 59):
+        raise ValueError("Invalid timestamp offset.")
     try:
         close_time = datetime.fromisoformat(timestamp).astimezone(timezone.utc)
     except (ValueError, OverflowError):
