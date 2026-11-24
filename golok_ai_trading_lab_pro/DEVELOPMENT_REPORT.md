@@ -1,37 +1,29 @@
-# Golok AI Trading Lab Pro — P03 development report
+# Golok AI Trading Lab Pro — P04 development report
 
 ## 01 — Executive summary
 
-**PAPER TRADING TEST READY for bounded historical synthetic replay.** P03 integrates effective-dated instrument records, corporate-action provenance, split calendars, supplemental OHLCV findings, Odoo synthetic experiments, a virtual replay journal, provider diagnostics and a historical research queue. The original read-only market boundary and NO TRADE decision remain in force.
-
-The populated P02 upgrade retained 180 XML IDs and original instrument, dataset, candle and snapshot record hashes. Real broker access, verified financial validation and prospective paper execution remain open. No real-money functionality is enabled.
+24 November 2026, Asia/Kolkata. **PAPER TRADING TEST READY for bounded historical synthetic replay only.** P04 delivers one closed-session SmartAPI-shaped fixture through the adapter, mapping/calendar validation, atomic Odoo persistence and audit, plus a historical scanner. Opt-in real historical code was implemented and remains externally unverified. The synthetic replay stops after two consecutive realized losses. The replay journal requires the originally sized capital to match available virtual cash.
 
 ## 02 — Actual environment
 
-Rechecked 24 November 2026 in Asia/Kolkata. Windows NT 10.0.26300 on an Intel i5-10210U with four physical/eight logical cores, approximately 16 GB RAM, Intel UHD graphics, Python 3.14.6, PostgreSQL 18.4 and Odoo 20 Community. Real UI checks used Edge through Playwright. PostgreSQL's `btree_gist` is required for mapping exclusion constraints. Runtime still uses native Odoo, PostgreSQL and the standard library. Tests ran on disposable localhost databases. No Git repository was present in the addon or containing add-on directory.
+Verification used local Windows, Odoo 20 Community, PostgreSQL 18.4, Python 3.14.6 and Edge through Playwright. Addon tests ran against disposable loopback databases. The owner’s working database was untouched. The module retains PostgreSQL `btree_gist` for range exclusions. No Git repository was found; the P03 source archive, source manifest and previous report are preserved under the history and evidence directories.
 
 ## 03 — Architecture implemented
 
-P03 retains all original models and XML IDs. Immutable company-scoped instrument mappings sit beside the original instrument ID. Optional mapping links validate dates and tick sizes during temporal CSV imports. Calendar windows can represent interruptions, and the corporate action record stores publication and revision independently of raw candles.
-
-Odoo snapshots retain the original calculation and input hashes. Supplemental research calculates from the verified original window. Synthetic experiments reuse fixed ST-01, Decimal cost and risk code, and persist single-instrument multi-session outcomes. The historical journal records virtual cash and quantities under account-row locking. The queue claims one historical research request per invocation. Server-side SmartAPI diagnostics require opt-in credentials and do not persist a token. [Architecture](docs/ARCHITECTURE.md)
+The historical wizard is administrator-only. It uses a fixed-operation adapter, a company-scoped effective mapping and explicit exchange calendar. The normalizer accepts only a complete, closed grid. The provider timestamp is interpreted as the opening under an explicitly enabled source contract. Candle close is derived from that grid. Local first receipt establishes only application availability; original vendor publication is unknown. The attempt records outcome, receipt and actual coverage. Correct retries insert zero rows; conflicts and incomplete responses do not create accepted observations. The overview exposes successful sync count and a company-scoped historical scanner. Provider-origin datasets remain ineligible for financial replay.
 
 ## 04 — Files created and modified
 
-| Requirements | Path | Before → P03 | Remaining boundary | Verification |
-|---|---|---|---|---|
-| P03-AC-006–010 | `models/reference.py`, `services/calendar.py`, `views/p03.xml` | Memory-only mapping → persistent exclusion-protected reference and split sessions | Master sync, adjusted curves and point-in-time universe | Odoo mapping test, independent exclusion race, calendar unit |
-| P03-AC-011–019 | `models/provider.py` | REST outside Odoo → admin diagnostics, offline gate and database reservation | Historical/quote ingestion, shared market quota and streaming | Offline Odoo diagnostics and three REST fixtures |
-| P03-AC-021–023 | `services/research_v3.py`, `models/findings.py` | Three legacy outputs → four additional supplemental findings | Broader research framework and market regime validation | Python warm-up/precedence, ORM digest and Edge drill-down |
-| P03-AC-025–039 | `models/experiments.py`, `wizard/experiments.py`, `services/experiments.py` | Single service fixture → persisted Odoo fee-aware multi-session replay | Verified tariffs, multi-instrument portfolio and holdout | Python unresolved data, two-session ORM replay, native browser navigation |
-| P03-AC-041–048 | `models/paper.py`, `services/paper.py`, `wizard/paper.py` | No ledger → exact paise, atomic reservations and completed historical fills | Live/prospective monitoring and persistent open positions | Independent reconstruction, insufficient cash, idempotent ORM and real PostgreSQL contention |
-| P03-AC-049–051 | `models/jobs.py`, `views/p03.xml` | Manual synchronous only → persistent bounded research worker | Daily orchestration and independent worker-restart scenarios | Requester permissions, idempotency, cancellation, completion |
-| P03-AC-052–061 | `static/src/overview.js`, `scripts/verify_browser.py` | P02 counts and OHLC → supplement and experiment/virtual journal entry points | Full dedicated terminal, scanner and multi-panel portfolio | Eight Edge checks, actual ORM throughput |
-| P03-AC-067–070 | `scripts/verify_odoo.ps1`, `scripts/verify_p01_upgrade.ps1`, documentation | P02 established → reproducible P03 fresh/upgrade, populated clone and reviewer archive | Release-wide acceptance incomplete | Runtime logs, checksums, clone fingerprints |
+| Area | Paths | Software evidence and scope |
+|---|---|---|
+| Provider workflow | `models/sync.py`, `models/provider.py`, `services/smartapi.py`, `services/ingestion.py` | Complete single-session fixture, idempotency, negative cases and per-operation worker quotas. Real access pending. |
+| Virtual risk | `services/experiments.py`, `models/experiments.py`, `models/paper.py` | Multi-2 loss pause, exact capital match and archived multi-1 records retained. |
+| Odoo UI | `views/p04.xml`, `static/src/overview.*`, `models/findings.py` | Native synchronization history, owner wizard, historical scanner and browser regression. |
+| Verification | `tests/unit_p04.py`, `tests/test_lab.py`, `scripts/verify_provider_quota.*` | Quote timing, flat/zero-volume indicators, provider ingestion, loss and capital tests, and real quota contention. |
 
 ## 05 — Requirement traceability matrix
 
-The reconciled matrix preserves the original requirements and all 796 P02 detail IDs. It corrects PostgreSQL from optional to mandatory, updates implemented indicator/reference/replay/virtual scopes, and records original, P02 and P03 outcomes with their evidence. All 70 P03 criteria are reproduced in Section 13. The full matrix and the wording of all three prompts are packaged alongside this report. [Traceability matrix](docs/REQUIREMENTS_TRACEABILITY.md) · [Governing requirements](docs/MASTER_REQUIREMENTS.md)
+Original, P02 and P03 identifiers are retained. Updates focus on the reviewed risk, provider, research and browser findings. The complete original wording remains in the governing specification and the previous traceability snapshot remains in history. [Requirements traceability](docs/REQUIREMENTS_TRACEABILITY.md) · [Issue register](docs/P04_REVIEW_ISSUES.md)
 
 ## 06 — Research engine status
 
@@ -65,11 +57,22 @@ Seven scoped engine definitions have ORM outputs, including the three P02 findin
 | RE-24 | Historical Strategy Performance | Pending | Not established |
 | RE-25 | Net Expected Profit and Risk Validation | Pending | Not established |
 
+### Indicator verification
+
+All 19 series were checked against independently specified final outputs on flat, zero-volume data. Existing reference and causal tests were rerun. This does not establish the full indicator-specific reference matrix.
+
+| Indicator | Reference cases executed |
+|---|---|
+| SMA20, EMA20, RSI14, MACD, ATR14, ADX14 | Flat-series outputs, directional reference/prefix fixtures and existing warm-up assertions |
+| VWAP, Opening range, Price gap | Flat and missing-session inputs, explicit session fixtures and multi-session reset |
+| Bollinger, Stochastic, Relative volume, ROC, OBV | Flat outputs, zero-range/zero-volume safeguards and existing nonflat references |
+| Historical volatility, High/low, Relative strength, Volume spike, Trend slope | Flat outputs and prefix fixture; independent nonflat reference coverage varies by series |
+
 ## 07 — Strategy status
 
 | ID | Strategy | Implementation | Financial validation and eligibility |
 | --- | --- | --- | --- |
-| ST-01 | Opening Range Breakout | multi-1; executed in Odoo on synthetic data | Not validated; real-market ineligible |
+| ST-01 | Opening Range Breakout | multi-2; synthetic Odoo replay with two-loss suspension | Not validated; real-market ineligible |
 | ST-02 | VWAP Pullback | Not implemented | Not validated; real-market ineligible |
 | ST-03 | VWAP Reclaim | Not implemented | Not validated; real-market ineligible |
 | ST-04 | Trend Following | Not implemented | Not validated; real-market ineligible |
@@ -92,30 +95,29 @@ Seven scoped engine definitions have ORM outputs, including the three P02 findin
 
 ## 08 — SmartAPI integration status
 
-Three inherited deterministic provider fixture tests passed. Runtime transport is allowlisted HTTPS and P03 has local authorization and offline diagnostics. No authorized authentication, historical market retrieval, live quote or streaming request ran during this milestone. A diagnostics success would not establish observation freshness. Operational ingestion and streaming remain unimplemented. Authoritative account entitlement, egress, current limits and charges require owner/provider confirmation. [Provider operations](docs/PROVIDER_OPERATIONS.md) · [Official SmartAPI SDK](https://github.com/angel-one/smartapi-python)
+The official landing documentation remains access-restricted in the browser. The official SDK source and provider response-structure archive show the REST request and response contracts. Account entitlement, approved egress, fee conditions and permissible storage were unavailable. The code uses a one-session request, an operation-specific local 60-second database quota, HTTPS, bounded response, explicit local opt-in and a process-local token. Three quota races used real independent PostgreSQL transactions. No authentication, historical download, quote or streaming request reached the real provider. The documented offset-less FULL quote example remains unknown for freshness. [Provider response contract](https://smartapi.angelone.in/docs/ResponseStructure) · [Owner actions](docs/OWNER_ACTION_REQUIRED.md)
 
 ## 09 — Dashboard development status
 
-| Area | Delivered scope | Open scope |
-|---|---|---|
-| A Market Command Center | Company counts, historical snapshot, NO TRADE and last ingestion | Live market, market depth and automatic readiness |
-| B Stock Scanner | Searchable dated mapping directory and native research lists | Multi-instrument candidate scanner and ranking |
-| C Research Opportunities | Historical observations remain NO TRADE | Full gates, eligibility and scoring |
-| D Stock Research Terminal | Actual OHLC/volume and supplemental research drill-down | Indicator overlays and broader controls |
-| E Paper Portfolio | Virtual accounts and replay cash journal | Live marks, open positions and prospective evaluation |
-| F Strategy Intelligence | Synthetic experiment records and drill-down | Segmented holdout, richer diagnostics and strategy metrics |
-| G Risk Control | Cost and risk data captured in synthetic run | Dedicated risk dashboard or aggregate portfolio controls |
-| H Provider and System Health | Offline SmartAPI detail dialog and historical queue | Live provider and resource health |
-| I Daily Research Report | Historical snapshot and list paths | Automated daily report |
-| Readiness Center | Static research-only state and provenance | Dedicated readiness gates and acceptance dashboard |
+| Original area | Scope |
+|---|---|
+| A Market | Historical counts, source, chart and successful-sync count. Market breadth and live health pending. |
+| B Scanner | Company-scoped historical snapshots with instrument and dataset lookup, native filters and pagination. |
+| C Opportunities | Existing NO TRADE state. Ranked candidate views pending. |
+| D Stock terminal | Real stored OHLC and volume, and supplemental snapshot findings. Wider overlays and controls pending. |
+| E Paper | Virtual account and historical replay journal. Prospective marks pending. |
+| F Strategies | Synthetic experiment drill-down. Broader strategy dashboards pending. |
+| G Risk | Loss/capital enforcement in services. Dedicated portfolio dashboard pending. |
+| H Health | Odoo sync attempt audit and owner setup instructions. Quote, WebSocket and long-running health pending. |
+| I Daily research | Historical queue and snapshots; automatic daily report pending. |
 
-[Desktop screenshot](docs/evidence/p03/release/screenshots/overview-desktop.png) · [Mobile screenshot](docs/evidence/p03/release/screenshots/overview-mobile.png) · [Edge outputs](docs/evidence/p03/release/browser/edge.log)
+[Desktop](docs/evidence/p04/release/screenshots/overview-desktop.png) · [Mobile](docs/evidence/p04/release/screenshots/overview-mobile.png)
 
 ## 10 — Complete test inventory
 
-P03 final package counts 97 passing executions (40 archive-baseline, 57 final), zero final failures, 5 blocked cases and 10 planned groups not run. Earlier failed retries are logged separately. Each line below has a unique marker. The archive executes P02 including P01 regression cases, and the tested P03 source executes the final expanded suite. No grouped P02 footnote was counted as a case.
+122 final passing executions, 0 final failures and 4 named blocked external checks. This includes independently repeated P03 execution. Intermediate install failure is recorded separately.
 
-| Execution ID | Named case | Status | Evidence or blocker |
+| Execution ID | Expected check | Final outcome | Evidence |
 | --- | --- | --- | --- |
 | B-U-01 | test_duplicate_and_reversed_csv | PASSED | baseline/unit.log |
 | B-U-02 | test_empty_and_size_limits | PASSED | baseline/unit.log |
@@ -135,24 +137,37 @@ P03 final package counts 97 passing executions (40 archive-baseline, 57 final), 
 | B-U-16 | test_token_reuse_and_ineligible_mapping | PASSED | baseline/unit.log |
 | B-U-17 | test_breakout_reproducibility_and_stop_first | PASSED | baseline/unit.log |
 | B-U-18 | test_tariffs_effective_date_and_risk | PASSED | baseline/unit.log |
-| B-F-01 | test_database_duplicate_constraint | PASSED | baseline/p02-retest/installation/fresh.log |
-| B-F-02 | test_gap_disables_findings | PASSED | baseline/p02-retest/installation/fresh.log |
-| B-F-03 | test_import_retry_and_atomic_conflict | PASSED | baseline/p02-retest/installation/fresh.log |
-| B-F-04 | test_permissions_and_company_scope | PASSED | baseline/p02-retest/installation/fresh.log |
-| B-F-05 | test_point_in_time_calendar_quarantine_and_chart | PASSED | baseline/p02-retest/installation/fresh.log |
-| B-F-06 | test_research_cutoff_evidence_and_no_trade | PASSED | baseline/p02-retest/installation/fresh.log |
-| B-UO-01 | test_database_duplicate_constraint | PASSED | baseline/p02-retest/installation/upgrade.log |
-| B-UO-02 | test_gap_disables_findings | PASSED | baseline/p02-retest/installation/upgrade.log |
-| B-UO-03 | test_import_retry_and_atomic_conflict | PASSED | baseline/p02-retest/installation/upgrade.log |
-| B-UO-04 | test_permissions_and_company_scope | PASSED | baseline/p02-retest/installation/upgrade.log |
-| B-UO-05 | test_point_in_time_calendar_quarantine_and_chart | PASSED | baseline/p02-retest/installation/upgrade.log |
-| B-UO-06 | test_research_cutoff_evidence_and_no_trade | PASSED | baseline/p02-retest/installation/upgrade.log |
-| B-UI-01 | UI-01 authenticated OWL dashboard and empty state | PASSED | baseline/p02-retest/browser/edge.log |
-| B-UI-02 | UI-02 CSV selected and imported through the Odoo wizard | PASSED | baseline/p02-retest/browser/edge.log |
-| B-UI-03 | UI-06 database-backed OHLC and volume matched the uploaded fixture | PASSED | baseline/p02-retest/browser/edge.log |
-| B-UI-04 | UI-03 historical research, accurate KPIs, refresh and snapshot drill-down | PASSED | baseline/p02-retest/browser/edge.log |
-| B-UI-05 | UI-04 mobile viewport without horizontal overflow and no uncaught page errors | PASSED | baseline/p02-retest/browser/edge.log |
-| B-UI-06 | UI-05 refresh gracefully recovered from a failed dashboard RPC | PASSED | baseline/p02-retest/browser/edge.log |
+| B-U-19 | test_multiple_sessions_stop_at_unknown_calendar_and_reconcile_trades | PASSED | baseline/unit.log |
+| B-U-20 | test_split_calendar_has_no_cross_segment_bars | PASSED | baseline/unit.log |
+| B-U-21 | test_supplemental_algorithms_warmup_and_preceding_levels | PASSED | baseline/unit.log |
+| B-F-01 | test_database_duplicate_constraint | PASSED | baseline/odoo/installation/fresh.log |
+| B-F-02 | test_gap_disables_findings | PASSED | baseline/odoo/installation/fresh.log |
+| B-F-03 | test_import_retry_and_atomic_conflict | PASSED | baseline/odoo/installation/fresh.log |
+| B-F-04 | test_p03_job_worker_and_immutable_corporate_source | PASSED | baseline/odoo/installation/fresh.log |
+| B-F-05 | test_p03_mapping_date_scope_and_database_exclusions | PASSED | baseline/odoo/installation/fresh.log |
+| B-F-06 | test_p03_supplemental_findings_and_offline_provider_setup | PASSED | baseline/odoo/installation/fresh.log |
+| B-F-07 | test_p03_synthetic_workflow_and_reproducible_immutable_results | PASSED | baseline/odoo/installation/fresh.log |
+| B-F-08 | test_permissions_and_company_scope | PASSED | baseline/odoo/installation/fresh.log |
+| B-F-09 | test_point_in_time_calendar_quarantine_and_chart | PASSED | baseline/odoo/installation/fresh.log |
+| B-F-10 | test_research_cutoff_evidence_and_no_trade | PASSED | baseline/odoo/installation/fresh.log |
+| B-UO-01 | test_database_duplicate_constraint | PASSED | baseline/odoo/installation/upgrade.log |
+| B-UO-02 | test_gap_disables_findings | PASSED | baseline/odoo/installation/upgrade.log |
+| B-UO-03 | test_import_retry_and_atomic_conflict | PASSED | baseline/odoo/installation/upgrade.log |
+| B-UO-04 | test_p03_job_worker_and_immutable_corporate_source | PASSED | baseline/odoo/installation/upgrade.log |
+| B-UO-05 | test_p03_mapping_date_scope_and_database_exclusions | PASSED | baseline/odoo/installation/upgrade.log |
+| B-UO-06 | test_p03_supplemental_findings_and_offline_provider_setup | PASSED | baseline/odoo/installation/upgrade.log |
+| B-UO-07 | test_p03_synthetic_workflow_and_reproducible_immutable_results | PASSED | baseline/odoo/installation/upgrade.log |
+| B-UO-08 | test_permissions_and_company_scope | PASSED | baseline/odoo/installation/upgrade.log |
+| B-UO-09 | test_point_in_time_calendar_quarantine_and_chart | PASSED | baseline/odoo/installation/upgrade.log |
+| B-UO-10 | test_research_cutoff_evidence_and_no_trade | PASSED | baseline/odoo/installation/upgrade.log |
+| B-UI-01 | UI-01 authenticated OWL dashboard and empty state | PASSED | baseline/odoo/browser/edge.log |
+| B-UI-02 | UI-02 CSV selected and imported through the Odoo wizard | PASSED | baseline/odoo/browser/edge.log |
+| B-UI-03 | UI-06 database-backed OHLC and volume matched the uploaded fixture | PASSED | baseline/odoo/browser/edge.log |
+| B-UI-04 | UI-03 historical research, accurate KPIs, refresh and snapshot drill-down | PASSED | baseline/odoo/browser/edge.log |
+| B-UI-05 | UI-07 supplemental evidence generated and opened from the research snapshot | PASSED | baseline/odoo/browser/edge.log |
+| B-UI-06 | UI-04 mobile viewport without horizontal overflow and no uncaught page errors | PASSED | baseline/odoo/browser/edge.log |
+| B-UI-07 | UI-05 refresh gracefully recovered from a failed dashboard RPC | PASSED | baseline/odoo/browser/edge.log |
+| B-UI-08 | UI-08 company experiment and virtual-account cards opened their native lists | PASSED | baseline/odoo/browser/edge.log |
 | P-U-01 | test_duplicate_and_reversed_csv | PASSED | unit/python.log |
 | P-U-02 | test_empty_and_size_limits | PASSED | unit/python.log |
 | P-U-03 | test_gap_count_and_date_boundary | PASSED | unit/python.log |
@@ -174,6 +189,10 @@ P03 final package counts 97 passing executions (40 archive-baseline, 57 final), 
 | P-U-19 | test_multiple_sessions_stop_at_unknown_calendar_and_reconcile_trades | PASSED | unit/python.log |
 | P-U-20 | test_split_calendar_has_no_cross_segment_bars | PASSED | unit/python.log |
 | P-U-21 | test_supplemental_algorithms_warmup_and_preceding_levels | PASSED | unit/python.log |
+| P-U-22 | test_flat_zero_volume_indicator_reference | PASSED | unit/python.log |
+| P-U-23 | test_provider_normalization_rejects_future_close_and_wrong_stamp | PASSED | unit/python.log |
+| P-U-24 | test_third_losing_session_is_suspended | PASSED | unit/python.log |
+| P-U-25 | test_time_and_receipt_are_distinct | PASSED | unit/python.log |
 | P-F-01 | test_database_duplicate_constraint | PASSED | release/installation/fresh.log |
 | P-F-02 | test_gap_disables_findings | PASSED | release/installation/fresh.log |
 | P-F-03 | test_import_retry_and_atomic_conflict | PASSED | release/installation/fresh.log |
@@ -181,9 +200,10 @@ P03 final package counts 97 passing executions (40 archive-baseline, 57 final), 
 | P-F-05 | test_p03_mapping_date_scope_and_database_exclusions | PASSED | release/installation/fresh.log |
 | P-F-06 | test_p03_supplemental_findings_and_offline_provider_setup | PASSED | release/installation/fresh.log |
 | P-F-07 | test_p03_synthetic_workflow_and_reproducible_immutable_results | PASSED | release/installation/fresh.log |
-| P-F-08 | test_permissions_and_company_scope | PASSED | release/installation/fresh.log |
-| P-F-09 | test_point_in_time_calendar_quarantine_and_chart | PASSED | release/installation/fresh.log |
-| P-F-10 | test_research_cutoff_evidence_and_no_trade | PASSED | release/installation/fresh.log |
+| P-F-08 | test_p04_fixture_sync_atomic_viewable_and_idempotent | PASSED | release/installation/fresh.log |
+| P-F-09 | test_permissions_and_company_scope | PASSED | release/installation/fresh.log |
+| P-F-10 | test_point_in_time_calendar_quarantine_and_chart | PASSED | release/installation/fresh.log |
+| P-F-11 | test_research_cutoff_evidence_and_no_trade | PASSED | release/installation/fresh.log |
 | P-UO-01 | test_database_duplicate_constraint | PASSED | release/installation/upgrade.log |
 | P-UO-02 | test_gap_disables_findings | PASSED | release/installation/upgrade.log |
 | P-UO-03 | test_import_retry_and_atomic_conflict | PASSED | release/installation/upgrade.log |
@@ -191,9 +211,10 @@ P03 final package counts 97 passing executions (40 archive-baseline, 57 final), 
 | P-UO-05 | test_p03_mapping_date_scope_and_database_exclusions | PASSED | release/installation/upgrade.log |
 | P-UO-06 | test_p03_supplemental_findings_and_offline_provider_setup | PASSED | release/installation/upgrade.log |
 | P-UO-07 | test_p03_synthetic_workflow_and_reproducible_immutable_results | PASSED | release/installation/upgrade.log |
-| P-UO-08 | test_permissions_and_company_scope | PASSED | release/installation/upgrade.log |
-| P-UO-09 | test_point_in_time_calendar_quarantine_and_chart | PASSED | release/installation/upgrade.log |
-| P-UO-10 | test_research_cutoff_evidence_and_no_trade | PASSED | release/installation/upgrade.log |
+| P-UO-08 | test_p04_fixture_sync_atomic_viewable_and_idempotent | PASSED | release/installation/upgrade.log |
+| P-UO-09 | test_permissions_and_company_scope | PASSED | release/installation/upgrade.log |
+| P-UO-10 | test_point_in_time_calendar_quarantine_and_chart | PASSED | release/installation/upgrade.log |
+| P-UO-11 | test_research_cutoff_evidence_and_no_trade | PASSED | release/installation/upgrade.log |
 | P-UI-01 | UI-01 authenticated OWL dashboard and empty state | PASSED | release/browser/edge.log |
 | P-UI-02 | UI-02 CSV selected and imported through the Odoo wizard | PASSED | release/browser/edge.log |
 | P-UI-03 | UI-06 database-backed OHLC and volume matched the uploaded fixture | PASSED | release/browser/edge.log |
@@ -202,42 +223,37 @@ P03 final package counts 97 passing executions (40 archive-baseline, 57 final), 
 | P-UI-06 | UI-04 mobile viewport without horizontal overflow and no uncaught page errors | PASSED | release/browser/edge.log |
 | P-UI-07 | UI-05 refresh gracefully recovered from a failed dashboard RPC | PASSED | release/browser/edge.log |
 | P-UI-08 | UI-08 company experiment and virtual-account cards opened their native lists | PASSED | release/browser/edge.log |
-| B-C-01 | identical overlap | PASSED | baseline/p02-retest/security/contention.log |
-| B-C-02 | conflicting overlap | PASSED | baseline/p02-retest/security/contention.log |
-| P-C-01 | identical overlap | PASSED | release/security/contention.log |
-| P-C-02 | conflicting overlap | PASSED | release/security/contention.log |
-| P-C-03 | instrument mapping overlap | PASSED | release/security/contention.log |
-| P-C-04 | virtual posting overlap | PASSED | release/security/contention.log |
-| B-S01 | Archived runtime source audit | PASSED | baseline/source-scan.log |
-| B-S02 | Archived synthetic replay reproduction | PASSED | baseline/synthetic.json |
-| P-S01 | P03 runtime source audit | PASSED | release/security/source-scan.log |
-| P-S02 | Two-session fixture and independent ledger reconciliation | PASSED | backtesting/synthetic-replay-ledger.json |
-| P-M01 | Populated P02 clone migration and retention fingerprint | PASSED | migration/upgrade/retention.log |
-| P-M02 | 50-instrument end-to-end benchmark | PASSED | migration/performance/orm.json |
-| EXT01 | Authorized provider historical request | BLOCKED | Owner entitlement, credentials and static egress |
-| EXT02 | Live quote | BLOCKED | No authorized account session |
-| EXT03 | WebSocket | BLOCKED | No authorized live entitlement; implementation pending |
-| FIN01 | Verified fee reconciliation | BLOCKED | No verified tariff history or authorized contract note |
-| FIN02 | Actual financial validation | BLOCKED | No licensed as-of data, sealed partitions or verified tariffs |
-| PLAN-01 | Adjustments/universe | NOT_RUN | P03 governing test priorities |
-| PLAN-02 | Full indicator boundaries | NOT_RUN | P03 governing test priorities |
-| PLAN-03 | Portfolio and market regime | NOT_RUN | P03 governing test priorities |
-| PLAN-04 | Multi-instrument replay | NOT_RUN | P03 governing test priorities |
-| PLAN-05 | Holdout and walk-forward | NOT_RUN | P03 governing test priorities |
-| PLAN-06 | Prospective lifecycle/restart | NOT_RUN | P03 governing test priorities |
-| PLAN-07 | Scheduler worker overlap | NOT_RUN | P03 governing test priorities |
-| PLAN-08 | Dashboard themes/scanner | NOT_RUN | P03 governing test priorities |
-| PLAN-09 | Larger capacity and resource-pressure | NOT_RUN | P03 governing test priorities |
-| PLAN-10 | Complete security program | NOT_RUN | P03 governing test priorities |
+| P-UI-09 | UI-09 historical scanner opens with instrument, company data and NO TRADE | PASSED | release/browser/edge.log |
+| P-Q-01 | QUOTA PASS authenticate: two workers, one committed reservation, immediate retry denied | PASSED | quota.log |
+| P-Q-02 | QUOTA PASS history: two workers, one committed reservation, immediate retry denied | PASSED | quota.log |
+| P-Q-03 | QUOTA PASS quote: two workers, one committed reservation, immediate retry denied | PASSED | quota.log |
+| B-C-01 | Identical candle overlap/replay | PASSED | baseline/odoo/security/contention.log |
+| B-C-02 | Conflicting candle batch rollback | PASSED | baseline/odoo/security/contention.log |
+| B-C-03 | Mapping exclusion | PASSED | baseline/odoo/security/contention.log |
+| B-C-04 | Virtual-account posting | PASSED | baseline/odoo/security/contention.log |
+| P-C-01 | Identical candle overlap/replay | PASSED | release/security/contention.log |
+| P-C-02 | Conflicting candle batch rollback | PASSED | release/security/contention.log |
+| P-C-03 | Mapping exclusion | PASSED | release/security/contention.log |
+| P-C-04 | Virtual-account posting | PASSED | release/security/contention.log |
+| B-R | Archived replay bytes reproduced | PASSED | baseline/replay.json |
+| B-S | Archived source inspection | PASSED | baseline/source.log |
+| P-R | P04 synthetic replay and ledger conservation | PASSED | replay.json |
+| P-S | P04 source inspection | PASSED | source-scan.log |
+| P-M | Populated P03 upgrade retention | PASSED | migration/upgrade/retention.log |
+| P-P | 50-instrument synthetic ORM benchmark | PASSED | migration/performance/orm.json |
+| X-H | Authorized SmartAPI history | BLOCKED | Owner setup and entitlement confirmation |
+| X-Q | Authorized quote | BLOCKED | Owner setup and timestamp contract |
+| X-W | Real streaming | BLOCKED | Authorization and streaming implementation |
+| X-F | Actual historical financial experiment | BLOCKED | Approved as-of dataset and applicable tariffs |
 
 ## 11 — Actual test execution evidence
 
-The separate command inventory lists executable commands, stage times where observed, exit codes, and evidence. The final verification installed and upgraded the addon on Odoo 20, ran contention on independent connections and exercised Edge. The previous P02 clone retained 180 XML IDs, 24 candles, two datasets, two instruments and one immutable snapshot. The original database remained intact. [Commands and timings](docs/evidence/p03/COMMANDS.md) · [Migration](docs/evidence/p03/migration/upgrade/retention.log) · [Evidence hashes](docs/evidence/p03/manifest.sha256)
+The command inventory records exact repeatable commands, expected scope, measured durations where retained, exit codes and artifacts. The archived P03 synthetic JSON matched its previously captured artifact. The populated upgrade retained 494 XML IDs plus the original instrument, dataset, candle and snapshot hashes. [Commands](docs/evidence/p04/COMMANDS.md) · [Migration](docs/evidence/p04/migration/upgrade/retention.log)
 
 ## 12 — Business invariant verification
 
-| ID | Invariant | Status | Path | Test | Evidence | Remaining scope |
-| --- | --- | --- | --- | --- | --- | --- |
+| ID | Requirement | Status | Path | Test | Evidence | Remaining scope |
+|---|---|---|---|---|---|---|
 | INV-01 | No real broker order execution | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
 | INV-02 | No mandatory paid AI dependency | COMPLETE | `__manifest__.py`, `services/` | U01–U08 | `docs/evidence/tests/unit.log` | — |
 | INV-03 | No GPU dependency | COMPLETE | `__manifest__.py`, `services/` | U01–U08 | `docs/evidence/tests/unit.log` | — |
@@ -249,7 +265,7 @@ The separate command inventory lists executable commands, stage times where obse
 | INV-09 | No duplicate paper-trade execution | PARTIAL | See P03 criterion or related service | See P03 execution inventory | docs/evidence/p03/COMMANDS.md | Historical journal fill idempotency verified under actual overlap; prospective lifecycle pending. |
 | INV-10 | No misleading profit guarantees | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
 | INV-11 | No uncalibrated score represented as probability | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
-| INV-12 | No unauthorized broker credential exposure | PARTIAL | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | No credential field or adapter exists. Add real sensitive-field and logging tests when integration is implemented. |
+| INV-12 | No unauthorized broker credential exposure | PARTIAL | See P04 issue inventory | P-U; P-O; P-UI | docs/evidence/p04/COMMANDS.md | Process-local broker token, server-side environment permissions and sanitized statuses; broker session not exercised. |
 | INV-13 | No strategy promotion without validation | GUARD_ONLY | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Scope guard holds for existing paths. Future features need their own enforcement and tests. |
 | INV-14 | No retrospective performance manipulation | PARTIAL | `services/research.py`, `models/lab.py` | O05, O07 | `docs/evidence/installation/{fresh,upgrade}.log` | Snapshot input hashes and role-level immutability exist. Add experiment parameters, amendments and prospective outcomes. |
 | INV-15 | No silent synthetic-data substitution | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
@@ -260,7 +276,7 @@ The separate command inventory lists executable commands, stage times where obse
 | INV-20 | No forced daily trading recommendation | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
 | INV-21 | No experimental strategy presented as validated | GUARD_ONLY | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Scope guard holds for existing paths. Future features need their own enforcement and tests. |
 | INV-22 | No real account capital allocation | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
-| INV-23 | No unbounded background processing | COMPLETE | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | U04, P01 | `docs/evidence/performance/services.csv` | Current paths are bounded and manual. Add bounded scheduling when implemented. |
+| INV-23 | No unbounded background processing | COMPLETE | See P04 issue inventory | P-U; P-O; P-UI | docs/evidence/p04/COMMANDS.md | Existing queue remains bounded; provider synchronization is one session and the adapter has capped response and quotas. |
 | INV-24 | No paper profit represented as real profit | GUARD_ONLY | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Scope guard holds for existing paths. Future features need their own enforcement and tests. |
 | INV-25 | No test marked PASSED without execution evidence | COMPLETE | `DEVELOPMENT_REPORT.md` | D01 | Sections 10–15 and 22 | No financial performance or production readiness claimed. |
 | INV-26 | No unsupported market data entitlement bypass | GUARD_ONLY | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Scope guard holds for existing paths. Future features need their own enforcement and tests. |
@@ -271,10 +287,10 @@ The separate command inventory lists executable commands, stage times where obse
 
 ## 13 — Acceptance criteria verification
 
-The tables below distinguish original requirements, P02 criteria after scoped P03 re-verification and new P03 acceptance. A pass describes the implemented and tested scope, not a claim of validated broker or financial behavior.
+Original and earlier milestone statuses retain their documented scope. P04 PASSED applies to the exact software behavior evidenced in its row. External integration and financial validation have separate outcomes.
 
 | ID | Requirement | Status | Path | Test | Evidence | Remaining scope |
-| --- | --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|---|
 | AC-001 | Odoo 20 Community compatibility verified | COMPLETE | `__manifest__.py`, `models/lab.py` | O01–O02 | `docs/evidence/installation/{fresh,upgrade}.log` | — |
 | AC-002 | Fresh installation successful | COMPLETE | `__manifest__.py`, `models/lab.py` | O01–O02 | `docs/evidence/installation/{fresh,upgrade}.log` | — |
 | AC-003 | Module upgrades safely | COMPLETE | `__manifest__.py`, `models/lab.py` | O01–O02 | `docs/evidence/installation/{fresh,upgrade}.log` | — |
@@ -290,17 +306,17 @@ The tables below distinguish original requirements, P02 criteria after scoped P0
 | AC-013 | Historical data provenance | COMPLETE | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | O03, O05 | `docs/evidence/installation/{fresh,upgrade}.log` | External verification of operator-supplied provenance remains. |
 | AC-014 | Correct indicator calculations | PARTIAL | `services/research.py`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | 19 causal series implemented. Full independent reference verification pending. |
 | AC-015 | Research engine interface operational | PARTIAL | `services/research.py`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Version 2 contract implemented for three results. |
-| AC-016 | Applicable research capabilities functional | PARTIAL | `services/research.py`, `models/lab.py` | U06–U08, O05–O06 | `docs/evidence/tests/unit.log` | Three descriptive findings exist. Complete the remaining indicator set, evidence contract and engine methods. |
+| AC-016 | Applicable research capabilities functional | PARTIAL | See P04 issue inventory | P-U; P-O; P-UI | docs/evidence/p04/COMMANDS.md | Seven scoped legacy and supplemental engines. P04 standalone and ORM rerun. |
 | AC-017 | Versioned strategy framework | PARTIAL | — | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | ST-01 version and code hashes; general strategy lifecycle pending. |
 | AC-018 | Market regime detection | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
 | AC-019 | Explainable master decision engine | PARTIAL | `services/research.py`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | NO TRADE with temporal and quarantine gates. Master gates pending. |
 | AC-020 | Transparent quality scoring | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
-| AC-021 | Risk veto enforcement | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
+| AC-021 | Risk veto enforcement | PARTIAL | See P04 issue inventory | P-U; P-O; P-UI | docs/evidence/p04/COMMANDS.md | Fee-aware veto and two-loss suspension exercised. Aggregate risk pending. |
 | AC-022 | Transaction cost calculation | PARTIAL | — | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Effective-dated cost engine works with documented hypothetical tariffs. |
 | AC-023 | Expected net return calculation | PARTIAL | — | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Synthetic net results v1. Validated evidence and calibration remain. |
 | AC-024 | Position sizing validation | PARTIAL | — | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Fee-aware sizing and stop risk verified for the synthetic slice. |
 | AC-025 | Signal freshness and expiry | PARTIAL | `services/research.py`, `models/lab.py` | O05–O06 | `docs/evidence/installation/{fresh,upgrade}.log` | NO TRADE blocks actionable historical signals. Implement live freshness or expiry gates before enabling actionable signals. |
-| AC-026 | Historical backtesting | PARTIAL | — | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Complete synthetic session replay. Authorized market and multi-session datasets pending. |
+| AC-026 | Historical backtesting | PARTIAL | See P04 issue inventory | P-U; P-O; P-UI | docs/evidence/p04/COMMANDS.md | Single-instrument synthetic multi-session replay and frozen cash enforcement. Authorized financial replay pending. |
 | AC-027 | Look-ahead bias prevention | PARTIAL | `services/research.py`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Cutoff, prefix invariance and next-opening rules tested; real data lineage pending. |
 | AC-028 | Out-of-sample validation | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
 | AC-029 | Walk-forward testing | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
@@ -315,7 +331,7 @@ The tables below distinguish original requirements, P02 criteria after scoped P0
 | AC-038 | Scheduler concurrency protection | PARTIAL | See P03 criterion or related service | See P03 execution inventory | docs/evidence/p03/COMMANDS.md | Skip-locked claim implemented; independent job claim testing pending. |
 | AC-039 | Premium dashboard operational | PARTIAL | `static/src/`, `views/lab.xml`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Native historical plot and company KPI additions. Full dashboards A–I incomplete. |
 | AC-040 | Dashboard KPI correctness | COMPLETE | `static/src/`, `views/lab.xml`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Current overview KPI/fixture chart values verified in Edge. |
-| AC-041 | Real browser UI verified | PARTIAL | `scripts/verify_browser.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Six focused real-browser checks. Full chart/filters/themes coverage incomplete. |
+| AC-041 | Real browser UI verified | PARTIAL | See P04 issue inventory | P-U; P-O; P-UI | docs/evidence/p04/COMMANDS.md | Nine Edge checks including historical scanner; full dashboard verification pending. |
 | AC-042 | Security permissions verified | COMPLETE | `security/ir.access.csv`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Current ACLs reverified, including calendar administration and forged research creation. |
 | AC-043 | Company isolation verified | COMPLETE | `security/ir.access.csv`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Company isolation regression passed. |
 | AC-044 | Credential redaction verified | PARTIAL | `__manifest__.py`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Credential redaction checked with offline failure fixtures. No actual credential run. |
@@ -327,7 +343,7 @@ The tables below distinguish original requirements, P02 criteria after scoped P0
 | AC-050 | Evidence-backed development report generated | COMPLETE | `DEVELOPMENT_REPORT.md` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | P02 handoff and manifest verified. |
 
 | ID | Requirement | Status | Scope | Evidence |
-| --- | --- | --- | --- | --- |
+|---|---|---|---|---|
 | P02-AC-001 | P01 baseline preserved | PASSED | Migration and populated retention | verify_p01_upgrade.ps1; upgrade/retention.log |
 | P02-AC-002 | Previous defects independently revalidated | PASSED | P01 reruns and P02 browser/ORM regression | baseline/audit.log; baseline/browser.log |
 | P02-AC-003 | Traceability semantics corrected | PASSED | Semantic guards, prohibitions and optional technologies separated | REQUIREMENTS_TRACEABILITY.md |
@@ -369,8 +385,8 @@ The tables below distinguish original requirements, P02 criteria after scoped P0
 | P02-AC-039 | Complete security regression | PARTIAL | Targeted ACL, company, forged create, quarantine and endpoint checks; complete program pending | installation/fresh.log; unit/python.log |
 | P02-AC-040 | Updated evidence-backed development report | PASSED | Updated 22-section handoff, matrices and validated checksums | DEVELOPMENT_REPORT.md; manifest.sha256 |
 
-| Criterion | Requirement | Software verification | Scope and remaining work | Evidence paths |
-| --- | --- | --- | --- | --- |
+| ID | Requirement | Status | Scope | Evidence |
+|---|---|---|---|---|
 | P03-AC-001 | P01 and P02 source preservation | PASSED | Verified P02 source ZIP; P01 source and evidence retained. | baseline/source.sha256 |
 | P03-AC-002 | Previous test regression executed | PASSED | Archived P02 standalone, ORM, contention and Edge suites executed; P02 suite includes P01 regressions. | baseline/p02-retest |
 | P03-AC-003 | Evidence manifests verified | PASSED | 10 P01 and 22 P02 evidence hashes, P02 source and final P03 evidence rechecked. | baseline/audit.log |
@@ -442,41 +458,116 @@ The tables below distinguish original requirements, P02 criteria after scoped P0
 | P03-AC-069 | Complete owner documentation | PASSED | Owner instructions cover delivered offline workflows and provider prerequisites. | docs/OWNER_QUICK_START.md |
 | P03-AC-070 | Evidence-backed development handoff | PASSED | Report, criteria, evidence, sanitized source and archive checksum verified. | manifest.sha256; P03_REVIEW_HANDOFF.zip.sha256 |
 
+| ID | Criterion | Status | Scope and evidence (under docs/evidence/p04 unless specified) |
+| --- | --- | --- | --- |
+| P04-AC-001 | P03 source and evidence preserved | PASSED | P03 checkpoint and historical evidence; baseline/hash.log; baseline/source.sha256 |
+| P04-AC-002 | Complete previous regression executed | PASSED | Preserved P03 Python, ORM, contention and Edge re-executed; baseline/odoo; baseline/unit.log |
+| P04-AC-003 | Independent review findings investigated | PASSED | Twelve findings assessed with causes and tests; docs/P04_REVIEW_ISSUES.md |
+| P04-AC-004 | Confirmed critical defects repaired | PARTIAL | Two reviewed risk defects repaired; provider and orchestration limits remain. |
+| P04-AC-005 | Traceability reconciled | PARTIAL | Affected rows reconciled; complete row-by-row revalidation remains open. |
+| P04-AC-006 | Secure provider session management | PARTIAL | Process-local five-minute token retention and reauthentication. Real account session unverified. |
+| P04-AC-007 | Operational historical synchronization | PARTIAL | Complete one-session fixture workflow and explicitly opt-in real call path. Authorized smoke required. |
+| P04-AC-008 | Fixture-backed provider-to-ORM pipeline | PASSED | Adapter, mapping, session validation, storage, idempotency and audit; release/installation/fresh.log |
+| P04-AC-009 | Authorized historical integration verified | BLOCKED | Owner entitlement, verified source semantics, approved data or cost evidence required. |
+| P04-AC-010 | Instrument master synchronization | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-011 | Shared provider quota enforcement | PASSED | Three operation keys; concurrent local reservation and immediate retry denied; quota.log |
+| P04-AC-012 | Market timestamp and freshness contract | PARTIAL | Offset-aware quote parsing, stale threshold and distinct receipt. Documented offset-less format remains unknown. |
+| P04-AC-013 | Authorized live quote verification | BLOCKED | Owner entitlement, verified source semantics, approved data or cost evidence required. |
+| P04-AC-014 | Streaming implementation and fixture recovery | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-015 | Real streaming verification | BLOCKED | Owner entitlement, verified source semantics, approved data or cost evidence required. |
+| P04-AC-016 | Unified data eligibility enforcement | PARTIAL | Origin, quarantine, date and grid checks keep broker history descriptive only. No general policy engine. |
+| P04-AC-017 | Secure owner setup workflow | PASSED | Administrator wizard and local-only setup guide; docs/OWNER_ACTION_REQUIRED.md |
+| P04-AC-018 | Complete indicator reference tests | PARTIAL | Added 19-output constant/zero-volume reference; full independent indicator matrix incomplete. |
+| P04-AC-019 | Unified research engine registry | PARTIAL | P03 supplemental registry and legacy indicators coexist. |
+| P04-AC-020 | Core OHLCV research algorithms | PARTIAL | Seven partial scoped research engines inherited. |
+| P04-AC-021 | Research provenance and causality | PARTIAL | Causal reference and receipt-only availability tested. Vendor publication evidence unavailable. |
+| P04-AC-022 | Benchmark alignment and regime classification | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-023 | Corporate action derived-data integrity | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-024 | Historical universe integrity | BLOCKED | Owner entitlement, verified source semantics, approved data or cost evidence required. |
+| P04-AC-025 | Verified tariff configuration | BLOCKED | Owner entitlement, verified source semantics, approved data or cost evidence required. |
+| P04-AC-026 | Independent cost calculation reconciliation | PARTIAL | Hypothetical fee fixtures only; contract-note reconciliation unavailable. |
+| P04-AC-027 | Authorized historical replay eligibility | BLOCKED | Owner entitlement, verified source semantics, approved data or cost evidence required. |
+| P04-AC-028 | Complete ST-01 research behavior | PARTIAL | Synthetic multi-2 loss suspension; market validation and complete ST-01 policy coverage pending. |
+| P04-AC-029 | Additional distinct strategy candidate | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-030 | Multi-instrument portfolio replay | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-031 | Shared portfolio capital integrity | PARTIAL | Single-instrument sequential synthetic capital plus exact virtual account gate. |
+| P04-AC-032 | Sealed temporal partitions | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-033 | Holdout consumption control | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-034 | Walk-forward validation | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-035 | Financial metrics correctness | PARTIAL | Inherited synthetic metrics regression passed. Portfolio and uncertainty statistics pending. |
+| P04-AC-036 | Actual historical financial experiment | BLOCKED | Owner entitlement, verified source semantics, approved data or cost evidence required. |
+| P04-AC-037 | Out-of-sample financial evidence | BLOCKED | Owner entitlement, verified source semantics, approved data or cost evidence required. |
+| P04-AC-038 | Statistical uncertainty and sensitivity | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-039 | Fee-aware position sizing | PASSED | Prior sizing regression run with P04 suite; unit/python.log |
+| P04-AC-040 | Daily portfolio risk enforcement | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-041 | Consecutive-loss suspension | PASSED | Third losing fixture session suspended; unit/python.log |
+| P04-AC-042 | Capital-state mismatch protection | PASSED | Frozen cash mismatch rejected under row lock; release/installation/fresh.log |
+| P04-AC-043 | Atomic reservation and exposure limits | PARTIAL | Atomic historical account lock and reservation. Portfolio aggregate exposure absent. |
+| P04-AC-044 | Complete G01–G14 decision pipeline | PARTIAL | Existing NO TRADE and synthetic gate; complete G01–G14 not implemented. |
+| P04-AC-045 | Hard veto protection | PASSED | Independent sizing veto and two-loss hard guard in synthetic scope; unit/python.log |
+| P04-AC-046 | Explainable research ranking | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-047 | Persistent paper execution lifecycle | PARTIAL | Historical reserve/simulate/close journal only. |
+| P04-AC-048 | Partial fill and close integrity | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-049 | Paper ledger reconciliation | PASSED | Whole-paise independent reconciliation and concurrent journal; replay.json; release/security/contention.log |
+| P04-AC-050 | Paper restart recovery | PARTIAL | Idempotent retry with independent contention; full service restart unverified. |
+| P04-AC-051 | Historical/prospective isolation | PASSED | Synthetic-only ledger and provider-origin restriction; release/installation/fresh.log |
+| P04-AC-052 | Independent worker contention | PASSED | Independent candle, mapping, account and request quota contention; release/security/contention.log; quota.log |
+| P04-AC-053 | Job lease and retry recovery | PARTIAL | Inherited transactional one-row claim. Durable lease and retries pending. |
+| P04-AC-054 | Exchange-aware daily research | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-055 | Functional stock scanner | PASSED | Company historical scanner and pagination enabled. No ranking; release/browser/edge.log |
+| P04-AC-056 | Advanced stock terminal | PARTIAL | Existing chart and findings, new scanner and sync links; full advanced stock terminal pending. |
+| P04-AC-057 | Research opportunities dashboard | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-058 | Paper portfolio dashboard | PARTIAL | Virtual-account overview counts and historical journal only. |
+| P04-AC-059 | Strategy intelligence dashboard | PARTIAL | Synthetic experiment results and native drill-down. |
+| P04-AC-060 | Risk control dashboard | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-061 | Provider health dashboard | PARTIAL | Native sync history and successful-sync count; dedicated health, latest quote and streaming pending. |
+| P04-AC-062 | Daily research report | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-063 | KPI reconciliation | PASSED | Underlying historical chart, prior counters and new sync card; release/browser/edge.log |
+| P04-AC-064 | Real desktop and mobile browser tests | PASSED | Nine checks including mobile; release/browser/edge.log |
+| P04-AC-065 | Light and dark theme verification | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-066 | End-to-end performance measurements | PASSED | 50 instruments and 3,750 synthetic bars; migration/performance/orm.json |
+| P04-AC-067 | Resource-pressure protection | PARTIAL | Session/response boundaries imposed; resource-pressure testing remains open. |
+| P04-AC-068 | Full targeted security regression | PARTIAL | Targeted ACL, adapter endpoint and scanner protections tested. Full security program incomplete. |
+| P04-AC-069 | Company isolation | PASSED | Original and scoped new ACL checks; release/installation/fresh.log |
+| P04-AC-070 | No real-order execution | PASSED | Existing fixed endpoint and static scan; unit/python.log; source-scan.log |
+| P04-AC-071 | No actionable real-market leakage | PASSED | Historical-only scanner and provider data barred from replay; release/browser/edge.log |
+| P04-AC-072 | Fresh installation | PASSED | 11 Odoo test cases; release/installation/fresh.log |
+| P04-AC-073 | Populated P03 upgrade | PASSED | Populated clone retained 494 XML IDs and original record hashes; migration/upgrade/retention.log |
+| P04-AC-074 | Owner setup documentation | PASSED | Read-only local setup, entitlement and sanitized proof; docs/OWNER_ACTION_REQUIRED.md |
+| P04-AC-075 | Complete evidence-backed handoff | PASSED | Report, source, evidence, ZIP and checksum; manifest.sha256 |
+
 ## 14 — Financial research results
 
-The redistributable fixture contains two synthetic regular sessions with one simulated trade per session and hypothetical fees. Fixture opening 5,000,000 paise, closing 4,987,596 paise, 6 journal events, no remaining reserved cash or quantity. These monetary figures describe test fixtures. Actual historical experiments, out-of-sample evaluations, walk-forward results, and prospective paper results were unavailable. No real strategy was financially validated. [Replay and independent ledger calculation](docs/evidence/p03/backtesting/synthetic-replay-ledger.json)
+The P03 replay was reproduced and the revised service was verified on synthetic candles, with hypothetical fees and closed virtual entries. An additional three-session fixture showed that the third session is suspended after two losses. No authorized point-in-time market experiment, holdout, calibrated win rate, verified fees or prospective paper P&L were measured. [Replay](docs/evidence/p04/replay.json)
 
 ## 15 — Performance results
 
-50 synthetic instruments, 3,750 bars and 361 SQL statements. Wall 4.977 s, import 2.335 s, research 1.464 s, company count 2.73 ms. CPU 3.438 s, peak sampled Odoo RSS 138.9 MiB, system RAM available 3.53 GiB at start. This is actual synthetic local ingestion and research using Odoo and PostgreSQL. Larger datasets, resource pressure, broker throughput and browser latency are not measured. [Raw ORM results](docs/evidence/p03/migration/performance/orm.json)
+50 synthetic instruments, 3,750 bars, 361 SQL statements and 4.110 s wall time. Ingestion 1.915 s, research 1.121 s, peak sampled RSS 141.0 MiB. This is actual synthetic Odoo ingest and research throughput on the test workstation. The result does not measure a live market feed, a portfolio or production dashboard latency. [Raw results](docs/evidence/p04/migration/performance/orm.json)
 
 ## 16 — Security verification
 
-The role-path regression covers legacy company rules, administrator mapping and provider wizard restrictions, forged experiment/account fields, immutable snapshots and ledger access. P03 confirmed the REST operation allowlist with fixtures and inspected 33 runtime files. PostgreSQL tests exercised actual overlapping mapping and virtual replay writes. Provider secrets are process-local and the final evidence logs received a credential-pattern check. Full cross-company test permutations, transport authorization, and worker-restart review remain incomplete. [Security model](docs/SECURITY_MODEL.md)
+P04 preserves fixed broker HTTP operations, uses administrator-only synchronization, and gives viewers read-only company-scoped history. The Odoo regression rejected a forged provider dataset and unauthorized wizard creation. Position capital is checked under its existing account row lock before ledger mutation. Static source and package secret patterns were checked. No real-order or live automatic recommendation route was added.
 
 ## 17 — Errors and bug fixes
 
-The interrupted P03 state had a manifest entry for a missing native view. The view was added and verified in fresh and populated installs. An intermediate regression found that repeated use of the underscore name in diagnostics shadowed Odoo translation; the final ORM case passes with configuration and authentication actions in offline mode. The release regression also rejected forged diagnostic states and confirmed four implementation hashes in the frozen experiment. Duplicate and exclusion errors in final logs are expected rollback assertions. No final cases failed. [Intermediate verification](docs/evidence/p03/verification/installation/fresh.log)
+An early install failed because Odoo reserves a different set of selection deletion policies. Adding the origin to the declared base field repaired registry initialization. Existing SQL duplicate and exclusion errors in passing logs were expected rollback assertions. The issue register describes each review finding, reproduction and scope. [Issue register](docs/P04_REVIEW_ISSUES.md)
 
 ## 18 — Incomplete features
 
-Unfinished or blocked work includes authorized provider-to-ORM data and streaming, verified tariff and universe history, corporate adjustment curves, broader quantitative and regime coverage, persistent strategy approval, multi-instrument simulation, sealed holdout and walk-forward, full decision gates, prospective accounting and feed-dependent monitoring, daily scheduling, and the remaining dashboard scope. The P03 criteria and traceability rows preserve these requirements and their dependencies.
+Authorized real history, live quote, instrument-master synchronization, streaming, verified provider limits, full data eligibility and health, as-of market data and applicable verified tariffs remain open. Multi-instrument replay, checkpointing, sealed holdout, walk-forward, aggregate portfolio risk, durable job leases, complete decision gates, broader research and dashboard validation and prospective paper trading also remain open.
 
 ## 19 — Development completion metrics
 
-Original coverage using the comparable requirement count is 73/1,236 (P01/P02 archived 72/1,236). Corrected original coverage is 57/1211; PostgreSQL moves from optional into mandatory, so denominator increases by one from P02's 1,210. Original acceptance 14/50. P02 acceptance 30/40 (archived 26/40). P03 acceptance 29/70. Among 46 P03 product capability criteria (excluding evidence, migration, external verification and validation provenance), 14 passed. The remaining P03 acceptance outcomes include 6 blocked, 11 not run and 24 partial. Research scope is seven of 25 engine identifiers with some ORM implementation. One of 20 strategies is implemented in a synthetic scope; zero are financially validated. External provider runtime verification is blocked. The historical ledger and bounded requester-run queue are verified; prospective ledger and full scheduler are beyond the verified slice.
+P04 passed **24/75** criteria. 8 blocked, 25 partial and 18 not run. Original comparable and corrected coverage were not recomputed as a release-wide measure because the full inherited matrix was not independently adjudicated. The preserved P03 reference is 73/1,236 comparable, 57/1,211 corrected, 14/50 original, 30/40 P02 and 29/70 P03. Seven research engines remain partial and zero strategies are financially validated. Percentages from previous milestones are historical snapshots, with denominators as disclosed in those reports.
 
 ## 20 — Next development recommendations
 
-1. Connect authenticated read-only ingestion to `models/reference.py` and the existing temporal import after provider terms, timestamp semantics and verified entitlement are available.
-2. Add corporate-action-adjusted derived data and effective historical universe coverage while retaining independently auditable raw bars.
-3. Add immutable partition lineage, one-time holdout sealing, walk-forward and reconciled fee data around `models/experiments.py` and `services/experiments.py`.
-4. Add portfolio risk, prospective lifecycle and lease/restart tests before activating anything beyond the historical journal and queue.
+Confirm authorization and timestamp semantics and execute one real closed-session read-only smoke. Add verified publication lineage and applicable historical tariffs before sealed as-of financial experiments. Keep prospective execution disabled until broader risk, lifecycle and feed requirements are tested.
 
 ## 21 — Owner setup instructions
 
-Install or upgrade only after backup and normal local change review. PostgreSQL must allow the trusted `btree_gist` extension installation. Set Trading Lab roles, enter sourced references, register a dataset and run research. Use a labeled fixture for the Odoo experiment and Risk Manager virtual journal. The scheduled action is disabled by default. Configure provider credentials only on the Odoo host. [Owner quick start](docs/OWNER_QUICK_START.md)
+Install or upgrade P04 through normal Odoo administration after backing up the target database. Assign a Trading System Administrator for mappings, calendar revisions and historical synchronization. Use fixture mode without credentials, or follow the protected host setup and provider authorization steps. [Owner actions](docs/OWNER_ACTION_REQUIRED.md)
 
 ## 22 — Final readiness decision
 
-**PAPER TRADING TEST READY for bounded historical synthetic replay.** Isolated tests prove date-aware reference constraints, version-compatible Odoo research, conservative synthetic replay, historical virtual reconciliation and replay idempotency. They do not establish financial performance, authorized live data access or prospective paper readiness. All real order execution and actionable real-market recommendations remain prohibited.
+**PAPER TRADING TEST READY for bounded historical synthetic replay only.** P04 also establishes fixture-proven provider-to-ORM ingestion and a functioning historical scanner. Real access, financial validation and prospective paper readiness remain unestablished. Real order execution and actionable real-market recommendations are prohibited.

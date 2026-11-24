@@ -805,7 +805,7 @@ Original identifiers remain stable. The archived report preserves the historical
 | INV-09 | No duplicate paper-trade execution | PARTIAL | See P03 criterion or related service | See P03 execution inventory | docs/evidence/p03/COMMANDS.md | Historical journal fill idempotency verified under actual overlap; prospective lifecycle pending. |
 | INV-10 | No misleading profit guarantees | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
 | INV-11 | No uncalibrated score represented as probability | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
-| INV-12 | No unauthorized broker credential exposure | PARTIAL | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | No credential field or adapter exists. Add real sensitive-field and logging tests when integration is implemented. |
+| INV-12 | No unauthorized broker credential exposure | PARTIAL | See P04 issue inventory | P-U; P-O; P-UI | docs/evidence/p04/COMMANDS.md | Process-local broker token, server-side environment permissions and sanitized statuses; broker session not exercised. |
 | INV-13 | No strategy promotion without validation | GUARD_ONLY | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Scope guard holds for existing paths. Future features need their own enforcement and tests. |
 | INV-14 | No retrospective performance manipulation | PARTIAL | `services/research.py`, `models/lab.py` | O05, O07 | `docs/evidence/installation/{fresh,upgrade}.log` | Snapshot input hashes and role-level immutability exist. Add experiment parameters, amendments and prospective outcomes. |
 | INV-15 | No silent synthetic-data substitution | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
@@ -816,7 +816,7 @@ Original identifiers remain stable. The archived report preserves the historical
 | INV-20 | No forced daily trading recommendation | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
 | INV-21 | No experimental strategy presented as validated | GUARD_ONLY | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Scope guard holds for existing paths. Future features need their own enforcement and tests. |
 | INV-22 | No real account capital allocation | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
-| INV-23 | No unbounded background processing | COMPLETE | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | U04, P01 | `docs/evidence/performance/services.csv` | Current paths are bounded and manual. Add bounded scheduling when implemented. |
+| INV-23 | No unbounded background processing | COMPLETE | See P04 issue inventory | P-U; P-O; P-UI | docs/evidence/p04/COMMANDS.md | Existing queue remains bounded; provider synchronization is one session and the adapter has capped response and quotas. |
 | INV-24 | No paper profit represented as real profit | GUARD_ONLY | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Scope guard holds for existing paths. Future features need their own enforcement and tests. |
 | INV-25 | No test marked PASSED without execution evidence | COMPLETE | `DEVELOPMENT_REPORT.md` | D01 | Sections 10–15 and 22 | No financial performance or production readiness claimed. |
 | INV-26 | No unsupported market data entitlement bypass | GUARD_ONLY | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Scope guard holds for existing paths. Future features need their own enforcement and tests. |
@@ -945,17 +945,17 @@ Original identifiers remain stable. The archived report preserves the historical
 | AC-013 | Historical data provenance | COMPLETE | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | O03, O05 | `docs/evidence/installation/{fresh,upgrade}.log` | External verification of operator-supplied provenance remains. |
 | AC-014 | Correct indicator calculations | PARTIAL | `services/research.py`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | 19 causal series implemented. Full independent reference verification pending. |
 | AC-015 | Research engine interface operational | PARTIAL | `services/research.py`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Version 2 contract implemented for three results. |
-| AC-016 | Applicable research capabilities functional | PARTIAL | `services/research.py`, `models/lab.py` | U06–U08, O05–O06 | `docs/evidence/tests/unit.log` | Three descriptive findings exist. Complete the remaining indicator set, evidence contract and engine methods. |
+| AC-016 | Applicable research capabilities functional | PARTIAL | See P04 issue inventory | P-U; P-O; P-UI | docs/evidence/p04/COMMANDS.md | Seven scoped legacy and supplemental engines. P04 standalone and ORM rerun. |
 | AC-017 | Versioned strategy framework | PARTIAL | — | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | ST-01 version and code hashes; general strategy lifecycle pending. |
 | AC-018 | Market regime detection | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
 | AC-019 | Explainable master decision engine | PARTIAL | `services/research.py`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | NO TRADE with temporal and quarantine gates. Master gates pending. |
 | AC-020 | Transparent quality scoring | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
-| AC-021 | Risk veto enforcement | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
+| AC-021 | Risk veto enforcement | PARTIAL | See P04 issue inventory | P-U; P-O; P-UI | docs/evidence/p04/COMMANDS.md | Fee-aware veto and two-loss suspension exercised. Aggregate risk pending. |
 | AC-022 | Transaction cost calculation | PARTIAL | — | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Effective-dated cost engine works with documented hypothetical tariffs. |
 | AC-023 | Expected net return calculation | PARTIAL | — | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Synthetic net results v1. Validated evidence and calibration remain. |
 | AC-024 | Position sizing validation | PARTIAL | — | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Fee-aware sizing and stop risk verified for the synthetic slice. |
 | AC-025 | Signal freshness and expiry | PARTIAL | `services/research.py`, `models/lab.py` | O05–O06 | `docs/evidence/installation/{fresh,upgrade}.log` | NO TRADE blocks actionable historical signals. Implement live freshness or expiry gates before enabling actionable signals. |
-| AC-026 | Historical backtesting | PARTIAL | — | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Complete synthetic session replay. Authorized market and multi-session datasets pending. |
+| AC-026 | Historical backtesting | PARTIAL | See P04 issue inventory | P-U; P-O; P-UI | docs/evidence/p04/COMMANDS.md | Single-instrument synthetic multi-session replay and frozen cash enforcement. Authorized financial replay pending. |
 | AC-027 | Look-ahead bias prevention | PARTIAL | `services/research.py`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Cutoff, prefix invariance and next-opening rules tested; real data lineage pending. |
 | AC-028 | Out-of-sample validation | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
 | AC-029 | Walk-forward testing | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
@@ -970,7 +970,7 @@ Original identifiers remain stable. The archived report preserves the historical
 | AC-038 | Scheduler concurrency protection | PARTIAL | See P03 criterion or related service | See P03 execution inventory | docs/evidence/p03/COMMANDS.md | Skip-locked claim implemented; independent job claim testing pending. |
 | AC-039 | Premium dashboard operational | PARTIAL | `static/src/`, `views/lab.xml`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Native historical plot and company KPI additions. Full dashboards A–I incomplete. |
 | AC-040 | Dashboard KPI correctness | COMPLETE | `static/src/`, `views/lab.xml`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Current overview KPI/fixture chart values verified in Edge. |
-| AC-041 | Real browser UI verified | PARTIAL | `scripts/verify_browser.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Six focused real-browser checks. Full chart/filters/themes coverage incomplete. |
+| AC-041 | Real browser UI verified | PARTIAL | See P04 issue inventory | P-U; P-O; P-UI | docs/evidence/p04/COMMANDS.md | Nine Edge checks including historical scanner; full dashboard verification pending. |
 | AC-042 | Security permissions verified | COMPLETE | `security/ir.access.csv`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Current ACLs reverified, including calendar administration and forged research creation. |
 | AC-043 | Company isolation verified | COMPLETE | `security/ir.access.csv`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Company isolation regression passed. |
 | AC-044 | Credential redaction verified | PARTIAL | `__manifest__.py`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Credential redaction checked with offline failure fixtures. No actual credential run. |
@@ -3178,3 +3178,902 @@ Original identifiers remain stable. The archived report preserves the historical
 | P03-S59-004 | PAPER TRADING TEST READY. | TRACKED | See P03-AC outcome and governing text. |
 | P03-S59-005 | VERIFIED RESEARCH BETA. | TRACKED | See P03-AC outcome and governing text. |
 | P03-S59-006 | VALIDATED RESEARCH RELEASE READY. | TRACKED | See P03-AC outcome and governing text. |
+
+## P04 acceptance
+
+| ID | Criterion | Status | Scope and evidence (under docs/evidence/p04 unless specified) |
+| --- | --- | --- | --- |
+| P04-AC-001 | P03 source and evidence preserved | PASSED | P03 checkpoint and historical evidence; baseline/hash.log; baseline/source.sha256 |
+| P04-AC-002 | Complete previous regression executed | PASSED | Preserved P03 Python, ORM, contention and Edge re-executed; baseline/odoo; baseline/unit.log |
+| P04-AC-003 | Independent review findings investigated | PASSED | Twelve findings assessed with causes and tests; docs/P04_REVIEW_ISSUES.md |
+| P04-AC-004 | Confirmed critical defects repaired | PARTIAL | Two reviewed risk defects repaired; provider and orchestration limits remain. |
+| P04-AC-005 | Traceability reconciled | PARTIAL | Affected rows reconciled; complete row-by-row revalidation remains open. |
+| P04-AC-006 | Secure provider session management | PARTIAL | Process-local five-minute token retention and reauthentication. Real account session unverified. |
+| P04-AC-007 | Operational historical synchronization | PARTIAL | Complete one-session fixture workflow and explicitly opt-in real call path. Authorized smoke required. |
+| P04-AC-008 | Fixture-backed provider-to-ORM pipeline | PASSED | Adapter, mapping, session validation, storage, idempotency and audit; release/installation/fresh.log |
+| P04-AC-009 | Authorized historical integration verified | BLOCKED | Owner entitlement, verified source semantics, approved data or cost evidence required. |
+| P04-AC-010 | Instrument master synchronization | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-011 | Shared provider quota enforcement | PASSED | Three operation keys; concurrent local reservation and immediate retry denied; quota.log |
+| P04-AC-012 | Market timestamp and freshness contract | PARTIAL | Offset-aware quote parsing, stale threshold and distinct receipt. Documented offset-less format remains unknown. |
+| P04-AC-013 | Authorized live quote verification | BLOCKED | Owner entitlement, verified source semantics, approved data or cost evidence required. |
+| P04-AC-014 | Streaming implementation and fixture recovery | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-015 | Real streaming verification | BLOCKED | Owner entitlement, verified source semantics, approved data or cost evidence required. |
+| P04-AC-016 | Unified data eligibility enforcement | PARTIAL | Origin, quarantine, date and grid checks keep broker history descriptive only. No general policy engine. |
+| P04-AC-017 | Secure owner setup workflow | PASSED | Administrator wizard and local-only setup guide; docs/OWNER_ACTION_REQUIRED.md |
+| P04-AC-018 | Complete indicator reference tests | PARTIAL | Added 19-output constant/zero-volume reference; full independent indicator matrix incomplete. |
+| P04-AC-019 | Unified research engine registry | PARTIAL | P03 supplemental registry and legacy indicators coexist. |
+| P04-AC-020 | Core OHLCV research algorithms | PARTIAL | Seven partial scoped research engines inherited. |
+| P04-AC-021 | Research provenance and causality | PARTIAL | Causal reference and receipt-only availability tested. Vendor publication evidence unavailable. |
+| P04-AC-022 | Benchmark alignment and regime classification | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-023 | Corporate action derived-data integrity | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-024 | Historical universe integrity | BLOCKED | Owner entitlement, verified source semantics, approved data or cost evidence required. |
+| P04-AC-025 | Verified tariff configuration | BLOCKED | Owner entitlement, verified source semantics, approved data or cost evidence required. |
+| P04-AC-026 | Independent cost calculation reconciliation | PARTIAL | Hypothetical fee fixtures only; contract-note reconciliation unavailable. |
+| P04-AC-027 | Authorized historical replay eligibility | BLOCKED | Owner entitlement, verified source semantics, approved data or cost evidence required. |
+| P04-AC-028 | Complete ST-01 research behavior | PARTIAL | Synthetic multi-2 loss suspension; market validation and complete ST-01 policy coverage pending. |
+| P04-AC-029 | Additional distinct strategy candidate | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-030 | Multi-instrument portfolio replay | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-031 | Shared portfolio capital integrity | PARTIAL | Single-instrument sequential synthetic capital plus exact virtual account gate. |
+| P04-AC-032 | Sealed temporal partitions | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-033 | Holdout consumption control | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-034 | Walk-forward validation | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-035 | Financial metrics correctness | PARTIAL | Inherited synthetic metrics regression passed. Portfolio and uncertainty statistics pending. |
+| P04-AC-036 | Actual historical financial experiment | BLOCKED | Owner entitlement, verified source semantics, approved data or cost evidence required. |
+| P04-AC-037 | Out-of-sample financial evidence | BLOCKED | Owner entitlement, verified source semantics, approved data or cost evidence required. |
+| P04-AC-038 | Statistical uncertainty and sensitivity | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-039 | Fee-aware position sizing | PASSED | Prior sizing regression run with P04 suite; unit/python.log |
+| P04-AC-040 | Daily portfolio risk enforcement | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-041 | Consecutive-loss suspension | PASSED | Third losing fixture session suspended; unit/python.log |
+| P04-AC-042 | Capital-state mismatch protection | PASSED | Frozen cash mismatch rejected under row lock; release/installation/fresh.log |
+| P04-AC-043 | Atomic reservation and exposure limits | PARTIAL | Atomic historical account lock and reservation. Portfolio aggregate exposure absent. |
+| P04-AC-044 | Complete G01–G14 decision pipeline | PARTIAL | Existing NO TRADE and synthetic gate; complete G01–G14 not implemented. |
+| P04-AC-045 | Hard veto protection | PASSED | Independent sizing veto and two-loss hard guard in synthetic scope; unit/python.log |
+| P04-AC-046 | Explainable research ranking | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-047 | Persistent paper execution lifecycle | PARTIAL | Historical reserve/simulate/close journal only. |
+| P04-AC-048 | Partial fill and close integrity | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-049 | Paper ledger reconciliation | PASSED | Whole-paise independent reconciliation and concurrent journal; replay.json; release/security/contention.log |
+| P04-AC-050 | Paper restart recovery | PARTIAL | Idempotent retry with independent contention; full service restart unverified. |
+| P04-AC-051 | Historical/prospective isolation | PASSED | Synthetic-only ledger and provider-origin restriction; release/installation/fresh.log |
+| P04-AC-052 | Independent worker contention | PASSED | Independent candle, mapping, account and request quota contention; release/security/contention.log; quota.log |
+| P04-AC-053 | Job lease and retry recovery | PARTIAL | Inherited transactional one-row claim. Durable lease and retries pending. |
+| P04-AC-054 | Exchange-aware daily research | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-055 | Functional stock scanner | PASSED | Company historical scanner and pagination enabled. No ranking; release/browser/edge.log |
+| P04-AC-056 | Advanced stock terminal | PARTIAL | Existing chart and findings, new scanner and sync links; full advanced stock terminal pending. |
+| P04-AC-057 | Research opportunities dashboard | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-058 | Paper portfolio dashboard | PARTIAL | Virtual-account overview counts and historical journal only. |
+| P04-AC-059 | Strategy intelligence dashboard | PARTIAL | Synthetic experiment results and native drill-down. |
+| P04-AC-060 | Risk control dashboard | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-061 | Provider health dashboard | PARTIAL | Native sync history and successful-sync count; dedicated health, latest quote and streaming pending. |
+| P04-AC-062 | Daily research report | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-063 | KPI reconciliation | PASSED | Underlying historical chart, prior counters and new sync card; release/browser/edge.log |
+| P04-AC-064 | Real desktop and mobile browser tests | PASSED | Nine checks including mobile; release/browser/edge.log |
+| P04-AC-065 | Light and dark theme verification | NOT_RUN | No verified P04 execution for this criterion. |
+| P04-AC-066 | End-to-end performance measurements | PASSED | 50 instruments and 3,750 synthetic bars; migration/performance/orm.json |
+| P04-AC-067 | Resource-pressure protection | PARTIAL | Session/response boundaries imposed; resource-pressure testing remains open. |
+| P04-AC-068 | Full targeted security regression | PARTIAL | Targeted ACL, adapter endpoint and scanner protections tested. Full security program incomplete. |
+| P04-AC-069 | Company isolation | PASSED | Original and scoped new ACL checks; release/installation/fresh.log |
+| P04-AC-070 | No real-order execution | PASSED | Existing fixed endpoint and static scan; unit/python.log; source-scan.log |
+| P04-AC-071 | No actionable real-market leakage | PASSED | Historical-only scanner and provider data barred from replay; release/browser/edge.log |
+| P04-AC-072 | Fresh installation | PASSED | 11 Odoo test cases; release/installation/fresh.log |
+| P04-AC-073 | Populated P03 upgrade | PASSED | Populated clone retained 494 XML IDs and original record hashes; migration/upgrade/retention.log |
+| P04-AC-074 | Owner setup documentation | PASSED | Read-only local setup, entitlement and sanitized proof; docs/OWNER_ACTION_REQUIRED.md |
+| P04-AC-075 | Complete evidence-backed handoff | PASSED | Report, source, evidence, ZIP and checksum; manifest.sha256 |
+
+## P04 detailed requirement IDs
+
+| ID | Governing text | Verification mapping |
+| --- | --- | --- |
+| P04-S02-001 | `DEVELOPMENT_REPORT.md` | Tracked in P04 acceptance and issue inventory |
+| P04-S02-002 | `docs/MASTER_REQUIREMENTS.md` | Tracked in P04 acceptance and issue inventory |
+| P04-S02-003 | `docs/REQUIREMENTS_TRACEABILITY.md` | Tracked in P04 acceptance and issue inventory |
+| P04-S02-004 | `docs/ARCHITECTURE.md` | Tracked in P04 acceptance and issue inventory |
+| P04-S02-005 | `docs/DEVELOPMENT_PLAN.md` | Tracked in P04 acceptance and issue inventory |
+| P04-S02-006 | `docs/DECISION_LOG.md` | Tracked in P04 acceptance and issue inventory |
+| P04-S02-007 | `docs/RISK_REGISTER.md` | Tracked in P04 acceptance and issue inventory |
+| P04-S02-008 | `docs/SMARTAPI_SETUP.md` | Tracked in P04 acceptance and issue inventory |
+| P04-S02-009 | `docs/PROVIDER_OPERATIONS.md` | Tracked in P04 acceptance and issue inventory |
+| P04-S02-010 | `docs/VALIDATION_PROTOCOL.md` | Tracked in P04 acceptance and issue inventory |
+| P04-S02-011 | `docs/BACKTEST_EXECUTION_POLICY.md` | Tracked in P04 acceptance and issue inventory |
+| P04-S02-012 | `docs/PAPER_LEDGER_INVARIANTS.md` | Tracked in P04 acceptance and issue inventory |
+| P04-S02-013 | `docs/INDICATOR_FORMULAS.md` | Tracked in P04 acceptance and issue inventory |
+| P04-S02-014 | `docs/RISK_POLICY.md` | Tracked in P04 acceptance and issue inventory |
+| P04-S02-015 | `docs/TRANSACTION_COST_MODEL.md` | Tracked in P04 acceptance and issue inventory |
+| P04-S02-016 | `docs/OWNER_QUICK_START.md` | Tracked in P04 acceptance and issue inventory |
+| P04-S02-017 | RE-01 through RE-25. | Tracked in P04 acceptance and issue inventory |
+| P04-S02-018 | ST-01 through ST-20. | Tracked in P04 acceptance and issue inventory |
+| P04-S02-019 | INV-01 through INV-30. | Tracked in P04 acceptance and issue inventory |
+| P04-S02-020 | AC-001 through AC-050. | Tracked in P04 acceptance and issue inventory |
+| P04-S02-021 | P02-AC-001 through P02-AC-040. | Tracked in P04 acceptance and issue inventory |
+| P04-S02-022 | P03-AC-001 through P03-AC-070. | Tracked in P04 acceptance and issue inventory |
+| P04-S02-023 | All original S-series requirements. | Tracked in P04 acceptance and issue inventory |
+| P04-S02-024 | All detailed P02 and P03 requirements. | Tracked in P04 acceptance and issue inventory |
+| P04-S03-001 | 121 ZIP entries. | Tracked in P04 acceptance and issue inventory |
+| P04-S03-002 | All 41 evidence manifest hashes matched. | Tracked in P04 acceptance and issue inventory |
+| P04-S03-003 | All 49 source manifest hashes matched. | Tracked in P04 acceptance and issue inventory |
+| P04-S03-004 | Separately uploaded reports and manifest matched their archived counterparts. | Tracked in P04 acceptance and issue inventory |
+| P04-S03-005 | All 21 standalone Python tests passed when independently re-executed. | Tracked in P04 acceptance and issue inventory |
+| P04-S03-006 | The synthetic replay reproduction script completed successfully. | Tracked in P04 acceptance and issue inventory |
+| P04-S03-007 | The reproduced replay JSON matched the archived JSON. | Tracked in P04 acceptance and issue inventory |
+| P04-S03-008 | The runtime source inspection script passed. | Tracked in P04 acceptance and issue inventory |
+| P04-S03-009 | 97 passing executions, comprising 40 archived baseline and 57 final executions. | Tracked in P04 acceptance and issue inventory |
+| P04-S03-010 | Zero final failed executions. | Tracked in P04 acceptance and issue inventory |
+| P04-S03-011 | Five blocked cases. | Tracked in P04 acceptance and issue inventory |
+| P04-S03-012 | Ten planned test groups not executed. | Tracked in P04 acceptance and issue inventory |
+| P04-S03-013 | Original requirement coverage: 73/1,236. | Tracked in P04 acceptance and issue inventory |
+| P04-S03-014 | Corrected original coverage: 57/1,211. | Tracked in P04 acceptance and issue inventory |
+| P04-S03-015 | Original acceptance criteria: 14/50. | Tracked in P04 acceptance and issue inventory |
+| P04-S03-016 | P02 acceptance criteria: 30/40. | Tracked in P04 acceptance and issue inventory |
+| P04-S03-017 | P03 acceptance criteria: 29/70. | Tracked in P04 acceptance and issue inventory |
+| P04-S03-018 | P03 product capability criteria: 14/46. | Tracked in P04 acceptance and issue inventory |
+| P04-S03-019 | Seven research engines with partial implementations. | Tracked in P04 acceptance and issue inventory |
+| P04-S03-020 | One synthetic-scope strategy implementation. | Tracked in P04 acceptance and issue inventory |
+| P04-S03-021 | Zero financially validated strategies. | Tracked in P04 acceptance and issue inventory |
+| P04-S03-022 | No authorized broker historical retrieval. | Tracked in P04 acceptance and issue inventory |
+| P04-S03-023 | No authorized live quote verification. | Tracked in P04 acceptance and issue inventory |
+| P04-S03-024 | No operational WebSocket integration. | Tracked in P04 acceptance and issue inventory |
+| P04-S03-025 | No prospective paper trading. | Tracked in P04 acceptance and issue inventory |
+| P04-S03-026 | Historical synthetic replay ledger implemented. | Tracked in P04 acceptance and issue inventory |
+| P04-S03-027 | Persistent bounded historical research queue implemented. | Tracked in P04 acceptance and issue inventory |
+| P04-S03-028 | Basic historical research dashboard implemented. | Tracked in P04 acceptance and issue inventory |
+| P04-S04-001 | Real broker order placement. | Tracked in P04 acceptance and issue inventory |
+| P04-S04-002 | Real broker order modification. | Tracked in P04 acceptance and issue inventory |
+| P04-S04-003 | Real broker order cancellation. | Tracked in P04 acceptance and issue inventory |
+| P04-S04-004 | Automatic real-money buying or selling. | Tracked in P04 acceptance and issue inventory |
+| P04-S04-005 | Actual broker capital allocation. | Tracked in P04 acceptance and issue inventory |
+| P04-S04-006 | Fund transfers. | Tracked in P04 acceptance and issue inventory |
+| P04-S04-007 | Automatic 25% real capital usage. | Tracked in P04 acceptance and issue inventory |
+| P04-S04-008 | Hidden real-order services. | Tracked in P04 acceptance and issue inventory |
+| P04-S04-009 | Real Odoo accounting mutations. | Tracked in P04 acceptance and issue inventory |
+| P04-S05-001 | Intel Core i5-10210U. | Tracked in P04 acceptance and issue inventory |
+| P04-S05-002 | Four physical CPU cores. | Tracked in P04 acceptance and issue inventory |
+| P04-S05-003 | Eight logical processors. | Tracked in P04 acceptance and issue inventory |
+| P04-S05-004 | 16 GB RAM. | Tracked in P04 acceptance and issue inventory |
+| P04-S05-005 | Intel UHD graphics. | Tracked in P04 acceptance and issue inventory |
+| P04-S05-006 | CPU-only processing. | Tracked in P04 acceptance and issue inventory |
+| P04-S05-007 | Windows. | Tracked in P04 acceptance and issue inventory |
+| P04-S05-008 | Localhost deployment. | Tracked in P04 acceptance and issue inventory |
+| P04-S05-009 | Python 3.14.6 in the reported environment. | Tracked in P04 acceptance and issue inventory |
+| P04-S05-010 | PostgreSQL 18.4. | Tracked in P04 acceptance and issue inventory |
+| P04-S05-011 | Odoo 20 Community. | Tracked in P04 acceptance and issue inventory |
+| P04-S05-012 | Native OWL 3 frontend. | Tracked in P04 acceptance and issue inventory |
+| P04-S05-013 | LLM runtime. | Tracked in P04 acceptance and issue inventory |
+| P04-S05-014 | Ollama. | Tracked in P04 acceptance and issue inventory |
+| P04-S05-015 | OpenAI API. | Tracked in P04 acceptance and issue inventory |
+| P04-S05-016 | Claude API. | Tracked in P04 acceptance and issue inventory |
+| P04-S05-017 | Gemini API. | Tracked in P04 acceptance and issue inventory |
+| P04-S05-018 | GPU. | Tracked in P04 acceptance and issue inventory |
+| P04-S05-019 | Paid AI subscription. | Tracked in P04 acceptance and issue inventory |
+| P04-S05-020 | Paid cloud computing. | Tracked in P04 acceptance and issue inventory |
+| P04-S05-021 | Heavy distributed infrastructure. | Tracked in P04 acceptance and issue inventory |
+| P04-S07-001 | `docs/history/DEVELOPMENT_REPORT_P03.md` | Tracked in P04 acceptance and issue inventory |
+| P04-S07-002 | A recoverable P03 source checkpoint. | Tracked in P04 acceptance and issue inventory |
+| P04-S07-003 | A P03 source hash manifest. | Tracked in P04 acceptance and issue inventory |
+| P04-S07-004 | A new `docs/evidence/p04/` evidence directory. | Tracked in P04 acceptance and issue inventory |
+| P04-S07-005 | All 21 standalone Python tests. | Tracked in P04 acceptance and issue inventory |
+| P04-S07-006 | P03 synthetic replay reproduction. | Tracked in P04 acceptance and issue inventory |
+| P04-S07-007 | Runtime source inspection. | Tracked in P04 acceptance and issue inventory |
+| P04-S07-008 | Fresh Odoo installation. | Tracked in P04 acceptance and issue inventory |
+| P04-S07-009 | Same-version upgrade. | Tracked in P04 acceptance and issue inventory |
+| P04-S07-010 | Populated P03 database upgrade. | Tracked in P04 acceptance and issue inventory |
+| P04-S07-011 | Independent PostgreSQL contention scenarios. | Tracked in P04 acceptance and issue inventory |
+| P04-S07-012 | Existing browser checks. | Tracked in P04 acceptance and issue inventory |
+| P04-S08-001 | Confirmed defect or implementation limitation. | Tracked in P04 acceptance and issue inventory |
+| P04-S08-002 | Root cause. | Tracked in P04 acceptance and issue inventory |
+| P04-S08-003 | Reproduction. | Tracked in P04 acceptance and issue inventory |
+| P04-S08-004 | Affected source files. | Tracked in P04 acceptance and issue inventory |
+| P04-S08-005 | Severity. | Tracked in P04 acceptance and issue inventory |
+| P04-S08-006 | Repair. | Tracked in P04 acceptance and issue inventory |
+| P04-S08-007 | Regression test. | Tracked in P04 acceptance and issue inventory |
+| P04-S08-008 | Actual retest evidence. | Tracked in P04 acceptance and issue inventory |
+| P04-S08-009 | Remaining risk. | Tracked in P04 acceptance and issue inventory |
+| P04-S09-001 | https://smartapi.angelone.in/ | Tracked in P04 acceptance and issue inventory |
+| P04-S09-002 | https://smartapi.angelone.in/docs | Tracked in P04 acceptance and issue inventory |
+| P04-S09-003 | https://github.com/angel-one/smartapi-python | Tracked in P04 acceptance and issue inventory |
+| P04-S09-004 | Authentication requirements. | Tracked in P04 acceptance and issue inventory |
+| P04-S09-005 | Account-specific API entitlements. | Tracked in P04 acceptance and issue inventory |
+| P04-S09-006 | Static IP or registered egress requirements. | Tracked in P04 acceptance and issue inventory |
+| P04-S09-007 | Data access costs. | Tracked in P04 acceptance and issue inventory |
+| P04-S09-008 | Permitted historical usage. | Tracked in P04 acceptance and issue inventory |
+| P04-S09-009 | Data storage permissions. | Tracked in P04 acceptance and issue inventory |
+| P04-S09-010 | REST request quotas. | Tracked in P04 acceptance and issue inventory |
+| P04-S09-011 | WebSocket limits. | Tracked in P04 acceptance and issue inventory |
+| P04-S09-012 | Historical request boundaries. | Tracked in P04 acceptance and issue inventory |
+| P04-S09-013 | Exchange timestamp conventions. | Tracked in P04 acceptance and issue inventory |
+| P04-S09-014 | Session expiry. | Tracked in P04 acceptance and issue inventory |
+| P04-S09-015 | Authorized authentication. | Tracked in P04 acceptance and issue inventory |
+| P04-S09-016 | Session management. | Tracked in P04 acceptance and issue inventory |
+| P04-S09-017 | Controlled reauthentication. | Tracked in P04 acceptance and issue inventory |
+| P04-S09-018 | Instrument master synchronization. | Tracked in P04 acceptance and issue inventory |
+| P04-S09-019 | Historical candle retrieval. | Tracked in P04 acceptance and issue inventory |
+| P04-S09-020 | Latest market quote retrieval. | Tracked in P04 acceptance and issue inventory |
+| P04-S09-021 | Subscription and capability management. | Tracked in P04 acceptance and issue inventory |
+| P04-S09-022 | Provider health. | Tracked in P04 acceptance and issue inventory |
+| P04-S09-023 | Request pacing. | Tracked in P04 acceptance and issue inventory |
+| P04-S09-024 | Bounded retries. | Tracked in P04 acceptance and issue inventory |
+| P04-S09-025 | Connection failure recovery. | Tracked in P04 acceptance and issue inventory |
+| P04-S10-001 | `GOLOK_SMARTAPI_AUTHORIZED` | Tracked in P04 acceptance and issue inventory |
+| P04-S10-002 | `GOLOK_SMARTAPI_KEY` | Tracked in P04 acceptance and issue inventory |
+| P04-S10-003 | `GOLOK_SMARTAPI_CLIENT_CODE` | Tracked in P04 acceptance and issue inventory |
+| P04-S10-004 | `GOLOK_SMARTAPI_PIN` | Tracked in P04 acceptance and issue inventory |
+| P04-S10-005 | `GOLOK_SMARTAPI_TOTP_CODE` | Tracked in P04 acceptance and issue inventory |
+| P04-S10-006 | `GOLOK_SMARTAPI_PUBLIC_IP` | Tracked in P04 acceptance and issue inventory |
+| P04-S10-007 | `GOLOK_SMARTAPI_LOCAL_IP` | Tracked in P04 acceptance and issue inventory |
+| P04-S10-008 | `GOLOK_SMARTAPI_MAC` | Tracked in P04 acceptance and issue inventory |
+| P04-S10-009 | Not configured. | Tracked in P04 acceptance and issue inventory |
+| P04-S10-010 | Authorization required. | Tracked in P04 acceptance and issue inventory |
+| P04-S10-011 | Network requirement unresolved. | Tracked in P04 acceptance and issue inventory |
+| P04-S10-012 | Authentication verified. | Tracked in P04 acceptance and issue inventory |
+| P04-S10-013 | Historical access verified. | Tracked in P04 acceptance and issue inventory |
+| P04-S10-014 | Live quote verified. | Tracked in P04 acceptance and issue inventory |
+| P04-S10-015 | Streaming verified. | Tracked in P04 acceptance and issue inventory |
+| P04-S10-016 | Rate limited. | Tracked in P04 acceptance and issue inventory |
+| P04-S10-017 | Stale. | Tracked in P04 acceptance and issue inventory |
+| P04-S10-018 | Disconnected. | Tracked in P04 acceptance and issue inventory |
+| P04-S10-019 | What development can operate immediately. | Tracked in P04 acceptance and issue inventory |
+| P04-S10-020 | What the owner must configure. | Tracked in P04 acceptance and issue inventory |
+| P04-S10-021 | Which external tests remain blocked. | Tracked in P04 acceptance and issue inventory |
+| P04-S10-022 | How to perform authorized local connection tests. | Tracked in P04 acceptance and issue inventory |
+| P04-S10-023 | What sanitized result should be submitted for review. | Tracked in P04 acceptance and issue inventory |
+| P04-S11-001 | Synchronization request. | Tracked in P04 acceptance and issue inventory |
+| P04-S11-002 | Provider source identity. | Tracked in P04 acceptance and issue inventory |
+| P04-S11-003 | Instrument mapping revision. | Tracked in P04 acceptance and issue inventory |
+| P04-S11-004 | Requested observation interval. | Tracked in P04 acceptance and issue inventory |
+| P04-S11-005 | Requested date range. | Tracked in P04 acceptance and issue inventory |
+| P04-S11-006 | Actual returned coverage. | Tracked in P04 acceptance and issue inventory |
+| P04-S11-007 | Data quality result. | Tracked in P04 acceptance and issue inventory |
+| P04-S11-008 | Import checkpoint. | Tracked in P04 acceptance and issue inventory |
+| P04-S11-009 | Completion state. | Tracked in P04 acceptance and issue inventory |
+| P04-S11-010 | Sanitized error. | Tracked in P04 acceptance and issue inventory |
+| P04-S11-011 | Retry state. | Tracked in P04 acceptance and issue inventory |
+| P04-S11-012 | Valid historical response. | Tracked in P04 acceptance and issue inventory |
+| P04-S11-013 | Empty response. | Tracked in P04 acceptance and issue inventory |
+| P04-S11-014 | Partial response. | Tracked in P04 acceptance and issue inventory |
+| P04-S11-015 | Malformed data. | Tracked in P04 acceptance and issue inventory |
+| P04-S11-016 | Duplicate data. | Tracked in P04 acceptance and issue inventory |
+| P04-S11-017 | Conflicting data. | Tracked in P04 acceptance and issue inventory |
+| P04-S11-018 | Unknown instrument token. | Tracked in P04 acceptance and issue inventory |
+| P04-S11-019 | Expired token mapping. | Tracked in P04 acceptance and issue inventory |
+| P04-S11-020 | Wrong exchange. | Tracked in P04 acceptance and issue inventory |
+| P04-S11-021 | Future timestamps. | Tracked in P04 acceptance and issue inventory |
+| P04-S11-022 | Incomplete candle. | Tracked in P04 acceptance and issue inventory |
+| P04-S11-023 | Missing session. | Tracked in P04 acceptance and issue inventory |
+| P04-S11-024 | Unauthorized source. | Tracked in P04 acceptance and issue inventory |
+| P04-S11-025 | Transaction failure. | Tracked in P04 acceptance and issue inventory |
+| P04-S11-026 | Concurrent import. | Tracked in P04 acceptance and issue inventory |
+| P04-S11-027 | Interrupted synchronization. | Tracked in P04 acceptance and issue inventory |
+| P04-S11-028 | Safe retry. | Tracked in P04 acceptance and issue inventory |
+| P04-S12-001 | Authentication quotas. | Tracked in P04 acceptance and issue inventory |
+| P04-S12-002 | Historical request quotas. | Tracked in P04 acceptance and issue inventory |
+| P04-S12-003 | Quote request quotas. | Tracked in P04 acceptance and issue inventory |
+| P04-S12-004 | Concurrent workers. | Tracked in P04 acceptance and issue inventory |
+| P04-S12-005 | Multiple process instances. | Tracked in P04 acceptance and issue inventory |
+| P04-S12-006 | Applicable account-level restrictions. | Tracked in P04 acceptance and issue inventory |
+| P04-S13-001 | Synthetic fixtures. | Tracked in P04 acceptance and issue inventory |
+| P04-S13-002 | Unverified imported observations. | Tracked in P04 acceptance and issue inventory |
+| P04-S13-003 | Authorized historical observations. | Tracked in P04 acceptance and issue inventory |
+| P04-S13-004 | Delayed market observations. | Tracked in P04 acceptance and issue inventory |
+| P04-S13-005 | Verified live observations. | Tracked in P04 acceptance and issue inventory |
+| P04-S13-006 | Quarantined observations. | Tracked in P04 acceptance and issue inventory |
+| P04-S13-007 | Source identity. | Tracked in P04 acceptance and issue inventory |
+| P04-S13-008 | Instrument identity. | Tracked in P04 acceptance and issue inventory |
+| P04-S13-009 | Event timestamp. | Tracked in P04 acceptance and issue inventory |
+| P04-S13-010 | Publication or availability timestamp. | Tracked in P04 acceptance and issue inventory |
+| P04-S13-011 | Receipt timestamp. | Tracked in P04 acceptance and issue inventory |
+| P04-S13-012 | Ingestion timestamp. | Tracked in P04 acceptance and issue inventory |
+| P04-S13-013 | Session identity. | Tracked in P04 acceptance and issue inventory |
+| P04-S13-014 | Interval. | Tracked in P04 acceptance and issue inventory |
+| P04-S13-015 | Quality state. | Tracked in P04 acceptance and issue inventory |
+| P04-S13-016 | Authorization provenance. | Tracked in P04 acceptance and issue inventory |
+| P04-S14-001 | Bounded subscription management. | Tracked in P04 acceptance and issue inventory |
+| P04-S14-002 | Connection heartbeat. | Tracked in P04 acceptance and issue inventory |
+| P04-S14-003 | Reconnect backoff. | Tracked in P04 acceptance and issue inventory |
+| P04-S14-004 | Per-instrument freshness. | Tracked in P04 acceptance and issue inventory |
+| P04-S14-005 | Duplicate event protection. | Tracked in P04 acceptance and issue inventory |
+| P04-S14-006 | Out-of-order event handling. | Tracked in P04 acceptance and issue inventory |
+| P04-S14-007 | Queue limits. | Tracked in P04 acceptance and issue inventory |
+| P04-S14-008 | Overflow diagnostics. | Tracked in P04 acceptance and issue inventory |
+| P04-S14-009 | Incomplete candle marking. | Tracked in P04 acceptance and issue inventory |
+| P04-S14-010 | Disconnect invalidation. | Tracked in P04 acceptance and issue inventory |
+| P04-S15-001 | SMA and EMA. | Tracked in P04 acceptance and issue inventory |
+| P04-S15-002 | RSI. | Tracked in P04 acceptance and issue inventory |
+| P04-S15-003 | MACD. | Tracked in P04 acceptance and issue inventory |
+| P04-S15-004 | ATR. | Tracked in P04 acceptance and issue inventory |
+| P04-S15-005 | VWAP. | Tracked in P04 acceptance and issue inventory |
+| P04-S15-006 | ADX. | Tracked in P04 acceptance and issue inventory |
+| P04-S15-007 | Bollinger Bands. | Tracked in P04 acceptance and issue inventory |
+| P04-S15-008 | Stochastic Oscillator. | Tracked in P04 acceptance and issue inventory |
+| P04-S15-009 | Relative Volume. | Tracked in P04 acceptance and issue inventory |
+| P04-S15-010 | Rate of Change. | Tracked in P04 acceptance and issue inventory |
+| P04-S15-011 | OBV. | Tracked in P04 acceptance and issue inventory |
+| P04-S15-012 | Historical Volatility. | Tracked in P04 acceptance and issue inventory |
+| P04-S15-013 | Rolling Highs and Lows. | Tracked in P04 acceptance and issue inventory |
+| P04-S15-014 | Opening Range. | Tracked in P04 acceptance and issue inventory |
+| P04-S15-015 | Relative Strength. | Tracked in P04 acceptance and issue inventory |
+| P04-S15-016 | Price Gaps. | Tracked in P04 acceptance and issue inventory |
+| P04-S15-017 | Volume Spikes. | Tracked in P04 acceptance and issue inventory |
+| P04-S15-018 | Trend Slopes. | Tracked in P04 acceptance and issue inventory |
+| P04-S15-019 | Hand-calculated reference values. | Tracked in P04 acceptance and issue inventory |
+| P04-S15-020 | Warm-up behavior. | Tracked in P04 acceptance and issue inventory |
+| P04-S15-021 | Constant series. | Tracked in P04 acceptance and issue inventory |
+| P04-S15-022 | Increasing and decreasing series. | Tracked in P04 acceptance and issue inventory |
+| P04-S15-023 | Invalid numerical input. | Tracked in P04 acceptance and issue inventory |
+| P04-S15-024 | Missing observations. | Tracked in P04 acceptance and issue inventory |
+| P04-S15-025 | Zero volume. | Tracked in P04 acceptance and issue inventory |
+| P04-S15-026 | Division-by-zero handling. | Tracked in P04 acceptance and issue inventory |
+| P04-S15-027 | Multiple trading sessions. | Tracked in P04 acceptance and issue inventory |
+| P04-S15-028 | Interval changes. | Tracked in P04 acceptance and issue inventory |
+| P04-S15-029 | Prefix invariance. | Tracked in P04 acceptance and issue inventory |
+| P04-S15-030 | Independent numerical tolerance. | Tracked in P04 acceptance and issue inventory |
+| P04-S16-001 | Engine ID and version. | Tracked in P04 acceptance and issue inventory |
+| P04-S16-002 | Required inputs. | Tracked in P04 acceptance and issue inventory |
+| P04-S16-003 | Minimum history. | Tracked in P04 acceptance and issue inventory |
+| P04-S16-004 | Data eligibility. | Tracked in P04 acceptance and issue inventory |
+| P04-S16-005 | Applicable strategy types. | Tracked in P04 acceptance and issue inventory |
+| P04-S16-006 | Computation method. | Tracked in P04 acceptance and issue inventory |
+| P04-S16-007 | Supporting evidence. | Tracked in P04 acceptance and issue inventory |
+| P04-S16-008 | Contradictory evidence. | Tracked in P04 acceptance and issue inventory |
+| P04-S16-009 | Missing input reasons. | Tracked in P04 acceptance and issue inventory |
+| P04-S16-010 | Output status. | Tracked in P04 acceptance and issue inventory |
+| P04-S16-011 | Decision cutoff. | Tracked in P04 acceptance and issue inventory |
+| P04-S16-012 | Input digest. | Tracked in P04 acceptance and issue inventory |
+| P04-S16-013 | Execution duration. | Tracked in P04 acceptance and issue inventory |
+| P04-S17-001 | RE-01 Technical Analysis. | Tracked in P04 acceptance and issue inventory |
+| P04-S17-002 | RE-03 Price Action. | Tracked in P04 acceptance and issue inventory |
+| P04-S17-003 | RE-04 Candlestick Patterns. | Tracked in P04 acceptance and issue inventory |
+| P04-S17-004 | RE-05 Volume Intelligence. | Tracked in P04 acceptance and issue inventory |
+| P04-S17-005 | RE-06 Support and Resistance. | Tracked in P04 acceptance and issue inventory |
+| P04-S17-006 | RE-07 Breakout Detection. | Tracked in P04 acceptance and issue inventory |
+| P04-S17-007 | RE-08 False Breakout Detection. | Tracked in P04 acceptance and issue inventory |
+| P04-S17-008 | RE-09 Market Trend. | Tracked in P04 acceptance and issue inventory |
+| P04-S17-009 | RE-15 Historical Patterns. | Tracked in P04 acceptance and issue inventory |
+| P04-S17-010 | RE-17 Liquidity Analysis. | Tracked in P04 acceptance and issue inventory |
+| P04-S17-011 | RE-18 Volatility. | Tracked in P04 acceptance and issue inventory |
+| P04-S17-012 | RE-19 Momentum. | Tracked in P04 acceptance and issue inventory |
+| P04-S17-013 | RE-20 Abnormal Market Activity. | Tracked in P04 acceptance and issue inventory |
+| P04-S17-014 | Breakout detection must use previously established levels. | Tracked in P04 acceptance and issue inventory |
+| P04-S17-015 | False-breakout detection must not use later information before it becomes available. | Tracked in P04 acceptance and issue inventory |
+| P04-S17-016 | Market trend requires benchmark evidence when market-wide conclusions are reported. | Tracked in P04 acceptance and issue inventory |
+| P04-S17-017 | Liquidity proxies must be distinguished from actual bid-ask and market depth. | Tracked in P04 acceptance and issue inventory |
+| P04-S17-018 | Historical pattern analysis requires sample counts and uncertainty. | Tracked in P04 acceptance and issue inventory |
+| P04-S17-019 | Abnormal activity is not proof of manipulation. | Tracked in P04 acceptance and issue inventory |
+| P04-S17-020 | Missing research inputs must not contribute positive evidence. | Tracked in P04 acceptance and issue inventory |
+| P04-S18-001 | Bullish. | Tracked in P04 acceptance and issue inventory |
+| P04-S18-002 | Bearish. | Tracked in P04 acceptance and issue inventory |
+| P04-S18-003 | Range-bound. | Tracked in P04 acceptance and issue inventory |
+| P04-S18-004 | High volatility. | Tracked in P04 acceptance and issue inventory |
+| P04-S18-005 | Low volatility. | Tracked in P04 acceptance and issue inventory |
+| P04-S18-006 | Strong momentum. | Tracked in P04 acceptance and issue inventory |
+| P04-S18-007 | Weak momentum. | Tracked in P04 acceptance and issue inventory |
+| P04-S18-008 | Abnormal stress. | Tracked in P04 acceptance and issue inventory |
+| P04-S18-009 | Insufficient evidence. | Tracked in P04 acceptance and issue inventory |
+| P04-S19-001 | Authorized dataset provenance. | Tracked in P04 acceptance and issue inventory |
+| P04-S19-002 | Verified instrument mapping. | Tracked in P04 acceptance and issue inventory |
+| P04-S19-003 | Applicable exchange calendar. | Tracked in P04 acceptance and issue inventory |
+| P04-S19-004 | Explicit adjustment convention. | Tracked in P04 acceptance and issue inventory |
+| P04-S19-005 | Sufficient historical coverage. | Tracked in P04 acceptance and issue inventory |
+| P04-S19-006 | Known or explicitly modeled observation availability. | Tracked in P04 acceptance and issue inventory |
+| P04-S19-007 | Verified or appropriately qualified transaction cost model. | Tracked in P04 acceptance and issue inventory |
+| P04-S19-008 | Immutable strategy version. | Tracked in P04 acceptance and issue inventory |
+| P04-S19-009 | Frozen risk policy. | Tracked in P04 acceptance and issue inventory |
+| P04-S19-010 | Frozen execution model. | Tracked in P04 acceptance and issue inventory |
+| P04-S20-001 | Stock splits. | Tracked in P04 acceptance and issue inventory |
+| P04-S20-002 | Bonus adjustments. | Tracked in P04 acceptance and issue inventory |
+| P04-S20-003 | Symbol changes. | Tracked in P04 acceptance and issue inventory |
+| P04-S20-004 | Listing and delisting dates. | Tracked in P04 acceptance and issue inventory |
+| P04-S20-005 | Suspension periods. | Tracked in P04 acceptance and issue inventory |
+| P04-S20-006 | Historical universe membership. | Tracked in P04 acceptance and issue inventory |
+| P04-S20-007 | Source dataset digest. | Tracked in P04 acceptance and issue inventory |
+| P04-S20-008 | Adjustment revision. | Tracked in P04 acceptance and issue inventory |
+| P04-S20-009 | Calculation version. | Tracked in P04 acceptance and issue inventory |
+| P04-S20-010 | Corporate action references. | Tracked in P04 acceptance and issue inventory |
+| P04-S20-011 | Effective-date policy. | Tracked in P04 acceptance and issue inventory |
+| P04-S20-012 | Publication-date policy. | Tracked in P04 acceptance and issue inventory |
+| P04-S21-001 | Brokerage. | Tracked in P04 acceptance and issue inventory |
+| P04-S21-002 | STT. | Tracked in P04 acceptance and issue inventory |
+| P04-S21-003 | Exchange transaction charges. | Tracked in P04 acceptance and issue inventory |
+| P04-S21-004 | SEBI charges. | Tracked in P04 acceptance and issue inventory |
+| P04-S21-005 | GST. | Tracked in P04 acceptance and issue inventory |
+| P04-S21-006 | Stamp duty. | Tracked in P04 acceptance and issue inventory |
+| P04-S21-007 | Spread. | Tracked in P04 acceptance and issue inventory |
+| P04-S21-008 | Slippage. | Tracked in P04 acceptance and issue inventory |
+| P04-S21-009 | Other relevant charges. | Tracked in P04 acceptance and issue inventory |
+| P04-S22-001 | Strategy parameters. | Tracked in P04 acceptance and issue inventory |
+| P04-S22-002 | Implementation hash. | Tracked in P04 acceptance and issue inventory |
+| P04-S22-003 | Required research engines. | Tracked in P04 acceptance and issue inventory |
+| P04-S22-004 | Applicable market regimes. | Tracked in P04 acceptance and issue inventory |
+| P04-S22-005 | Data requirements. | Tracked in P04 acceptance and issue inventory |
+| P04-S22-006 | Entry rules. | Tracked in P04 acceptance and issue inventory |
+| P04-S22-007 | Stop rules. | Tracked in P04 acceptance and issue inventory |
+| P04-S22-008 | Target rules. | Tracked in P04 acceptance and issue inventory |
+| P04-S22-009 | Invalidation. | Tracked in P04 acceptance and issue inventory |
+| P04-S22-010 | Holding period. | Tracked in P04 acceptance and issue inventory |
+| P04-S22-011 | Cost policy. | Tracked in P04 acceptance and issue inventory |
+| P04-S22-012 | Risk policy. | Tracked in P04 acceptance and issue inventory |
+| P04-S22-013 | Delayed publication. | Tracked in P04 acceptance and issue inventory |
+| P04-S22-014 | Unavailable opening prices. | Tracked in P04 acceptance and issue inventory |
+| P04-S22-015 | Entry after eligibility. | Tracked in P04 acceptance and issue inventory |
+| P04-S22-016 | Gap beyond entry range. | Tracked in P04 acceptance and issue inventory |
+| P04-S22-017 | Missing opening-range bars. | Tracked in P04 acceptance and issue inventory |
+| P04-S22-018 | Low volume. | Tracked in P04 acceptance and issue inventory |
+| P04-S22-019 | Gap through stop. | Tracked in P04 acceptance and issue inventory |
+| P04-S22-020 | Same-bar stop and target. | Tracked in P04 acceptance and issue inventory |
+| P04-S22-021 | Target equality. | Tracked in P04 acceptance and issue inventory |
+| P04-S22-022 | Unavailable exit observations. | Tracked in P04 acceptance and issue inventory |
+| P04-S22-023 | Session closing. | Tracked in P04 acceptance and issue inventory |
+| P04-S22-024 | Multiple consecutive losses. | Tracked in P04 acceptance and issue inventory |
+| P04-S23-001 | ST-02 VWAP Pullback. | Tracked in P04 acceptance and issue inventory |
+| P04-S23-002 | ST-03 VWAP Reclaim. | Tracked in P04 acceptance and issue inventory |
+| P04-S23-003 | ST-04 Trend Following. | Tracked in P04 acceptance and issue inventory |
+| P04-S23-004 | ST-06 Volume Confirmed Breakout. | Tracked in P04 acceptance and issue inventory |
+| P04-S23-005 | ST-08 Mean Reversion. | Tracked in P04 acceptance and issue inventory |
+| P04-S23-006 | A documented rationale. | Tracked in P04 acceptance and issue inventory |
+| P04-S23-007 | Applicable conditions. | Tracked in P04 acceptance and issue inventory |
+| P04-S23-008 | Causal entry logic. | Tracked in P04 acceptance and issue inventory |
+| P04-S23-009 | Independent risk integration. | Tracked in P04 acceptance and issue inventory |
+| P04-S23-010 | Exit logic. | Tracked in P04 acceptance and issue inventory |
+| P04-S23-011 | Negative cases. | Tracked in P04 acceptance and issue inventory |
+| P04-S23-012 | Reproducible tests. | Tracked in P04 acceptance and issue inventory |
+| P04-S24-001 | Double-spending virtual capital. | Tracked in P04 acceptance and issue inventory |
+| P04-S24-002 | Independent strategies each assuming full account capital. | Tracked in P04 acceptance and issue inventory |
+| P04-S24-003 | Duplicate exposure. | Tracked in P04 acceptance and issue inventory |
+| P04-S24-004 | Using future candidate quality for earlier decisions. | Tracked in P04 acceptance and issue inventory |
+| P04-S24-005 | Filling unavailable observations. | Tracked in P04 acceptance and issue inventory |
+| P04-S24-006 | Ignoring execution constraints. | Tracked in P04 acceptance and issue inventory |
+| P04-S24-007 | Shared cash. | Tracked in P04 acceptance and issue inventory |
+| P04-S24-008 | Cash reservations. | Tracked in P04 acceptance and issue inventory |
+| P04-S24-009 | Open positions. | Tracked in P04 acceptance and issue inventory |
+| P04-S24-010 | Position valuation. | Tracked in P04 acceptance and issue inventory |
+| P04-S24-011 | Risk budgets. | Tracked in P04 acceptance and issue inventory |
+| P04-S24-012 | Daily limits. | Tracked in P04 acceptance and issue inventory |
+| P04-S24-013 | Costs. | Tracked in P04 acceptance and issue inventory |
+| P04-S24-014 | Rejected candidates. | Tracked in P04 acceptance and issue inventory |
+| P04-S24-015 | Portfolio equity. | Tracked in P04 acceptance and issue inventory |
+| P04-S24-016 | Drawdown. | Tracked in P04 acceptance and issue inventory |
+| P04-S24-017 | Unresolved execution records. | Tracked in P04 acceptance and issue inventory |
+| P04-S25-001 | Training periods. | Tracked in P04 acceptance and issue inventory |
+| P04-S25-002 | Validation periods. | Tracked in P04 acceptance and issue inventory |
+| P04-S25-003 | Final holdout periods. | Tracked in P04 acceptance and issue inventory |
+| P04-S25-004 | Rolling or expanding walk-forward windows. | Tracked in P04 acceptance and issue inventory |
+| P04-S25-005 | Purging of overlapping outcome windows where necessary. | Tracked in P04 acceptance and issue inventory |
+| P04-S25-006 | Embargo where justified. | Tracked in P04 acceptance and issue inventory |
+| P04-S25-007 | Experiment lineage. | Tracked in P04 acceptance and issue inventory |
+| P04-S25-008 | Parameter versioning. | Tracked in P04 acceptance and issue inventory |
+| P04-S25-009 | Dataset revision tracking. | Tracked in P04 acceptance and issue inventory |
+| P04-S25-010 | Modify sealed partition dates. | Tracked in P04 acceptance and issue inventory |
+| P04-S25-011 | Substitute datasets. | Tracked in P04 acceptance and issue inventory |
+| P04-S25-012 | Tune parameters using the final holdout. | Tracked in P04 acceptance and issue inventory |
+| P04-S25-013 | Use future-fitted normalization. | Tracked in P04 acceptance and issue inventory |
+| P04-S25-014 | Include future universe membership. | Tracked in P04 acceptance and issue inventory |
+| P04-S25-015 | Mix overlapping training and evaluation outcomes. | Tracked in P04 acceptance and issue inventory |
+| P04-S26-001 | Gross P&L. | Tracked in P04 acceptance and issue inventory |
+| P04-S26-002 | Net P&L. | Tracked in P04 acceptance and issue inventory |
+| P04-S26-003 | Total trading costs. | Tracked in P04 acceptance and issue inventory |
+| P04-S26-004 | Winning trades. | Tracked in P04 acceptance and issue inventory |
+| P04-S26-005 | Losing trades. | Tracked in P04 acceptance and issue inventory |
+| P04-S26-006 | Neutral trades. | Tracked in P04 acceptance and issue inventory |
+| P04-S26-007 | Average net win. | Tracked in P04 acceptance and issue inventory |
+| P04-S26-008 | Average net loss. | Tracked in P04 acceptance and issue inventory |
+| P04-S26-009 | Net expectancy. | Tracked in P04 acceptance and issue inventory |
+| P04-S26-010 | Profit factor. | Tracked in P04 acceptance and issue inventory |
+| P04-S26-011 | Trade count. | Tracked in P04 acceptance and issue inventory |
+| P04-S26-012 | Maximum drawdown. | Tracked in P04 acceptance and issue inventory |
+| P04-S26-013 | Equity curve. | Tracked in P04 acceptance and issue inventory |
+| P04-S26-014 | Consecutive losses. | Tracked in P04 acceptance and issue inventory |
+| P04-S26-015 | Daily portfolio return. | Tracked in P04 acceptance and issue inventory |
+| P04-S26-016 | Turnover. | Tracked in P04 acceptance and issue inventory |
+| P04-S26-017 | Maximum adverse excursion. | Tracked in P04 acceptance and issue inventory |
+| P04-S26-018 | Maximum favorable excursion. | Tracked in P04 acceptance and issue inventory |
+| P04-S26-019 | Sharpe ratio. | Tracked in P04 acceptance and issue inventory |
+| P04-S26-020 | Sortino ratio. | Tracked in P04 acceptance and issue inventory |
+| P04-S26-021 | Confidence intervals. | Tracked in P04 acceptance and issue inventory |
+| P04-S26-022 | Suitable block-bootstrap analysis. | Tracked in P04 acceptance and issue inventory |
+| P04-S26-023 | Cost sensitivity. | Tracked in P04 acceptance and issue inventory |
+| P04-S26-024 | Slippage sensitivity. | Tracked in P04 acceptance and issue inventory |
+| P04-S26-025 | Parameter sensitivity. | Tracked in P04 acceptance and issue inventory |
+| P04-S26-026 | Market regime stability. | Tracked in P04 acceptance and issue inventory |
+| P04-S27-001 | Initial virtual reference capital: INR 50,000. | Tracked in P04 acceptance and issue inventory |
+| P04-S27-002 | Planned per-trade risk: 0.5%. | Tracked in P04 acceptance and issue inventory |
+| P04-S27-003 | Planned daily loss threshold: 1%. | Tracked in P04 acceptance and issue inventory |
+| P04-S27-004 | Maximum daily simulated entries: 3. | Tracked in P04 acceptance and issue inventory |
+| P04-S27-005 | Pause after two consecutive losses. | Tracked in P04 acceptance and issue inventory |
+| P04-S27-006 | Minimum planned net reward-to-risk ratio: 2:1. | Tracked in P04 acceptance and issue inventory |
+| P04-S27-007 | Preferred ratio: 3:1. | Tracked in P04 acceptance and issue inventory |
+| P04-S27-008 | No leverage. | Tracked in P04 acceptance and issue inventory |
+| P04-S27-009 | No averaging losing positions. | Tracked in P04 acceptance and issue inventory |
+| P04-S27-010 | No martingale. | Tracked in P04 acceptance and issue inventory |
+| P04-S27-011 | Long-only scope. | Tracked in P04 acceptance and issue inventory |
+| P04-S27-012 | No planned overnight intraday positions. | Tracked in P04 acceptance and issue inventory |
+| P04-S27-013 | Fee-aware sizing. | Tracked in P04 acceptance and issue inventory |
+| P04-S27-014 | Shared capital exposure. | Tracked in P04 acceptance and issue inventory |
+| P04-S27-015 | Cash reservation. | Tracked in P04 acceptance and issue inventory |
+| P04-S27-016 | Remaining risk budget. | Tracked in P04 acceptance and issue inventory |
+| P04-S27-017 | Existing position risk. | Tracked in P04 acceptance and issue inventory |
+| P04-S27-018 | Daily realized and relevant marked losses. | Tracked in P04 acceptance and issue inventory |
+| P04-S27-019 | Consecutive-loss state. | Tracked in P04 acceptance and issue inventory |
+| P04-S27-020 | Sector concentration when supported. | Tracked in P04 acceptance and issue inventory |
+| P04-S27-021 | Correlation restrictions when supported. | Tracked in P04 acceptance and issue inventory |
+| P04-S27-022 | Liquidity limits. | Tracked in P04 acceptance and issue inventory |
+| P04-S27-023 | Strategy suspension. | Tracked in P04 acceptance and issue inventory |
+| P04-S27-024 | Paper kill switch. | Tracked in P04 acceptance and issue inventory |
+| P04-S28-001 | G01 Source eligibility. | Tracked in P04 acceptance and issue inventory |
+| P04-S28-002 | G02 Instrument eligibility. | Tracked in P04 acceptance and issue inventory |
+| P04-S28-003 | G03 Session validity. | Tracked in P04 acceptance and issue inventory |
+| P04-S28-004 | G04 Candle completeness. | Tracked in P04 acceptance and issue inventory |
+| P04-S28-005 | G05 Market data freshness. | Tracked in P04 acceptance and issue inventory |
+| P04-S28-006 | G06 Research input sufficiency. | Tracked in P04 acceptance and issue inventory |
+| P04-S28-007 | G07 Strategy implementation. | Tracked in P04 acceptance and issue inventory |
+| P04-S28-008 | G08 Strategy validation. | Tracked in P04 acceptance and issue inventory |
+| P04-S28-009 | G09 Cost availability. | Tracked in P04 acceptance and issue inventory |
+| P04-S28-010 | G10 Position sizing. | Tracked in P04 acceptance and issue inventory |
+| P04-S28-011 | G11 Independent risk veto. | Tracked in P04 acceptance and issue inventory |
+| P04-S28-012 | G12 Decision expiry. | Tracked in P04 acceptance and issue inventory |
+| P04-S28-013 | G13 Evidence integrity. | Tracked in P04 acceptance and issue inventory |
+| P04-S28-014 | G14 Research-mode restriction. | Tracked in P04 acceptance and issue inventory |
+| P04-S28-015 | WATCH. | Tracked in P04 acceptance and issue inventory |
+| P04-S28-016 | RESEARCH CANDIDATE. | Tracked in P04 acceptance and issue inventory |
+| P04-S28-017 | HISTORICAL CANDIDATE. | Tracked in P04 acceptance and issue inventory |
+| P04-S28-018 | SIMULATION CANDIDATE. | Tracked in P04 acceptance and issue inventory |
+| P04-S28-019 | NO TRADE. | Tracked in P04 acceptance and issue inventory |
+| P04-S28-020 | INVALIDATED. | Tracked in P04 acceptance and issue inventory |
+| P04-S28-021 | EXPIRED. | Tracked in P04 acceptance and issue inventory |
+| P04-S29-001 | Data reliability. | Tracked in P04 acceptance and issue inventory |
+| P04-S29-002 | Research completeness. | Tracked in P04 acceptance and issue inventory |
+| P04-S29-003 | Strategy compatibility. | Tracked in P04 acceptance and issue inventory |
+| P04-S29-004 | Liquidity. | Tracked in P04 acceptance and issue inventory |
+| P04-S29-005 | Execution feasibility. | Tracked in P04 acceptance and issue inventory |
+| P04-S29-006 | Net planned reward. | Tracked in P04 acceptance and issue inventory |
+| P04-S29-007 | Risk. | Tracked in P04 acceptance and issue inventory |
+| P04-S29-008 | Historical validation strength. | Tracked in P04 acceptance and issue inventory |
+| P04-S29-009 | Statistical uncertainty. | Tracked in P04 acceptance and issue inventory |
+| P04-S30-001 | Paper account. | Tracked in P04 acceptance and issue inventory |
+| P04-S30-002 | Virtual order. | Tracked in P04 acceptance and issue inventory |
+| P04-S30-003 | Cash reservation. | Tracked in P04 acceptance and issue inventory |
+| P04-S30-004 | Virtual fill. | Tracked in P04 acceptance and issue inventory |
+| P04-S30-005 | Open position. | Tracked in P04 acceptance and issue inventory |
+| P04-S30-006 | Partial close. | Tracked in P04 acceptance and issue inventory |
+| P04-S30-007 | Closed position. | Tracked in P04 acceptance and issue inventory |
+| P04-S30-008 | Ledger event. | Tracked in P04 acceptance and issue inventory |
+| P04-S30-009 | Equity snapshot. | Tracked in P04 acceptance and issue inventory |
+| P04-S30-010 | Daily risk state. | Tracked in P04 acceptance and issue inventory |
+| P04-S30-011 | Entry eligibility. | Tracked in P04 acceptance and issue inventory |
+| P04-S30-012 | Partial fills. | Tracked in P04 acceptance and issue inventory |
+| P04-S30-013 | Reservation release. | Tracked in P04 acceptance and issue inventory |
+| P04-S30-014 | Stop-loss monitoring. | Tracked in P04 acceptance and issue inventory |
+| P04-S30-015 | Target monitoring. | Tracked in P04 acceptance and issue inventory |
+| P04-S30-016 | Trailing stop updates. | Tracked in P04 acceptance and issue inventory |
+| P04-S30-017 | Partial profit booking. | Tracked in P04 acceptance and issue inventory |
+| P04-S30-018 | Order expiry. | Tracked in P04 acceptance and issue inventory |
+| P04-S30-019 | Session closure. | Tracked in P04 acceptance and issue inventory |
+| P04-S30-020 | Unresolved positions. | Tracked in P04 acceptance and issue inventory |
+| P04-S31-001 | Cash conservation. | Tracked in P04 acceptance and issue inventory |
+| P04-S31-002 | Reservation conservation. | Tracked in P04 acceptance and issue inventory |
+| P04-S31-003 | Quantity conservation. | Tracked in P04 acceptance and issue inventory |
+| P04-S31-004 | Partial fills. | Tracked in P04 acceptance and issue inventory |
+| P04-S31-005 | Fee allocation. | Tracked in P04 acceptance and issue inventory |
+| P04-S31-006 | Duplicate fills. | Tracked in P04 acceptance and issue inventory |
+| P04-S31-007 | Duplicate reservation release. | Tracked in P04 acceptance and issue inventory |
+| P04-S31-008 | Insufficient funds. | Tracked in P04 acceptance and issue inventory |
+| P04-S31-009 | Capital-state mismatch. | Tracked in P04 acceptance and issue inventory |
+| P04-S31-010 | Concurrent entries. | Tracked in P04 acceptance and issue inventory |
+| P04-S31-011 | Concurrent closure. | Tracked in P04 acceptance and issue inventory |
+| P04-S31-012 | Transaction rollback. | Tracked in P04 acceptance and issue inventory |
+| P04-S31-013 | Restart recovery. | Tracked in P04 acceptance and issue inventory |
+| P04-S31-014 | Idempotent retry. | Tracked in P04 acceptance and issue inventory |
+| P04-S31-015 | Maximum supported monetary range. | Tracked in P04 acceptance and issue inventory |
+| P04-S32-001 | Queued. | Tracked in P04 acceptance and issue inventory |
+| P04-S32-002 | Claimed. | Tracked in P04 acceptance and issue inventory |
+| P04-S32-003 | Running. | Tracked in P04 acceptance and issue inventory |
+| P04-S32-004 | Retry scheduled. | Tracked in P04 acceptance and issue inventory |
+| P04-S32-005 | Completed. | Tracked in P04 acceptance and issue inventory |
+| P04-S32-006 | Failed. | Tracked in P04 acceptance and issue inventory |
+| P04-S32-007 | Cancelled. | Tracked in P04 acceptance and issue inventory |
+| P04-S32-008 | Interrupted. | Tracked in P04 acceptance and issue inventory |
+| P04-S32-009 | Worker ownership. | Tracked in P04 acceptance and issue inventory |
+| P04-S32-010 | Bounded lease or equivalent claim recovery. | Tracked in P04 acceptance and issue inventory |
+| P04-S32-011 | Checkpoints. | Tracked in P04 acceptance and issue inventory |
+| P04-S32-012 | Retry limits. | Tracked in P04 acceptance and issue inventory |
+| P04-S32-013 | Cancellation. | Tracked in P04 acceptance and issue inventory |
+| P04-S32-014 | Timeout handling. | Tracked in P04 acceptance and issue inventory |
+| P04-S32-015 | Duplicate prevention. | Tracked in P04 acceptance and issue inventory |
+| P04-S32-016 | Requester authorization. | Tracked in P04 acceptance and issue inventory |
+| P04-S32-017 | Company scope. | Tracked in P04 acceptance and issue inventory |
+| P04-S32-018 | Pre-market data preparation. | Tracked in P04 acceptance and issue inventory |
+| P04-S32-019 | Historical synchronization. | Tracked in P04 acceptance and issue inventory |
+| P04-S32-020 | Market-session research. | Tracked in P04 acceptance and issue inventory |
+| P04-S32-021 | Candidate monitoring. | Tracked in P04 acceptance and issue inventory |
+| P04-S32-022 | Paper simulation processing. | Tracked in P04 acceptance and issue inventory |
+| P04-S32-023 | Closing report. | Tracked in P04 acceptance and issue inventory |
+| P04-S32-024 | System maintenance. | Tracked in P04 acceptance and issue inventory |
+| P04-S33-001 | Golok Technology branding. | Tracked in P04 acceptance and issue inventory |
+| P04-S33-002 | Modern financial terminal appearance. | Tracked in P04 acceptance and issue inventory |
+| P04-S33-003 | Native Odoo 20 OWL 3. | Tracked in P04 acceptance and issue inventory |
+| P04-S33-004 | Compact professional typography. | Tracked in P04 acceptance and issue inventory |
+| P04-S33-005 | Clear navigation hierarchy. | Tracked in P04 acceptance and issue inventory |
+| P04-S33-006 | Responsive layouts. | Tracked in P04 acceptance and issue inventory |
+| P04-S33-007 | Light and dark compatibility. | Tracked in P04 acceptance and issue inventory |
+| P04-S33-008 | Accessible contrast. | Tracked in P04 acceptance and issue inventory |
+| P04-S33-009 | Efficient local chart rendering. | Tracked in P04 acceptance and issue inventory |
+| P04-S33-010 | No external CDN requirement. | Tracked in P04 acceptance and issue inventory |
+| P04-S33-011 | Clear timestamps and source labels. | Tracked in P04 acceptance and issue inventory |
+| P04-S33-012 | Excellent loading, empty and error states. | Tracked in P04 acceptance and issue inventory |
+| P04-S34-001 | Exchange session state. | Tracked in P04 acceptance and issue inventory |
+| P04-S34-002 | Provider authentication. | Tracked in P04 acceptance and issue inventory |
+| P04-S34-003 | Data access readiness. | Tracked in P04 acceptance and issue inventory |
+| P04-S34-004 | Last successful market observation. | Tracked in P04 acceptance and issue inventory |
+| P04-S34-005 | Data freshness. | Tracked in P04 acceptance and issue inventory |
+| P04-S34-006 | Eligible instrument count. | Tracked in P04 acceptance and issue inventory |
+| P04-S34-007 | Research coverage. | Tracked in P04 acceptance and issue inventory |
+| P04-S34-008 | Latest research run. | Tracked in P04 acceptance and issue inventory |
+| P04-S34-009 | Qualified and rejected candidates. | Tracked in P04 acceptance and issue inventory |
+| P04-S34-010 | Available benchmark data. | Tracked in P04 acceptance and issue inventory |
+| P04-S34-011 | Market regime where established. | Tracked in P04 acceptance and issue inventory |
+| P04-S35-001 | Instrument search. | Tracked in P04 acceptance and issue inventory |
+| P04-S35-002 | Exchange filters. | Tracked in P04 acceptance and issue inventory |
+| P04-S35-003 | Sector filters where available. | Tracked in P04 acceptance and issue inventory |
+| P04-S35-004 | Timeframe filters. | Tracked in P04 acceptance and issue inventory |
+| P04-S35-005 | Data quality filters. | Tracked in P04 acceptance and issue inventory |
+| P04-S35-006 | Research engine filters. | Tracked in P04 acceptance and issue inventory |
+| P04-S35-007 | Strategy filters. | Tracked in P04 acceptance and issue inventory |
+| P04-S35-008 | Eligibility filters. | Tracked in P04 acceptance and issue inventory |
+| P04-S35-009 | Server-side pagination. | Tracked in P04 acceptance and issue inventory |
+| P04-S35-010 | Sorting. | Tracked in P04 acceptance and issue inventory |
+| P04-S35-011 | Persistent research job progress. | Tracked in P04 acceptance and issue inventory |
+| P04-S35-012 | Symbol. | Tracked in P04 acceptance and issue inventory |
+| P04-S35-013 | Company or instrument name. | Tracked in P04 acceptance and issue inventory |
+| P04-S35-014 | Latest observation price. | Tracked in P04 acceptance and issue inventory |
+| P04-S35-015 | Observation timestamp. | Tracked in P04 acceptance and issue inventory |
+| P04-S35-016 | Data freshness. | Tracked in P04 acceptance and issue inventory |
+| P04-S35-017 | Technical trend. | Tracked in P04 acceptance and issue inventory |
+| P04-S35-018 | Momentum. | Tracked in P04 acceptance and issue inventory |
+| P04-S35-019 | Relative volume. | Tracked in P04 acceptance and issue inventory |
+| P04-S35-020 | Research status. | Tracked in P04 acceptance and issue inventory |
+| P04-S35-021 | Candidate state. | Tracked in P04 acceptance and issue inventory |
+| P04-S35-022 | Risk decision. | Tracked in P04 acceptance and issue inventory |
+| P04-S35-023 | Rejection reason. | Tracked in P04 acceptance and issue inventory |
+| P04-S36-001 | Instrument. | Tracked in P04 acceptance and issue inventory |
+| P04-S36-002 | Strategy. | Tracked in P04 acceptance and issue inventory |
+| P04-S36-003 | Candidate direction. | Tracked in P04 acceptance and issue inventory |
+| P04-S36-004 | Hypothetical entry range. | Tracked in P04 acceptance and issue inventory |
+| P04-S36-005 | Hypothetical stop loss. | Tracked in P04 acceptance and issue inventory |
+| P04-S36-006 | Hypothetical targets. | Tracked in P04 acceptance and issue inventory |
+| P04-S36-007 | Suggested virtual quantity. | Tracked in P04 acceptance and issue inventory |
+| P04-S36-008 | Required virtual capital. | Tracked in P04 acceptance and issue inventory |
+| P04-S36-009 | Estimated charges. | Tracked in P04 acceptance and issue inventory |
+| P04-S36-010 | Planned net reward. | Tracked in P04 acceptance and issue inventory |
+| P04-S36-011 | Planned downside. | Tracked in P04 acceptance and issue inventory |
+| P04-S36-012 | Reward-to-risk. | Tracked in P04 acceptance and issue inventory |
+| P04-S36-013 | Candidate expiry. | Tracked in P04 acceptance and issue inventory |
+| P04-S36-014 | Supporting evidence. | Tracked in P04 acceptance and issue inventory |
+| P04-S36-015 | Contradictory evidence. | Tracked in P04 acceptance and issue inventory |
+| P04-S36-016 | Validation status. | Tracked in P04 acceptance and issue inventory |
+| P04-S36-017 | Decision gate outcomes. | Tracked in P04 acceptance and issue inventory |
+| P04-S37-001 | Instrument selector. | Tracked in P04 acceptance and issue inventory |
+| P04-S37-002 | Date range. | Tracked in P04 acceptance and issue inventory |
+| P04-S37-003 | Supported timeframe selector. | Tracked in P04 acceptance and issue inventory |
+| P04-S37-004 | Candlestick chart. | Tracked in P04 acceptance and issue inventory |
+| P04-S37-005 | Volume bars. | Tracked in P04 acceptance and issue inventory |
+| P04-S37-006 | EMA and SMA overlays. | Tracked in P04 acceptance and issue inventory |
+| P04-S37-007 | VWAP overlay where available. | Tracked in P04 acceptance and issue inventory |
+| P04-S37-008 | Opening range levels. | Tracked in P04 acceptance and issue inventory |
+| P04-S37-009 | Support and resistance. | Tracked in P04 acceptance and issue inventory |
+| P04-S37-010 | Hypothetical entry, stop and target overlays for actual stored research candidates. | Tracked in P04 acceptance and issue inventory |
+| P04-S37-011 | Indicator values. | Tracked in P04 acceptance and issue inventory |
+| P04-S37-012 | Research findings. | Tracked in P04 acceptance and issue inventory |
+| P04-S37-013 | Data quality. | Tracked in P04 acceptance and issue inventory |
+| P04-S37-014 | Provenance. | Tracked in P04 acceptance and issue inventory |
+| P04-S37-015 | Calculation cutoff. | Tracked in P04 acceptance and issue inventory |
+| P04-S37-016 | Strategy evidence. | Tracked in P04 acceptance and issue inventory |
+| P04-S38-001 | Starting balance. | Tracked in P04 acceptance and issue inventory |
+| P04-S38-002 | Available cash. | Tracked in P04 acceptance and issue inventory |
+| P04-S38-003 | Reserved cash. | Tracked in P04 acceptance and issue inventory |
+| P04-S38-004 | Open positions. | Tracked in P04 acceptance and issue inventory |
+| P04-S38-005 | Closed positions. | Tracked in P04 acceptance and issue inventory |
+| P04-S38-006 | Realized P&L. | Tracked in P04 acceptance and issue inventory |
+| P04-S38-007 | Unrealized P&L where marks are eligible. | Tracked in P04 acceptance and issue inventory |
+| P04-S38-008 | Equity. | Tracked in P04 acceptance and issue inventory |
+| P04-S38-009 | Costs. | Tracked in P04 acceptance and issue inventory |
+| P04-S38-010 | Drawdown. | Tracked in P04 acceptance and issue inventory |
+| P04-S38-011 | Trading journal. | Tracked in P04 acceptance and issue inventory |
+| P04-S39-001 | Strategy versions. | Tracked in P04 acceptance and issue inventory |
+| P04-S39-002 | Implemented strategies. | Tracked in P04 acceptance and issue inventory |
+| P04-S39-003 | Experiment status. | Tracked in P04 acceptance and issue inventory |
+| P04-S39-004 | Historical replay results. | Tracked in P04 acceptance and issue inventory |
+| P04-S39-005 | Training and validation partitions. | Tracked in P04 acceptance and issue inventory |
+| P04-S39-006 | Final holdout status. | Tracked in P04 acceptance and issue inventory |
+| P04-S39-007 | Walk-forward results. | Tracked in P04 acceptance and issue inventory |
+| P04-S39-008 | Net expectancy. | Tracked in P04 acceptance and issue inventory |
+| P04-S39-009 | Profit factor. | Tracked in P04 acceptance and issue inventory |
+| P04-S39-010 | Drawdown. | Tracked in P04 acceptance and issue inventory |
+| P04-S39-011 | Sample sizes. | Tracked in P04 acceptance and issue inventory |
+| P04-S39-012 | Cost assumptions. | Tracked in P04 acceptance and issue inventory |
+| P04-S39-013 | Financial validation limitations. | Tracked in P04 acceptance and issue inventory |
+| P04-S40-001 | Virtual capital. | Tracked in P04 acceptance and issue inventory |
+| P04-S40-002 | Planned per-trade risk. | Tracked in P04 acceptance and issue inventory |
+| P04-S40-003 | Daily risk budget. | Tracked in P04 acceptance and issue inventory |
+| P04-S40-004 | Remaining risk allowance. | Tracked in P04 acceptance and issue inventory |
+| P04-S40-005 | Current reservations. | Tracked in P04 acceptance and issue inventory |
+| P04-S40-006 | Open exposure. | Tracked in P04 acceptance and issue inventory |
+| P04-S40-007 | Consecutive losses. | Tracked in P04 acceptance and issue inventory |
+| P04-S40-008 | Maximum daily entries. | Tracked in P04 acceptance and issue inventory |
+| P04-S40-009 | Risk suspension. | Tracked in P04 acceptance and issue inventory |
+| P04-S40-010 | Paper kill switch. | Tracked in P04 acceptance and issue inventory |
+| P04-S40-011 | Rejection history. | Tracked in P04 acceptance and issue inventory |
+| P04-S41-001 | SmartAPI configuration state. | Tracked in P04 acceptance and issue inventory |
+| P04-S41-002 | Authentication status. | Tracked in P04 acceptance and issue inventory |
+| P04-S41-003 | Historical retrieval status. | Tracked in P04 acceptance and issue inventory |
+| P04-S41-004 | Quote status. | Tracked in P04 acceptance and issue inventory |
+| P04-S41-005 | Streaming status. | Tracked in P04 acceptance and issue inventory |
+| P04-S41-006 | Verified market freshness. | Tracked in P04 acceptance and issue inventory |
+| P04-S41-007 | Provider request limits. | Tracked in P04 acceptance and issue inventory |
+| P04-S41-008 | Synchronization history. | Tracked in P04 acceptance and issue inventory |
+| P04-S41-009 | Job queue. | Tracked in P04 acceptance and issue inventory |
+| P04-S41-010 | Worker state. | Tracked in P04 acceptance and issue inventory |
+| P04-S41-011 | CPU usage. | Tracked in P04 acceptance and issue inventory |
+| P04-S41-012 | Available RAM. | Tracked in P04 acceptance and issue inventory |
+| P04-S41-013 | Research cycle duration. | Tracked in P04 acceptance and issue inventory |
+| P04-S41-014 | Errors. | Tracked in P04 acceptance and issue inventory |
+| P04-S41-015 | Recovery guidance. | Tracked in P04 acceptance and issue inventory |
+| P04-S42-001 | Session date. | Tracked in P04 acceptance and issue inventory |
+| P04-S42-002 | Data coverage. | Tracked in P04 acceptance and issue inventory |
+| P04-S42-003 | Instruments scanned. | Tracked in P04 acceptance and issue inventory |
+| P04-S42-004 | Strategies evaluated. | Tracked in P04 acceptance and issue inventory |
+| P04-S42-005 | Qualified candidates. | Tracked in P04 acceptance and issue inventory |
+| P04-S42-006 | Rejected candidates. | Tracked in P04 acceptance and issue inventory |
+| P04-S42-007 | Rejection reasons. | Tracked in P04 acceptance and issue inventory |
+| P04-S42-008 | Market regime. | Tracked in P04 acceptance and issue inventory |
+| P04-S42-009 | Data quality failures. | Tracked in P04 acceptance and issue inventory |
+| P04-S42-010 | Virtual trading performance where available. | Tracked in P04 acceptance and issue inventory |
+| P04-S42-011 | Risk suspensions. | Tracked in P04 acceptance and issue inventory |
+| P04-S42-012 | Provider failures. | Tracked in P04 acceptance and issue inventory |
+| P04-S42-013 | Research limitations. | Tracked in P04 acceptance and issue inventory |
+| P04-S43-001 | 50 synthetic instruments. | Tracked in P04 acceptance and issue inventory |
+| P04-S43-002 | 3,750 candles. | Tracked in P04 acceptance and issue inventory |
+| P04-S43-003 | 361 SQL statements. | Tracked in P04 acceptance and issue inventory |
+| P04-S43-004 | 4.977 seconds total wall time. | Tracked in P04 acceptance and issue inventory |
+| P04-S43-005 | 2.335 seconds ingestion. | Tracked in P04 acceptance and issue inventory |
+| P04-S43-006 | 1.464 seconds research. | Tracked in P04 acceptance and issue inventory |
+| P04-S43-007 | 138.9 MiB sampled Odoo shell peak RSS. | Tracked in P04 acceptance and issue inventory |
+| P04-S43-008 | 3.53 GiB available system memory at start. | Tracked in P04 acceptance and issue inventory |
+| P04-S43-009 | 10 instruments. | Tracked in P04 acceptance and issue inventory |
+| P04-S43-010 | 50 instruments. | Tracked in P04 acceptance and issue inventory |
+| P04-S43-011 | 100 instruments. | Tracked in P04 acceptance and issue inventory |
+| P04-S43-012 | 250 instruments where safe. | Tracked in P04 acceptance and issue inventory |
+| P04-S43-013 | 500 instruments only after successful smaller workloads. | Tracked in P04 acceptance and issue inventory |
+| P04-S43-014 | Provider acquisition latency. | Tracked in P04 acceptance and issue inventory |
+| P04-S43-015 | Database ingestion. | Tracked in P04 acceptance and issue inventory |
+| P04-S43-016 | Indicator calculations. | Tracked in P04 acceptance and issue inventory |
+| P04-S43-017 | Research engines. | Tracked in P04 acceptance and issue inventory |
+| P04-S43-018 | Candidate evaluation. | Tracked in P04 acceptance and issue inventory |
+| P04-S43-019 | Risk processing. | Tracked in P04 acceptance and issue inventory |
+| P04-S43-020 | Dashboard loading. | Tracked in P04 acceptance and issue inventory |
+| P04-S43-021 | Total cycle time. | Tracked in P04 acceptance and issue inventory |
+| P04-S43-022 | Process memory. | Tracked in P04 acceptance and issue inventory |
+| P04-S43-023 | Available system memory. | Tracked in P04 acceptance and issue inventory |
+| P04-S43-024 | CPU utilization. | Tracked in P04 acceptance and issue inventory |
+| P04-S43-025 | SQL statement count. | Tracked in P04 acceptance and issue inventory |
+| P04-S44-001 | Viewer. | Tracked in P04 acceptance and issue inventory |
+| P04-S44-002 | Analyst. | Tracked in P04 acceptance and issue inventory |
+| P04-S44-003 | Risk Manager. | Tracked in P04 acceptance and issue inventory |
+| P04-S44-004 | System Administrator. | Tracked in P04 acceptance and issue inventory |
+| P04-S44-005 | All `sudo()` usage. | Tracked in P04 acceptance and issue inventory |
+| P04-S44-006 | All raw SQL. | Tracked in P04 acceptance and issue inventory |
+| P04-S44-007 | Provider credentials. | Tracked in P04 acceptance and issue inventory |
+| P04-S44-008 | Cross-company relations. | Tracked in P04 acceptance and issue inventory |
+| P04-S44-009 | Dataset import permissions. | Tracked in P04 acceptance and issue inventory |
+| P04-S44-010 | Strategy approval. | Tracked in P04 acceptance and issue inventory |
+| P04-S44-011 | Risk configuration. | Tracked in P04 acceptance and issue inventory |
+| P04-S44-012 | Paper ledger mutation. | Tracked in P04 acceptance and issue inventory |
+| P04-S44-013 | Worker execution. | Tracked in P04 acceptance and issue inventory |
+| P04-S44-014 | Dashboard RPC access. | Tracked in P04 acceptance and issue inventory |
+| P04-S44-015 | Source immutability. | Tracked in P04 acceptance and issue inventory |
+| P04-S44-016 | Arbitrary endpoint attempts. | Tracked in P04 acceptance and issue inventory |
+| P04-S44-017 | Secret leakage. | Tracked in P04 acceptance and issue inventory |
+| P04-S46-001 | Open market command center. | Tracked in P04 acceptance and issue inventory |
+| P04-S46-002 | Open provider setup. | Tracked in P04 acceptance and issue inventory |
+| P04-S46-003 | Run permitted diagnostics. | Tracked in P04 acceptance and issue inventory |
+| P04-S46-004 | Synchronize a labeled fixture dataset. | Tracked in P04 acceptance and issue inventory |
+| P04-S46-005 | Open the scanner. | Tracked in P04 acceptance and issue inventory |
+| P04-S46-006 | Submit a research job. | Tracked in P04 acceptance and issue inventory |
+| P04-S46-007 | Observe completion. | Tracked in P04 acceptance and issue inventory |
+| P04-S46-008 | Inspect instrument research. | Tracked in P04 acceptance and issue inventory |
+| P04-S46-009 | Inspect decision gate outcomes. | Tracked in P04 acceptance and issue inventory |
+| P04-S46-010 | Run a historical experiment. | Tracked in P04 acceptance and issue inventory |
+| P04-S46-011 | Inspect actual financial simulation results. | Tracked in P04 acceptance and issue inventory |
+| P04-S46-012 | Reconcile virtual portfolio metrics. | Tracked in P04 acceptance and issue inventory |
+| P04-S46-013 | Inspect risk suspension. | Tracked in P04 acceptance and issue inventory |
+| P04-S46-014 | Verify filters and drill-downs. | Tracked in P04 acceptance and issue inventory |
+| P04-S46-015 | Verify desktop and mobile layouts. | Tracked in P04 acceptance and issue inventory |
+| P04-S46-016 | Verify available theme modes. | Tracked in P04 acceptance and issue inventory |
+| P04-S46-017 | Verify failure recovery. | Tracked in P04 acceptance and issue inventory |
+| P04-S47-001 | Implementation status. | Tracked in P04 acceptance and issue inventory |
+| P04-S47-002 | Software verification. | Tracked in P04 acceptance and issue inventory |
+| P04-S47-003 | External integration verification. | Tracked in P04 acceptance and issue inventory |
+| P04-S47-004 | Financial validation. | Tracked in P04 acceptance and issue inventory |
+| P04-S47-005 | Prospective paper validation. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-001 | P01–P04 comparison. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-002 | Actual environment. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-003 | Source checkpoint. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-004 | Implementation delta. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-005 | Review finding resolutions. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-006 | Requirements traceability. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-007 | RE-01 through RE-25 inventory. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-008 | ST-01 through ST-20 inventory. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-009 | Indicator verification matrix. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-010 | SmartAPI integration state. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-011 | Actual historical dataset status. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-012 | Financial validation results. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-013 | Virtual ledger reconciliation. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-014 | Portfolio risk verification. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-015 | Worker concurrency and recovery. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-016 | Dashboard inventory. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-017 | Complete test execution inventory. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-018 | Security findings. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-019 | Performance measurements. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-020 | All unresolved blockers. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-021 | INV-01 through INV-30. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-022 | AC-001 through AC-050. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-023 | P02-AC-001 through P02-AC-040. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-024 | P03-AC-001 through P03-AC-070. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-025 | P04-AC-001 through P04-AC-075. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-026 | Exact command. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-027 | Exit code. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-028 | Test identity. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-029 | Expected result. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-030 | Actual result. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-031 | Execution duration where measured. | Tracked in P04 acceptance and issue inventory |
+| P04-S48-032 | Evidence path. | Tracked in P04 acceptance and issue inventory |
+| P04-S49-001 | What is missing. | Tracked in P04 acceptance and issue inventory |
+| P04-S49-002 | Why it is required. | Tracked in P04 acceptance and issue inventory |
+| P04-S49-003 | Whether it prevents development or only real verification. | Tracked in P04 acceptance and issue inventory |
+| P04-S49-004 | Exact local configuration steps. | Tracked in P04 acceptance and issue inventory |
+| P04-S49-005 | Applicable official documentation. | Tracked in P04 acceptance and issue inventory |
+| P04-S49-006 | How to perform a safe read-only test. | Tracked in P04 acceptance and issue inventory |
+| P04-S49-007 | What sanitized output demonstrates success. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-001 | Baseline logs. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-002 | Unit test logs. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-003 | Odoo installation logs. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-004 | Upgrade logs. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-005 | Browser logs. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-006 | Browser screenshots. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-007 | Provider fixture results. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-008 | Authorized external verification results if available. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-009 | Indicator reference calculations. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-010 | Historical experiment evidence. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-011 | Statistical validation evidence. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-012 | Paper ledger reconciliation. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-013 | Concurrency results. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-014 | Performance measurements. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-015 | Security results. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-016 | Exact execution commands. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-017 | Source hash manifest. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-018 | Complete sanitized runtime source. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-019 | Tests. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-020 | Test fixtures. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-021 | Scripts. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-022 | Manifest. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-023 | Security configuration. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-024 | Views. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-025 | Frontend assets. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-026 | Development report. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-027 | Requirements traceability. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-028 | Governing documentation. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-029 | Owner action report. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-030 | Actual sanitized evidence. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-031 | Evidence hash manifest. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-032 | Source hash manifest. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-033 | API keys. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-034 | Passwords. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-035 | PINs. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-036 | TOTP codes and secrets. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-037 | Authentication tokens. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-038 | Private account details. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-039 | Production databases. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-040 | Unauthorized market datasets. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-041 | Virtual environments. | Tracked in P04 acceptance and issue inventory |
+| P04-S50-042 | Sensitive runtime files. | Tracked in P04 acceptance and issue inventory |
+| P04-S51-001 | DEVELOPMENT INCOMPLETE. | Tracked in P04 acceptance and issue inventory |
+| P04-S51-002 | FOUNDATION VERIFIED. | Tracked in P04 acceptance and issue inventory |
+| P04-S51-003 | HISTORICAL RESEARCH READY. | Tracked in P04 acceptance and issue inventory |
+| P04-S51-004 | PAPER TRADING TEST READY. | Tracked in P04 acceptance and issue inventory |
+| P04-S51-005 | VERIFIED RESEARCH BETA. | Tracked in P04 acceptance and issue inventory |
+| P04-S51-006 | VALIDATED RESEARCH RELEASE READY. | Tracked in P04 acceptance and issue inventory |
