@@ -12,7 +12,7 @@ class PortfolioWizard(models.TransientModel):
     _name = "golok.lab.portfolio.wizard"
     _description = "Run a synthetic portfolio replay"
 
-    dataset_ids = fields.Many2many("golok.lab.dataset", string="Synthetic Datasets", required=True)
+    dataset_ids = fields.Many2many("golok.lab.dataset", string="Datasets", required=True)
     tariff_id = fields.Many2one("golok.lab.tariff", required=True)
     starts = fields.Date(required=True)
     ends = fields.Date(required=True)
@@ -49,13 +49,19 @@ class PortfolioWizard(models.TransientModel):
                 "views": [(False, "form")], "target": "current"}
 
     def action_run_timing_fixture(self):
+        return self._run_alternate_replay(contract_fixture=True)
+
+    def action_run_authorized_history(self):
+        return self._run_alternate_replay(historical=True)
+
+    def _run_alternate_replay(self, **mode):
         self.ensure_one()
         self.check_access("read")
         record = self.env["golok.lab.portfolio"]._run_request([{
             "dataset_ids": self.dataset_ids.ids, "tariff_id": self.tariff_id.id, "starts": self.starts,
             "ends": self.ends, "capital": self.capital, "tick": self.tick, "strategy": self.strategy,
             "target_policy": self.target_policy,
-        }], contract_fixture=True)
+        }], **mode)
         return {"type": "ir.actions.act_window", "res_model": record._name, "res_id": record.id,
                 "views": [(False, "form")], "target": "current"}
 

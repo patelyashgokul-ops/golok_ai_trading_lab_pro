@@ -92,8 +92,9 @@ class ResearchRun(models.Model):
         data["experiments"] = self.env["golok.lab.experiment"].search_count(domain)
         data["paper_accounts"] = self.env["golok.lab.paper.account"].search_count(domain)
         data["successful_syncs"] = self.env["golok.lab.sync"].search_count([*domain, ("state", "=", "complete")])
-        data["portfolios"] = self.env["golok.lab.portfolio"].search_count(domain)
-        latest = self.env["golok.lab.portfolio"].search(domain, limit=1)
+        portfolio_domain = [*domain, ("historical_authorized", "=", False)]
+        data["portfolios"] = self.env["golok.lab.portfolio"].search_count(portfolio_domain)
+        latest = self.env["golok.lab.portfolio"].search(portfolio_domain, limit=1)
         data["last_portfolio"] = False
         if latest:
             result = json.loads(latest.result)

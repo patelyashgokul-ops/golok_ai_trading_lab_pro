@@ -33,7 +33,8 @@ class Series:
 def _events(series, starts, ends, seconds, *, historical=False):
     events = []
     for asset in series:
-        if (historical and (asset.origin != "historical_contract" or asset.quarantined)
+        if (historical and (asset.origin != ("historical_contract" if historical == "fixture" else "authorized_historical")
+                            or asset.quarantined)
                 or not historical and not eligibility.evaluate(
                     asset.origin, "synthetic_replay", quarantined=asset.quarantined)[1]):
             raise ValueError("Synthetic portfolio source eligibility failed.")
@@ -87,7 +88,8 @@ def _replay(series, starts, ends, seconds, codes, costs, *, capital, portfolio_p
                 portfolio_policy.daily_entries, portfolio_policy.consecutive_losses, portfolio_policy.max_positions))):
         raise ValueError("Invalid portfolio risk policy.")
     events = _events(series, starts, ends, seconds, historical=historical)
-    mode = "historical_contract_replay" if historical else "synthetic_replay"
+    mode = {"fixture": "historical_contract_replay", "authorized": "authorized_historical_replay"}.get(
+        historical, "synthetic_replay")
     assets = {asset.key: asset for asset in series}
     cash = capital
     day = None
@@ -128,7 +130,8 @@ def _replay(series, starts, ends, seconds, codes, costs, *, capital, portfolio_p
         )
         source, eligible = eligibility.evaluate(asset.origin, "synthetic_replay", quarantined=asset.quarantined)
         if historical:
-            source, eligible = "VERIFIED_CONTRACT_FIXTURE", asset.origin == "historical_contract" and not asset.quarantined
+            source = "VERIFIED_CONTRACT_FIXTURE" if historical == "fixture" else "AUTHORIZED_HISTORICAL_INPUT"
+            eligible = not asset.quarantined
         history = histories[key]
         checks = {
             "G01": (source, "eligible synthetic source", eligible),
@@ -255,7 +258,8 @@ def _replay(series, starts, ends, seconds, codes, costs, *, capital, portfolio_p
         drawdown = max(drawdown, peak - row["cash"])
     net = cash - capital
     return {
-        "scope": "HISTORICAL_CONTRACT_FIXTURE_ONLY" if historical else "SYNTHETIC_SOFTWARE_ONLY",
+        "scope": {"fixture": "HISTORICAL_CONTRACT_FIXTURE_ONLY", "authorized": "AUTHORIZED_HISTORICAL_SIMULATION"}.get(
+            historical, "SYNTHETIC_SOFTWARE_ONLY"),
         "initial_cash": capital, "ending_cash": cash,
         "policy": asdict(portfolio_policy), "trades": trades, "ledger": ledger, "decisions": decisions, "days": daily,
         "suspended": suspended, "net": net, "gross": sum((t["gross"] for t in trades), Decimal(0)),

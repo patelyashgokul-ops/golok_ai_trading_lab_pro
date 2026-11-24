@@ -7,9 +7,11 @@ from pathlib import Path
 
 from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, ValidationError
+from odoo.fields import Domain
 
 from ..services import (backtest, calendar, decision, eligibility, market_data, portfolio, replay_contract,
                         simulation, strategies, targets)
+from .lab import _input_digest
 
 
 def digest(value):
@@ -42,6 +44,7 @@ class Portfolio(models.Model):
     specification = fields.Text(required=True)
     result = fields.Text(required=True)
     contract_fixture = fields.Boolean(readonly=True)
+    historical_authorized = fields.Boolean(readonly=True)
 
     _fingerprint = models.Constraint("UNIQUE(company_id,fingerprint)", "This portfolio already exists.")
 
@@ -49,7 +52,22 @@ class Portfolio(models.Model):
     def create(self, vals_list):
         return self._run_request(vals_list)
 
-    def _run_request(self, vals_list, *, training=None, seal=None, contract_fixture=False):
+    @api.model
+    def _access_domain(self, operation):
+        domain = super()._access_domain(operation)
+        if operation == "read":
+            bound = (Domain("protected_read", "=", True) & Domain("source_review_id.backtest", "=", True))
+            domain &= (Domain("historical_authorized", "=", False)
+                       | (Domain("dataset_ids", "any!", Domain.TRUE) & Domain("dataset_ids", "not any!", ~bound)))
+        return domain
+
+    def _export_rows(self, fields, *, _is_toplevel_call=True):
+        self.check_access("read")
+        if any(record.historical_authorized for record in self):
+            raise AccessError(_("Export of authorized historical replay results is disabled."))
+        return super()._export_rows(fields, _is_toplevel_call=_is_toplevel_call)
+
+    def _run_request(self, vals_list, *, training=None, seal=None, contract_fixture=False, historical=False):
         self.check_access("create")
         allowed = {"dataset_ids", "tariff_id", "starts", "ends", "capital", "tick", "strategy"}
         if len(vals_list) != 1 or not allowed <= set(vals_list[0]) <= allowed | {"target_policy"}:
@@ -69,11 +87,14 @@ class Portfolio(models.Model):
         tariff = self.env["golok.lab.tariff"].search([("id", "=", tariff_id), ("company_id", "=", company.id)])
         if len(datasets) != len(identifiers) or not tariff:
             raise AccessError(_("Portfolio inputs are unavailable for the active company."))
-        if (len(datasets.instrument_id) != len(datasets) or len(set(datasets.mapped("interval"))) != 1
-                or any(dataset.integrity_conflict or not dataset.calendar_id or not eligibility.evaluate(
-                    dataset.origin, "synthetic_replay", quarantined=dataset.quarantined)[1]
-                    for dataset in datasets)):
-            raise ValidationError(_("Select calendar-bound eligible synthetic datasets with distinct instruments and one interval."))
+        if len(datasets.instrument_id) != len(datasets) or len(set(datasets.mapped("interval"))) != 1:
+            raise ValidationError(_("Select distinct instruments and one interval."))
+        if historical:
+            if contract_fixture or training is not None or seal is not None:
+                raise AccessError(_("Historical replay cannot mix with fixture or holdout execution."))
+        elif any(dataset.integrity_conflict or not dataset.calendar_id or not eligibility.evaluate(
+                dataset.origin, "synthetic_replay", quarantined=dataset.quarantined)[1] for dataset in datasets):
+            raise ValidationError(_("Select calendar-bound eligible synthetic datasets."))
         if contract_fixture and (training is not None or seal is not None or any(
                 not dataset.fixture_version or not dataset.fixture_digest
                 or dataset.calendar_id.verification != "fixture" for dataset in datasets)):
@@ -109,6 +130,12 @@ class Portfolio(models.Model):
         assets, inputs, provenance = [], [], {}
         remaining = portfolio.MAX_BARS
         for dataset in datasets:
+            if historical:
+                review = dataset._historical_replay_review()
+                all_bars = dataset._historical_replay_bars()
+                if not dataset.replay_publication_digest or _input_digest(
+                        all_bars, dataset.calendar_id) != dataset.replay_publication_digest:
+                    raise AccessError(_("Historical publication evidence is absent or the reviewed dataset changed."))
             candle_model = self.env["golok.lab.candle"]
             if seal is not None:
                 candle_model = candle_model.sudo()
@@ -124,7 +151,12 @@ class Portfolio(models.Model):
             bars = tuple(candle._to_bar() for candle in candles)
             key = f"{instrument.exchange}:{instrument.symbol}"
             sessions = revision._sessions()
-            if contract_fixture:
+            if historical:
+                asset = portfolio.Series(key, instrument.exchange, asset_tick, bars, sessions, origin="authorized_historical")
+                provenance[key] = replay_contract.Provenance(
+                    "historical_intraday", dataset.interval, replay_contract.fingerprint(asset), "verified_publication",
+                    True, True, True, True)
+            elif contract_fixture:
                 if not bars:
                     raise ValidationError(_("The fixture has no visible observations in the selected window."))
                 bars = tuple(replace(bar, available_at=min(
@@ -140,6 +172,9 @@ class Portfolio(models.Model):
             inputs.append({"asset": key, "dataset": dataset.id, "source": dataset.source,
                            "calendar": revision.id, "calendar_digest": digest(revision.schedule),
                            "tick": asset_tick, "bars": len(bars), "input_digest": digest([asdict(bar) for bar in bars])})
+            if historical:
+                inputs[-1].update(review=review.id, verified_dataset_digest=dataset.replay_publication_digest,
+                                  mapping=dataset.mapping_id.id)
         costs = tariff._schedule()
         specification = {
             "company": company.id, "scope": "SYNTHETIC_SOFTWARE_ONLY", "starts": starts, "ends": ends,
@@ -150,14 +185,16 @@ class Portfolio(models.Model):
             "code_digests": {module.__name__.rsplit(".", 1)[-1]: hashlib.sha256(Path(module.__file__).read_bytes()).hexdigest()
                              for module in (portfolio, strategies, decision, eligibility, simulation, calendar, targets)},
         }
-        if contract_fixture:
+        if contract_fixture or historical:
+            specification["code_digests"]["replay_contract"] = hashlib.sha256(Path(replay_contract.__file__).read_bytes()).hexdigest()
+            specification["provenance"] = {key: asdict(value) for key, value in provenance.items()}
+        if historical:
+            specification.update(scope="AUTHORIZED_HISTORICAL_SIMULATION", publication_model="Reviewed per-candle publication")
+        elif contract_fixture:
             for item, dataset in zip(inputs, datasets):
                 item["generated_fixture_digest"] = dataset.fixture_digest
             specification.update(scope="HISTORICAL_CONTRACT_FIXTURE_ONLY",
-                                 publication_model="Authored fixture close plus one minute, bounded by session close",
-                                 provenance={key: asdict(value) for key, value in provenance.items()})
-            specification["code_digests"]["replay_contract"] = hashlib.sha256(
-                Path(replay_contract.__file__).read_bytes()).hexdigest()
+                                 publication_model="Authored fixture close plus one minute, bounded by session close")
         fingerprint = digest(specification)
         if training is not None:
             try:
@@ -173,7 +210,10 @@ class Portfolio(models.Model):
         if seal is not None and (not reserved or seal.fingerprint != fingerprint or seal.result_id):
             raise ValidationError(_("Holdout consumed or frozen inputs changed."))
         try:
-            if contract_fixture:
+            if historical:
+                output = replay_contract.replay_historical(assets, provenance, starts, ends, seconds, codes, costs,
+                                                           capital=capital, target_policy=target_policy)
+            elif contract_fixture:
                 output = replay_contract.replay_fixture(assets, provenance, starts, ends, seconds, codes, costs,
                                                         capital=capital, target_policy=target_policy)
             else:
@@ -188,6 +228,7 @@ class Portfolio(models.Model):
             **vals, "dataset_ids": [fields.Command.set(datasets.ids)], "company_id": company.id,
             "fingerprint": fingerprint, "target_policy": target_policy, "trade_count": len(output["trades"]),
             "contract_fixture": contract_fixture,
+            "historical_authorized": historical,
             "decision_count": len(output["decisions"]), "suspended": output["suspended"],
             "specification": json.dumps(specification, default=str, indent=2, sort_keys=True),
             "result": json.dumps(output, default=str, indent=2, sort_keys=True),

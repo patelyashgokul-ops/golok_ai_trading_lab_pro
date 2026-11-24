@@ -153,6 +153,10 @@ class Dataset(models.Model):
     fixture_digest = fields.Char(readonly=True)
     daily_revision_id = fields.Many2one("golok.lab.daily.import", readonly=True, ondelete="restrict")
     daily_revision_digest = fields.Char(readonly=True)
+    replay_publication_digest = fields.Char(readonly=True)
+    replay_publication_evidence = fields.Char(readonly=True, groups="golok_ai_trading_lab_pro.group_admin")
+    replay_reviewed_by = fields.Many2one("res.users", readonly=True, ondelete="restrict",
+                                        groups="golok_ai_trading_lab_pro.group_admin")
 
     _identity = models.Constraint(
         "UNIQUE(company_id, instrument_id, source, origin, interval)", "This source and interval are already registered."
@@ -169,7 +173,8 @@ class Dataset(models.Model):
             for key, value in defaults.items():
                 vals.setdefault(key, value)
             if not self.env.su and {"source_review_id", "publication_basis", "fixture_version",
-                                    "fixture_seed", "fixture_digest", "daily_revision_id", "daily_revision_digest"} & vals.keys():
+                                    "fixture_seed", "fixture_digest", "daily_revision_id", "daily_revision_digest",
+                                    "replay_publication_digest", "replay_publication_evidence", "replay_reviewed_by"} & vals.keys():
                 raise AccessError(_("Lineage is assigned by the server."))
             if (vals.get("source") or "").startswith("P08 correction ") and not vals.get("daily_revision_id"):
                 raise AccessError(_("The source label is reserved for audited corrections."))
@@ -182,7 +187,9 @@ class Dataset(models.Model):
         return super(Dataset, self.with_context(default_quarantined=False, default_integrity_conflict=False, default_source_review_id=False,
                                                 default_publication_basis=False, default_fixture_version=False,
                                                 default_fixture_seed=0, default_fixture_digest=False,
-                                                default_daily_revision_id=False, default_daily_revision_digest=False)).create(vals_list)
+                                                default_daily_revision_id=False, default_daily_revision_digest=False,
+                                                default_replay_publication_digest=False, default_replay_publication_evidence=False,
+                                                default_replay_reviewed_by=False)).create(vals_list)
 
     @api.depends("origin", "fixture_version", "publication_basis", "source_review_id.lifecycle", "quarantined", "integrity_conflict")
     def _compute_lineage_status(self):
@@ -232,6 +239,52 @@ class Dataset(models.Model):
             raise AccessError(_("Historical market dataset exports are disabled."))
         return super()._export_rows(fields, _is_toplevel_call=_is_toplevel_call)
 
+    def _historical_replay_review(self):
+        self.ensure_one()
+        review = self._permit("historical_replay")
+        if (self.origin != "imported" or review.provider != "manual" or self.publication_basis != "operator"
+                or not review.raw_share_ohlcv or self.interval not in ("1m", "3m", "5m", "15m")
+                or self.calendar_id.verification != "reviewed" or self.mapping_id.verification != "reviewed"
+                or self.mapping_id.provider != "manual" or not self.mapping_id.isin):
+            raise AccessError(_("Use reviewed unadjusted intraday CSV data with an exchange calendar and an ISIN mapping."))
+        return review
+
+    def _historical_replay_bars(self):
+        domain = [("dataset_id", "=", self.id)]
+        candles = self.env["golok.lab.candle"]
+        rows = candles.search(domain, order="close_time", limit=12001)
+        if not rows or len(rows) > 12000 or len(rows) != candles.sudo().search_count(domain):
+            raise ValidationError(_("The review requires 1–12,000 visible candles and no hidden observations."))
+        return tuple(row._to_bar() for row in rows)
+
+    def _attest_publication(self, reference, bars):
+        self.ensure_one()
+        self.check_access("write")
+        if not self.env.user.has_group("golok_ai_trading_lab_pro.group_admin"):
+            raise AccessError(_("A source administrator must verify the historical publication evidence."))
+        try:
+            parsed = urlsplit(reference or "")
+            valid = (len(reference) <= 512 and parsed.scheme == "https" and parsed.hostname
+                     and not parsed.username and not parsed.password and not parsed.query and not parsed.fragment)
+        except (TypeError, ValueError):
+            valid = False
+        if not valid:
+            raise ValidationError(_("Supply the HTTPS reference for independently reviewed publication evidence."))
+        self.env["golok.lab.replay.guard"]._lock(self.instrument_id)
+        self.env.cr.execute("SELECT id FROM golok_lab_dataset WHERE id=%s FOR UPDATE", (self.id,))
+        self.invalidate_recordset()
+        self._historical_replay_review()
+        stored = self._historical_replay_bars()
+        if stored != tuple(bars):
+            raise ValidationError(_("The evidence CSV must match the complete stored dataset."))
+        fingerprint = _input_digest(stored, self.calendar_id)
+        if self.replay_publication_digest:
+            if self.replay_publication_digest == fingerprint and self.replay_publication_evidence == reference:
+                return
+            raise ValidationError(_("This attestation is immutable. Register a separate dataset for corrections."))
+        self.sudo().write({"replay_publication_digest": fingerprint, "replay_publication_evidence": reference,
+                           "replay_reviewed_by": self.env.user.id})
+
     @api.constrains("calendar_id", "instrument_id", "origin")
     def _check_calendar(self):
         for dataset in self.filtered("calendar_id"):
@@ -241,7 +294,9 @@ class Dataset(models.Model):
                 raise ValidationError(_("Only synthetic datasets may use fixture calendars."))
 
     def write(self, vals):
-        allowed = {"name", "quarantined"} | ({"integrity_conflict"} if self.env.su else set())
+        allowed = {"name", "quarantined"}
+        if self.env.su:
+            allowed |= {"integrity_conflict", "replay_publication_digest", "replay_publication_evidence", "replay_reviewed_by"}
         if set(vals) - allowed:
             raise UserError(_("Dataset provenance is immutable. Register a new dataset for a new source."))
         if "quarantined" in vals and not self.env.user.has_group("golok_ai_trading_lab_pro.group_admin"):
@@ -251,6 +306,11 @@ class Dataset(models.Model):
     def action_toggle_quarantine(self):
         self.ensure_one()
         self.check_access("write")
+        if self.origin == "imported":
+            self.env.cr.execute("SELECT id FROM golok_lab_dataset WHERE id=%s FOR UPDATE", (self.id,))
+            self.invalidate_recordset(["replay_publication_digest"])
+            if self.replay_publication_digest:
+                raise AccessError(_("Reviewed historical publication inputs are frozen."))
         self.write({"quarantined": not self.quarantined})
 
     def _import_bars(self, bars):

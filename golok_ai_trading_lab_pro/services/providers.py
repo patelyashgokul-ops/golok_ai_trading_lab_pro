@@ -31,7 +31,8 @@ PURPOSES = {
 SOURCES = {
     "fixture": Source("Synthetic fixture", "synthetic", PERMISSIONS - {"live"}, "fixture"),
     "bhavcopy": Source("NSE Bhavcopy local file", "daily", frozenset({"query", "display", "persist", "research"}), "NSE"),
-    "manual": Source("Authorized local CSV", "historical", frozenset({"query", "display", "persist", "research"}), "declared"),
+    "manual": Source("Authorized local CSV", "historical",
+                     frozenset({"query", "display", "persist", "research", "backtest"}), "declared"),
     "nse_mcp": Source("NSE official MCP", "informational", frozenset(), "NSE"),
     "yahoo": Source("Yahoo Finance", "unverified", frozenset(), "unknown"),
     "smartapi": Source("Angel One historical", "historical", frozenset({"query", "display", "persist", "research"}), "exchange"),

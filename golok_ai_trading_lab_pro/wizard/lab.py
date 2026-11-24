@@ -13,6 +13,7 @@ class ImportCandles(models.TransientModel):
     dataset_id = fields.Many2one("golok.lab.dataset", required=True)
     upload = fields.Binary(required=True, attachment=False, string="CSV")
     filename = fields.Char()
+    publication_evidence = fields.Char(groups="golok_ai_trading_lab_pro.group_admin")
 
     def action_import(self):
         self.ensure_one()
@@ -20,15 +21,7 @@ class ImportCandles(models.TransientModel):
         self.dataset_id.check_access("write")
         if self.dataset_id.origin == "provider" or self.dataset_id.source.startswith("SmartAPI fixture mapping "):
             raise ValidationError(_("Provider data can only be added by the synchronization service."))
-        try:
-            if not self.upload or self.upload.size > market_data.MAX_BYTES:
-                raise ValueError("Select a CSV of up to 512 KiB.")
-            bars = market_data.parse_csv(self.upload.content, as_of=datetime.now(timezone.utc),
-                                         temporal=bool(self.dataset_id.calendar_id))
-        except UnicodeError:
-            raise ValidationError(_("CSV must use UTF-8 encoding.")) from None
-        except ValueError as exc:
-            raise ValidationError(str(exc)) from None
+        bars = self._uploaded_bars()
         count = self.dataset_id._import_bars(bars)
         return {
             "type": "ir.actions.client",
@@ -39,6 +32,23 @@ class ImportCandles(models.TransientModel):
                 "next": {"type": "ir.actions.act_window_close"},
             },
         }
+
+    def action_attest_publication(self):
+        self.ensure_one()
+        self.check_access("read")
+        self.dataset_id._attest_publication(self.publication_evidence, self._uploaded_bars())
+        return {"type": "ir.actions.act_window_close"}
+
+    def _uploaded_bars(self):
+        try:
+            if not self.upload or self.upload.size > market_data.MAX_BYTES:
+                raise ValueError("Select a CSV of up to 512 KiB.")
+            return market_data.parse_csv(self.upload.content, as_of=datetime.now(timezone.utc),
+                                         temporal=bool(self.dataset_id.calendar_id))
+        except UnicodeError:
+            raise ValidationError(_("CSV must use UTF-8 encoding.")) from None
+        except ValueError as exc:
+            raise ValidationError(str(exc)) from None
 
 
 class ResearchWizard(models.TransientModel):

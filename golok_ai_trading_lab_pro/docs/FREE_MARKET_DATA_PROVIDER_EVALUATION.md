@@ -4,6 +4,8 @@ P08 reviewed NSE's academic and non-commercial research programme on 24 November
 
 Reviewed 24 November 2026. No paid plan, account or feed was activated.
 
+NSE's first research basket lists daily OHLC and Bhavcopy under the non-commercial academic research framework. The project's eligibility and permission to archive and use an actual file for this module were unconfirmed. [NSE data list](https://nsearchives.nseindia.com/web/sites/default/files/inline-files/Data%20list%20under%20NSE%20Data%20Sharing%20Policy%20for%20Research%20and%20Analysis_20250728.pdf) · [NSE usage policy](https://betanseapi.nseindia.com/static/market-data/nse-data-policy)
+
 | Source | Access and rights finding | P07 decision |
 | --- | --- | --- |
 | NSE CM UDiFF | The official reports page identifies the modern daily file. Publication does not establish archival, automation or optimization rights for this project. | Validate authorized local uploads. The tested row was synthetic. |

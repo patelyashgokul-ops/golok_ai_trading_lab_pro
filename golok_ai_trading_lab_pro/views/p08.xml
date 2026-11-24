@@ -3,8 +3,13 @@
         <field name="name">golok.lab.portfolio.wizard.timing.fixture</field>
         <field name="model">golok.lab.portfolio.wizard</field>
         <field name="inherit_id" ref="view_portfolio_wizard"/>
-        <field name="arch" type="xml"><xpath expr="//footer/button[@name='action_run']" position="after">
+        <field name="arch" type="xml">
+            <field name="dataset_ids" position="attributes">
+                <attribute name="domain">[('quarantined','=',False),'|',('origin','=','synthetic'),('replay_publication_digest','!=',False)]</attribute>
+            </field>
+            <xpath expr="//footer/button[@name='action_run']" position="after">
             <button name="action_run_timing_fixture" type="object" string="Test Historical Timing on Generated Fixtures"/>
+            <button name="action_run_authorized_history" type="object" string="Run Authorized Historical Replay"/>
         </xpath></field>
     </record>
     <record id="view_portfolio_timing_result" model="ir.ui.view">
@@ -13,8 +18,10 @@
         <field name="inherit_id" ref="view_portfolio_form"/>
         <field name="arch" type="xml"><xpath expr="//h2" position="replace">
             <field name="contract_fixture" invisible="1"/>
-            <h2 invisible="contract_fixture">Synthetic Portfolio Replay</h2>
+            <field name="historical_authorized" invisible="1"/>
+            <h2 invisible="contract_fixture or historical_authorized">Synthetic Portfolio Replay</h2>
             <h2 invisible="not contract_fixture">Historical Timing Test on Generated Fixtures</h2>
+            <h2 invisible="not historical_authorized">Authorized Historical Simulation</h2>
         </xpath></field>
     </record>
     <record id="view_calendar_generate_fixture" model="ir.ui.view">
@@ -36,7 +43,22 @@
             <field name="integrity_conflict" readonly="1" invisible="not integrity_conflict"/>
             <field name="daily_revision_id" readonly="1" invisible="not daily_revision_id" groups="golok_ai_trading_lab_pro.group_admin"/>
             <field name="daily_revision_digest" readonly="1" invisible="not daily_revision_digest"/>
+            <field name="replay_publication_digest" readonly="1" invisible="not replay_publication_digest"/>
+            <field name="replay_publication_evidence" readonly="1" invisible="not replay_publication_evidence"
+                   groups="golok_ai_trading_lab_pro.group_admin"/>
         </field></field>
+    </record>
+    <record id="view_import_publication_evidence" model="ir.ui.view">
+        <field name="name">golok.lab.import.publication.evidence</field>
+        <field name="model">golok.lab.import</field>
+        <field name="inherit_id" ref="view_import"/>
+        <field name="arch" type="xml">
+            <field name="upload" position="after"><field name="publication_evidence" groups="golok_ai_trading_lab_pro.group_admin"/></field>
+            <xpath expr="//footer/button[@name='action_import']" position="after">
+                <button name="action_attest_publication" type="object" string="Verify Historical Publication"
+                        groups="golok_ai_trading_lab_pro.group_admin" invisible="not publication_evidence"/>
+            </xpath>
+        </field>
     </record>
     <record id="view_review_lineage" model="ir.ui.view">
         <field name="name">golok.lab.source.review.lineage</field><field name="model">golok.lab.source.review</field>

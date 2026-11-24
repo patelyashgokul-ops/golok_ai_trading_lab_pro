@@ -19,7 +19,7 @@ def evaluate(checks, *, mode, context=None):
         else:
             observed, threshold, passed = evidence, True, evidence is True
         if key == "G14":
-            passed = passed and mode in ("synthetic_replay", "historical_contract_replay")
+            passed = passed and mode in ("synthetic_replay", "historical_contract_replay", "authorized_historical_replay")
         results[key] = {**(context or {}), "id": key, "label": name, "required_evidence": name, "observed": observed,
                         "threshold": threshold, "passed": passed, "status": "PASSED" if passed else "FAILED",
                         "reason": "SATISFIED" if passed else "EVIDENCE_VETO", "mode": mode}

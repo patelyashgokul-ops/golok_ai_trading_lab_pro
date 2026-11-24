@@ -30,3 +30,15 @@
 2026-11-24 15:39:07,550 21392 INFO golok_p05_migration_p08k odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p05.xml
 2026-11-24 15:39:07,701 21392 INFO golok_p05_migration_p08k odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p06.xml
 2026-11-24 15:39:07,805 21392 INFO golok_p05_migration_p08k odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p08.xml
+2026-11-24 15:39:08,092 21392 INFO golok_p05_migration_p08k odoo.registry: Registry changed, signaling through the database
+2026-11-24 15:39:08,101 21392 INFO golok_p05_migration_p08k odoo.modules.loading: Module golok_ai_trading_lab_pro loaded in 3.16s, 1700 queries (+1700 other)
+2026-11-24 15:39:08,932 21392 WARNING golok_p05_migration_p08k odoo.addons.mail.controllers.attachment: markdown2 is not installed, markdown will not be rendered
+2026-11-24 15:39:09,043 21392 INFO golok_p05_migration_p08k odoo.modules.loading: 17 modules loaded in 4.28s, 1700 queries (+1700 extra)
+2026-11-24 15:39:09,369 21392 INFO golok_p05_migration_p08k odoo.registry: verifying fields for every extended model
+2026-11-24 15:39:10,108 21392 INFO golok_p05_migration_p08k odoo.modules.loading: Modules loaded.
+2026-11-24 15:39:10,121 21392 INFO golok_p05_migration_p08k odoo.registry: Registry changed, signaling through the database
+2026-11-24 15:39:10,125 21392 INFO golok_p05_migration_p08k odoo.registry: Registry loaded in 10.069s
+2026-11-24 15:39:10,125 21392 INFO golok_p05_migration_p08k odoo.service.server.ThreadedServer: Initiating shutdown
+2026-11-24 15:39:10,125 21392 INFO golok_p05_migration_p08k odoo.service.server.ThreadedServer: Hit CTRL-C again or send a second signal to force the shutdown.
+2026-11-24 15:39:10,125 21392 INFO golok_p05_migration_p08k odoo.addons.bus.websocket: Disconnecting 0 websockets
+2026-11-24 15:39:10,239 21392 INFO golok_p05_migration_p08k odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 1 connections 
