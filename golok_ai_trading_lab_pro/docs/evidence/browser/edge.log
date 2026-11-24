@@ -69,3 +69,33 @@ Aria snapshot:
       - group: See technical details(24/Nov/2026 10:47:48)
   - contentinfo:
     - button "Close"
+Browser check database=golok_20261124162105
+Traceback (most recent call last):
+  File "C:\PycharmProjects\odoo20\custom_addons\golok_ai_trading_lab_pro\scripts\verify_browser.py", line 105, in <module>
+    verify(*sys.argv[1:])
+    ~~~~~~^^^^^^^^^^^^^^^
+  File "C:\PycharmProjects\odoo20\custom_addons\golok_ai_trading_lab_pro\scripts\verify_browser.py", line 49, in verify
+    raise RuntimeError(error_dialog.inner_text())
+RuntimeError: Oops!
+
+Something went wrong... If you really are stuck, share the report with your friendly support service
+
+Hide technical details
+
+Odoo Client Error
+
+Occurred on 127.0.0.1:18089 on 24/Nov/2026 10:52:51
+
+UncaughtPromiseError > TypeError
+Uncaught Promise > Cannot read properties of undefined (reading 'loading')
+TypeError: Cannot read properties of undefined (reading 'loading')
+    at TradingOverview.template_golok_ai_trading_lab_pro_Overview (eval at compile (http://127.0.0.1:18089/web/assets/b6e7a56/web.assets_web.min.js:1511:228), <anonymous>:21:42)
+    at Fiber.render (http://127.0.0.1:18089/web/assets/b6e7a56/web.assets_web.min.js:1026:199)
+    at http://127.0.0.1:18089/web/assets/b6e7a56/web.assets_web.min.js:1124:7
+    at ControllerComponent.__template__30 (eval at compile (http://127.0.0.1:18089/web/assets/b6e7a56/web.assets_web.min.js:1511:228), <anonymous>:10:27)
+    at Fiber.render (http://127.0.0.1:18089/web/assets/b6e7a56/web.assets_web.min.js:1026:199)
+    at http://127.0.0.1:18089/web/assets/b6e7a56/web.assets_web.min.js:1124:7
+    at ActionContainer.__template__29 (eval at compile (http://127.0.0.1:18089/web/assets/b6e7a56/web.assets_web.min.js:1511:228), <anonymous>:15:43)
+    at RootFiber.render (http://127.0.0.1:18089/web/assets/b6e7a56/web.assets_web.min.js:1026:199)
+    at ComponentNode.render (http://127.0.0.1:18089/web/assets/b6e7a56/web.assets_web.min.js:1048:56)
+Close

@@ -8,31 +8,31 @@
                         <div class="o_golok_brand">Golok Technology</div>
                         <h1>Research Overview</h1>
                     </div>
-                    <button class="btn btn-outline-secondary align-self-start" t-att-disabled="state.loading" t-on-click="refresh">Refresh</button>
+                    <button class="btn btn-outline-secondary align-self-start" t-att-disabled="this.state.loading" t-on-click="() => this.refresh()">Refresh</button>
                 </header>
-                <p t-if="state.loading" role="status">Loading research data…</p>
-                <div t-elif="state.error" role="alert" class="alert alert-danger">Research data is unavailable. Select Refresh to retry.</div>
-                <t t-elif="state.data">
+                <p t-if="this.state.loading" role="status">Loading research data…</p>
+                <div t-elif="this.state.error" role="alert" class="alert alert-danger">Research data is unavailable. Select Refresh to retry.</div>
+                <t t-elif="this.state.data">
                     <div class="o_golok_cards">
-                        <button t-foreach="cards" t-as="card" t-key="card.key" class="o_golok_card"
+                        <button t-foreach="this.cards" t-as="card" t-key="card.key" class="o_golok_card"
                                 t-on-click="() => this.openList(card)">
                             <span t-esc="card.label"/>
-                            <strong t-esc="state.data[card.key]"/>
+                            <strong t-esc="this.state.data[card.key]"/>
                         </button>
                     </div>
                     <section class="o_golok_latest" aria-labelledby="golok-latest-heading">
                         <h2 id="golok-latest-heading">Latest research snapshot</h2>
-                        <div t-if="state.data.last">
+                        <div t-if="this.state.data.last">
                             <div class="o_golok_status">NO TRADE</div>
-                            <h3 t-esc="state.data.last.dataset_id[1]"/>
-                            <p t-esc="state.data.last.reason"/>
+                            <h3 t-esc="this.state.data.last.dataset_id[1]"/>
+                            <p t-esc="this.state.data.last.reason"/>
                             <dl class="o_golok_facts">
-                                <div><dt>Data origin</dt><dd t-esc="state.data.last.origin === 'synthetic' ? 'Synthetic fixture' : 'Imported historical'"/></div>
-                                <div><dt>Latest candle close</dt><dd t-esc="displayTime(state.data.last.last_close)"/></div>
-                                <div><dt>Candles analyzed</dt><dd t-esc="state.data.last.bar_count"/></div>
-                                <div><dt>Intraday gaps</dt><dd t-esc="state.data.last.gap_count"/></div>
+                                <div><dt>Data origin</dt><dd t-esc="this.state.data.last.origin === 'synthetic' ? 'Synthetic fixture' : 'Imported historical'"/></div>
+                                <div><dt>Latest candle close</dt><dd t-esc="this.displayTime(this.state.data.last.last_close)"/></div>
+                                <div><dt>Candles analyzed</dt><dd t-esc="this.state.data.last.bar_count"/></div>
+                                <div><dt>Intraday gaps</dt><dd t-esc="this.state.data.last.gap_count"/></div>
                             </dl>
-                            <button class="btn btn-primary" t-on-click="openRun">Open snapshot</button>
+                            <button class="btn btn-primary" t-on-click="() => this.openRun()">Open snapshot</button>
                         </div>
                         <p t-else="" class="mb-0">Create a dataset, import candles, and run historical research to see a snapshot here.</p>
                     </section>

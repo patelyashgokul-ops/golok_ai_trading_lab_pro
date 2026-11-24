@@ -76,8 +76,9 @@ try {
                         }
                     }
                     $timer = [Diagnostics.Stopwatch]::StartNew()
+                    "Browser check database=$Database" | Tee-Object docs/evidence/browser/edge.log -Append
                     & $Python -B ./scripts/verify_browser.py $endpoint $Database $Edge 2>&1 |
-                        Tee-Object docs/evidence/browser/edge.log
+                        Tee-Object docs/evidence/browser/edge.log -Append
                     $code = $LASTEXITCODE
                     Write-Output "browser exit=$code seconds=$($timer.Elapsed.TotalSeconds)"
                     if ($code) { throw "Browser verification exited $code" }
