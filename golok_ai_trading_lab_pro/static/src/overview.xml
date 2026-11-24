@@ -28,7 +28,7 @@
                             <p t-esc="this.state.data.last.reason"/>
                             <dl class="o_golok_facts">
                                 <div><dt>Data origin</dt><dd t-esc="this.state.data.last.origin === 'synthetic' ? 'Synthetic fixture' : 'Imported historical'"/></div>
-                                <div><dt>Latest candle close</dt><dd t-esc="this.displayTime(this.state.data.last.last_close)"/></div>
+                                <div><dt>Latest candle close (IST)</dt><dd t-esc="this.displayTime(this.state.data.last.last_close)"/></div>
                                 <div><dt>Candles analyzed</dt><dd t-esc="this.state.data.last.bar_count"/></div>
                                 <div><dt>Intraday gaps</dt><dd t-esc="this.state.data.last.gap_count"/></div>
                             </dl>

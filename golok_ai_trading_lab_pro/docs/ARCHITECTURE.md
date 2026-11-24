@@ -21,7 +21,7 @@ The input contract treats dataset mapping and import rights as operator-supplied
 
 The server reads at most 250 bars ordered by close time, using a ceiling at the selected cutoff, then computes on the chronological sequence. The SHA-256 fingerprint covers those exact stored bars. Dataset, cutoff, digest and engine version identify a snapshot. A matching retry returns that snapshot. A backfill can produce a different digest for the same cutoff and leaves the prior snapshot intact. The timestamp filter represents observation time. Point-in-time vendor availability and cross-instrument survivorship require additional data. An intraday gap suppresses all three findings. The bounded ATR seed begins at the start of the selected input window.
 
-The research state currently consists of `NO TRADE` and an explicit reason. The overview reads four counts for the active company and its most recently created research snapshot. Counts use stored company-scoped rows. Active instruments exclude archived instruments. Historical and synthetic provenance labels remain visible. Real-time freshness, recommendation expiry, strategies, backtesting and paper execution have no runtime paths in this milestone.
+The research state currently consists of `NO TRADE` and an explicit reason. The overview reads four counts for the active company and its most recently created research snapshot. Counts use stored company-scoped rows. Active instruments exclude archived instruments. Historical and synthetic provenance labels remain visible. The dashboard renders candle close timestamps in Asia/Kolkata. Real-time freshness, recommendation expiry, strategies, backtesting and paper execution have no runtime paths in this milestone.
 
 ## Access boundaries
 

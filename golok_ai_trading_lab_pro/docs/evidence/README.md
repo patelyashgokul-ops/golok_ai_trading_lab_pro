@@ -7,7 +7,7 @@
 | `browser/` | Headless Edge verification output |
 | `screenshots/` | Screenshots captured from the actual Odoo interface when rendering passed |
 | `performance/` | Synthetic standalone service measurements |
-| `security/` | Source scan. ORM security assertions are in installation logs. |
+| `security/` | Source scan and independent PostgreSQL contention test. ORM security assertions are in installation logs. |
 | `integration/` | No SmartAPI evidence. Authorized credentials and a read-only adapter were unavailable. |
 | `quantitative/` | No financial experiment evidence. Reference calculation tests are in the unit log. |
 

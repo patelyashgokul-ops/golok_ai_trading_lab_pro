@@ -87,6 +87,9 @@ def verify(base_url, database, edge):
         expect(page.get_by_text("Synthetic fixture", exact=True)).to_be_visible()
         page.get_by_role("button", name="Refresh").click()
         expect(page.get_by_role("button", name="Open snapshot")).to_be_visible()
+        notification = page.locator(".o_notification").filter(has_text="21 inserted")
+        if notification.is_visible():
+            notification.get_by_role("button").click()
         page.screenshot(path=ROOT / "docs/evidence/screenshots/overview-desktop.png")
         page.get_by_role("button", name="Open snapshot").click()
         expect(page.locator(".o_form_view").get_by_text("NO TRADE", exact=True)).to_be_visible()
@@ -100,6 +103,16 @@ def verify(base_url, database, edge):
         page.screenshot(path=ROOT / "docs/evidence/screenshots/overview-mobile.png")
         assert not errors, errors
         print("UI-04 mobile viewport without horizontal overflow and no uncaught page errors", flush=True)
+
+        dashboard_rpc = "**/web/dataset/call_kw/golok.lab.run/overview**"
+        page.route(dashboard_rpc, lambda route: route.fulfill(status=503, body="Unavailable"))
+        page.get_by_role("button", name="Refresh").click()
+        expect(page.get_by_role("alert")).to_contain_text("Research data is unavailable")
+        page.unroute(dashboard_rpc)
+        page.get_by_role("button", name="Refresh").click()
+        expect(page.get_by_role("button", name="Stored candles 21")).to_be_visible()
+        assert not errors, errors
+        print("UI-05 refresh gracefully recovered from a failed dashboard RPC", flush=True)
         browser.close()
 
 

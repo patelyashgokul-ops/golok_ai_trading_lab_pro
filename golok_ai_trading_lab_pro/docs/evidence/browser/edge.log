@@ -104,3 +104,4 @@ UI-01 authenticated OWL dashboard and empty state
 UI-02 CSV selected and imported through the Odoo wizard
 UI-03 historical research, accurate KPIs, refresh and snapshot drill-down
 UI-04 mobile viewport without horizontal overflow and no uncaught page errors
+Browser check database=golok_20261124162731
