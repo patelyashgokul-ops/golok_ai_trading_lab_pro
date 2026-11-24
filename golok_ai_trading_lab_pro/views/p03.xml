@@ -160,4 +160,58 @@
         <field name="view_mode">form</field><field name="target">new</field>
     </record>
     <menuitem id="menu_provider_setup" name="SmartAPI Diagnostics" parent="menu_lab" action="action_provider_setup" sequence="86" groups="group_admin"/>
+    <record id="view_paper_account_list" model="ir.ui.view">
+        <field name="name">golok.lab.paper.account.list</field><field name="model">golok.lab.paper.account</field>
+        <field name="arch" type="xml"><list>
+            <field name="name"/><field name="company_id"/><field name="opening_paise" string="Opening (paise)"/>
+            <field name="available_paise" string="Available (paise)"/><field name="posted_end"/>
+        </list></field>
+    </record>
+    <record id="view_paper_account_form" model="ir.ui.view">
+        <field name="name">golok.lab.paper.account.form</field><field name="model">golok.lab.paper.account</field>
+        <field name="arch" type="xml"><form edit="0" delete="0" duplicate="0"><sheet>
+            <p>Historical replay only. All cash and fills on this account are virtual.</p>
+            <group><field name="name"/><field name="initial_deposit" string="Opening virtual balance (INR)"/>
+                <field name="available_paise" string="Available (paise)" invisible="not id"/><field name="posted_end" invisible="not id"/>
+            </group>
+        </sheet></form></field>
+    </record>
+    <record id="action_paper_account" model="ir.actions.act_window">
+        <field name="name">Virtual Replay Accounts</field><field name="res_model">golok.lab.paper.account</field><field name="view_mode">list,form</field>
+    </record>
+    <record id="view_paper_batch_list" model="ir.ui.view">
+        <field name="name">golok.lab.paper.batch.list</field><field name="model">golok.lab.paper.batch</field>
+        <field name="arch" type="xml"><list create="0" edit="0" delete="0">
+            <field name="account_id"/><field name="experiment_id"/><field name="before_paise"/><field name="after_paise"/>
+        </list></field>
+    </record>
+    <record id="view_paper_batch_form" model="ir.ui.view">
+        <field name="name">golok.lab.paper.batch.form</field><field name="model">golok.lab.paper.batch</field>
+        <field name="arch" type="xml"><form create="0" edit="0" delete="0" duplicate="0"><sheet>
+            <group><field name="account_id"/><field name="experiment_id"/><field name="before_paise"/><field name="after_paise"/></group>
+            <field name="event_ids"><list create="0" edit="0" delete="0">
+                <field name="sequence"/><field name="kind"/><field name="quantity_delta"/><field name="cash_delta"/>
+                <field name="reserved_delta"/><field name="fee"/><field name="realized"/>
+                <field name="available_after"/><field name="reserved_after"/>
+            </list></field>
+        </sheet></form></field>
+    </record>
+    <record id="action_paper_batch" model="ir.actions.act_window">
+        <field name="name">Virtual Replay Journal</field><field name="res_model">golok.lab.paper.batch</field><field name="view_mode">list,form</field>
+    </record>
+    <record id="view_paper_wizard" model="ir.ui.view">
+        <field name="name">golok.lab.paper.wizard.form</field><field name="model">golok.lab.paper.wizard</field>
+        <field name="arch" type="xml"><form string="Post Historical Replay">
+            <group><field name="account_id"/><field name="experiment_id" domain="[('status','=','completed'),('trade_count','&gt;',0)]"/></group>
+            <footer><button name="action_post" type="object" string="Post Virtual Replay" class="btn-primary"/>
+                <button string="Cancel" special="cancel" class="btn-secondary"/></footer>
+        </form></field>
+    </record>
+    <record id="action_paper_wizard" model="ir.actions.act_window">
+        <field name="name">Post Historical Replay</field><field name="res_model">golok.lab.paper.wizard</field>
+        <field name="view_mode">form</field><field name="target">new</field>
+    </record>
+    <menuitem id="menu_paper_account" name="Virtual Accounts" parent="menu_lab" action="action_paper_account" sequence="87"/>
+    <menuitem id="menu_paper_batch" name="Replay Journal" parent="menu_lab" action="action_paper_batch" sequence="88"/>
+    <menuitem id="menu_paper_wizard" name="Post Replay" parent="menu_lab" action="action_paper_wizard" sequence="89" groups="group_risk"/>
 </odoo>

@@ -19,6 +19,8 @@ class TradingOverview extends Component {
             { key: "candles", label: _t("Stored candles"), model: "golok.lab.candle" },
             { key: "runs", label: _t("Research snapshots"), model: "golok.lab.run" },
             { key: "quarantined", label: _t("Quarantined datasets"), model: "golok.lab.dataset" },
+            { key: "experiments", label: _t("Synthetic experiments"), model: "golok.lab.experiment" },
+            { key: "paper_accounts", label: _t("Virtual replay accounts"), model: "golok.lab.paper.account" },
         ];
         onMounted(() => this.refresh());
     }

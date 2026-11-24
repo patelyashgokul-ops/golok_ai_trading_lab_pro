@@ -33,3 +33,11 @@ findings_viewer,Supplemental findings reader,golok.lab.findings,golok_ai_trading
 findings_analyst,Supplemental findings analyst,golok.lab.findings,golok_ai_trading_lab_pro.group_analyst,cr,
 findings_company,Supplemental findings company,golok.lab.findings,,crud,"[('company_id', 'in', company_ids)]"
 provider_setup_admin,Provider diagnostics administrator,golok.lab.provider.setup,golok_ai_trading_lab_pro.group_admin,crud,
+paper_account_viewer,Virtual account reader,golok.lab.paper.account,golok_ai_trading_lab_pro.group_viewer,r,
+paper_account_risk,Virtual account risk manager,golok.lab.paper.account,golok_ai_trading_lab_pro.group_risk,cr,
+paper_account_company,Virtual account company,golok.lab.paper.account,,crud,"[('company_id', 'in', company_ids)]"
+paper_batch_viewer,Virtual replay batch reader,golok.lab.paper.batch,golok_ai_trading_lab_pro.group_viewer,r,
+paper_batch_company,Virtual batch company,golok.lab.paper.batch,,crud,"[('company_id', 'in', company_ids)]"
+paper_event_viewer,Virtual event reader,golok.lab.paper.event,golok_ai_trading_lab_pro.group_viewer,r,
+paper_event_company,Virtual event company,golok.lab.paper.event,,crud,"[('company_id', 'in', company_ids)]"
+paper_wizard_risk,Virtual replay wizard risk manager,golok.lab.paper.wizard,golok_ai_trading_lab_pro.group_risk,crud,

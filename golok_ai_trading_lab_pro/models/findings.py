@@ -58,6 +58,14 @@ class ResearchFindings(models.Model):
 class ResearchRun(models.Model):
     _inherit = "golok.lab.run"
 
+    @api.model
+    def overview(self):
+        data = super().overview()
+        domain = [("company_id", "=", data["company_id"])]
+        data["experiments"] = self.env["golok.lab.experiment"].search_count(domain)
+        data["paper_accounts"] = self.env["golok.lab.paper.account"].search_count(domain)
+        return data
+
     def action_supplemental_findings(self):
         self.ensure_one()
         self.check_access("read")
