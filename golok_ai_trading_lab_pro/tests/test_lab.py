@@ -1,3 +1,4 @@
+import json
 from datetime import datetime, timedelta
 
 from odoo.exceptions import AccessError, ValidationError
@@ -122,3 +123,46 @@ class TestLab(TransactionCase):
 
         with self.assertRaises(UniqueViolation), self.env.cr.savepoint():
             model.create(record.copy_data()[0])
+
+    def test_point_in_time_calendar_quarantine_and_chart(self):
+        revisions = self.env["golok.lab.calendar"]
+        vals = {
+            "name": "Calendar test 01", "source": "Synthetic fixture", "exchange": "NSE",
+            "verification": "fixture", "verified_on": "2024-01-01",
+            "schedule": json.dumps([{"date": "2024-01-02", "kind": "regular", "open": "09:15",
+                                     "close": "15:30", "entry_cutoff": "14:30", "exit_cutoff": "15:25"}]),
+        }
+        with self.assertRaises(AccessError):
+            revisions.with_user(self.analyst).create(vals)
+        revision = revisions.with_user(self.admin).create(vals)
+        with self.assertRaises(AccessError):
+            revision.write({"name": "Retrospective edit"})
+        dataset = self.env["golok.lab.dataset"].with_user(self.analyst).create({
+            "name": "Timed fixture", "source": "Timed fixture", "origin": "synthetic",
+            "instrument_id": self.instrument.id, "interval": "5m", "calendar_id": revision.id,
+        })
+        header = "close_time,open,high,low,close,volume,open_time,available_at\n"
+        rows = ("2024-01-02T09:20:00+05:30,100,103,99,101,100,2024-01-02T09:15:00+05:30,2024-01-02T09:22:00+05:30\n"
+                "2024-01-02T09:25:00+05:30,101,103,99,102,110,2024-01-02T09:20:00+05:30,2024-01-02T09:28:00+05:30\n")
+        imports = self.env["golok.lab.import"].with_user(self.analyst)
+        bad = imports.create({"dataset_id": dataset.id, "upload": BinaryBytes((header + rows.replace("09:15", "09:14")).encode())})
+        with self.assertRaisesRegex(ValidationError, "outside the session"):
+            bad.action_import()
+        wizard = imports.create({"dataset_id": dataset.id, "upload": BinaryBytes((header + rows).encode())})
+        wizard.action_import()
+        self.assertIn("0 inserted", wizard.action_import()["params"]["message"])
+        model = self.env["golok.lab.run"].with_user(self.analyst)
+        run = model.create({"dataset_id": dataset.id, "as_of": "2024-01-02 03:56:00"})
+        self.assertEqual(run.bar_count, 1)
+        self.assertEqual(run.engine_version, "2")
+        self.assertEqual(run.decision, "no_trade")
+        viewer = model.with_user(self.viewer)
+        self.assertEqual(viewer.chart_data(run.id)["bars"][0][4], "101")
+        with self.assertRaises(AccessError):
+            viewer.create({"dataset_id": dataset.id, "as_of": "2024-01-02 03:56:00"})
+        with self.assertRaises(ValidationError):
+            dataset.action_toggle_quarantine()
+        dataset.with_user(self.admin).action_toggle_quarantine()
+        self.assertIsNone(viewer.chart_data(run.id))
+        with self.assertRaises(ValidationError):
+            wizard.action_import()

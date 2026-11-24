@@ -1,0 +1,33 @@
+waiting for server to start.... done
+server started
+Traceback (most recent call last):
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo-bin", line 6, in <module>
+    odoo.cli.main()
+    ~~~~~~~~~~~~~^^
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\cli\command.py", line 139, in main
+    command().run(args)
+    ~~~~~~~~~~~~~^^^^^^
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\cli\server.py", line 127, in run
+    main(args)
+    ~~~~^^^^^^
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\cli\server.py", line 104, in main
+    db._create_empty_database(db_name)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\modules\db.py", line 332, in _create_empty_database
+    sys_cr = odoo.sql_db.db_connect(db_system_name).cursor()
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\sql_db.py", line 792, in cursor
+    cnx = self.__pool.borrow(self.__dsn)
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\tools\func.py", line 67, in locked
+    return func(inst, *args, **kwargs)
+  File "C:\PycharmProjects\odoo20\odoo-20.0\odoo\sql_db.py", line 705, in borrow
+    result = psycopg2.connect(
+        connection_factory=PsycoConnection,
+        **connection_info)
+  File "C:\PycharmProjects\odoo20\.venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+psycopg2.OperationalError: connection to server at "127.0.0.1", port 55489 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+fresh exit=1 seconds=5.3826094 database=golok_p02_complete
+pg_ctl: PID file "C:/PycharmProjects/odoo20/custom_addons/golok_ai_trading_lab_pro/.local-test/pg/postmaster.pid" does not exist
+Is server running?

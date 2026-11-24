@@ -1,6 +1,7 @@
 """Smoke-test the installed research workflow using headless Edge."""
 
 import os
+import re
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path

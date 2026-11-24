@@ -1,0 +1,22 @@
+test_duplicate_and_reversed_csv (unit_market_research.MarketDataTests.test_duplicate_and_reversed_csv) ... ok
+test_empty_and_size_limits (unit_market_research.MarketDataTests.test_empty_and_size_limits) ... ok
+test_gap_count_and_date_boundary (unit_market_research.MarketDataTests.test_gap_count_and_date_boundary) ... ok
+test_invalid_prices_volume_and_timestamps (unit_market_research.MarketDataTests.test_invalid_prices_volume_and_timestamps) ... ok
+test_utc_normalization_and_exact_prices (unit_market_research.MarketDataTests.test_utc_normalization_and_exact_prices) ... ok
+test_atr_gaps_wilder_smoothing (unit_market_research.ResearchTests.test_atr_gaps_wilder_smoothing) ... ok
+test_reference_values_and_relative_volume_baseline (unit_market_research.ResearchTests.test_reference_values_and_relative_volume_baseline) ... ok
+test_warmup_and_no_future_access (unit_market_research.ResearchTests.test_warmup_and_no_future_access) ... ok
+test_calendar_and_time_availability (unit_p02.CalendarTests.test_calendar_and_time_availability) ... ok
+test_temporal_csv_rejects_early_availability_and_future (unit_p02.CalendarTests.test_temporal_csv_rejects_early_availability_and_future) ... ok
+test_reference_values_and_all_prefixes (unit_p02.IndicatorsTests.test_reference_values_and_all_prefixes) ... ok
+test_session_reset_and_opening_range (unit_p02.IndicatorsTests.test_session_reset_and_opening_range) ... ok
+test_disabled_transport_and_endpoint_scope (unit_p02.ProviderTests.test_disabled_transport_and_endpoint_scope) ... ok
+test_fixture_auth_history_quote_and_rate_limit (unit_p02.ProviderTests.test_fixture_auth_history_quote_and_rate_limit) ... ok
+test_timeout_sanitizes_transport_error (unit_p02.ProviderTests.test_timeout_sanitizes_transport_error) ... ok
+test_breakout_reproducibility_and_stop_first (unit_p02.SimulationTests.test_breakout_reproducibility_and_stop_first) ... ok
+test_tariffs_effective_date_and_risk (unit_p02.SimulationTests.test_tariffs_effective_date_and_risk) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.028s
+
+OK

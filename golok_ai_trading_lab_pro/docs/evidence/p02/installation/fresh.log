@@ -1,0 +1,11 @@
+2026-11-24 11:20:04,468 18464 WARNING ? odoo.tools.config: option --without-demo: since 19.0, invalid boolean value: 'all', assume True
+2026-11-24 11:20:04,469 18464 INFO ? odoo: Odoo version 20.0
+2026-11-24 11:20:04,470 18464 INFO ? odoo: Using configuration file at c:\pycharmprojects\odoo20\odoo-20.0\odoo.conf
+2026-11-24 11:20:04,471 18464 INFO ? odoo: addons paths: _NamespacePath(['C:\\PycharmProjects\\odoo20\\odoo-20.0\\odoo\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons\\golok_ai_trading_lab_pro\\.local-test\\odoo-data\\addons\\20.0', 'c:\\pycharmprojects\\odoo20\\odoo-20.0\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons'])
+2026-11-24 11:20:04,471 18464 INFO ? odoo: database: golok_test@127.0.0.1:55489
+2026-11-24 11:20:06,516 18464 INFO ? odoo.sql_db: Connection to the database failed
+2026-11-24 11:21:03,960 21420 WARNING ? odoo.tools.config: option --without-demo: since 19.0, invalid boolean value: 'all', assume True
+2026-11-24 11:21:03,963 21420 INFO ? odoo: Odoo version 20.0
+2026-11-24 11:21:03,964 21420 INFO ? odoo: Using configuration file at c:\pycharmprojects\odoo20\odoo-20.0\odoo.conf
+2026-11-24 11:21:03,965 21420 INFO ? odoo: addons paths: _NamespacePath(['C:\\PycharmProjects\\odoo20\\odoo-20.0\\odoo\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons\\golok_ai_trading_lab_pro\\.local-test\\odoo-data\\addons\\20.0', 'c:\\pycharmprojects\\odoo20\\odoo-20.0\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons'])
+2026-11-24 11:21:03,965 21420 INFO ? odoo: database: golok_test@127.0.0.1:55489

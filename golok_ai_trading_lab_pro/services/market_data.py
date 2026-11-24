@@ -54,8 +54,10 @@ def parse_bar(timestamp, open_, high, low, close, volume, *, as_of, open_time=No
         raise ValueError("Invalid OHLC relationship.")
     if not re.fullmatch(r"[0-9]{1,10}", volume) or int(volume) > MAX_VOLUME:
         raise ValueError("Volume must be a nonnegative integer within the supported range.")
-    if open_time is None:
+    if open_time is None and available_at is None:
         return Candle(close_time, *prices, int(volume))
+    if not isinstance(open_time, str) or not isinstance(available_at, str):
+        raise ValueError("Supply both open_time and available_at.")
     opening_time, availability = parse_timestamp(open_time), parse_timestamp(available_at)
     if not opening_time < close_time <= availability <= as_of:
         raise ValueError("Expected open_time < close_time <= available_at <= import time.")
