@@ -1,0 +1,67 @@
+2026-11-24 11:51:53,128 25156 WARNING ? odoo.tools.config: option --without-demo: since 19.0, invalid boolean value: 'all', assume True
+2026-11-24 11:51:53,129 25156 INFO ? odoo: Odoo version 20.0
+2026-11-24 11:51:53,130 25156 INFO ? odoo: Using configuration file at c:\pycharmprojects\odoo20\odoo-20.0\odoo.conf
+2026-11-24 11:51:53,130 25156 INFO ? odoo: addons paths: _NamespacePath(['C:\\PycharmProjects\\odoo20\\odoo-20.0\\odoo\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons\\golok_ai_trading_lab_pro\\.local-test\\odoo-data\\addons\\20.0', 'c:\\pycharmprojects\\odoo20\\odoo-20.0\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons'])
+2026-11-24 11:51:53,130 25156 INFO ? odoo: database: golok_test@127.0.0.1:55489
+2026-11-24 11:51:54,798 25156 INFO ? odoo.service.server: HTTP service running on 127.0.0.1:18087
+2026-11-24 11:51:54,838 25156 INFO golok_p03_core odoo.tests.common: Importing test framework
+2026-11-24 11:51:54,966 25156 INFO golok_p03_core odoo.modules.loading: loading 1 modules...
+2026-11-24 11:51:54,974 25156 INFO golok_p03_core odoo.modules.loading: 1 modules loaded in 0.01s, 0 queries (+0 extra)
+2026-11-24 11:51:55,057 25156 INFO golok_p03_core odoo.tools.version_tag_reset: Detected tp_versions_used at offset 410, reset enabled
+2026-11-24 11:51:55,057 25156 INFO golok_p03_core odoo.modules.loading: updating modules list
+2026-11-24 11:51:55,064 25156 INFO golok_p03_core odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via n/a
+2026-11-24 11:51:56,467 25156 WARNING golok_p03_core odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-24 11:51:56,468 25156 WARNING golok_p03_core odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-24 11:51:56,565 25156 WARNING golok_p03_core odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-24 11:51:56,565 25156 WARNING golok_p03_core odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-24 11:51:56,567 25156 WARNING golok_p03_core odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-24 11:51:56,567 25156 WARNING golok_p03_core odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-24 11:51:56,769 25156 INFO golok_p03_core odoo.addons.base.models.ir_module: ALLOW access to module.button_upgrade on ['Golok AI Trading Lab Pro'] to user __system__ #1 via n/a
+2026-11-24 11:51:56,769 25156 INFO golok_p03_core odoo.addons.base.models.ir_module: ALLOW access to module.update_list on ['Golok AI Trading Lab Pro'] to user __system__ #1 via n/a
+2026-11-24 11:51:57,656 25156 WARNING golok_p03_core odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-24 11:51:57,699 25156 WARNING golok_p03_core odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-24 11:51:57,699 25156 WARNING golok_p03_core odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-24 11:51:57,790 25156 INFO golok_p03_core odoo.addons.base.models.ir_module: ALLOW access to module.button_install on [] to user __system__ #1 via n/a
+2026-11-24 11:51:57,990 25156 INFO golok_p03_core odoo.modules.loading: loading 17 modules...
+2026-11-24 11:51:58,202 25156 INFO golok_p03_core odoo.modules.loading: Loading module golok_ai_trading_lab_pro (11/17)
+2026-11-24 11:51:58,325 25156 INFO golok_p03_core odoo.registry: module golok_ai_trading_lab_pro: creating or updating database tables
+2026-11-24 11:51:58,510 25156 INFO golok_p03_core odoo.modules.loading: loading golok_ai_trading_lab_pro/security/groups.xml
+2026-11-24 11:51:58,735 25156 INFO golok_p03_core odoo.modules.loading: loading golok_ai_trading_lab_pro/security/ir.access.csv
+2026-11-24 11:51:58,893 25156 INFO golok_p03_core odoo.modules.loading: loading golok_ai_trading_lab_pro/views/lab.xml
+2026-11-24 11:51:59,138 25156 INFO golok_p03_core odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p03.xml
+2026-11-24 11:51:59,348 25156 INFO golok_p03_core odoo.registry: Registry changed, signaling through the database
+2026-11-24 11:51:59,599 25156 INFO golok_p03_core odoo.addons.base.models.res_users: Group change: user 1 with IP n/a changed groups of user 1 who belonged to [10, 9, 5, 15] with changes [(<Command.LINK: 4>, 6, 0)]
+2026-11-24 11:51:59,824 25156 INFO golok_p03_core odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_database_duplicate_constraint ...
+2026-11-24 11:51:59,918 25156 ERROR golok_p03_core odoo.sql_db: bad query: b'INSERT INTO "golok_lab_candle" ("available_at", "close_price", "close_time", "create_date", "create_uid", "dataset_id", "high_price", "ingested_at", "low_price", "open_price", "open_time", "processing_version", "quality", "volume", "write_date", "write_uid") VALUES (NULL, \'101\', \'2024-01-02T03:50:00\'::timestamp, \'2026-11-24T11:51:59.425933\'::timestamp, 1, 5, \'103\', \'2026-11-24T11:51:59\'::timestamp, \'99\', \'100\', NULL, \'1\', \'validated\', 100, \'2026-11-24T11:51:59.425933\'::timestamp, 1) RETURNING "id"'
+ERROR: duplicate key value violates unique constraint "golok_lab_candle_unique_bar"
+DETAIL:  Key (dataset_id, close_time)=(5, 2024-01-02 03:50:00) already exists.
+
+2026-11-24 11:51:59,920 25156 INFO golok_p03_core odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_gap_disables_findings ...
+2026-11-24 11:51:59,965 25156 INFO golok_p03_core odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_import_retry_and_atomic_conflict ...
+2026-11-24 11:52:00,002 25156 INFO golok_p03_core odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_p03_mapping_date_scope_and_database_exclusions ...
+2026-11-24 11:52:00,028 25156 ERROR golok_p03_core odoo.sql_db: bad query: b'INSERT INTO "golok_lab_mapping" ("company_id", "create_date", "create_uid", "ends", "exchange", "instrument_id", "listing_status", "lot", "provider", "revision", "segment", "source", "starts", "symbol", "tick", "token", "verification", "write_date", "write_uid") VALUES (1, \'2026-11-24T11:51:59.425933\'::timestamp, 8, \'2024-01-04\'::date, \'NSE\', 3, \'listed\', 1, \'manual\', \'v1\', \'equity\', \'Synthetic reference\', \'2024-01-02\'::date, \'CHANGED\', \'0.05\', \'100\', \'fixture\', \'2026-11-24T11:51:59.425933\'::timestamp, 8) RETURNING "id"'
+ERROR: conflicting key value violates exclusion constraint "golok_lab_mapping_token_overlap"
+DETAIL:  Key (company_id, exchange, provider, token, daterange(starts, ends, '[)'::text))=(1, NSE, manual, 100, [2024-01-02,2024-01-04)) conflicts with existing key (company_id, exchange, provider, token, daterange(starts, ends, '[)'::text))=(1, NSE, manual, 100, [2024-01-01,2024-01-03)).
+
+2026-11-24 11:52:00,067 25156 INFO golok_p03_core odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_p03_synthetic_workflow_and_reproducible_immutable_results ...
+2026-11-24 11:52:00,179 25156 INFO golok_p03_core odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_permissions_and_company_scope ...
+2026-11-24 11:52:00,235 25156 INFO golok_p03_core odoo.addons.base.models.ir_access: Access Denied for operation: read on record ids: [6], uid: 10, model: golok.lab.dataset
+2026-11-24 11:52:00,272 25156 INFO golok_p03_core odoo.addons.base.models.ir_access: Access Denied for operation: write on record ids: [6], uid: 9, model: golok.lab.dataset
+2026-11-24 11:52:00,282 25156 INFO golok_p03_core odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_point_in_time_calendar_quarantine_and_chart ...
+2026-11-24 11:52:00,378 25156 INFO golok_p03_core odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_research_cutoff_evidence_and_no_trade ...
+2026-11-24 11:52:00,468 25156 INFO golok_p03_core odoo.addons.base.models.ir_attachment: filestore gc 7 checked, 3 removed
+2026-11-24 11:52:00,478 25156 INFO golok_p03_core odoo.modules.loading: Module golok_ai_trading_lab_pro loaded in 2.28s (incl. 1.10s test), 746 queries (+486 test, +746 other)
+2026-11-24 11:52:01,082 25156 WARNING golok_p03_core odoo.addons.mail.controllers.attachment: markdown2 is not installed, markdown will not be rendered
+2026-11-24 11:52:01,149 25156 INFO golok_p03_core odoo.modules.loading: 17 modules loaded in 3.16s, 746 queries (+1232 extra)
+2026-11-24 11:52:01,488 25156 INFO golok_p03_core odoo.registry: verifying fields for every extended model
+2026-11-24 11:52:02,696 25156 INFO golok_p03_core odoo.modules.loading: Modules loaded.
+2026-11-24 11:52:02,708 25156 INFO golok_p03_core odoo.registry: Registry changed, signaling through the database
+2026-11-24 11:52:02,713 25156 INFO golok_p03_core odoo.registry: Registry loaded in 7.910s
+2026-11-24 11:52:02,713 25156 INFO golok_p03_core odoo.service.server: Starting post tests
+2026-11-24 11:52:02,714 25156 INFO golok_p03_core odoo.service.server: 0 post-tests in 0.00s, 0 queries
+2026-11-24 11:52:02,714 25156 INFO golok_p03_core odoo.tests.stats: golok_ai_trading_lab_pro: 10 tests 1.10s 486 queries
+2026-11-24 11:52:02,714 25156 INFO golok_p03_core odoo.tests.result: 0 failed, 0 error(s) of 8 tests when loading database 'golok_p03_core'
+2026-11-24 11:52:02,714 25156 INFO golok_p03_core odoo.service.server.ThreadedServer: Initiating shutdown
+2026-11-24 11:52:02,714 25156 INFO golok_p03_core odoo.service.server.ThreadedServer: Hit CTRL-C again or send a second signal to force the shutdown.
+2026-11-24 11:52:02,714 25156 INFO golok_p03_core odoo.addons.bus.websocket: Disconnecting 0 websockets
+2026-11-24 11:52:02,821 25156 INFO golok_p03_core odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 2 connections 

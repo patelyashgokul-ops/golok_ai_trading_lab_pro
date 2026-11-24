@@ -360,8 +360,22 @@ class ResearchRun(models.Model):
         if type(run_id) is not int or run_id <= 0:
             return None
         run = self.search([("id", "=", run_id), ("company_id", "=", self.env.company.id)], limit=1)
-        if not run or not run.last_close or run.dataset_id.quarantined:
+        if not run:
             return None
+        candles = run._checked_snapshot_candles()
+        if not candles:
+            return None
+        return {"origin": run.origin, "bars": [
+            [fields.Datetime.to_string(row.close_time), row.open_price, row.high_price,
+             row.low_price, row.close_price, row.volume] for row in reversed(candles[:60])
+        ]}
+
+    def _checked_snapshot_candles(self):
+        self.ensure_one()
+        self.check_access("read")
+        run = self
+        if not run.last_close or run.dataset_id.quarantined:
+            return self.env["golok.lab.candle"]
         domain = [("dataset_id", "=", run.dataset_id.id), ("close_time", ">=", run.first_close),
                   ("close_time", "<=", run.last_close)]
         if run.engine_version == "2":
@@ -370,8 +384,5 @@ class ResearchRun(models.Model):
         if len(candles) != run.bar_count or _input_digest(
             [row._to_bar() for row in reversed(candles)], run.dataset_id.calendar_id
         ) != run.input_digest:
-            return None
-        return {"origin": run.origin, "bars": [
-            [fields.Datetime.to_string(row.close_time), row.open_price, row.high_price,
-             row.low_price, row.close_price, row.volume] for row in reversed(candles[:60])
-        ]}
+            return self.env["golok.lab.candle"]
+        return candles

@@ -1,0 +1,7 @@
+Browser check database=golok_p03_core
+UI-01 authenticated OWL dashboard and empty state
+UI-02 CSV selected and imported through the Odoo wizard
+UI-06 database-backed OHLC and volume matched the uploaded fixture
+UI-03 historical research, accurate KPIs, refresh and snapshot drill-down
+UI-04 mobile viewport without horizontal overflow and no uncaught page errors
+UI-05 refresh gracefully recovered from a failed dashboard RPC

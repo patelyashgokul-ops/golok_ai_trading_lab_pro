@@ -1,5 +1,6 @@
 import json
 from datetime import datetime, timedelta
+from pathlib import Path
 
 from odoo.exceptions import AccessError, ValidationError
 from odoo.tests import TransactionCase, new_test_user, tagged
@@ -166,3 +167,61 @@ class TestLab(TransactionCase):
         self.assertIsNone(viewer.chart_data(run.id))
         with self.assertRaises(ValidationError):
             wizard.action_import()
+
+    def test_p03_mapping_date_scope_and_database_exclusions(self):
+        from psycopg2.errors import ExclusionViolation
+        mappings = self.env["golok.lab.mapping"].with_user(self.admin)
+        vals = {"instrument_id": self.instrument.id, "symbol": "ORIGINAL", "provider": "manual",
+                "token": "100", "starts": "2024-01-01", "ends": "2024-01-03", "tick": "0.05", "lot": 1,
+                "listing_status": "listed", "source": "Synthetic reference", "revision": "v1", "verification": "fixture"}
+        first = mappings.create(vals)
+        self.assertEqual(first.exchange, "NSE")
+        with self.assertRaises(ExclusionViolation), self.env.cr.savepoint():
+            mappings.create({**vals, "starts": "2024-01-02", "ends": "2024-01-04", "symbol": "CHANGED"})
+        mappings.create({**vals, "starts": "2024-01-03", "ends": False, "symbol": "RENAMED"})
+        with self.assertRaises(AccessError):
+            mappings.with_user(self.analyst).create(vals)
+        with self.assertRaises(AccessError):
+            first.write({"symbol": "REWRITE"})
+        with self.assertRaises(ValidationError):
+            mappings.create({**vals, "instrument_id": self.other_instrument.id})
+        other = mappings.sudo().create({**vals, "instrument_id": self.other_instrument.id})
+        self.assertNotIn(other.id, mappings.with_user(self.viewer).search([]).ids)
+
+    def test_p03_synthetic_workflow_and_reproducible_immutable_results(self):
+        files = Path(__file__).parent / "fixtures/p02"
+        spec = json.loads((files / "spec.json").read_text())
+        second = {**spec["schedule"][0], "date": "2024-01-03"}
+        calendar = self.env["golok.lab.calendar"].with_user(self.admin).create({
+            "name": "Synthetic experiment calendar", "source": "Synthetic fixture", "exchange": "NSE",
+            "verification": "fixture", "verified_on": "2024-01-01",
+            "schedule": json.dumps([*spec["schedule"], second]),
+        })
+        dataset = self.env["golok.lab.dataset"].with_user(self.analyst).create({
+            "name": "Two synthetic sessions", "source": "Synthetic P03 fixture", "origin": "synthetic",
+            "instrument_id": self.instrument.id, "interval": "5m", "calendar_id": calendar.id,
+        })
+        tariff = self.env["golok.lab.tariff"].with_user(self.admin).create({
+            "name": "Synthetic fees", "lines": json.dumps(spec["tariffs"]),
+        })
+        payload = (files / "candles.csv").read_bytes()
+        _, rows = payload.split(b"\n", 1)
+        self.env["golok.lab.import"].with_user(self.analyst).create({
+            "dataset_id": dataset.id,
+            "upload": BinaryBytes(payload.rstrip() + b"\n" + rows.replace(b"2024-01-02", b"2024-01-03")),
+        }).action_import()
+        wizard = self.env["golok.lab.experiment.wizard"].with_user(self.analyst).create({
+            "dataset_id": dataset.id, "tariff_id": tariff.id, "starts": "2024-01-02", "ends": "2024-01-03",
+        })
+        action = wizard.action_run()
+        self.assertEqual(action["res_id"], wizard.action_run()["res_id"])
+        experiment = self.env[action["res_model"]].with_user(self.analyst).browse(action["res_id"])
+        result = json.loads(experiment.result)
+        self.assertEqual(experiment.status, "completed")
+        self.assertEqual(experiment.trade_count, 2)
+        self.assertEqual([day["status"] for day in result["days"]], ["REPLAYED", "REPLAYED"])
+        self.assertEqual(result["metrics"]["consecutive_losses"], 2)
+        with self.assertRaises(AccessError):
+            experiment.write({"result": "{}"})
+        with self.assertRaises(ValidationError):
+            self.env[experiment._name].with_user(self.analyst).create({"status": "completed"})

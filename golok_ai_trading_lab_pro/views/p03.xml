@@ -129,4 +129,35 @@
     <menuitem id="menu_tariff" name="Hypothetical Tariffs" parent="menu_lab" action="action_tariff" sequence="83"/>
     <menuitem id="menu_experiment" name="Experiments" parent="menu_lab" action="action_experiment" sequence="84"/>
     <menuitem id="menu_experiment_wizard" name="Run Experiment" parent="menu_lab" action="action_experiment_wizard" sequence="85" groups="group_analyst"/>
+    <record id="view_findings_form" model="ir.ui.view">
+        <field name="name">golok.lab.findings.form</field><field name="model">golok.lab.findings</field>
+        <field name="arch" type="xml"><form create="0" edit="0" delete="0"><sheet>
+            <group><field name="run_id"/><field name="dataset_id"/><field name="instrument_id"/>
+                <field name="cutoff"/><field name="input_digest"/><field name="calculation_version"/><field name="elapsed_ms"/></group>
+            <field name="findings" nolabel="1"/>
+        </sheet></form></field>
+    </record>
+    <record id="view_run_findings" model="ir.ui.view">
+        <field name="name">golok.lab.run.form.findings</field><field name="model">golok.lab.run</field>
+        <field name="inherit_id" ref="view_run"/>
+        <field name="arch" type="xml"><sheet position="before">
+            <header><button name="action_supplemental_findings" type="object" string="Run Supplemental Findings"
+                            groups="golok_ai_trading_lab_pro.group_analyst"/></header>
+        </sheet></field>
+    </record>
+    <record id="view_provider_setup" model="ir.ui.view">
+        <field name="name">golok.lab.provider.setup.form</field><field name="model">golok.lab.provider.setup</field>
+        <field name="arch" type="xml"><form string="SmartAPI Diagnostics">
+            <p>Configure credentials on the Odoo host. Confirm that the owner has approved read-only access and registered its egress IP.</p>
+            <group><field name="status"/><field name="details"/><field name="checked_at"/></group>
+            <footer><button name="action_check_configuration" type="object" string="Check Local Configuration" class="btn-primary"/>
+                <button name="action_test_authentication" type="object" string="Test Authorized Authentication" class="btn-secondary"/>
+                <button string="Close" special="cancel" class="btn-secondary"/></footer>
+        </form></field>
+    </record>
+    <record id="action_provider_setup" model="ir.actions.act_window">
+        <field name="name">SmartAPI Diagnostics</field><field name="res_model">golok.lab.provider.setup</field>
+        <field name="view_mode">form</field><field name="target">new</field>
+    </record>
+    <menuitem id="menu_provider_setup" name="SmartAPI Diagnostics" parent="menu_lab" action="action_provider_setup" sequence="86" groups="group_admin"/>
 </odoo>

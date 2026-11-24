@@ -29,3 +29,7 @@ experiment_viewer,Experiment reader,golok.lab.experiment,golok_ai_trading_lab_pr
 experiment_analyst,Experiment analyst,golok.lab.experiment,golok_ai_trading_lab_pro.group_analyst,cr,
 experiment_company,Experiment company,golok.lab.experiment,,crud,"[('company_id', 'in', company_ids)]"
 experiment_wizard_analyst,Experiment wizard analyst,golok.lab.experiment.wizard,golok_ai_trading_lab_pro.group_analyst,crud,
+findings_viewer,Supplemental findings reader,golok.lab.findings,golok_ai_trading_lab_pro.group_viewer,r,
+findings_analyst,Supplemental findings analyst,golok.lab.findings,golok_ai_trading_lab_pro.group_analyst,cr,
+findings_company,Supplemental findings company,golok.lab.findings,,crud,"[('company_id', 'in', company_ids)]"
+provider_setup_admin,Provider diagnostics administrator,golok.lab.provider.setup,golok_ai_trading_lab_pro.group_admin,crud,
