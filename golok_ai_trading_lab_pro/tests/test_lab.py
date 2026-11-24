@@ -225,3 +225,68 @@ class TestLab(TransactionCase):
             experiment.write({"result": "{}"})
         with self.assertRaises(ValidationError):
             self.env[experiment._name].with_user(self.analyst).create({"status": "completed"})
+        accounts = self.env["golok.lab.paper.account"].with_user(self.admin)
+        account = accounts.create({"name": "Synthetic virtual test"})
+        with self.assertRaises(AccessError):
+            account.with_user(self.analyst)._post_replay(experiment)
+        wizard = self.env["golok.lab.paper.wizard"].with_user(self.admin).create(
+            {"account_id": account.id, "experiment_id": experiment.id}
+        )
+        posting = wizard.action_post()
+        self.assertEqual(posting["res_id"], wizard.action_post()["res_id"])
+        batch = self.env[posting["res_model"]].with_user(self.viewer).browse(posting["res_id"])
+        self.assertEqual(len(batch.event_ids), 6)
+        self.assertEqual(sum(batch.event_ids.mapped("reserved_delta")), 0)
+        self.assertEqual(sum(batch.event_ids.mapped("quantity_delta")), 0)
+        self.assertEqual(batch.before_paise + sum(batch.event_ids.mapped("cash_delta")), batch.after_paise)
+        self.assertEqual(batch.after_paise, account.available_paise)
+        with self.assertRaises(AccessError):
+            account.write({"available_paise": 1})
+        with self.assertRaises(ValidationError):
+            accounts.create({"name": "Forged", "available_paise": 1})
+        tiny = accounts.create({"name": "Insufficient fixture cash", "initial_deposit": "1.00"})
+        with self.assertRaises(ValidationError):
+            tiny._post_replay(experiment)
+        self.assertEqual(tiny.available_paise, 100)
+        self.assertFalse(self.env["golok.lab.paper.batch"].search([("account_id", "=", tiny.id)]))
+
+    def test_p03_supplemental_findings_and_offline_provider_setup(self):
+        from unittest.mock import patch
+
+        self._wizard(self._lines(21)).action_import()
+        run = self.env["golok.lab.run"].with_user(self.analyst).create({
+            "dataset_id": self.dataset.id, "as_of": "2024-01-02 06:00:00",
+        })
+        action = run.action_supplemental_findings()
+        finding = self.env[action["res_model"]].with_user(self.viewer).browse(action["res_id"])
+        self.assertEqual(finding.input_digest, run.input_digest)
+        self.assertEqual(json.loads(finding.findings)["RE-06"]["finding"]["rolling_support"], "99")
+        with self.assertRaises(AccessError):
+            run.with_user(self.viewer).action_supplemental_findings()
+        setup = self.env["golok.lab.provider.setup"].with_user(self.admin).create({})
+        with patch.dict("os.environ", {"GOLOK_SMARTAPI_AUTHORIZED": "0"}):
+            setup.action_check_configuration()
+            setup.action_test_authentication()
+        self.assertEqual(setup.status, "OFFLINE")
+        with self.assertRaises(AccessError):
+            self.env[setup._name].with_user(self.analyst).create({})
+
+    def test_p03_job_worker_and_immutable_corporate_source(self):
+        actions = self.env["golok.lab.corporate.action"].with_user(self.admin)
+        action = actions.create({"name": "Synthetic split", "instrument_id": self.instrument.id,
+                                 "kind": "split", "effective": "2024-01-02", "published_at": "2024-01-01 12:00:00",
+                                 "source": "Fixture notice", "revision": "v1", "numerator": 2, "denominator": 1})
+        with self.assertRaises(AccessError):
+            action.write({"numerator": 3})
+        jobs = self.env["golok.lab.research.job"]
+        researcher = jobs.with_user(self.analyst)
+        vals = {"dataset_id": self.dataset.id, "cutoff": "2024-01-02 04:00:00"}
+        job = researcher.create(vals)
+        self.assertEqual(job, researcher.create(vals))
+        rejected = researcher.create({**vals, "cutoff": "2024-01-02 04:05:00"})
+        rejected.action_cancel()
+        jobs._cron_run_next()
+        self.assertEqual(job.state, "completed")
+        self.assertEqual(job.run_id.decision, "no_trade")
+        self.assertEqual(rejected.state, "cancelled")
+        self.assertEqual(job.requested_by, self.analyst)

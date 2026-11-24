@@ -102,7 +102,10 @@ class Experiment(models.Model):
             raise ValidationError(_("Use a 1, 3, 5 or 15 minute dataset."))
         try:
             starts, ends = fields.Date.to_date(vals["starts"]), fields.Date.to_date(vals["ends"])
-            if not starts or not ends or not 0 <= (ends - starts).days < experiments.MAX_DAYS:
+            if (not starts or not ends or ends > fields.Date.today()
+                    or not 0 <= (ends - starts).days < experiments.MAX_DAYS):
+                raise ValueError
+            if not all(isinstance(vals[key], str) and market_data.NUMBER.fullmatch(vals[key]) for key in ("capital", "tick")):
                 raise ValueError
             capital, tick = Decimal(vals["capital"]), Decimal(vals["tick"])
             if (not capital.is_finite() or not tick.is_finite() or not 0 < capital <= 100_000_000

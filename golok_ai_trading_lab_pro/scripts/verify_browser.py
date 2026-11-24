@@ -101,6 +101,9 @@ def verify(base_url, database, edge):
         page.get_by_role("button", name="Open snapshot").click()
         expect(page.locator(".o_form_view").get_by_text("NO TRADE", exact=True)).to_be_visible()
         print("UI-03 historical research, accurate KPIs, refresh and snapshot drill-down", flush=True)
+        page.get_by_role("button", name="Run Supplemental Findings").click()
+        expect(page.locator(".o_form_view [name=findings]")).to_contain_text("RE-06")
+        print("UI-07 supplemental evidence generated and opened from the research snapshot", flush=True)
 
         page.goto(f"{base_url}/odoo/action-{action_id}")
         page.set_viewport_size({"width": 390, "height": 844})
@@ -120,6 +123,14 @@ def verify(base_url, database, edge):
         expect(page.get_by_role("button", name="Stored candles 21")).to_be_visible()
         assert not errors, errors
         print("UI-05 refresh gracefully recovered from a failed dashboard RPC", flush=True)
+        page.set_viewport_size({"width": 1440, "height": 900})
+        page.get_by_role("button", name="Synthetic experiments 0").click()
+        expect(page.locator(".o_list_view")).to_be_visible()
+        page.goto(f"{base_url}/odoo/action-{action_id}")
+        expect(page.get_by_role("button", name="Virtual replay accounts 0")).to_be_visible()
+        page.get_by_role("button", name="Virtual replay accounts 0").click()
+        expect(page.locator(".o_list_view")).to_be_visible()
+        print("UI-08 company experiment and virtual-account cards opened their native lists", flush=True)
         browser.close()
 
 

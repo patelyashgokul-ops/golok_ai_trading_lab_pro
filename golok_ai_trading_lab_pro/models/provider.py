@@ -76,7 +76,8 @@ class ProviderSetup(models.TransientModel):
 
     def action_check_configuration(self):
         self._check_setup_rights()
-        _, _, status, details = self._configuration()
+        configuration = self._configuration()
+        status, details = configuration[2:]
         return self._finish(status, details + _(" Adapter capabilities: %s.", ", ".join(sorted(CAPABILITIES))))
 
     def action_test_authentication(self):
