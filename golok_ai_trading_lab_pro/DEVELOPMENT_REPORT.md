@@ -8,7 +8,7 @@ New results cover explicit session validation and source publication times, 19 c
 
 ## 02 — Actual environment
 
-Verified Windows NT 10.0.26300, Intel Core i5-10210U, four physical and eight logical cores, 16,918,601,728 bytes total RAM and 3,639,160,832 bytes available at initial reinspection. Intel UHD was the previously identified integrated controller. P02 workloads used CPU. Verified Python 3.14.6, PostgreSQL 18.4, Odoo 20 Community and Edge via Playwright. The module resides in `C:/PycharmProjects/odoo20/custom_addons/golok_ai_trading_lab_pro`. Neither the module nor its immediate add-on parent had a Git repository. The add-on uses native Odoo web and the standard library. Benchmark tooling uses the existing psutil installation. The harness used disposable localhost PostgreSQL databases and disabled demo data without changing the owner's database or dependencies.
+Verified Windows NT 10.0.26300, Intel Core i5-10210U, four physical and eight logical cores, 16,918,601,728 bytes total RAM and 3,639,160,832 bytes available at initial reinspection. The GPU inventory lists Intel UHD integrated graphics. P02 workloads used CPU. Verified Python 3.14.6, PostgreSQL 18.4, Odoo 20 Community and Edge via Playwright. The module resides in `C:/PycharmProjects/odoo20/custom_addons/golok_ai_trading_lab_pro`. Neither the module nor its immediate add-on parent had a Git repository. The add-on uses native Odoo web and the standard library. Benchmark tooling uses the existing psutil installation. The harness used disposable localhost PostgreSQL databases and disabled demo data without changing the owner's database or dependencies. [Environment evidence](docs/evidence/p02/baseline/environment.txt)
 
 ## 03 — Architecture implemented
 
@@ -2218,12 +2218,12 @@ Six Edge checks cover load, upload, chart values, research drill-down, mobile la
 |---|---|
 | `python -B -m unittest discover -s tests -p "unit_*.py" -v` | Exit 0, 18 passed. [Output](docs/evidence/p02/unit/python.log) |
 | `./.local-test/p01-addons/golok_ai_trading_lab_pro/scripts/verify_odoo.ps1 -Browser -PostgresPort 55491 -HttpPort 18091 -Database golok_p02_p01_serial` | Archived source five ORM tests fresh and five upgrade, independent PostgreSQL test, and Edge PASSED. [Fresh](docs/evidence/p02/baseline/p01-fresh.log) · [Upgrade](docs/evidence/p02/baseline/p01-upgrade.log) · [Edge](docs/evidence/p02/baseline/browser.log) |
-| `./scripts/verify_odoo.ps1 -Browser -Database golok_p02_final` | Exit 0, six fresh ORM and six upgrade ORM, two contention scenarios and six Edge checks. [Fresh](docs/evidence/p02/installation/fresh.log) · [Upgrade](docs/evidence/p02/installation/upgrade.log) · [Edge](docs/evidence/p02/browser/edge.log) |
+| `./scripts/verify_odoo.ps1 -Browser -Database golok_p02_isolated` | Exit 0, six fresh ORM and six upgrade ORM, two contention scenarios and six Edge checks. [Fresh](docs/evidence/p02/installation/fresh.log) · [Upgrade](docs/evidence/p02/installation/upgrade.log) · [Edge](docs/evidence/p02/browser/edge.log) |
 | `./scripts/verify_p01_upgrade.ps1` | Exit 0, populated P01 upgrade then benchmark. [Migration](docs/evidence/p02/upgrade/retention.log) · [ORM performance](docs/evidence/p02/performance/orm.json) |
 | `python -B scripts/run_backtest.py tests/fixtures/p02/spec.json tests/fixtures/p02/candles.csv` | Exit 0, one synthetic research trade, cost and stop policy verified. [Simulation artifact](docs/evidence/p02/backtesting/synthetic.json) |
 | `python -B scripts/check_source.py` | Exit 0, 21 runtime files inspected. [Source check](docs/evidence/p02/security/source-scan.log) |
 
-Expected unique-key warnings are produced by the duplicate tests. [P02 evidence manifest](docs/evidence/p02/manifest.sha256)
+Expected unique-key warnings are produced by the duplicate tests. [Commands, exit codes and timings](docs/evidence/p02/COMMANDS.md) · [P02 evidence manifest](docs/evidence/p02/manifest.sha256)
 
 ## 12 — Business invariant verification
 
@@ -2360,7 +2360,7 @@ Expected unique-key warnings are produced by the duplicate tests. [P02 evidence 
 
 ## 14 — Financial research results
 
-The synthetic fixture has nine five-minute bars, one session, one simulated stop-first trade, and hypothetical transaction charges. Experiment fingerprint `e3ed346ea5b7fc5975590bd17f23bb8975281df0e12cbac4c4c5c583a4d2dbca`. The saved artifact contains the strategy/code, dataset and cost parameters. Dollar or INR outcomes in it belong solely to the correctness fixture. No authorized historical, out-of-sample, walk-forward or prospective paper trial was run. Win rate, profitability, statistical uncertainty and real-market results remain unavailable.
+The synthetic fixture has nine five-minute bars, one session, one simulated stop-first trade, and hypothetical transaction charges. Experiment fingerprint `779296f9802e2a95891959cf31c7f11d880053a244e555e3a3dfc751a33b5d0d`. The saved artifact contains the strategy/code, dataset and cost parameters. Its INR figures belong solely to the correctness fixture. No authorized historical, out-of-sample, walk-forward or prospective paper trial was run. Win rate, profitability, statistical uncertainty and real-market results remain unavailable.
 
 ## 15 — Performance results
 
@@ -2387,7 +2387,7 @@ Exchange revisions remain operator-curated. Calendar compatibility for closing a
 
 ## 19 — Development completion metrics
 
-Archived P01 reported 72/1,236. Reapplying the old counting convention to original IDs for comparison gives 73/1,236, counting verified prohibitions and features already locked out as the old rubric did. The corrected capability-and-process measure is 56/1210; it removes each row marked OPTIONAL, GUARD_ONLY, CONSTRAINT_VERIFIED or DEFERRED_OUT_OF_SCOPE. It is a requirements measure, not a product estimate. Among 23 tracked P02 functional milestones drawn from the P02 acceptance list, 11 passed. P02 acceptance passed 26/40, with 14/50 original ACs either revalidated or still relevant at the documented scope. There are 796 detailed P02 requirement IDs preserved as tracking lines and excluded from these milestone ratios. Research engine results exist for 3/25, all partial against full definitions. One of 20 strategies is implemented in synthetic scope, and 0 are financially validated.
+Archived P01 reported 72/1,236. Reapplying the old counting convention to original IDs for comparison gives 72/1,236, counting verified prohibitions and features already locked out as the old rubric did. The corrected capability-and-process measure is 56/1210 (P01 normalized: 56/1210); it removes each row marked OPTIONAL, GUARD_ONLY, CONSTRAINT_VERIFIED or DEFERRED_OUT_OF_SCOPE. It is a requirements measure, not a product estimate. Among 23 tracked P02 functional milestones drawn from the P02 acceptance list, 11 passed. P02 acceptance passed 26/40, with 14/50 original ACs either revalidated or still relevant at the documented scope. There are 796 detailed P02 requirement IDs preserved as tracking lines and excluded from these milestone ratios. Research engine results exist for 3/25, all partial against full definitions. One of 20 strategies is implemented in synthetic scope, and 0 are financially validated.
 
 Constraint compliance is scoped to audited paths. External live integration remains blocked and financially validated strategies remain zero. Neither is included in executable capability progress.
 
