@@ -1,0 +1,13 @@
+Browser check database=golok_p06_fresh_a
+UI-01 authenticated OWL dashboard and empty state
+UI-02 CSV selected and imported through the Odoo wizard
+UI-06 database-backed OHLC and volume matched the uploaded fixture
+UI-03 historical research, accurate KPIs, refresh and snapshot drill-down
+UI-07 supplemental evidence generated and opened from the research snapshot
+UI-04 mobile viewport without horizontal overflow and no uncaught page errors
+UI-05 refresh gracefully recovered from a failed dashboard RPC
+UI-08 company experiment and virtual-account cards opened their native lists
+UI-09 historical scanner opens with instrument, company data and NO TRADE
+UI-10 portfolio KPI reconciles to the company-scoped native portfolio list
+UI-11 synthetic replay submitted through Odoo wizard RPC and persisted result, gates and frozen inputs inspected in Edge
+UI-12 end-of-day import list and authorized-file form opened in Edge

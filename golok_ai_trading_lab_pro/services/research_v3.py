@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from decimal import Decimal
 from statistics import median
 
-VERSION = "2"
+VERSION = "3"
 
 
 @dataclass(frozen=True)
@@ -90,6 +90,18 @@ def turnover_proxy(bars):
             "zero_volume_observations": sum(bar.volume == 0 for bar in recent)}
 
 
+def abnormal_activity(bars):
+    baseline = bars[-21:-1]
+    center = median(bar.volume for bar in baseline)
+    width = median((bar.high - bar.low) / bar.close for bar in baseline)
+    current = bars[-1]
+    spread = (current.high - current.low) / current.close
+    return {"volume_ratio": str(Decimal(current.volume) / Decimal(center)) if center else None,
+            "range_ratio": str(spread / width) if width else None,
+            "volume_expansion": current.volume > 3 * center if center else None,
+            "range_expansion": spread > 3 * width if width else None}
+
+
 REGISTRY = {
     "RE-03": Engine("Price structure", 6, price_structure),
     "RE-04": Engine("Candle shape", 1, candle_shape),
@@ -98,6 +110,7 @@ REGISTRY = {
     "RE-08": Engine("Close back inside the pre-breakout range", 12, failed_breakout),
     "RE-09": Engine("Instrument regime", 21, instrument_regime),
     "RE-17": Engine("Median turnover proxy", 20, turnover_proxy),
+    "RE-20": Engine("Volume and range anomalies versus a prior twenty-bar baseline", 21, abnormal_activity),
     "RE-19": Engine("Directional momentum", 11, momentum),
 }
 

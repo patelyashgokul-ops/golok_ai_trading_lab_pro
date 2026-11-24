@@ -409,7 +409,8 @@ class TestLab(TransactionCase):
         spec = json.loads((files / "spec.json").read_text())
         revision = self.env["golok.lab.calendar"].with_user(self.admin).create({
             "name": "Synthetic portfolio calendar", "source": "Fixture", "exchange": "NSE",
-            "verification": "fixture", "verified_on": "2024-01-01", "schedule": json.dumps(spec["schedule"]),
+            "verification": "fixture", "verified_on": "2024-01-01", "schedule": json.dumps([
+                {**spec["schedule"][0], "date": f"2024-01-0{day}"} for day in range(2, 6)]),
         })
         tariff = self.env["golok.lab.tariff"].with_user(self.admin).create({
             "name": "Synthetic portfolio tariff", "lines": json.dumps(spec["tariffs"]),
@@ -421,9 +422,12 @@ class TestLab(TransactionCase):
             "name": instrument.name, "source": "P05 fixture", "origin": "synthetic",
             "instrument_id": instrument.id, "interval": "5m", "calendar_id": revision.id,
         } for instrument in self.instrument | second])
+        header, observations = (files / "candles.csv").read_bytes().split(b"\n", 1)
+        payload = header + b"\n" + b"\n".join(observations.strip().replace(b"2024-01-02", f"2024-01-0{n}".encode())
+                                             for n in range(2, 6))
         for dataset in datasets:
             self.env["golok.lab.import"].with_user(self.analyst).create({
-                "dataset_id": dataset.id, "upload": BinaryBytes((files / "candles.csv").read_bytes()),
+                "dataset_id": dataset.id, "upload": BinaryBytes(payload),
             }).action_import()
         vals = {"dataset_ids": datasets.ids, "tariff_id": tariff.id, "starts": "2024-01-02", "ends": "2024-01-02",
                 "capital": "50000", "tick": "0.05", "strategy": "ST-01"}
@@ -432,6 +436,14 @@ class TestLab(TransactionCase):
         self.assertEqual(record, portfolios.create({**vals, "dataset_ids": list(reversed(datasets.ids))}))
         self.assertEqual(self.env["golok.lab.run"].with_user(self.viewer).overview()["portfolios"], 1)
         result = json.loads(record.with_user(self.viewer).result)
+        wizard = self.env["golok.lab.portfolio.wizard"].with_user(self.analyst).create({
+            **vals, "dataset_ids": [(6, 0, datasets.ids)]})
+        comparison = wizard.action_compare()
+        self.assertEqual(len(portfolios.search(comparison["domain"])), 5)
+        wizard.ends = "2024-01-05"
+        validation = portfolios.search(wizard.action_walk_forward()["domain"])
+        self.assertEqual(str(validation.starts), "2024-01-05")
+        self.assertEqual(validation.starts, validation.ends)
         self.assertGreaterEqual(len(result["decisions"]), 2)
         self.assertGreaterEqual(len(result["trades"]), 1)
         self.assertEqual(Decimal(result["initial_cash"]) + sum(Decimal(row["delta"]) for row in result["ledger"]),

@@ -1,4 +1,9 @@
+import json
+from datetime import timedelta
+from decimal import Decimal
+
 from odoo import fields, models
+from odoo.exceptions import ValidationError
 
 from ..models.portfolio import STRATEGIES
 
@@ -37,4 +42,35 @@ class PortfolioWizard(models.TransientModel):
                 })
         return {"type": "ir.actions.act_window", "name": "Synthetic Strategy Comparison",
                 "res_model": records._name, "domain": [("id", "in", records.ids)],
+                "views": [(False, "list"), (False, "form")], "target": "current"}
+
+    def action_walk_forward(self):
+        self.ensure_one()
+        self.check_access("read")
+        duration = (self.ends - self.starts).days
+        if not 3 <= duration <= 8:
+            raise ValidationError("Select four to nine calendar dates with explicit session coverage.")
+        # Each validation day follows a two-date fit and a one-date embargo.
+        folds = []
+        for offset in range(duration - 2):
+            start = self.starts + timedelta(days=offset)
+            inputs = {"dataset_ids": self.dataset_ids.ids, "tariff_id": self.tariff_id.id,
+                      "capital": self.capital, "tick": self.tick}
+            portfolios = self.env["golok.lab.portfolio"]
+            scored = []
+            for code, _label in STRATEGIES:
+                if code == "all":
+                    continue
+                training = portfolios.create({**inputs, "starts": start, "ends": start + timedelta(days=1),
+                                              "strategy": code})
+                if training.trade_count:
+                    scored.append((Decimal(json.loads(training.result)["net"]), code, training.id))
+            if scored:
+                # Ties use strategy code; validation observations never enter selection.
+                _, selected, _ = min(scored, key=lambda entry: (-entry[0], entry[1]))
+                validation = start + timedelta(days=3)
+                folds.append(portfolios.create({**inputs, "starts": validation, "ends": validation,
+                                                "strategy": selected}).id)
+        return {"type": "ir.actions.act_window", "name": "Walk-forward Validation Replays",
+                "res_model": "golok.lab.portfolio", "domain": [("id", "in", folds)],
                 "views": [(False, "list"), (False, "form")], "target": "current"}

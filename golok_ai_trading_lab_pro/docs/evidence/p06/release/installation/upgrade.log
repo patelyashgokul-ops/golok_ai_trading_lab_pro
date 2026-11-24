@@ -73,3 +73,4 @@ DETAIL:  Key (company_id, exchange, provider, token, daterange(starts, ends, '[)
 2026-11-24 14:03:36,879 17504 INFO golok_p06_fresh_a odoo.service.server.ThreadedServer: Initiating shutdown
 2026-11-24 14:03:36,879 17504 INFO golok_p06_fresh_a odoo.service.server.ThreadedServer: Hit CTRL-C again or send a second signal to force the shutdown.
 2026-11-24 14:03:36,879 17504 INFO golok_p06_fresh_a odoo.addons.bus.websocket: Disconnecting 0 websockets
+2026-11-24 14:03:36,990 17504 INFO golok_p06_fresh_a odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 2 connections 

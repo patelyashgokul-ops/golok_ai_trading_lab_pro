@@ -4,6 +4,7 @@
         <field name="inherit_id" ref="view_portfolio_wizard"/>
         <field name="arch" type="xml"><xpath expr="//button[@name='action_run']" position="after">
             <button name="action_compare" type="object" string="Compare Five Strategies" class="btn-secondary"/>
+            <button name="action_walk_forward" type="object" string="Walk-forward Validation" class="btn-secondary"/>
         </xpath></field>
     </record>
     <record id="view_source_review_form" model="ir.ui.view">
