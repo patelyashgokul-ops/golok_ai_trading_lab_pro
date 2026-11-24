@@ -1,0 +1,7 @@
+# P08 authorization and datasets
+
+Historical dataset creation requires an explicit publisher-specific manual review. The server assigns the review ID. New SmartAPI datasets bind the provider review and receipt basis. Normalized daily datasets retain the file audit, review, calendar, mapping, interval and conservative local receipt time. Migration preserves prior datasets with absent lineage and does not grant new access.
+
+New research and queued research recheck the original review for active company, provider, upstream and descriptive purpose. A later review supersedes the earlier one for that publisher. An administrator can revoke a review directly. The read/search rules on candles, research results, findings and daily audit rows check the bound grant, dates and display rights. Direct external exports from those models are denied. A retention deadline blocks application access while preserving records. Nested exports, physical purge and complete dataset fingerprints remain open.
+
+**Normalize to Research Datasets** selects effective company NSE mappings and requires exact ISIN agreement. It records an audited relationship and produces daily candles within the session grid. Duplicate requests reuse linked datasets. Receipt is rounded upward to the supported minute. Unverified simulation uploads remain separate from real financial evidence. Dedicated fixture signing and generation remain open. [Regression tests](../tests/test_lab.py)

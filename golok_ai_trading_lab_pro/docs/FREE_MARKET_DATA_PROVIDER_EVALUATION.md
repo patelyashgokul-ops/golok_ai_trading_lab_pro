@@ -1,5 +1,7 @@
 # P07 market data provider evaluation
 
+P08 reviewed NSE's academic and non-commercial research programme on 24 November 2026. The programme requires eligibility and a research application. Applicable rights for this product were not established. No genuine file was downloaded or paid service activated. [NSE Data for Research](https://betanseapi.nseindia.com/static/research/initiatives-data-for-research) · [NSE disclaimer](https://betanseapi.nseindia.com/static/nse-disclaimer)
+
 Reviewed 24 November 2026. No paid plan, account or feed was activated.
 
 | Source | Access and rights finding | P07 decision |

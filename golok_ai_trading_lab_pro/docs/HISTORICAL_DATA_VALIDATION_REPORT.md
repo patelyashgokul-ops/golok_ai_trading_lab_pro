@@ -1,5 +1,7 @@
 # Historical data validation — P06
 
+P08 adds normalization of an accepted audit into a research dataset with a matching NSE mapping, exact ISIN and conservative local receipt. The workflow was tested with a project-authored fixture. Authorized genuine acquisition remains blocked. [P08 authorization and datasets](P08_AUTHORIZATION_AND_DATASET_REPORT.md)
+
 P07 acquired zero authorized market sessions. The reader now validates a bounded modern NSE cash UDiFF profile for date, venue, identity, series and OHLCV. The tests used authored CSV rows. Official exchange-file comparison and integration into the candle research panel remain open. [P07 provider review](FREE_MARKET_DATA_PROVIDER_EVALUATION.md)
 
 **Authorized external acquisition recorded zero market sessions.** The review established public documentation and report listings. It did not establish the required permission to automate retrieval, retain market panels and optimize strategies. The archive contains synthetic OHLCV only.

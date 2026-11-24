@@ -197,7 +197,7 @@ Original identifiers remain stable. The archived report preserves the historical
 | S08-032 | Do not bypass broker restrictions, authentication requirements, static IP requirements, or subscription conditions | NOT_STARTED | — | — | — | Verify official limits and account entitlement. Implement and test the read-only adapter. |
 | S08-033 | Do not expose secrets in frontend assets, screenshots, source control, logs, exception messages, or reports | NOT_STARTED | — | — | — | Verify official limits and account entitlement. Implement and test the read-only adapter. |
 | S08-034 | Use environment-based secrets or an appropriately protected local secret store | NOT_STARTED | — | — | — | Verify official limits and account entitlement. Implement and test the read-only adapter. |
-| S08-035 | The application must install and operate in simulation mode without real broker credentials | BLOCKED | — | B01 | See report §08 | Verify official limits and account entitlement. Implement and test the read-only adapter. |
+| S08-035 | The application must install and operate in simulation mode without real broker credentials | PASSED | See P08 report | P06–P08 regression | docs/P08_TEST_EXECUTION_REPORT.md | Offline synthetic Odoo operation. No broker credentials. |
 | S08-036 | If credentials are unavailable, mark real integration testing as BLOCKED. Mock or fixture testing must not be represented as successful live API verification | BLOCKED | — | B01 | See report §08 | Verify official limits and account entitlement. Implement and test the read-only adapter. |
 | S09-001 | Duplicate candles | COMPLETE | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | O03–O04, O08 | `docs/evidence/installation/{fresh,upgrade}.log`, `docs/evidence/security/contention.log` | — |
 | S09-002 | Missing candles | PARTIAL | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | U01–U05, O03–O04 | `docs/evidence/tests/unit.log` | CSV workflow exists. Provider-backed history and independent source validation remain. |
@@ -252,7 +252,7 @@ Original identifiers remain stable. The archived report preserves the historical
 | RE-17 | Liquidity Analysis | PARTIAL | P05 scope | See P05 executions | docs/evidence/p05/COMMANDS.md | Median close times volume as a turnover proxy, research_v3.py and unit/python.log. Financial validation remains open. |
 | RE-18 | Volatility Analysis | PARTIAL | `services/research.py`, `models/lab.py` | U06–U08, O05–O06 | `docs/evidence/tests/unit.log` | Three descriptive findings exist. Complete the remaining indicator set, evidence contract and engine methods. |
 | RE-19 | Momentum Analysis | PARTIAL | See P03 criterion or related service | See P03 execution inventory | docs/evidence/p03/COMMANDS.md | Ten-transition momentum counts and net return implemented, with warm-up guards. |
-| RE-20 | Abnormal Market Activity Detection | NOT_STARTED | — | — | — | Complete the engine contract and independently verify relevant engines. |
+| RE-20 | Abnormal Market Activity Detection | PARTIAL | See P08 report | P06–P08 regression | docs/P08_TEST_EXECUTION_REPORT.md | Versioned volume/range anomaly definitions exercised in P06 and P08 Python regression. |
 | RE-21 | Entry Optimization | NOT_STARTED | — | — | — | Complete the engine contract and independently verify relevant engines. |
 | RE-22 | Stop-Loss Optimization | NOT_STARTED | — | — | — | Complete the engine contract and independently verify relevant engines. |
 | RE-23 | Profit Target Optimization | NOT_STARTED | — | — | — | Complete the engine contract and independently verify relevant engines. |
@@ -317,9 +317,9 @@ Original identifiers remain stable. The archived report preserves the historical
 | ST-01 | Opening Range Breakout | PARTIAL | P05 scope | See P05 executions | docs/evidence/p05/COMMANDS.md | P05 portfolio ST-01 and sequential multi-3, unit/python.log and portfolio/fixture.json. Financial validation remains open. |
 | ST-02 | VWAP Pullback | PARTIAL | P05 scope | See P05 executions | docs/evidence/p05/COMMANDS.md | Causal pullback to prior approximate VWAP, tests/unit_p05.py. Financial validation remains open. |
 | ST-03 | VWAP Reclaim | NOT_STARTED | — | — | — | Implement and independently validate a versioned research-only candidate. |
-| ST-04 | Trend Following | NOT_STARTED | — | — | — | Implement and independently validate a versioned research-only candidate. |
+| ST-04 | Trend Following | PARTIAL | See P08 report | P06–P08 regression | docs/P08_TEST_EXECUTION_REPORT.md | Synthetic trend following signal, portfolio and comparison. Financial validation open. |
 | ST-05 | Momentum Continuation | NOT_STARTED | — | — | — | Implement and independently validate a versioned research-only candidate. |
-| ST-06 | Volume Confirmed Breakout | NOT_STARTED | — | — | — | Implement and independently validate a versioned research-only candidate. |
+| ST-06 | Volume Confirmed Breakout | PARTIAL | See P08 report | P06–P08 regression | docs/P08_TEST_EXECUTION_REPORT.md | Synthetic volume breakout signal, portfolio and comparison. Financial validation open. |
 | ST-07 | Support and Resistance Breakout | NOT_STARTED | — | — | — | Implement and independently validate a versioned research-only candidate. |
 | ST-08 | Mean Reversion | PARTIAL | P05 scope | See P05 executions | docs/evidence/p05/COMMANDS.md | Six preceding bars define a range and causal re-entry, tests/unit_p05.py. Financial validation remains open. |
 | ST-09 | Gap Continuation | NOT_STARTED | — | — | — | Implement and independently validate a versioned research-only candidate. |
@@ -958,7 +958,7 @@ Original identifiers remain stable. The archived report preserves the historical
 | AC-026 | Historical backtesting | PARTIAL | See P04 issue inventory | P-U; P-O; P-UI | docs/evidence/p04/COMMANDS.md | Single-instrument synthetic multi-session replay and frozen cash enforcement. Authorized financial replay pending. |
 | AC-027 | Look-ahead bias prevention | PARTIAL | `services/research.py`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Cutoff, prefix invariance and next-opening rules tested; real data lineage pending. |
 | AC-028 | Out-of-sample validation | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
-| AC-029 | Walk-forward testing | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
+| AC-029 | Walk-forward testing | PARTIAL | See P08 report | P06–P08 regression | docs/P08_TEST_EXECUTION_REPORT.md | Bounded Odoo training, embargo and validation with actual stored synthetic candles. |
 | AC-030 | Reproducible research experiments | PARTIAL | `services/research.py`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Synthetic code and data hashes verified. Holdout workflow pending. |
 | AC-031 | Automatic paper trading | PARTIAL | See P03 criterion or related service | See P03 execution inventory | docs/evidence/p03/COMMANDS.md | Virtual historical posting exists; prospective paper execution disabled. |
 | AC-032 | Virtual cash integrity | PARTIAL | See P03 criterion or related service | See P03 execution inventory | docs/evidence/p03/COMMANDS.md | Virtual historical cash and reservations reconcile atomically. |
@@ -5092,3 +5092,48 @@ Original identifiers remain stable. The archived report preserves the historical
 | P07-AC-098 | Handoff manifest verified | docs · P07 review archive | Identifier reconciliation and SHA-256 verification | manifest.sha256 · source.sha256 | PASSED | Earlier matrices retained with prior milestone scope. Current defect dispositions and software and market readiness are explicit. |
 | P07-AC-099 | Final ZIP SHA-256 verified | docs · P07 review archive | Identifier reconciliation and SHA-256 verification | manifest.sha256 · source.sha256 | PASSED | Earlier matrices retained with prior milestone scope. Current defect dispositions and software and market readiness are explicit. |
 | P07-AC-100 | Separate software and financial readiness decisions delivered | docs · P07 review archive | Identifier reconciliation and SHA-256 verification | manifest.sha256 · source.sha256 | PASSED | Earlier matrices retained with prior milestone scope. Current defect dispositions and software and market readiness are explicit. |
+
+## P08 acceptance
+
+| ID | Required outcome | Status | Verified scope and remaining work | Evidence below docs/evidence/p08 |
+| --- | --- | --- | --- | --- |
+| P08-AC-001 | P07 baseline and historical results preserved | PASSED | Archive and source SHA-256, historical reports, both strategy results reproduced. | baseline/verification.log |
+| P08-AC-002 | Existing regression tests executed | PASSED | 44 standalone, 16 fresh, 16 update and 15 Edge scenarios. | unit.log · final/ |
+| P08-AC-003 | All prior requirement identifiers preserved | PASSED | Prior row identities retained. Five old status rows updated with verified scope. | ../../REQUIREMENTS_TRACEABILITY.md |
+| P08-AC-004 | Central purpose-specific authorization implemented | PARTIAL | Publisher-bound purpose checks for manual CSV, research and jobs. Full export and operation vocabulary remains open. | final/installation/fresh.log |
+| P08-AC-005 | Existing dataset authorization lineage implemented | PARTIAL | New references persisted. Older unbound real inputs intentionally remain restricted. | migration-final/upgrade/retention.log |
+| P08-AC-006 | Expired authorization blocks prohibited research | PASSED | A superseding expired grant blocks research and queued job execution. | final/installation/fresh.log |
+| P08-AC-007 | Revoked authorization blocks prohibited operations | PARTIAL | Revocation action, supersession and bound read predicates implemented. Comprehensive active-revocation matrix open. | final/installation/fresh.log |
+| P08-AC-008 | Unauthorized read and export paths protected | PARTIAL | Restricted candle search, direct snapshot read and market export exercised. Nested exports remain open. | final/installation/fresh.log |
+| P08-AC-009 | Synthetic provenance controls verified | PARTIAL | Uploaded simulation data stays in simulation mode. Signed, generated provenance remains open. | unit.log |
+| P08-AC-010 | Unified import-to-dataset pipeline implemented | PARTIAL | Legacy authored file reaches mapped dataset, normalized candle and authorized research. Actual market file pending. | final/installation/fresh.log |
+| P08-AC-011 | Legacy daily import regression passed | PASSED | Legacy accepted, quarantined and idempotent retries passed. | final/installation/fresh.log |
+| P08-AC-012 | UDiFF profile verified within documented scope | PARTIAL | Targeted UDiFF header and data validation passed with authored cases. Official-file comparison open. | unit.log |
+| P08-AC-013 | Dataset revision and duplicate protection verified | PARTIAL | Daily audit and candle unique keys protect identical or conflicting inputs. Versioning across provider revisions remains open. | final/installation/fresh.log |
+| P08-AC-014 | Multi-session completeness and quarantine verified | PARTIAL | Existing gap and quarantine regressions passed. Complete daily multi-session merge unverified. | final/installation/fresh.log |
+| P08-AC-015 | Cross-source conflict eligibility integrated | PARTIAL | P07 standalone comparator retained. No automatic ingestion conflict gate. | unit.log |
+| P08-AC-016 | Retention policy enforcement verified | PARTIAL | Retention dates block covered reads and operations. Physical deletion and dedicated deadline test open. | ../../P08_AUTHORIZATION_AND_DATASET_REPORT.md |
+| P08-AC-017 | Practical free-data provider investigation completed | PASSED | NSE academic use restrictions and eligibility reviewed. | ../../FREE_MARKET_DATA_PROVIDER_EVALUATION.md |
+| P08-AC-018 | Genuine authorized data smoke test passed or explicitly blocked | BLOCKED | Source-specific real rights unavailable. Zero genuine sessions acquired. | ../../HISTORICAL_DATA_VALIDATION_REPORT.md |
+| P08-AC-019 | Generalized historical replay contract implemented | PARTIAL | Standalone publication contract only. Production historical execution not enabled. | unit.log |
+| P08-AC-020 | Historical and synthetic replay eligibility separated | PASSED | Intake assessment distinguishes daily and intraday. Portfolio keeps its synthetic-only boundary. | unit.log |
+| P08-AC-021 | Publication-time causality tests passed | PASSED | Strict publication-before-decision, missing and unverified evidence cases passed. | unit.log |
+| P08-AC-022 | Application-level holdout isolation improved | PARTIAL | Single-use replay isolation retained and concurrent database test passed. Raw holdout access still open. | final/security/contention.log |
+| P08-AC-023 | G01–G14 protected evidence handling verified | PARTIAL | Prior gate regressions passed. Full real-evidence handling unavailable. | unit.log |
+| P08-AC-024 | Session-aware native scheduler implemented | PASSED | Native fixture cron, explicit exchange calendar and persisted operations. | final/installation/fresh.log |
+| P08-AC-025 | Pre-market workflow tested | PASSED | Deterministic pre-market dispatch verified. | final/installation/fresh.log |
+| P08-AC-026 | Intraday orchestration tested in explicit fixture mode | PASSED | Fixture intraday produced descriptive research and NO TRADE. | final/installation/fresh.log |
+| P08-AC-027 | Post-market report workflow tested | PASSED | Post-market research and persisted report verified. | final/installation/fresh.log |
+| P08-AC-028 | Closed-day and exceptional-session behavior tested | PARTIAL | Closed-day ORM and maintenance unit cases passed. Broader exception scenarios open. | unit.log · final/installation/fresh.log |
+| P08-AC-029 | Durable job states implemented | PARTIAL | Persistent queued/completed/failed/blocked/cancelled. Durable lease states remain open. | ../../P08_SCHEDULER_AND_RECOVERY_REPORT.md |
+| P08-AC-030 | True concurrent job claiming verified | PASSED | Independent client held row and the competing worker skipped it. | final/security/contention.log |
+| P08-AC-031 | Retry and cancellation idempotency verified | PARTIAL | Phase deduplication, prior job cancellation and successful retry exercised. Full transition audit open. | final/installation/fresh.log · final/security/contention.log |
+| P08-AC-032 | Actual forced process interruption and recovery verified | PASSED | Actual process kill with rolled-back mutation and one recovered result. | final/security/contention.log |
+| P08-AC-033 | Missed-session recovery preserves historical classification | PARTIAL | Missed phases are not fabricated. Historical catch-up remains open. | ../../P08_SCHEDULER_AND_RECOVERY_REPORT.md |
+| P08-AC-034 | Authorization expiry between job creation and execution tested | PASSED | Job submitted with granted access. Superseded and expired rights caused a blocked execution. | final/installation/fresh.log |
+| P08-AC-035 | Operational dashboard backed by actual database records | PASSED | Native database-backed research operations list verified. | final/browser/edge.log |
+| P08-AC-036 | Persistent daily report and owner controls verified | PARTIAL | Persisted phase report and watch pause/manual controls present. Full owner operations not exercised. | final/browser/edge.log |
+| P08-AC-037 | Security and financial-safety regression passed | PASSED | Covered ACL, source, paper, holdout and read-only boundaries passed. | final/ · source-check.log |
+| P08-AC-038 | Fresh installation and populated P07 upgrade verified | PASSED | Disposable fresh/upgrade and populated P07 clone passed. | final/installation · migration-final/ |
+| P08-AC-039 | Current traceability and Gujarati documentation delivered | PASSED | Gujarati owner guide and current status reconciliation included. | ../../OWNER_SETUP_GUJARATI.md |
+| P08-AC-040 | Final evidence package and SHA-256 independently verified | PASSED | CRC, source manifest, all entries and independent external digest checked. | manifest.sha256 · source.sha256 |

@@ -1,5 +1,9 @@
 # Golok AI Trading Lab Pro ચલાવવાની રીત
 
+P08માં **Research Schedules** ખોલીને fixture calendar ધરાવતો dataset પસંદ કરો. **Check Session Now** હાલની સ્થિતિ નોંધે છે. **Daily Research Operations**માં તબક્કો, observations અને **NO TRADE**નું કારણ જુઓ. Laptop બંધ હોય ત્યારે સ્થાનિક scheduler ચાલતો નથી.
+
+અધિકૃત daily ફાઇલ આયાત કર્યા પછી **Normalize to Research Datasets** દબાવો. તારીખને આવરી લેતું NSE instrument mapping અને મેળ ખાતો ISIN હોવો જોઈએ. વાસ્તવિક CSV માટે **Source Authorizations**માં ચોક્કસ publisher અને ઉપયોગની મંજૂરી નોંધો.
+
 P07માં **Completed market structure** મૂળ target પદ્ધતિ છે. યોગ્ય target ન મળે તો નિર્ણય **NO TRADE** રહે છે. અગાઉના synthetic પરિણામ સાથે સરખાવવા **Fixed 4R benchmark** પસંદ કરી શકો છો. વાસ્તવિક market CSV આયાત પહેલાં **Source Authorizations**માં સક્રિય પરવાનગી નોંધો.
 
 1. તમારા સ્થાનિક Odoo 20નું સામાન્ય launcher ચાલુ કરો અને તેનો localhost સરનામો ખોલો. Appsમાં **Golok AI Trading Lab Pro** ઇન્સ્ટોલ અથવા અપગ્રેડ કરો. સક્રિય કંપની પસંદ કરો અને **Trading Lab → Research Overview** ખોલો.
