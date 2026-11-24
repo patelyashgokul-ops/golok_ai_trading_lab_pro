@@ -4,6 +4,7 @@ import hashlib
 import json
 from dataclasses import asdict
 from datetime import datetime, timezone
+from urllib.parse import urlsplit
 
 from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, ValidationError
@@ -37,24 +38,31 @@ class SourceReview(models.Model):
     fit = fields.Boolean()
     live = fields.Boolean()
     export = fields.Boolean()
+    storage_policy = fields.Selection([("unknown", "Unverified"), ("archive", "Ongoing internal archival permitted")],
+                                      default="unknown", required=True)
 
     @api.model_create_multi
     def create(self, vals_list):
         self.check_access("create")
         allowed = {"provider", "terms_url", "documentation", "evidence", "purpose", "restrictions", "expires",
-                   *providers.PERMISSIONS}
+                   "storage_policy", *providers.PERMISSIONS}
         if any(set(vals) - allowed for vals in vals_list):
             raise ValidationError(_("Supply only review evidence and explicit permissions."))
+        for vals in vals_list:
+            if vals.get("provider") != "fixture" and any(
+                    not str(vals.get(key, "")).startswith("https://") or not urlsplit(str(vals[key])).hostname
+                    for key in ("terms_url", "documentation")):
+                raise ValidationError(_("Reference the official HTTPS terms and documentation."))
         return super(SourceReview, self.with_context({})).create([
             {**vals, "company_id": self.env.company.id} for vals in vals_list])
 
     @api.model
-    def _authorize_file(self, source):
+    def _authorize(self, source, feed, required):
         review = self.search([("company_id", "=", self.env.company.id), ("provider", "=", source)], limit=1)
         grants = {source: {name: review[name] for name in providers.PERMISSIONS}} if review else {}
-        feed = "daily" if source == "bhavcopy" else "synthetic"
         if (not review or review.expires < fields.Date.today()
-                or not providers.route([source], feed, ("query", "display", "persist"), grants)):
+                or ("persist" in required and review.storage_policy != "archive")
+                or not providers.route([source], feed, required, grants)):
             raise AccessError(_("An effective review permitting file access, display and storage is required."))
         return review
 
@@ -89,7 +97,8 @@ class DailyImport(models.Model):
         source = vals["source"]
         if source not in ("fixture", "bhavcopy"):
             raise ValidationError(_("Invalid file source."))
-        review = self.env["golok.lab.source.review"]._authorize_file(source)
+        review = self.env["golok.lab.source.review"]._authorize(
+            source, "daily" if source == "bhavcopy" else "synthetic", ("query", "display", "persist"))
         day = fields.Date.to_date(vals["day"])
         calendar = self.env["golok.lab.calendar"].search([
             ("id", "=", vals["calendar_id"]), ("company_id", "=", self.env.company.id),

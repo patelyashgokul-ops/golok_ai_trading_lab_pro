@@ -23,6 +23,7 @@ class TradingOverview extends Component {
             { key: "paper_accounts", label: _t("Virtual replay accounts"), model: "golok.lab.paper.account" },
             { key: "successful_syncs", label: _t("Successful historical syncs"), model: "golok.lab.sync" },
             { key: "portfolios", label: _t("Synthetic portfolios"), model: "golok.lab.portfolio" },
+            { key: "holdouts", label: _t("Sealed evaluations"), model: "golok.lab.holdout" },
         ];
         onMounted(() => this.refresh());
     }

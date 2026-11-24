@@ -59,3 +59,5 @@ review_admin,Source authorization reviewer,golok.lab.source.review,golok_ai_trad
 review_company,Source review company,golok.lab.source.review,,crud,"[('company_id','in',company_ids)]"
 daily_import_admin,End of day file administrator,golok.lab.daily.import,golok_ai_trading_lab_pro.group_admin,cr,
 daily_import_company,End of day file company,golok.lab.daily.import,,crud,"[('company_id','in',company_ids)]"
+holdout_viewer,Holdout reader,golok.lab.holdout,golok_ai_trading_lab_pro.group_viewer,r,
+holdout_company,Holdout company,golok.lab.holdout,,crud,"[('company_id','in',company_ids)]"

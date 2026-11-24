@@ -8,4 +8,5 @@ from . import jobs
 from . import sync
 from . import portfolio
 from . import market_rights
+from . import holdout
 from . import sync_plan

@@ -27,6 +27,19 @@
                             <strong t-esc="this.state.data[card.key]"/>
                         </button>
                     </div>
+                    <section t-if="this.state.data.last_portfolio" class="o_golok_latest mb-3" aria-label="Latest synthetic portfolio">
+                        <t t-set="portfolio" t-value="this.state.data.last_portfolio"/>
+                        <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                            <h2>Latest synthetic portfolio</h2>
+                            <span t-if="portfolio.suspended" class="o_golok_status">New entries suspended</span>
+                        </div>
+                        <p><t t-esc="portfolio.strategy"/> · Through <t t-esc="portfolio.ends"/> · <t t-esc="portfolio.trade_count"/> simulated trades</p>
+                        <dl class="o_golok_facts"><div><dt>Opening cash</dt><dd>₹<t t-esc="portfolio.initial_cash"/></dd></div>
+                            <div><dt>Closing cash</dt><dd>₹<t t-esc="portfolio.ending_cash"/></dd></div>
+                            <div><dt>Gross P&amp;L</dt><dd>₹<t t-esc="portfolio.gross"/></dd></div>
+                            <div><dt>Hypothetical costs</dt><dd>₹<t t-esc="portfolio.fees"/></dd></div>
+                            <div><dt>Net P&amp;L</dt><dd>₹<t t-esc="portfolio.net"/></dd></div></dl>
+                    </section>
                     <section class="o_golok_latest" aria-labelledby="golok-latest-heading">
                         <h2 id="golok-latest-heading">Latest research snapshot</h2>
                         <div t-if="this.state.data.last">

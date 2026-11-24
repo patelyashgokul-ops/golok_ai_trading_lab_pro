@@ -7,6 +7,7 @@ param(
     [switch]$Browser,
     [string]$EvidenceDir = 'docs/evidence/p03/verification',
     [int]$HttpPort = 18089,
+    [string]$ClusterDir = '.local-test/pg',
     [string]$Edge = 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'
 )
 
@@ -19,7 +20,7 @@ try {
         "$EvidenceDir/browser", "$EvidenceDir/screenshots", "$EvidenceDir/security")) {
         New-Item -ItemType Directory -Force $directory | Out-Null
     }
-    $cluster = Join-Path $moduleRoot '.local-test/pg'
+    $cluster = Join-Path $moduleRoot $ClusterDir
     $serverLog = Join-Path $moduleRoot '.local-test/postgres.log'
     if (!(Test-Path (Join-Path $cluster 'PG_VERSION'))) {
         & "$PostgresBin/initdb.exe" -D $cluster -U golok_test -A trust -E UTF8 --locale=C

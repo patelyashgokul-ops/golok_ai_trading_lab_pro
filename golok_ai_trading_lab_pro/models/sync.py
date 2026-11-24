@@ -66,6 +66,7 @@ class Synchronization(models.Model):
             client._token = "fixture"
             return client.history(wizard.mapping_id.exchange, wizard.mapping_id.token, wizard.interval,
                                   session.opening, session.closing), client.last_success
+        self.env["golok.lab.source.review"]._authorize("smartapi", "historical", ("query", "display", "persist"))
         if not provider._SESSION_LOCK.acquire(blocking=False):
             raise ProviderError("PROVIDER_BUSY")
         try:

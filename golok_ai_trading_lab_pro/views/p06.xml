@@ -5,13 +5,26 @@
         <field name="arch" type="xml"><xpath expr="//button[@name='action_run']" position="after">
             <button name="action_compare" type="object" string="Compare Five Strategies" class="btn-secondary"/>
             <button name="action_walk_forward" type="object" string="Walk-forward Validation" class="btn-secondary"/>
-        </xpath></field>
+            <button name="action_seal" type="object" string="Seal Final Holdout" invisible="not training_id"/>
+        </xpath><xpath expr="//field[@name='strategy']" position="after"><field name="training_id" options="{'no_create': True}"/></xpath></field>
     </record>
+    <record id="view_holdout_form" model="ir.ui.view">
+        <field name="name">golok.lab.holdout.form</field><field name="model">golok.lab.holdout</field>
+        <field name="arch" type="xml"><form create="0" edit="0" delete="0">
+            <header><button name="action_consume" string="Consume Final Holdout" type="object"
+                invisible="result_id" groups="group_risk" class="btn-primary"/></header>
+            <sheet><group><field name="training_id"/><field name="starts"/><field name="ends"/>
+            <field name="sealed_by"/><field name="consumed_by"/><field name="consumed_at"/>
+            <field name="result_id"/><field name="fingerprint"/></group><field name="specification"/></sheet></form></field>
+    </record>
+    <record id="action_holdout" model="ir.actions.act_window"><field name="name">Sealed Holdouts</field>
+        <field name="res_model">golok.lab.holdout</field><field name="view_mode">list,form</field></record>
+    <menuitem id="menu_holdout" name="Sealed Holdouts" parent="menu_lab" action="action_holdout" sequence="98"/>
     <record id="view_source_review_form" model="ir.ui.view">
         <field name="name">golok.lab.source.review.form</field><field name="model">golok.lab.source.review</field>
         <field name="arch" type="xml"><form edit="0" delete="0" duplicate="0"><sheet>
             <group><group><field name="provider"/><field name="terms_url"/><field name="documentation"/>
-                <field name="evidence"/><field name="expires"/></group>
+                <field name="evidence"/><field name="expires"/><field name="storage_policy"/></group>
                 <group><field name="purpose"/><field name="restrictions"/><field name="create_uid" readonly="1"/>
                 <field name="create_date" readonly="1"/></group></group>
             <group string="Permissions" col="6"><field name="query"/><field name="display"/><field name="persist"/>

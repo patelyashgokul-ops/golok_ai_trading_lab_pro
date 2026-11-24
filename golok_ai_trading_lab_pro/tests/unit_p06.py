@@ -1,4 +1,5 @@
 import io
+import json
 import unittest
 from dataclasses import replace
 from datetime import date, datetime, timedelta, timezone
@@ -6,7 +7,7 @@ from decimal import Decimal
 from zipfile import ZipFile
 
 from scripts.reproduce_p05 import fixture
-from services import bhavcopy, price_integrity, providers, research_v3, strategies
+from services import bhavcopy, mcp_history, price_integrity, providers, research_v3, strategies
 
 
 class P06Tests(unittest.TestCase):
@@ -41,6 +42,25 @@ class P06Tests(unittest.TestCase):
         self.assertIsNone(providers.route(["bhavcopy"], "daily", ["persist"], {}))
         self.assertIsNone(providers.route(["bhavcopy"], "daily", ["fit"], grants))
         self.assertEqual(providers.route(["yahoo", "bhavcopy"], "daily", ["persist"], grants), "bhavcopy")
+
+    def test_offline_mcp_handshake_discovery_and_pinned_schema(self):
+        calls = []
+        tool = {"name": "fixture_session", "inputSchema": mcp_history.SCHEMA}
+        result = {"date": self.day.isoformat(), "count": 7}
+        replies = {"initialize": {"protocolVersion": mcp_history.VERSION, "capabilities": {"tools": {}}},
+                   "tools/list": {"tools": [tool]}, "tools/call": {"structuredContent": result}}
+
+        def transport(message, timeout):
+            self.assertEqual(timeout, 5)
+            calls.append(message["method"])
+            if "id" in message:
+                return json.dumps({"jsonrpc": "2.0", "id": message["id"], "result": replies[message["method"]]}).encode()
+
+        self.assertEqual(mcp_history.query_fixture(transport, self.day)["count"], 7)
+        self.assertEqual(calls, ["initialize", "notifications/initialized", "tools/list", "tools/call"])
+        tool["inputSchema"] = {}
+        with self.assertRaises(ValueError):
+            mcp_history.query_fixture(transport, self.day)
 
     def test_equivalence_conflict_and_lineage(self):
         now = datetime.now(timezone.utc)

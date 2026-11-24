@@ -30,7 +30,7 @@ class TestLab(TransactionCase):
             imports.create(vals)
         grant = {"provider": "fixture", "terms_url": "fixture", "documentation": "fixture",
                  "evidence": "Self-authored OHLC", "purpose": "Software testing", "restrictions": "Synthetic only",
-                 "expires": "2099-01-01", "display": True, "query": True, "persist": True}
+                 "expires": "2099-01-01", "display": True, "query": True, "persist": True, "storage_policy": "archive"}
         reviews.create(grant)
         accepted = imports.create(vals)
         self.assertEqual((accepted.status, accepted.count), ("accepted", 1))
@@ -444,6 +444,19 @@ class TestLab(TransactionCase):
         validation = portfolios.search(wizard.action_walk_forward()["domain"])
         self.assertEqual(str(validation.starts), "2024-01-05")
         self.assertEqual(validation.starts, validation.ends)
+        wizard.write({"starts": "2024-01-04", "ends": "2024-01-04", "training_id": record.id})
+        seal_action = wizard.action_seal()
+        seal = self.env["golok.lab.holdout"].with_user(self.admin).browse(seal_action["res_id"])
+        self.assertFalse(seal.result_id)
+        with self.assertRaises(ValidationError):
+            wizard.action_run()
+        with self.assertRaises(AccessError):
+            seal.with_user(self.analyst).action_consume()
+        self.assertEqual(seal.action_consume()["res_id"], seal.result_id.id)
+        with self.assertRaises(ValidationError):
+            seal.action_consume()
+        with self.assertRaises(ValidationError):
+            wizard.action_seal()
         self.assertGreaterEqual(len(result["decisions"]), 2)
         self.assertGreaterEqual(len(result["trades"]), 1)
         self.assertEqual(Decimal(result["initial_cash"]) + sum(Decimal(row["delta"]) for row in result["ledger"]),

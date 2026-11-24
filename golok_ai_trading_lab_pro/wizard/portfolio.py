@@ -19,6 +19,19 @@ class PortfolioWizard(models.TransientModel):
     capital = fields.Char(required=True, default="50000")
     tick = fields.Char(required=True, default="0.05", string="Unmapped Tick Size")
     strategy = fields.Selection(STRATEGIES, required=True, default="all")
+    training_id = fields.Many2one("golok.lab.portfolio", string="Training replay for sealing")
+
+    def action_seal(self):
+        self.ensure_one()
+        self.check_access("read")
+        if not self.training_id:
+            raise ValidationError("Select the frozen training replay.")
+        seal = self.env["golok.lab.portfolio"]._run_request([{
+            "dataset_ids": self.dataset_ids.ids, "tariff_id": self.tariff_id.id, "starts": self.starts,
+            "ends": self.ends, "capital": self.capital, "tick": self.tick, "strategy": self.strategy,
+        }], training=self.training_id)
+        return {"type": "ir.actions.act_window", "res_model": seal._name, "res_id": seal.id,
+                "views": [(False, "form")], "target": "current"}
 
     def action_run(self):
         self.ensure_one()

@@ -1,0 +1,73 @@
+2026-11-24 14:10:50,916 8444 WARNING ? odoo.tools.config: option --without-demo: since 19.0, invalid boolean value: 'all', assume True
+2026-11-24 14:10:50,917 8444 INFO ? odoo: Odoo version 20.0
+2026-11-24 14:10:50,917 8444 INFO ? odoo: Using configuration file at c:\pycharmprojects\odoo20\odoo-20.0\odoo.conf
+2026-11-24 14:10:50,918 8444 INFO ? odoo: addons paths: _NamespacePath(['C:\\PycharmProjects\\odoo20\\odoo-20.0\\odoo\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons\\golok_ai_trading_lab_pro\\.local-test\\odoo-data\\addons\\20.0', 'c:\\pycharmprojects\\odoo20\\odoo-20.0\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons'])
+2026-11-24 14:10:50,918 8444 INFO ? odoo: database: golok_test@127.0.0.1:55497
+2026-11-24 14:10:53,540 8444 INFO ? odoo.service.server: HTTP service running on 127.0.0.1:18097
+2026-11-24 14:10:53,600 8444 INFO golok_p06_fresh_c odoo.tests.common: Importing test framework
+2026-11-24 14:10:53,678 8444 INFO golok_p06_fresh_c odoo.modules.loading: Initializing database golok_p06_fresh_c
+2026-11-24 14:10:55,930 8444 WARNING golok_p06_fresh_c odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-24 14:10:55,937 8444 WARNING golok_p06_fresh_c odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-24 14:10:56,103 8444 WARNING golok_p06_fresh_c odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-24 14:10:56,103 8444 WARNING golok_p06_fresh_c odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-24 14:10:56,104 8444 WARNING golok_p06_fresh_c odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-24 14:10:56,104 8444 WARNING golok_p06_fresh_c odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-24 14:10:56,292 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading 1 modules...
+2026-11-24 14:10:56,293 8444 INFO golok_p06_fresh_c odoo.modules.loading: Loading module base (1/1)
+2026-11-24 14:10:56,350 8444 INFO golok_p06_fresh_c odoo.tools.version_tag_reset: Detected tp_versions_used at offset 410, reset enabled
+2026-11-24 14:10:56,351 8444 INFO golok_p06_fresh_c odoo.registry: module base: creating or updating database tables
+2026-11-24 14:10:56,993 8444 INFO golok_p06_fresh_c odoo.fields: Prepare computation of ir.module.module.menus_by_module in 664 records
+2026-11-24 14:10:56,996 8444 INFO golok_p06_fresh_c odoo.fields: Prepare computation of ir.module.module.reports_by_module in 664 records
+2026-11-24 14:10:57,000 8444 INFO golok_p06_fresh_c odoo.fields: Prepare computation of ir.module.module.views_by_module in 664 records
+2026-11-24 14:10:57,231 8444 INFO golok_p06_fresh_c odoo.fields: Prepare computation of res.partner.user_id in 1 records
+2026-11-24 14:10:57,237 8444 INFO golok_p06_fresh_c odoo.fields: Prepare computation of res.partner.commercial_partner_id in 1 records
+2026-11-24 14:10:57,240 8444 INFO golok_p06_fresh_c odoo.fields: Prepare computation of res.partner.complete_name in 1 records
+2026-11-24 14:10:57,241 8444 INFO golok_p06_fresh_c odoo.fields: Prepare computation of res.partner.lang in 1 records
+2026-11-24 14:10:57,249 8444 INFO golok_p06_fresh_c odoo.fields: Prepare computation of res.partner.commercial_company_name in 1 records
+2026-11-24 14:10:57,251 8444 INFO golok_p06_fresh_c odoo.fields: Prepare computation of res.partner.properties in 1 records
+2026-11-24 14:10:57,256 8444 INFO golok_p06_fresh_c odoo.fields: Prepare computation of res.partner.partner_share in 1 records
+2026-11-24 14:10:57,304 8444 INFO golok_p06_fresh_c odoo.fields: Prepare computation of res.currency.decimal_places in 1 records
+2026-11-24 14:10:57,372 8444 INFO golok_p06_fresh_c odoo.fields: Prepare computation of res.company.company_details in 1 records
+2026-11-24 14:10:57,377 8444 INFO golok_p06_fresh_c odoo.fields: Prepare computation of res.company.uses_default_logo in 1 records
+2026-11-24 14:10:57,383 8444 INFO golok_p06_fresh_c odoo.models: Computing parent_path for table res_company...
+2026-11-24 14:10:57,459 8444 INFO golok_p06_fresh_c odoo.fields: Prepare computation of res.users.signature in 1 records
+2026-11-24 14:10:57,461 8444 INFO golok_p06_fresh_c odoo.fields: Prepare computation of res.users.share in 1 records
+2026-11-24 14:11:02,020 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/data/res.lang.csv
+2026-11-24 14:11:02,119 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/data/res_lang_data.xml
+2026-11-24 14:11:02,259 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/data/res_partner_data.xml
+2026-11-24 14:11:02,599 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/data/res_currency_data.xml
+2026-11-24 14:11:04,023 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/data/res_company_data.xml
+2026-11-24 14:11:04,074 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/data/res_users_data.xml
+2026-11-24 14:11:05,703 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/data/report_paperformat_data.xml
+2026-11-24 14:11:05,734 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/data/res_country_data.xml
+2026-11-24 14:11:07,470 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/data/clearing_label_data.xml
+2026-11-24 14:11:07,527 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/data/ir_demo_data.xml
+2026-11-24 14:11:07,557 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/security/base_groups.xml
+2026-11-24 14:11:08,187 8444 INFO golok_p06_fresh_c odoo.addons.base.models.res_users: Group change: user 1 with IP n/a changed groups of user 3 who belonged to [] with changes [(<Command.LINK: 4>, 12, 0)]
+2026-11-24 14:11:08,317 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/wizard/wizard_ir_model_menu_create_views.xml
+2026-11-24 14:11:08,340 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/views/decimal_precision_views.xml
+2026-11-24 14:11:08,378 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/views/res_config_views.xml
+2026-11-24 14:11:08,393 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/data/res.country.state.csv
+2026-11-24 14:11:09,548 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/views/ir_actions_views.xml
+2026-11-24 14:11:09,953 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/views/ir_asset_views.xml
+2026-11-24 14:11:09,991 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/views/ir_config_parameter_views.xml
+2026-11-24 14:11:10,032 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/views/ir_cron_views.xml
+2026-11-24 14:11:10,118 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/views/ir_cron_trigger_views.xml
+2026-11-24 14:11:10,169 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/views/ir_filters_views.xml
+2026-11-24 14:11:10,252 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/views/ir_mail_server_views.xml
+2026-11-24 14:11:10,319 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/views/ir_model_views.xml
+2026-11-24 14:11:10,607 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/views/ir_attachment_views.xml
+2026-11-24 14:11:10,658 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/views/ir_access_views.xml
+2026-11-24 14:11:10,707 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/views/ir_sequence_views.xml
+2026-11-24 14:11:10,760 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/views/ir_ui_menu_views.xml
+2026-11-24 14:11:10,819 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/views/ir_ui_view_views.xml
+2026-11-24 14:11:10,919 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/views/ir_default_views.xml
+2026-11-24 14:11:10,962 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/data/ir_config_parameter_data.xml
+2026-11-24 14:11:10,976 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/data/ir_cron_data.xml
+2026-11-24 14:11:11,041 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/report/ir_model_report.xml
+2026-11-24 14:11:11,061 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/report/ir_model_templates.xml
+2026-11-24 14:11:11,099 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/views/ir_logging_views.xml
+2026-11-24 14:11:11,155 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/views/ir_qweb_widget_templates.xml
+2026-11-24 14:11:11,195 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/views/ir_module_views.xml
+2026-11-24 14:11:11,340 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/data/ir_module_category_data.xml
+2026-11-24 14:11:11,476 8444 INFO golok_p06_fresh_c odoo.modules.loading: loading base/data/ir_module_module.xml

@@ -44,6 +44,9 @@ class Portfolio(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        return self._run_request(vals_list)
+
+    def _run_request(self, vals_list, *, training=None, seal=None):
         self.check_access("create")
         allowed = {"dataset_ids", "tariff_id", "starts", "ends", "capital", "tick", "strategy"}
         if len(vals_list) != 1 or set(vals_list[0]) != allowed:
@@ -66,6 +69,22 @@ class Portfolio(models.Model):
                     for dataset in datasets)):
             raise ValidationError(_("Select calendar-bound eligible synthetic datasets with distinct instruments and one interval."))
         starts, ends, capital, tick = self._parse_request(vals)
+        self.env["golok.lab.replay.guard"]._lock(datasets.instrument_id)
+        overlap = [("company_id", "=", company.id), ("starts", "<=", ends), ("ends", ">=", starts),
+                   ("dataset_ids.instrument_id", "in", datasets.instrument_id.ids)]
+        reserved = self.env["golok.lab.holdout"].search(overlap)
+        if reserved and (seal is None or reserved.ids != seal.ids):
+            raise ValidationError(_("This instrument and date window is reserved for sealed evaluation."))
+        if training is not None:
+            training.check_access("read")
+            previous_experiment = self.env["golok.lab.experiment"].search_count([
+                *overlap[:-1], ("dataset_id.instrument_id", "in", datasets.instrument_id.ids)])
+            if (not training or training.company_id != company or training.tariff_id != tariff
+                    or set(training.dataset_ids.ids) != set(datasets.ids) or training.strategy != vals["strategy"]
+                    or training.strategy == "all" or training.ends + timedelta(days=1) >= starts
+                    or Decimal(training.capital) != capital or Decimal(training.tick) != tick
+                    or previous_experiment or self.search_count(overlap)):
+                raise ValidationError(_("Select a matching earlier single-strategy replay and a previously unused holdout after an embargo."))
         code = vals["strategy"]
         codes = tuple(sorted(strategies.REGISTRY)) if code == "all" else (code,)
         seconds = market_data.INTERVALS[datasets[0].interval]
@@ -90,19 +109,32 @@ class Portfolio(models.Model):
                            "calendar": revision.id, "calendar_digest": digest(revision.schedule),
                            "tick": asset_tick, "bars": len(bars), "input_digest": digest([asdict(bar) for bar in bars])})
         costs = tariff._schedule()
-        try:
-            output = portfolio.replay(assets, starts, ends, seconds, codes, costs, capital=capital)
-        except (ValueError, ArithmeticError) as exc:
-            raise ValidationError(str(exc)) from None
         specification = {
-            "company": company.id, "scope": output["scope"], "starts": starts, "ends": ends,
+            "company": company.id, "scope": "SYNTHETIC_SOFTWARE_ONLY", "starts": starts, "ends": ends,
             "interval_seconds": seconds, "capital": capital, "inputs": inputs, "tariff": tariff.id,
-            "tariffs": [asdict(rule) for rule in costs.tariffs], "policy": output["policy"],
+            "tariffs": [asdict(rule) for rule in costs.tariffs], "policy": asdict(portfolio.PortfolioPolicy()),
             "strategies": codes, "strategy_version": strategies.VERSION,
             "code_digests": {module.__name__.rsplit(".", 1)[-1]: hashlib.sha256(Path(module.__file__).read_bytes()).hexdigest()
                              for module in (portfolio, strategies, decision, eligibility, simulation, calendar)},
         }
         fingerprint = digest(specification)
+        if training is not None:
+            try:
+                portfolio._events(assets, starts, ends, seconds)
+            except ValueError as exc:
+                raise ValidationError(str(exc)) from None
+            frozen = self.env["golok.lab.holdout"].with_context({}).sudo().create({
+                "company_id": company.id, "training_id": training.id, "starts": starts, "ends": ends,
+                "dataset_ids": [fields.Command.set(datasets.ids)], "fingerprint": fingerprint,
+                "sealed_by": self.env.user.id, "specification": backtest.canonical(specification),
+            })
+            return self.env["golok.lab.holdout"].browse(frozen.id)
+        if seal is not None and (not reserved or seal.fingerprint != fingerprint or seal.result_id):
+            raise ValidationError(_("Holdout consumed or frozen inputs changed."))
+        try:
+            output = portfolio.replay(assets, starts, ends, seconds, codes, costs, capital=capital)
+        except (ValueError, ArithmeticError) as exc:
+            raise ValidationError(str(exc)) from None
         prior = self.search([("company_id", "=", company.id), ("fingerprint", "=", fingerprint)], limit=1)
         if prior:
             return prior

@@ -150,3 +150,32 @@ def _p03_races(env, company, instrument):
     assert len(batch.event_ids) == 3
     assert batch.after_paise == batch.before_paise + sum(batch.event_ids.mapped("cash_delta"))
     print("PASS: independent virtual-account postings overlapped; retry found exactly one reconciled batch")
+    holdout_calendar = revision.copy({
+        "name": "Holdout race calendar", "schedule": json.dumps([
+            {**spec["schedule"][0], "date": day} for day in ("2024-01-02", "2024-01-05")])})
+    daily = env["golok.lab.dataset"].create({
+        "company_id": company.id, "instrument_id": instrument.id, "calendar_id": holdout_calendar.id,
+        "interval": "5m", "name": "Holdout race", "source": "Synthetic holdout race", "origin": "synthetic"})
+    payload = (fixture / "candles.csv").read_bytes()
+    for day in (b"2024-01-02", b"2024-01-05"):
+        daily._import_bars(parse_csv(payload.replace(b"2024-01-02", day), as_of=datetime.now(timezone.utc), temporal=True))
+    inputs = {"dataset_ids": daily.ids, "tariff_id": tariff.id, "strategy": "ST-01", "tick": "0.05", "capital": "50000"}
+    training = runner["golok.lab.portfolio"].create({**inputs, "starts": "2024-01-02", "ends": "2024-01-02"})
+    wizard = runner["golok.lab.portfolio.wizard"].create({
+        **inputs, "dataset_ids": [(6, 0, daily.ids)], "starts": "2024-01-05", "ends": "2024-01-05", "training_id": training.id})
+    seal_id = wizard.action_seal()["res_id"]
+    env.cr.commit()
+
+    def consume(other):
+        scoped = other(user=actor, context=scope)
+        return scoped["golok.lab.holdout"].browse(seal_id).action_consume()
+
+    _overlap(env, lambda: consume(env), consume, SerializationFailure)
+    try:
+        consume(env)
+    except ValidationError:
+        pass
+    else:
+        raise AssertionError("A second consumption unexpectedly succeeded.")
+    assert runner["golok.lab.holdout"].browse(seal_id).result_id
+    print("PASS: independent holdout evaluations overlapped and a fresh retry rejected repeated consumption")

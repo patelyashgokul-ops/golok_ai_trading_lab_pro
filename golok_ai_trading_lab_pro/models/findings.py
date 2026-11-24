@@ -79,6 +79,17 @@ class ResearchRun(models.Model):
         data["paper_accounts"] = self.env["golok.lab.paper.account"].search_count(domain)
         data["successful_syncs"] = self.env["golok.lab.sync"].search_count([*domain, ("state", "=", "complete")])
         data["portfolios"] = self.env["golok.lab.portfolio"].search_count(domain)
+        latest = self.env["golok.lab.portfolio"].search(domain, limit=1)
+        data["last_portfolio"] = False
+        if latest:
+            result = json.loads(latest.result)
+            data["last_portfolio"] = {
+                "id": latest.id, "strategy": latest.strategy, "ends": latest.ends,
+                "initial_cash": result["initial_cash"], "ending_cash": result["ending_cash"],
+                "gross": result["gross"], "fees": result["fees"], "net": result["net"],
+                "suspended": latest.suspended, "trade_count": latest.trade_count,
+            }
+        data["holdouts"] = self.env["golok.lab.holdout"].search_count(domain)
         return data
 
     def action_supplemental_findings(self):
