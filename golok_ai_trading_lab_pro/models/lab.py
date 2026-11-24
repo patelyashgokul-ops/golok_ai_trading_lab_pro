@@ -231,7 +231,7 @@ class Dataset(models.Model):
         review = self.sudo().source_review_id
         if not review or self.publication_basis not in ("operator", "receipt"):
             raise AccessError(_("The historical dataset has no effective authorization lineage."))
-        if review.provider not in ("smartapi", "bhavcopy", "manual"):
+        if review.provider not in ("smartapi", "upstox", "bhavcopy", "manual"):
             raise AccessError(_("The data is ineligible for this operation."))
         return self.env["golok.lab.source.review"]._authorize(
             review.provider, "daily" if review.provider == "bhavcopy" else "historical", purpose,

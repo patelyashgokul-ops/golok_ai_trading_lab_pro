@@ -6,6 +6,8 @@ from dataclasses import dataclass
 from datetime import date
 from decimal import Decimal
 
+from . import upstox
+
 
 @dataclass(frozen=True)
 class Mapping:
@@ -29,7 +31,8 @@ class Mapping:
         if (not all(isinstance(value, str) and value.strip()
                     for value in (self.instrument_key, self.symbol, self.provider, self.source, self.version))
                 or self.exchange not in ("NSE", "BSE")
-                or not isinstance(self.token, str) or not re.fullmatch(r"[0-9]{1,20}", self.token)
+                or (not upstox.identity(self.exchange, self.token, self.isin) if self.provider == "upstox"
+                    else not isinstance(self.token, str) or not re.fullmatch(r"[0-9]{1,20}", self.token))
                 or self.status not in ("listed", "suspended", "delisted")
                 or self.verification not in ("reviewed", "unverified", "fixture")
                 or type(self.starts) is not date or (self.ends is not None and (type(self.ends) is not date or self.ends <= self.starts))

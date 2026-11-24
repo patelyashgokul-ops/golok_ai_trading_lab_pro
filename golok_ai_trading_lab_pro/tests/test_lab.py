@@ -1067,6 +1067,43 @@ class TestLab(TransactionCase):
         cancelled.action_process_next()
         self.assertEqual(cancelled.task_ids.mapped("state"), ["done", "cancelled", "cancelled", "cancelled"])
 
+    def test_p06p07_r01_upstox_fixture_and_automatic_comparison(self):
+        mappings = self.env["golok.lab.mapping"].with_user(self.admin)
+        base = {"instrument_id": self.instrument.id, "symbol": self.instrument.symbol,
+                "starts": "2024-01-02", "tick": "0.05", "listing_status": "listed",
+                "source": "Authored fixture", "revision": "r01", "verification": "fixture", "isin": "IN0000000001"}
+        smart = mappings.create({**base, "provider": "smartapi", "token": "123"})
+        upstox = mappings.create({**base, "provider": "upstox", "token": "NSE_EQ|IN0000000001"})
+        revision = self.env["golok.lab.calendar"].with_user(self.admin).create({
+            "name": "Comparison fixture", "source": "Authored fixture", "exchange": "NSE", "verification": "fixture",
+            "verified_on": "2024-01-02", "schedule": json.dumps([{
+                "date": "2024-01-02", "kind": "regular", "open": "09:15", "close": "09:25",
+                "entry_cutoff": "09:20", "exit_cutoff": "09:25"}]),
+        })
+        wizard = self.env["golok.lab.sync.wizard"].with_user(self.admin)
+        reports = self.env["golok.lab.sync"].with_user(self.admin)
+        common = {"calendar_id": revision.id, "day": "2024-01-02", "interval": "5m"}
+        rows = [["2024-01-02T09:15:00+05:30", 100, 103, 99, 100, 10],
+                ["2024-01-02T09:20:00+05:30", 100, 103, 99, 101, 20]]
+
+        def submit(mapping, payload):
+            result = wizard.create({**common, "mapping_id": mapping.id, "fixture_rows": json.dumps(payload)}).action_sync()
+            return reports.browse(result["res_id"])
+
+        first = submit(smart, rows)
+        self.assertEqual(first.state, "complete")
+        data = {"status": "success", "data": {"candles": [[*rows[1][:-1], 21, 0], [*rows[0], 0]]}}
+        second = submit(upstox, data)
+        self.assertEqual((second.state, second.count, second.reason), ("complete", 2, "SOURCE_CONFLICT_QUARANTINED"))
+        audits = self.env["golok.lab.source.comparison"].with_user(self.admin).search([
+            ("left_id", "=", first.dataset_id.id), ("right_id", "=", second.dataset_id.id)])
+        self.assertCountEqual(audits.mapped("outcome"), ["UNKNOWN_LINEAGE", "CONFLICT"])
+        for dataset in (first.dataset_id, second.dataset_id):
+            self.assertTrue(dataset.integrity_conflict)
+            with self.assertRaises(AccessError):
+                dataset._permit("research")
+        self.assertEqual(submit(upstox, data).state, "rejected")
+
     def test_p05_portfolio_fixture_and_role_boundaries(self):
         files = Path(__file__).parent / "fixtures/p02"
         spec = json.loads((files / "spec.json").read_text())

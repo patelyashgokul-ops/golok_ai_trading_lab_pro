@@ -24,7 +24,7 @@
     <record id="view_sync_wizard" model="ir.ui.view">
         <field name="name">golok.lab.sync.wizard.form</field><field name="model">golok.lab.sync.wizard</field>
         <field name="arch" type="xml"><form><group>
-            <field name="mapping_id" domain="[('provider','=','smartapi')]"/>
+            <field name="mapping_id" domain="[('provider','in',['smartapi','upstox'])]"/>
             <field name="calendar_id"/><field name="day"/><field name="interval"/><field name="mode"/>
             <field name="fixture_rows" invisible="mode != 'fixture'" required="mode == 'fixture'"/>
         </group><footer>

@@ -1,5 +1,5 @@
 import json
-from datetime import timezone
+from datetime import timedelta, timezone
 from decimal import Decimal
 
 from odoo import _, api, fields, models
@@ -51,17 +51,64 @@ class SourceComparison(models.Model):
         if not close_at or close_at.tzinfo or close_at > now.replace(tzinfo=None):
             raise ValidationError(_("Use a historical UTC observation closing time."))
         self.env["golok.lab.replay.guard"]._lock(datasets.instrument_id)
+        return self._record_pair(left, right, close_at, now)
+
+    @api.model
+    def _after_sync(self, dataset, bars):
+        """Audit comparable provider pairs from the just-imported session."""
+        peers = self.env["golok.lab.dataset"].search([
+            ("id", "!=", dataset.id), ("company_id", "=", dataset.company_id.id),
+            ("instrument_id", "=", dataset.instrument_id.id),
+            ("interval", "=", dataset.interval), ("origin", "=", dataset.origin),
+            ("mapping_id.provider", "in", ("smartapi", "upstox")),
+            ("mapping_id.provider", "!=", dataset.mapping_id.provider),
+            ("mapping_id.isin", "=", dataset.mapping_id.isin),
+            ("integrity_conflict", "=", False), ("quarantined", "=", False),
+        ], limit=9)
+        if not peers:
+            return False
+        if len(peers) > 8:
+            raise ValidationError(_("Review duplicate provider datasets before synchronizing this instrument."))
+        if dataset.origin != "synthetic" and not dataset.sudo().source_review_id.raw_share_ohlcv:
+            return False
+        try:
+            dataset._permit("research")
+        except AccessError:
+            return False
+        # Stored receipts are rounded upward to whole seconds.
+        now = fields.Datetime.now().replace(tzinfo=timezone.utc) + timedelta(seconds=1)
+        conflict = False
+        for peer in peers:
+            try:
+                peer._permit("research")
+            except AccessError:
+                continue
+            closes = self.env["golok.lab.candle"].search([
+                ("dataset_id", "=", peer.id),
+                ("close_time", "in", [bar.close_time.replace(tzinfo=None) for bar in bars]),
+            ]).mapped("close_time")
+            left, right = sorted((dataset, peer), key=lambda record: record.id)
+            for close_at in closes:
+                audit = self._record_pair(left, right, close_at, now, rights_checked=True)
+                if audit.outcome == "CONFLICT":
+                    conflict = True
+        return conflict
+
+    @api.model
+    def _record_pair(self, left, right, close_at, now, *, rights_checked=False):
         identity = {"left_id": left.id, "right_id": right.id, "close_at": close_at}
         prior = self.search([(name, "=", value) for name, value in identity.items()], limit=1)
         if prior:
             return prior
-        for dataset in datasets:
-            dataset._permit("research")
+        datasets = left | right
+        if not rights_checked:
+            for dataset in datasets:
+                dataset._permit("research")
         outcome, differences, upstreams, tolerance = self._compare_inputs(left, right, close_at, now)
         if outcome == "CONFLICT":
             datasets.sudo().write({"integrity_conflict": True})
         return super(SourceComparison, self.with_context({})).create([{
-            **identity, "company_id": company.id, "outcome": outcome,
+            **identity, "company_id": left.company_id.id, "outcome": outcome,
             "differences": json.dumps(differences, default=str), "upstreams": json.dumps(upstreams),
             "tolerance": str(tolerance),
         }])
@@ -84,7 +131,8 @@ class SourceComparison(models.Model):
                 return "INSUFFICIENT_EVIDENCE", {}, [], 0
             bar = row._to_bar()
             upstream = ("unknown" if data.origin == "synthetic" else
-                        "NSE" if review.provider == "bhavcopy" else review.upstream or "unknown")
+                        data.instrument_id.exchange if review.provider in ("bhavcopy", "upstox", "smartapi")
+                        else review.upstream or "unknown")
             observation = price_integrity.Observation(data.mapping_id.isin, data.instrument_id.exchange, "INR",
                                                        data.interval, "unadjusted", bar.close_time,
                                                        bar.available_at, bar.close, upstream)

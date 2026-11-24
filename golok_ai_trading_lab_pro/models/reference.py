@@ -18,7 +18,8 @@ class InstrumentMapping(models.Model):
     exchange = fields.Selection([("NSE", "NSE"), ("BSE", "BSE")], required=True, readonly=True)
     segment = fields.Selection([("equity", "Cash equity")], required=True, default="equity")
     symbol = fields.Char(required=True)
-    provider = fields.Selection([("smartapi", "Angel One SmartAPI"), ("manual", "Manual reference")], required=True)
+    provider = fields.Selection([("smartapi", "Angel One SmartAPI"), ("upstox", "Upstox cash equity"),
+                                 ("manual", "Manual reference")], required=True)
     token = fields.Char(required=True)
     starts = fields.Date(required=True)
     ends = fields.Date(help="Exclusive end date. Set a finite end if token or symbol reuse is known.")
@@ -63,7 +64,7 @@ class InstrumentMapping(models.Model):
             prepared.append({**vals, "exchange": instrument.exchange, "company_id": instrument.company_id.id})
         return super().create(prepared)
 
-    @api.constrains("token", "starts", "ends", "tick", "lot", "isin", "symbol", "source", "revision")
+    @api.constrains("provider", "token", "starts", "ends", "tick", "lot", "isin", "symbol", "source", "revision")
     def _check_reference(self):
         for row in self:
             try:

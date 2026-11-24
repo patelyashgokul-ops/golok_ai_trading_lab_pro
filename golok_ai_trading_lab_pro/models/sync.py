@@ -6,11 +6,12 @@ from os import environ
 from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, UserError, ValidationError
 
-from ..services import ingestion, market_data
+from ..services import ingestion, market_data, upstox
 from ..services.smartapi import ProviderError, SmartAPI
 from . import provider
 
 _ADMIN = "golok_ai_trading_lab_pro.group_admin"
+HISTORY_PROVIDERS = {"smartapi": "SmartAPI", "upstox": "Upstox"}
 
 
 class ProviderDataset(models.Model):
@@ -20,7 +21,8 @@ class ProviderDataset(models.Model):
     def create(self, vals_list):
         if not self.env.su and any(
             vals.get("origin", self.env.context.get("default_origin")) == "provider"
-            or str(vals.get("source", self.env.context.get("default_source", ""))).startswith(("SmartAPI fixture mapping ", "SmartAPI live mapping "))
+            or str(vals.get("source", self.env.context.get("default_source", ""))).startswith(
+                tuple(f"{name} {mode} mapping " for name in HISTORY_PROVIDERS.values() for mode in ("fixture", "live")))
             for vals in vals_list
         ):
             raise AccessError(_("Provider datasets must originate from the synchronization service."))
@@ -59,6 +61,16 @@ class Synchronization(models.Model):
 
     @api.model
     def _fetch(self, wizard, session):
+        mapping = wizard.mapping_id
+        if mapping.provider == "upstox":
+            reserve = self.env["golok.lab.provider.budget"]._reserve
+            if wizard.mode == "fixture":
+                return upstox.history("fixture", mapping.token, mapping.isin, wizard.interval, session,
+                                      lambda _operation: True, transport=lambda *_args: wizard.fixture_rows.encode())
+            if environ.get("GOLOK_UPSTOX_AUTHORIZED") != "1":
+                raise ProviderError("LOCAL_AUTHORIZATION_REQUIRED")
+            return upstox.history(environ.get("GOLOK_UPSTOX_ANALYTICS_TOKEN"), mapping.token, mapping.isin,
+                                  wizard.interval, session, reserve)
         if wizard.mode == "fixture":
             raw = json.loads(wizard.fixture_rows)
             client = SmartAPI(lambda *_: {"status": True, "data": raw})
@@ -66,7 +78,6 @@ class Synchronization(models.Model):
             client._token = "fixture"
             return client.history(wizard.mapping_id.exchange, wizard.mapping_id.token, wizard.interval,
                                   session.opening, session.closing), client.last_success
-        self.env["golok.lab.source.review"]._authorize("smartapi", "historical", "import")
         if not provider._SESSION_LOCK.acquire(blocking=False):
             raise ProviderError("PROVIDER_BUSY")
         try:
@@ -99,7 +110,7 @@ class Synchronization(models.Model):
         try:
             with self.env.cr.savepoint():
                 origin = "synthetic" if wizard.mode == "fixture" else "provider"
-                if mapping.provider != "smartapi" or not mapping._covers(wizard.day, origin):
+                if mapping.provider not in HISTORY_PROVIDERS or not mapping._covers(wizard.day, origin):
                     raise ValidationError(_("The provider mapping is unavailable for that date and mode."))
                 if revision.exchange != mapping.exchange or revision.verification != ("fixture" if origin == "synthetic" else "reviewed"):
                     raise ValidationError(_("The calendar exchange or provenance does not match the request."))
@@ -110,10 +121,11 @@ class Synchronization(models.Model):
                 if wizard.mode == "fixture" and (not wizard.fixture_rows or len(wizard.fixture_rows) > 256 * 1024):
                     raise ValidationError(_("Supply bounded synthetic fixture rows."))
                 review = self.env["golok.lab.source.review"]._authorize(
-                    "smartapi", "historical", "import") if origin == "provider" else None
+                    mapping.provider, "historical", "import") if origin == "provider" else None
                 rows, receipt = self._fetch(wizard, session)
                 bars = ingestion.normalize(rows, session, seconds, receipt)
-                source = f"SmartAPI {wizard.mode} mapping {mapping.id} calendar {revision.id}"
+                self.env["golok.lab.replay.guard"]._lock(mapping.instrument_id)
+                source = f"{HISTORY_PROVIDERS[mapping.provider]} {wizard.mode} mapping {mapping.id} calendar {revision.id}"
                 datasets = self.env["golok.lab.dataset"]
                 dataset = datasets.search([("company_id", "=", company.id), ("instrument_id", "=", mapping.instrument_id.id),
                                            ("interval", "=", wizard.interval), ("origin", "=", origin), ("source", "=", source)], limit=1)
@@ -134,9 +146,12 @@ class Synchronization(models.Model):
                 first_availability = {bar.close_time: bar.available_at for bar in stored}
                 bars = [replace(bar, available_at=first_availability.get(bar.close_time, bar.available_at)) for bar in bars]
                 inserted = dataset._import_bars(bars)
+                conflict = (mapping.isin and self.env["golok.lab.source.comparison"]._after_sync(dataset, bars))
                 report.update(state="complete", dataset_id=dataset.id, received_at=receipt.replace(tzinfo=None),
                               first_close=bars[0].close_time.replace(tzinfo=None), last_close=bars[-1].close_time.replace(tzinfo=None),
-                              inserted=inserted, count=len(bars), reason="Descriptive research only; historical publication is unverified.")
+                              inserted=inserted, count=len(bars),
+                              reason=("SOURCE_CONFLICT_QUARANTINED" if conflict else
+                                      "Descriptive research only. Historical publication is unverified."))
         except (ProviderError, AccessError, ValidationError, ValueError, TypeError, RecursionError) as exc:
             safe_codes = {"LOCAL_AUTHORIZATION_REQUIRED", "LOCAL_CREDENTIALS_REQUIRED", "PROVIDER_BUSY", "RATE_LIMITED",
                           "AUTH_REQUIRED", "DISCONNECTED", "DEGRADED"}
@@ -153,7 +168,7 @@ class SyncWizard(models.TransientModel):
     calendar_id = fields.Many2one("golok.lab.calendar", required=True)
     day = fields.Date(required=True)
     interval = fields.Selection([(key, key) for key in market_data.INTERVALS if key != "1d"], required=True, default="5m")
-    mode = fields.Selection([("fixture", "Synthetic fixture"), ("live", "Authorized SmartAPI historical")], required=True, default="fixture")
+    mode = fields.Selection([("fixture", "Synthetic fixture"), ("live", "Authorized provider history")], required=True, default="fixture")
     fixture_rows = fields.Text()
 
     def action_sync(self):
