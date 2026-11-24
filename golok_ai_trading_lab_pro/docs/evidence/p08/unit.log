@@ -44,8 +44,9 @@ test_calendar_phase_uses_explicit_windows (unit_p08.P08Tests.test_calendar_phase
 test_gate_context_cannot_override_a_veto (unit_p08.P08Tests.test_gate_context_cannot_override_a_veto) ... ok
 test_historical_intake_requires_affirmative_evidence_and_prior_publication (unit_p08.P08Tests.test_historical_intake_requires_affirmative_evidence_and_prior_publication) ... ok
 test_intraday_contract_never_executes_at_or_before_publication (unit_p08.P08Tests.test_intraday_contract_never_executes_at_or_before_publication) ... ok
+test_storage_disposition_is_bounded_by_declared_rights (unit_p08.P08Tests.test_storage_disposition_is_bounded_by_declared_rights) ... ok
 
 ----------------------------------------------------------------------
-Ran 46 tests in 0.186s
+Ran 47 tests in 0.191s
 
 OK

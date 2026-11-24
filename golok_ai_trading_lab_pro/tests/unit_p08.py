@@ -3,10 +3,19 @@ from dataclasses import replace
 from datetime import datetime, timedelta, timezone
 
 from scripts.reproduce_p05 import fixture
-from services import decision, portfolio, replay_contract, session_clock
+from services import decision, portfolio, replay_contract, rights_lifecycle, session_clock
 
 
 class P08Tests(unittest.TestCase):
+    def test_storage_disposition_is_bounded_by_declared_rights(self):
+        day = datetime(2024, 1, 2).date()
+        self.assertEqual(rights_lifecycle.state(day, day, day, False, "fixed"), "active")
+        self.assertEqual(rights_lifecycle.state(day, day, None, False, "fixed"), "insufficient")
+        self.assertEqual(rights_lifecycle.state(day, day, day - timedelta(days=1), False, "fixed"),
+                         "retention_expired")
+        self.assertEqual(rights_lifecycle.state(day, day, day, True, "archive"), "revoked")
+        self.assertFalse(rights_lifecycle.can_persist("active", "transient"))
+
     def test_calendar_phase_uses_explicit_windows(self):
         data, day, _ = fixture()
         session = data[0].sessions[day]

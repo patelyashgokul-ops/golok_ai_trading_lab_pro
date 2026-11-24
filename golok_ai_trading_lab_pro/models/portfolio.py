@@ -68,7 +68,7 @@ class Portfolio(models.Model):
         if len(datasets) != len(identifiers) or not tariff:
             raise AccessError(_("Portfolio inputs are unavailable for the active company."))
         if (len(datasets.instrument_id) != len(datasets) or len(set(datasets.mapped("interval"))) != 1
-                or any(not dataset.calendar_id or not eligibility.evaluate(
+                or any(dataset.integrity_conflict or not dataset.calendar_id or not eligibility.evaluate(
                     dataset.origin, "synthetic_replay", quarantined=dataset.quarantined)[1]
                     for dataset in datasets)):
             raise ValidationError(_("Select calendar-bound eligible synthetic datasets with distinct instruments and one interval."))

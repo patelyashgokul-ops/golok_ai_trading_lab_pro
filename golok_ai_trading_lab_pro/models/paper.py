@@ -59,7 +59,7 @@ class PaperAccount(models.Model):
             if existing:
                 return existing
             if (experiment.status != "completed" or not experiment.trade_count or experiment.dataset_id.origin != "synthetic"
-                    or experiment.dataset_id.quarantined):
+                    or experiment.dataset_id.quarantined or experiment.dataset_id.integrity_conflict):
                 raise ValidationError(_("Use a completed, non-quarantined synthetic replay with trades."))
             if self.posted_end and experiment.starts <= self.posted_end:
                 raise ValidationError(_("This experiment overlaps or precedes posted account history."))

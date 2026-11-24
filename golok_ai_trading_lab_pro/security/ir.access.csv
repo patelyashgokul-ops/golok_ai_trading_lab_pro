@@ -69,3 +69,6 @@ session_watch_admin,Session watch administrator,golok.lab.session.watch,golok_ai
 session_watch_company,Session watch company,golok.lab.session.watch,,crud,"[('company_id','in',company_ids)]"
 session_event_viewer,Session report viewer,golok.lab.session.event,golok_ai_trading_lab_pro.group_viewer,r,
 session_event_company,Session report company,golok.lab.session.event,,crud,"[('company_id','in',company_ids)]"
+source_comparison_admin,Compare upstream observations,golok.lab.source.comparison,golok_ai_trading_lab_pro.group_admin,cr,
+source_comparison_company,Source comparison company,golok.lab.source.comparison,,crud,"[('company_id','in',company_ids)]"
+source_comparison_rights,Comparison source display rights,golok.lab.source.comparison,,r,"[('left_id.protected_read','=',True),('right_id.protected_read','=',True)]"

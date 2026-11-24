@@ -34,11 +34,11 @@ class ResearchFindings(models.Model):
                 "run_id.first_close", "run_id.last_close", "run_id.dataset_id.instrument_id")
         return domain
 
-    def export_data(self, fields_to_export):
+    def _export_rows(self, fields, *, _is_toplevel_call=True):
         self.check_access("read")
         if any(row.dataset_id.origin != "synthetic" for row in self):
             raise AccessError(_("Historical market research is not exportable."))
-        return super().export_data(fields_to_export)
+        return super()._export_rows(fields, _is_toplevel_call=_is_toplevel_call)
 
     @api.model_create_multi
     def create(self, vals_list):

@@ -32,6 +32,7 @@ class TestLab(TransactionCase):
         candles = self.env["golok.lab.candle"].with_user(self.analyst)
         candle = candles.search([("dataset_id", "=", data.id)])
         self.assertEqual(len(candle), 1)
+        self.analyst.sudo().write({"group_ids": [(4, self.env.ref("base.group_allow_export").id)]})
         with self.assertRaises(AccessError):
             candle.export_data(["close_price"])
         runs = self.env["golok.lab.run"].with_user(self.analyst)
@@ -51,16 +52,68 @@ class TestLab(TransactionCase):
         expired.action_revoke()
         self.assertTrue(expired.revoked_at)
 
+    def test_p08_revocation_retention_and_nested_exports(self):
+        from unittest.mock import patch
+        from odoo import fields
+
+        today = fields.Date.today()
+        until = today + timedelta(days=1)
+        reviews = self.env["golok.lab.source.review"].with_user(self.admin)
+        grants = {
+            "provider": "manual", "terms_url": "https://example.test/terms",
+            "documentation": "https://example.test/schema", "evidence": "Authored permission fixture",
+            "purpose": "Descriptive research", "restrictions": "Local testing only",
+            "expires": today + timedelta(days=30), "query": True, "display": True, "persist": True, "research": True,
+        }
+        analyst = self.env["golok.lab.dataset"].with_user(self.analyst)
+        runs = self.env["golok.lab.run"].with_user(self.analyst)
+        candles = self.env["golok.lab.candle"].with_user(self.analyst)
+        fixed = reviews.create({**grants, "upstream": "Fixed rights", "storage_policy": "fixed", "retain_until": until})
+        revocable = reviews.create({**grants, "upstream": "Revocable rights", "storage_policy": "archive"})
+        datasets, snapshots = [], []
+        for grant in (fixed, revocable):
+            source = analyst.create({"name": grant.upstream, "source": grant.upstream, "origin": "imported",
+                                     "instrument_id": self.instrument.id, "interval": "5m"})
+            self._wizard(self._lines(1), source).action_import()
+            dataset_domain = [("dataset_id", "=", source.id)]
+            self.assertEqual(candles.search_count(dataset_domain), 1)
+            snapshot = runs.create({"dataset_id": source.id, "as_of": self.start})
+            self.assertTrue(snapshot.read(["evidence"]))
+            with self.assertRaises(AccessError):
+                snapshot._export_rows([["evidence"]], _is_toplevel_call=False)
+            datasets.append(source)
+            snapshots.append(snapshot)
+        revocable.action_revoke()
+        with self.assertRaises(AccessError):
+            runs.create({"dataset_id": datasets[1].id, "as_of": self.start})
+        with self.assertRaises(AccessError):
+            snapshots[1].read(["evidence"])
+        with patch.object(fields.Date, "today", return_value=until + timedelta(days=1)):
+            self.env.invalidate_all()
+            self.assertEqual(fixed.lifecycle, "retention_expired")
+            self.assertFalse(candles.search([("dataset_id", "=", datasets[0].id)]))
+            with self.assertRaises(AccessError):
+                snapshots[0].read(["evidence"])
+            with self.assertRaises(AccessError):
+                self._wizard(self._lines(2), datasets[0]).action_import()
+            self.assertTrue(candles.sudo().search([("dataset_id", "=", datasets[0].id)]))
+        transient = reviews.create({**grants, "upstream": "Transient rights", "storage_policy": "transient"})
+        self.assertEqual(transient.lifecycle, "transient")
+        with self.assertRaises(AccessError):
+            analyst.create({"name": transient.upstream, "source": transient.upstream, "origin": "imported",
+                            "instrument_id": self.instrument.id, "interval": "5m"})
+
     def test_p06_review_and_daily_fixture(self):
         import base64
-        from ..services.bhavcopy import COLUMNS
+        from ..services.bhavcopy import COLUMNS, UDIFF
 
         reviews = self.env["golok.lab.source.review"].with_user(self.admin)
         imports = self.env["golok.lab.daily.import"].with_user(self.admin)
         calendar = self.env["golok.lab.calendar"].with_user(self.admin).create({
             "name": "Daily fixture", "source": "Synthetic", "exchange": "NSE", "verification": "fixture",
-            "verified_on": "2024-01-01", "schedule": json.dumps([{"date": "2024-01-02", "kind": "regular",
-                "open": "09:15", "close": "15:30", "entry_cutoff": "14:30", "exit_cutoff": "15:20"}]),
+            "verified_on": "2024-01-01", "schedule": json.dumps([
+                {"date": f"2024-01-0{day}", "kind": "regular", "open": "09:15",
+                 "close": "15:30", "entry_cutoff": "14:30", "exit_cutoff": "15:20"} for day in (2, 3, 4)]),
         })
         payload = ",".join(COLUMNS) + "\nDEMO,EQ,10,12,9,11,11,10,100,1000,02-JAN-2024,4,IN0000000001"
         vals = {"source": "fixture", "day": "2024-01-02", "calendar_id": calendar.id,
@@ -93,6 +146,33 @@ class TestLab(TransactionCase):
         self.assertEqual(result.bar_count, 1)
         accepted.action_normalize()
         self.assertEqual(accepted.normalized_dataset_ids, dataset)
+
+        modern = {name: "" for name in UDIFF}
+        modern.update(TradDt="2024-01-04", BizDt="2024-01-04", Sgmt="CM", Src="NSE", FinInstrmTp="STK",
+                      FinInstrmId="500", ISIN="IN0000000001", TckrSymb="DEMO", SctySrs="EQ",
+                      OpnPric="10", HghPric="12", LwPric="9", ClsPric="11", TtlTradgVol="100")
+        later = ",".join(UDIFF) + "\n" + ",".join(modern[name] for name in UDIFF)
+        modern_batch = imports.create({**vals, "day": "2024-01-04", "upload": base64.b64encode(later.encode()).decode()})
+        modern_batch.action_normalize()
+        self.assertEqual(modern_batch.normalized_dataset_ids, dataset)
+
+        runs = self.env["golok.lab.run"].with_user(self.analyst)
+
+        def latest_daily_result():
+            latest_receipt = self.env["golok.lab.candle"].search(
+                [("dataset_id", "=", dataset.id)], order="available_at desc", limit=1).available_at
+            with patch.object(fields.Datetime, "now", return_value=latest_receipt):
+                return runs.create({"dataset_id": dataset.id, "as_of": latest_receipt})
+
+        gap = latest_daily_result()
+        self.assertEqual((gap.bar_count, gap.gap_count), (2, 1))
+        middle = imports.create({**vals, "day": "2024-01-03",
+                                 "upload": base64.b64encode(payload.replace("02-JAN", "03-JAN").encode()).decode()})
+        middle.action_normalize()
+        self.assertEqual(middle.normalized_dataset_ids, dataset)
+        filled = latest_daily_result()
+        self.assertEqual((filled.bar_count, filled.gap_count), (3, 0))
+        self.assertEqual(gap.gap_count, 1)
         self.assertEqual(imports.create({**vals, "upload": base64.b64encode(
             payload.replace(",100,1000,", ",101,1000,").encode()).decode()}).status, "quarantine")
         self.assertEqual(imports.create({**vals, "upload": "eA=="}).status, "quarantine")
@@ -164,6 +244,66 @@ class TestLab(TransactionCase):
                          ("post_market", "fixture", session.closing.replace(tzinfo=None)))
         watch._dispatch(cases[-1][0])
         self.assertEqual(events.search_count([("watch_id", "=", watch.id), ("recovered", "=", True)]), 1)
+        from unittest.mock import patch
+        from odoo import fields
+        now = cases[-1][0].replace(tzinfo=None)
+        with patch.object(fields.Datetime, "now", return_value=now):
+            action = watch.action_check_now()
+            self.assertEqual(action["res_model"], "golok.lab.session.event")
+            self.assertEqual(events.browse(action["res_id"]).phase, "closed")
+            with self.assertRaises(AccessError):
+                watch.with_user(self.analyst).action_check_now()
+            watch.active = False
+            self.assertFalse(watch.action_check_now())
+            watch.active = True
+            self.assertEqual(watch.action_check_now()["res_id"], action["res_id"])
+
+        split = {**schedule[0], "date": "2024-01-04", "kind": "special", "open": "09:15", "close": "11:10",
+                 "entry_cutoff": "10:40", "exit_cutoff": "11:05", "segments": [["09:15", "09:55"], ["10:30", "11:10"]]}
+        split_calendar = self.env["golok.lab.calendar"].with_user(self.admin).create({
+            "name": "Exceptional fixture", "source": "Synthetic scheduler", "exchange": "NSE", "verification": "fixture",
+            "verified_on": "2024-01-01", "schedule": json.dumps([split])})
+        split_dataset = self.env["golok.lab.dataset"].with_user(self.analyst).create({
+            "name": "Exceptional sample", "source": "Synthetic exceptional", "origin": "synthetic",
+            "instrument_id": self.instrument.id, "interval": "5m", "calendar_id": split_calendar.id})
+        split_watch = self.env["golok.lab.session.watch"].with_user(self.admin).create({"dataset_id": split_dataset.id})
+        split_session = split_calendar._sessions()[datetime(2024, 1, 4).date()]
+        maintenance = split_watch._dispatch(split_session.windows()[0][1] + timedelta(minutes=1))
+        self.assertEqual(maintenance.phase, "maintenance")
+        self.assertFalse(maintenance.run_id)
+
+    def test_p08_source_conflict_blocks_research_and_is_idempotent(self):
+        files = Path(__file__).parent / "fixtures/p02"
+        schedule = json.loads((files / "spec.json").read_text())["schedule"]
+        calendar = self.env["golok.lab.calendar"].with_user(self.admin).create({
+            "name": "Comparison fixture", "source": "Authored fixture", "exchange": "NSE", "verification": "fixture",
+            "verified_on": "2024-01-01", "schedule": json.dumps(schedule)})
+        mapping = self.env["golok.lab.mapping"].with_user(self.admin).create({
+            "instrument_id": self.instrument.id, "symbol": self.instrument.symbol, "provider": "manual",
+            "token": "500", "starts": "2024-01-01", "tick": "0.05", "lot": 1, "listing_status": "listed",
+            "source": "Authored fixture", "revision": "p08", "verification": "fixture", "isin": "IN0000000001"})
+        sources = self.env["golok.lab.dataset"].with_user(self.analyst).create([
+            {"name": label, "source": label, "origin": "synthetic", "interval": "5m",
+             "instrument_id": self.instrument.id, "calendar_id": calendar.id, "mapping_id": mapping.id}
+            for label in ("Source 1", "Source 2")])
+        raw = (files / "candles.csv").read_bytes()
+        header, first, rest = raw.split(b"\n", 2)
+        columns = first.split(b",")
+        columns[5] = str(int(columns[5]) + 1).encode()
+        for dataset, payload in zip(sources, (raw, header + b"\n" + b",".join(columns) + b"\n" + rest)):
+            self.env["golok.lab.import"].with_user(self.analyst).create({
+                "dataset_id": dataset.id, "upload": BinaryBytes(payload)}).action_import()
+        comparisons = self.env["golok.lab.source.comparison"].with_user(self.admin)
+        params = {"left_id": sources[0].id, "right_id": sources[1].id, "close_at": self.start}
+        match = comparisons.create({**params, "close_at": self.start + timedelta(minutes=5)})
+        self.assertEqual(match.outcome, "UNKNOWN_LINEAGE")
+        audit = comparisons.create(params)
+        self.assertEqual(audit.outcome, "CONFLICT")
+        self.assertEqual(json.loads(audit.differences)["volume"], 1)
+        self.assertEqual(comparisons.create({**params, "left_id": sources[1].id, "right_id": sources[0].id}), audit)
+        self.assertTrue(all(sources.mapped("integrity_conflict")))
+        with self.assertRaises(AccessError):
+            self.env["golok.lab.run"].with_user(self.analyst).create({"dataset_id": sources[0].id, "as_of": self.start})
 
     def _wizard(self, lines, dataset=None):
         raw = ("close_time,open,high,low,close,volume\n" + "\n".join(lines)).encode()
@@ -420,12 +560,19 @@ class TestLab(TransactionCase):
         job = researcher.create(vals)
         self.assertEqual(job, researcher.create(vals))
         rejected = researcher.create({**vals, "cutoff": "2024-01-02 04:05:00"})
-        rejected.action_cancel()
+        self.assertTrue(rejected.action_cancel())
+        self.assertTrue(rejected.action_cancel())
         jobs._cron_run_next()
         self.assertEqual(job.state, "completed")
         self.assertEqual(job.run_id.decision, "no_trade")
         self.assertEqual(rejected.state, "cancelled")
         self.assertEqual(job.requested_by, self.analyst)
+        failed = researcher.create({**vals, "cutoff": "2024-01-02 04:10:00"})
+        failed.sudo().write({"state": "failed", "attempts": 1, "failure_reason": "Authored failure fixture"})
+        self.assertTrue(failed.action_retry())
+        self.assertTrue(failed.action_retry())
+        self.assertEqual(failed.state, "queued")
+        self.assertEqual(failed.attempts, 1)
 
     def test_p04_fixture_sync_atomic_viewable_and_idempotent(self):
         mapping = self.env["golok.lab.mapping"].with_user(self.admin).create({
@@ -555,6 +702,7 @@ class TestLab(TransactionCase):
         self.assertFalse(candles.search(restricted))
         with self.assertRaises(AccessError):
             candles.browse(raw.id).read(["close_price"])
+        self.viewer.sudo().write({"group_ids": [(4, self.env.ref("base.group_allow_export").id)]})
         with self.assertRaises(AccessError):
             candles.browse(raw.id).export_data(["close_price"])
         with self.assertRaises(ValidationError):

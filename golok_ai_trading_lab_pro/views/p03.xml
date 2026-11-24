@@ -224,11 +224,15 @@
     <record id="view_research_job_form" model="ir.ui.view">
         <field name="name">golok.lab.research.job.form</field><field name="model">golok.lab.research.job</field>
         <field name="arch" type="xml"><form edit="0" delete="0" duplicate="0">
-            <header><button name="action_cancel" type="object" string="Cancel Request" invisible="state != 'queued'"/></header>
+            <header><button name="action_cancel" type="object" string="Cancel Request" invisible="state != 'queued'"/>
+                <button name="action_retry" type="object" string="Retry Failed Request" invisible="state != 'failed' or attempts >= 3"/>
+            </header>
             <sheet><group>
                 <field name="dataset_id"/><field name="cutoff"/><field name="requested_by" invisible="not id"/>
                 <field name="state" invisible="not id"/><field name="run_id" invisible="not run_id"/>
                 <field name="failure_reason" invisible="not failure_reason"/>
+                <field name="attempts" invisible="not id"/><field name="started_at" invisible="not started_at"/>
+                <field name="lease_until" invisible="not lease_until"/>
             </group></sheet>
         </form></field>
     </record>

@@ -101,6 +101,7 @@ class Dataset(models.Model):
     interval = fields.Selection([(key, key) for key in market_data.INTERVALS], required=True)
     calendar_id = fields.Many2one("golok.lab.calendar", ondelete="restrict", check_company=True)
     quarantined = fields.Boolean(readonly=True)
+    integrity_conflict = fields.Boolean(readonly=True, help="An equivalent source observation materially disagreed.")
     source_review_id = fields.Many2one("golok.lab.source.review", readonly=True, check_company=True, ondelete="restrict")
     publication_basis = fields.Selection([("fixture", "Simulation input"), ("operator", "Operator timestamps"),
                                           ("receipt", "First observed receipt")], readonly=True)
@@ -113,7 +114,7 @@ class Dataset(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         vals_list = [dict(vals) for vals in vals_list]
-        if any(vals.get("quarantined") for vals in vals_list):
+        if any(vals.get("quarantined") or vals.get("integrity_conflict") for vals in vals_list):
             raise ValidationError(_("Use the administrator quarantine operation."))
         for vals in vals_list:
             if not self.env.su and {"source_review_id", "publication_basis"} & vals.keys():
@@ -124,7 +125,7 @@ class Dataset(models.Model):
                 vals.update(source_review_id=review.id, publication_basis="operator")
             if vals.get("origin") == "synthetic":
                 vals.update(source_review_id=False, publication_basis="fixture")
-        return super(Dataset, self.with_context(default_quarantined=False, default_source_review_id=False,
+        return super(Dataset, self.with_context(default_quarantined=False, default_integrity_conflict=False, default_source_review_id=False,
                                                 default_publication_basis=False)).create(vals_list)
 
     def _search_protected_read(self, operator, value):
@@ -140,7 +141,7 @@ class Dataset(models.Model):
 
     def _permit(self, purpose):
         self.ensure_one()
-        if (not self.env.su and self.company_id != self.env.company) or self.quarantined:
+        if (not self.env.su and self.company_id != self.env.company) or self.quarantined or self.integrity_conflict:
             raise AccessError(_("The dataset is unavailable for this operation."))
         if self.origin == "synthetic" and purpose in ("import", "research"):
             return
@@ -154,6 +155,12 @@ class Dataset(models.Model):
             review.provider, "daily" if review.provider == "bhavcopy" else "historical", commands[purpose],
             upstream=self.source, bound=review)
 
+    def _export_rows(self, fields, *, _is_toplevel_call=True):
+        self.check_access("read")
+        if any(record.origin != "synthetic" for record in self):
+            raise AccessError(_("Historical market dataset exports are disabled."))
+        return super()._export_rows(fields, _is_toplevel_call=_is_toplevel_call)
+
     @api.constrains("calendar_id", "instrument_id", "origin")
     def _check_calendar(self):
         for dataset in self.filtered("calendar_id"):
@@ -163,7 +170,8 @@ class Dataset(models.Model):
                 raise ValidationError(_("Only synthetic datasets may use fixture calendars."))
 
     def write(self, vals):
-        if set(vals) - {"name", "quarantined"}:
+        allowed = {"name", "quarantined"} | ({"integrity_conflict"} if self.env.su else set())
+        if set(vals) - allowed:
             raise UserError(_("Dataset provenance is immutable. Register a new dataset for a new source."))
         if "quarantined" in vals and not self.env.user.has_group("golok_ai_trading_lab_pro.group_admin"):
             raise ValidationError(_("Only a Trading System Administrator may change dataset quarantine."))
@@ -265,11 +273,11 @@ class Candle(models.Model):
             domain &= self.env["golok.lab.holdout"]._observation_domain("close_time", "close_time", "instrument_id")
         return domain
 
-    def export_data(self, fields_to_export):
+    def _export_rows(self, fields, *, _is_toplevel_call=True):
         self.check_access("read")
         if any(row.dataset_id.origin != "synthetic" for row in self):
             raise AccessError(_("Historical market observations are not exportable."))
-        return super().export_data(fields_to_export)
+        return super()._export_rows(fields, _is_toplevel_call=_is_toplevel_call)
 
 
 class ResearchRun(models.Model):
@@ -458,8 +466,8 @@ class ResearchRun(models.Model):
             return self.env["golok.lab.candle"]
         return candles
 
-    def export_data(self, fields_to_export):
+    def _export_rows(self, fields, *, _is_toplevel_call=True):
         self.check_access("read")
         if any(row.dataset_id.origin != "synthetic" for row in self):
             raise AccessError(_("Historical market research is not exportable."))
-        return super().export_data(fields_to_export)
+        return super()._export_rows(fields, _is_toplevel_call=_is_toplevel_call)

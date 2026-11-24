@@ -2,11 +2,7 @@
 
 Offline research needs no external subscription. In **Research Schedules**, select a fixture-calendar dataset, pause it or check its phase. **Daily Research Operations** displays the saved event. Local scheduling requires the laptop and Odoo to be running.
 
-For a genuine market CSV, review the precise publisher and permit descriptive research only when the documented rights allow it. Existing datasets without bound lineage remain restricted. Genuine downloads, prospective paper and live operation have separate evidence requirements.
-
-Offline synthetic research requires no external setup. For real historical files, record the relevant permissions in **Source Authorizations**, including permission for ongoing internal storage. Genuine intraday research requires authorized coverage and verifiable publication timing. Prospective paper and actionable live features still require software and operating evidence.
-
-**Offline research requires no external owner action.** Start with the bundled synthetic fixtures. The current workflows support five strategy replays, chronological comparison and single-use synthetic holdout evaluation. [ગુજરાતી સેટઅપ](OWNER_SETUP_GUJARATI.md)
+For a genuine market CSV, review the precise publisher and permit descriptive research only when the documented rights allow it. Record ongoing or fixed-term storage as specified in the grant. A transient-only authorization cannot create stored observations. Existing real datasets without bound lineage remain restricted. Start offline with the bundled synthetic fixtures. [ગુજરાતી સેટઅપ](OWNER_SETUP_GUJARATI.md)
 
 Use **End-of-day File Imports** for legacy NSE cash Bhavcopy or the targeted UDiFF cash profile. An authorized live feed and separately validated financial workflow remain prerequisites for future live decision support.
 

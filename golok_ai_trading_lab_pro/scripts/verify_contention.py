@@ -229,3 +229,39 @@ def _interrupt_job(env, runner, dataset):
         assert fresh["golok.lab.run"].search_count([("dataset_id", "=", dataset.id),
                                                    ("as_of", "=", "2024-01-02 04:20:00")]) == 1
     print("PASS: independent worker skipped a locked job, forced worker kill rolled back and retry produced exactly one result")
+    _recover_committed_lease(env, runner, dataset)
+
+
+def _recover_committed_lease(env, runner, dataset):
+    now = datetime.now(timezone.utc).replace(tzinfo=None)
+    job = runner["golok.lab.research.job"].create({"dataset_id": dataset.id, "cutoff": "2024-01-02 04:25:00"})
+    job_id = job.id
+    env.cr.commit()
+    with env.registry.cursor() as cursor:
+        jobs = api.Environment(cursor, SUPERUSER_ID, {})["golok.lab.research.job"]
+        claimed = jobs._claim_job(now)
+        assert claimed.id == job_id and claimed.attempts == 1
+        old_token = claimed.worker_token
+        cursor.commit()
+    with env.registry.cursor() as cursor:
+        jobs = api.Environment(cursor, SUPERUSER_ID, {})["golok.lab.research.job"]
+        assert not jobs._claim_job(now + timedelta(minutes=1))
+        reclaimed = jobs._claim_job(now + timedelta(minutes=6))
+        assert reclaimed.id == job_id and reclaimed.attempts == 2
+        token = reclaimed.worker_token
+        assert token != old_token
+        cursor.commit()
+    with env.registry.cursor() as cursor:
+        jobs = api.Environment(cursor, SUPERUSER_ID, {})["golok.lab.research.job"]
+        jobs._run_claim(job_id, old_token)
+        assert jobs.browse(job_id).state == "claimed"
+        jobs._run_claim(job_id, token)
+        cursor.commit()
+    with env.registry.cursor() as cursor:
+        fresh = api.Environment(cursor, SUPERUSER_ID, {})
+        jobs = fresh["golok.lab.research.job"]
+        jobs._run_claim(job_id, token)
+        assert jobs.browse(job_id).state == "completed"
+        assert fresh["golok.lab.run"].search_count([("dataset_id", "=", dataset.id),
+                                                   ("as_of", "=", "2024-01-02 04:25:00")]) == 1
+    print("PASS: a committed lease was recovered once after expiry and stale worker token was denied")

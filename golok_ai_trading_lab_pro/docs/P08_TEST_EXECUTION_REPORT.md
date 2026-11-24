@@ -32,3 +32,17 @@ The subsequent historical-contract revision adds two standalone tests, bringing 
 
     ./scripts/verify_odoo.ps1 -Browser -ClusterDir .local-test/pg-p08 -EvidenceDir docs/evidence/p08/replay-contract -PostgresPort 55498 -HttpPort 18098 -Database golok_p08_fresh_e
     ./scripts/verify_p01_upgrade.ps1 -SourceDatabase golok_p07_fresh_a -TargetDatabase golok_p05_migration_p08d -SourceVersion 20.0.7.0.0 -TargetVersion 20.0.8.1.0 -EvidenceDir docs/evidence/p08/migration-replay -ClusterDir .local-test/pg-p06 -PostgresPort 55497
+
+P08.2 exercises active revocation, fixed-term expiry, transient-only denial, nested exports, persisted comparison and research vetoes on conflicting OHLCV. The first run correctly denied export at Odoo's global export privilege before reaching the module-specific gate. The final tests grant test users the global privilege so they specifically exercise the module denial. Evidence is under rights-lifecycle and integrity-release.
+
+    ./scripts/verify_odoo.ps1 -Browser -ClusterDir .local-test/pg-p08 -EvidenceDir docs/evidence/p08/integrity-release -PostgresPort 55498 -HttpPort 18098 -Database golok_p08_fresh_g
+    ./scripts/verify_p01_upgrade.ps1 -SourceDatabase golok_p07_fresh_a -TargetDatabase golok_p05_migration_p08f -SourceVersion 20.0.7.0.0 -TargetVersion 20.0.8.2.0 -EvidenceDir docs/evidence/p08/migration-integrity -ClusterDir .local-test/pg-p06 -PostgresPort 55497
+
+The daily-completeness regression mixes Legacy CM and targeted UDiFF authored files on one effective mapping, checks the missing middle session, backfills it and verifies the earlier snapshot remains unchanged.
+
+    ./scripts/verify_odoo.ps1 -Browser -ClusterDir .local-test/pg-p08 -EvidenceDir docs/evidence/p08/daily-completeness -PostgresPort 55498 -HttpPort 18098 -Database golok_p08_fresh_h
+
+P08.3 verifies committed lease expiry and recovery, rejection of an obsolete worker token and idempotent retry and cancellation. The first run found a stale in-memory state after retry switched the database row back to queued. The retry and cancel actions now refresh the affected Odoo cache fields. The failed run is retained under durable-release.
+
+    ./scripts/verify_odoo.ps1 -Browser -ClusterDir .local-test/pg-p08 -EvidenceDir docs/evidence/p08/final-durable -PostgresPort 55498 -HttpPort 18098 -Database golok_p08_fresh_j
+    ./scripts/verify_p01_upgrade.ps1 -SourceDatabase golok_p07_fresh_a -TargetDatabase golok_p05_migration_p08g -SourceVersion 20.0.7.0.0 -TargetVersion 20.0.8.3.0 -EvidenceDir docs/evidence/p08/migration-durable -ClusterDir .local-test/pg-p06 -PostgresPort 55497

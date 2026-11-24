@@ -49,13 +49,15 @@ order by 1
             if ($SourceVersion -in @('20.0.5.0.0','20.0.6.0.0','20.0.7.0.0')) { $tables += @('sync_plan','sync_task') }
             if ($SourceVersion -eq '20.0.5.0.0') { $tables += @('portfolio') }
             if ($SourceVersion -eq '20.0.6.0.0') { $tables += @('holdout','source_review','daily_import') }
-            if ($SourceVersion -eq '20.0.7.0.0') { $tables += @('holdout','daily_import','portfolio') }
+            if ($SourceVersion -eq '20.0.7.0.0') { $tables = @($tables | Where-Object { $_ -ne 'research_job' }) + @('holdout','daily_import','portfolio') }
             foreach ($table in $tables) {
                 $extra[$table] = Query "select count(*) || ':' || coalesce(md5(string_agg(row_to_json(t)::text,';' order by id)), 'empty') from golok_lab_$table t"
             }
         }
-        $rightsQuery = "select count(*) || ':' || coalesce(md5(string_agg((to_jsonb(t)-array['research','upstream','revoked_at','retain_until'])::text,';' order by id)), 'empty') from golok_lab_source_review t"
+        $rightsQuery = "select count(*) || ':' || coalesce(md5(string_agg((to_jsonb(t)-array['research','upstream','revoked_at','retain_until','raw_share_ohlcv'])::text,';' order by id)), 'empty') from golok_lab_source_review t"
         if ($SourceVersion -eq '20.0.7.0.0') { $oldRights = Query $rightsQuery }
+        $jobQuery = "select count(*) || ':' || coalesce(md5(string_agg((to_jsonb(t)-array['attempts','lease_until','worker_token','started_at'])::text,';' order by id)), 'empty') from golok_lab_research_job t"
+        if ($SourceVersion -eq '20.0.7.0.0') { $oldJobs = Query $jobQuery }
         $portfolioQuery = "select count(*) || ':' || coalesce(md5(string_agg((to_jsonb(t)-'target_policy')::text,';' order by id)), 'empty') from golok_lab_portfolio t"
         if ($SourceVersion -eq '20.0.6.0.0') { $oldPortfolio = Query $portfolioQuery }
         $addons = "--addons-path=$OdooRoot/addons,$(Resolve-Path ..)"
@@ -69,6 +71,9 @@ order by 1
         $after = @(Query $data)
         if ($SourceVersion -eq '20.0.7.0.0' -and (Query $rightsQuery) -ne $oldRights) {
             throw 'Historical source review retention failed.'
+        }
+        if ($SourceVersion -eq '20.0.7.0.0' -and (Query $jobQuery) -ne $oldJobs) {
+            throw 'Historical research job retention failed.'
         }
         if ($SourceVersion -eq '20.0.6.0.0' -and (Query $portfolioQuery) -ne $oldPortfolio) {
             throw 'Historical portfolio retention failed.'

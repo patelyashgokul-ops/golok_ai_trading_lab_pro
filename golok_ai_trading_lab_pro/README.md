@@ -1,6 +1,6 @@
 # Golok AI Trading Lab Pro
 
-P05 adds **Historical Sync Plans** for bounded, checkpointed ingestion and **Run Synthetic Portfolio** for shared virtual capital across multiple instruments. Portfolio records preserve the input hashes, fees and decision gates for ST-01, ST-02 and ST-08. Fixture mode works without a broker account. The owner guide covers local read-only setup for an authorized historical test. [Owner actions](docs/OWNER_ACTION_REQUIRED.md)
+P08 adds **Research Schedules**, **Daily Research Operations**, **Compare Sources** and publisher-specific data authorization. The local fixture workflow works without a broker account. **Run Synthetic Portfolio** uses shared virtual capital and records input hashes, fees and decision gates. [Owner actions](docs/OWNER_ACTION_REQUIRED.md)
 
 An Odoo 20 Community add-on for historical NSE and BSE equity research. P03 adds effective-dated reference records, split-session calendar validation, supplemental research, bounded synthetic ST-01 experiments in Odoo, and a virtual historical replay journal. Historical analytical snapshots remain **NO TRADE**.
 
@@ -8,7 +8,7 @@ An Odoo 20 Community add-on for historical NSE and BSE equity research. P03 adds
 
 1. Install Odoo 20 Community and PostgreSQL using the Odoo source distribution’s dependencies. The add-on needs no extra Python packages at runtime. Put the module directory on Odoo's `addons_path`, restart Odoo and update the Apps list.
 2. Install **Golok AI Trading Lab Pro**. Assign a user the Trading System Administrator role to register instruments, Trading Research Analyst to import and run research, or Trading Research Viewer for read access. Use the intended active company. Users who want market time in native Odoo fields can select **Asia/Kolkata** in their preferences.
-3. In **Trading Lab → Instruments**, register the NSE or BSE instrument. In **Datasets**, select the instrument, interval, origin and a source label that identifies the authorized file publication or revision. Choose **Synthetic fixture** for generated data.
+3. In **Trading Lab → Instruments**, register the NSE or BSE instrument. In **Datasets**, select the instrument, interval and provenance. For real local CSV, the publisher must match the active authorization under **Source Authorizations**. Choose **Synthetic fixture** for generated data.
 4. In **Import CSV**, select the dataset and upload a UTF-8 file with the following header. The example uses a fictitious observation.
 
    ```csv

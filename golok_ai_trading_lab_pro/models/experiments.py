@@ -116,6 +116,7 @@ class Experiment(models.Model):
             raise ValidationError(_("Use at most 31 valid dates and positive decimal capital and tick values.")) from None
         if dataset.mapping_id and tick != Decimal(dataset.mapping_id.tick):
             raise ValidationError(_("Use the stored mapping tick size."))
+        dataset._permit("research")
         self.env["golok.lab.replay.guard"]._lock(dataset.instrument_id)
         if self.env["golok.lab.holdout"].search_count([
                 ("company_id", "=", company.id), ("starts", "<=", ends), ("ends", ">=", starts),

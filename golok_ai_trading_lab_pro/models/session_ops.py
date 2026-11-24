@@ -34,10 +34,10 @@ class SessionWatch(models.Model):
 
     @api.model
     def _cron_dispatch(self):
+        self.env["golok.lab.research.job"].sudo()._cron_run_durable()
         now = fields.Datetime.now().replace(tzinfo=timezone.utc)
         for watch in self.sudo().search([], order="checked_at asc nulls first, id", limit=32):
             watch.with_company(watch.company_id)._dispatch(now)
-        self.env["golok.lab.research.job"].sudo()._cron_run_next()
 
     def _dispatch(self, at):
         self.ensure_one()

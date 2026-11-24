@@ -10,7 +10,7 @@ from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, ValidationError
 from odoo.fields import Domain
 
-from ..services import bhavcopy, providers
+from ..services import bhavcopy, providers, rights_lifecycle
 
 
 PROVIDERS = [(key, source.name) for key, source in providers.SOURCES.items()]
@@ -40,17 +40,31 @@ class SourceReview(models.Model):
     live = fields.Boolean()
     export = fields.Boolean()
     research = fields.Boolean(string="Descriptive research")
+    raw_share_ohlcv = fields.Boolean(string="Reviewed unadjusted prices and share volume")
     upstream = fields.Char(help="Exact documented publisher identity for manual CSV.")
     revoked_at = fields.Datetime(readonly=True)
     retain_until = fields.Date(help="Optional date after which application access is blocked.")
     readable_now = fields.Boolean(compute="_compute_readable_now", search="_search_readable_now")
+    lifecycle = fields.Selection([("active", "Active"), ("revoked", "Revoked"),
+                                  ("retention_expired", "Retention expired"),
+                                  ("authorization_expired", "Authorization expired"),
+                                  ("insufficient", "Insufficient evidence"), ("transient", "Transient only")],
+                                 compute="_compute_lifecycle")
+    storage_policy = fields.Selection([
+        ("unknown", "Unverified"), ("archive", "Ongoing internal archival permitted"),
+        ("fixed", "Fixed-term storage"), ("transient", "Transient only")], default="unknown", required=True)
 
-    @api.depends("revoked_at", "expires", "retain_until", "display")
-    def _compute_readable_now(self):
+    @api.depends("revoked_at", "expires", "retain_until", "storage_policy")
+    def _compute_lifecycle(self):
         today = fields.Date.today()
         for review in self:
-            review.readable_now = bool(not review.revoked_at and review.expires and review.expires >= today
-                                       and (not review.retain_until or review.retain_until >= today) and review.display)
+            review.lifecycle = rights_lifecycle.state(today, review.expires, review.retain_until,
+                                                      review.revoked_at, review.storage_policy)
+
+    @api.depends("lifecycle", "display")
+    def _compute_readable_now(self):
+        for review in self:
+            review.readable_now = review.lifecycle == "active" and review.display
 
     def _search_readable_now(self, operator, value):
         if operator != "in" or tuple(value) != (True,):
@@ -58,18 +72,20 @@ class SourceReview(models.Model):
         today = fields.Date.today()
         return (Domain("revoked_at", "=", False) & Domain("expires", ">=", today)
                 & (Domain("retain_until", "=", False) | Domain("retain_until", ">=", today))
+                & (Domain("storage_policy", "=", "archive")
+                   | (Domain("storage_policy", "=", "fixed") & Domain("retain_until", ">=", today)))
                 & Domain("display", "=", True))
-    storage_policy = fields.Selection([("unknown", "Unverified"), ("archive", "Ongoing internal archival permitted")],
-                                      default="unknown", required=True)
 
     @api.model_create_multi
     def create(self, vals_list):
         self.check_access("create")
         allowed = {"provider", "terms_url", "documentation", "evidence", "purpose", "restrictions", "expires",
-                   "storage_policy", "upstream", "retain_until", *providers.PERMISSIONS}
+                   "storage_policy", "upstream", "retain_until", "raw_share_ohlcv", *providers.PERMISSIONS}
         if any(set(vals) - allowed for vals in vals_list):
             raise ValidationError(_("Supply only review evidence and explicit permissions."))
         for vals in vals_list:
+            if vals.get("storage_policy") == "fixed" and not vals.get("retain_until"):
+                raise ValidationError(_("A fixed retention agreement requires a final storage date."))
             if vals.get("provider") == "manual" and not (vals.get("upstream") or "").strip():
                 raise ValidationError(_("Record the exact upstream publisher for an authorized local file."))
             if vals.get("provider") != "fixture" and any(
@@ -95,10 +111,11 @@ class SourceReview(models.Model):
             domain.append(("upstream", "=", upstream))
         review = self.sudo().search(domain, limit=1)
         grants = {source: {name: review[name] for name in providers.PERMISSIONS}} if review else {}
-        today = fields.Date.today()
+        status = (rights_lifecycle.state(fields.Date.today(), review.expires, review.retain_until,
+                                         review.revoked_at, review.storage_policy) if review else "insufficient")
         if (not review or (bound is not None and review.id != bound.id)
-                or review.revoked_at or review.expires < today or (review.retain_until and review.retain_until < today)
-                or ("persist" in required and review.storage_policy != "archive")
+                or status != "active"
+                or ("persist" in required and not rights_lifecycle.can_persist(status, review.storage_policy))
                 or not providers.route([source], feed, required, grants)):
             raise AccessError(_("The bound source review must permit this operation and be current."))
         return review
@@ -134,11 +151,11 @@ class DailyImport(models.Model):
     _revision = models.Constraint("UNIQUE(company_id, source, day, calendar_id, digest)", "File revision already recorded.")
     _daily = models.Constraint("UNIQUE(company_id, accepted_key)", "An accepted daily revision already exists. Retry to compare it.")
 
-    def export_data(self, fields_to_export):
+    def _export_rows(self, fields, *, _is_toplevel_call=True):
         self.check_access("read")
         if any(row.source != "fixture" for row in self):
             raise AccessError(_("Historical market observations are not exportable."))
-        return super().export_data(fields_to_export)
+        return super()._export_rows(fields, _is_toplevel_call=_is_toplevel_call)
 
     def action_normalize(self):
         self.ensure_one()

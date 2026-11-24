@@ -37,3 +37,14 @@ def compare(left, right, as_of, tolerance):
     if not left.upstream or not right.upstream or "unknown" in (left.upstream, right.upstream):
         return "UNKNOWN_LINEAGE"
     return "SHARED_UPSTREAM" if left.upstream == right.upstream else "MATCH"
+
+
+def compare_bars(left, right, left_bar, right_bar, as_of, tolerance):
+    validity = compare(left, right, as_of, tolerance)
+    if validity in ("UNVERIFIABLE", "NON_EQUIVALENT"):
+        return validity, {}
+    differences = {name: abs(getattr(left_bar, name) - getattr(right_bar, name))
+                   for name in ("open", "high", "low", "close", "volume")}
+    if differences["volume"] or any(differences[key] > tolerance for key in ("open", "high", "low", "close")):
+        return "CONFLICT", differences
+    return validity, differences
