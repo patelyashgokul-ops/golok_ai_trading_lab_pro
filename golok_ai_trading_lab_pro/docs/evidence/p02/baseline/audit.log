@@ -1,0 +1,18 @@
+P01 evidence: all 10 hashes verified
+test_duplicate_and_reversed_csv (unit_market_research.MarketDataTests.test_duplicate_and_reversed_csv) ... ok
+test_empty_and_size_limits (unit_market_research.MarketDataTests.test_empty_and_size_limits) ... ok
+test_gap_count_and_date_boundary (unit_market_research.MarketDataTests.test_gap_count_and_date_boundary) ... ok
+test_invalid_prices_volume_and_timestamps (unit_market_research.MarketDataTests.test_invalid_prices_volume_and_timestamps) ... ok
+test_utc_normalization_and_exact_prices (unit_market_research.MarketDataTests.test_utc_normalization_and_exact_prices) ... ok
+test_atr_gaps_wilder_smoothing (unit_market_research.ResearchTests.test_atr_gaps_wilder_smoothing) ... ok
+test_reference_values_and_relative_volume_baseline (unit_market_research.ResearchTests.test_reference_values_and_relative_volume_baseline) ... ok
+test_warmup_and_no_future_access (unit_market_research.ResearchTests.test_warmup_and_no_future_access) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.004s
+
+OK
+PASS: inspected 15 runtime source files
+PASS: Python AST and XML basic parsing
+PASS: no matches for broker order methods, versioned order paths or credential literal patterns
+PASS: Odoo web is the only manifest dependency

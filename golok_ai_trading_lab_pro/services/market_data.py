@@ -11,6 +11,7 @@ VERSION = "1"
 MAX_BYTES = 512 * 1024
 MAX_ROWS = 4000
 COLUMNS = ("close_time", "open", "high", "low", "close", "volume")
+TEMPORAL_COLUMNS = (*COLUMNS, "open_time", "available_at")
 INTERVALS = {"1m": 60, "3m": 180, "5m": 300, "15m": 900, "30m": 1800, "1h": 3600, "1d": None}
 TIMESTAMP = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:00(?:Z|[+-]\d{2}:\d{2})", re.ASCII)
 NUMBER = re.compile(r"[0-9]{1,12}(?:\.[0-9]{1,8})?")
@@ -25,17 +26,23 @@ class Candle:
     low: Decimal
     close: Decimal
     volume: int
+    open_time: datetime | None = None
+    available_at: datetime | None = None
 
 
-def parse_bar(timestamp, open_, high, low, close, volume, *, as_of):
+def parse_timestamp(timestamp):
     if not TIMESTAMP.fullmatch(timestamp):
         raise ValueError("Use an ISO 8601 close timestamp with an explicit offset and zero seconds.")
     if not timestamp.endswith("Z") and (int(timestamp[-5:-3]) > 23 or int(timestamp[-2:]) > 59):
         raise ValueError("Invalid timestamp offset.")
     try:
-        close_time = datetime.fromisoformat(timestamp).astimezone(timezone.utc)
+        return datetime.fromisoformat(timestamp).astimezone(timezone.utc)
     except (ValueError, OverflowError):
         raise ValueError("Invalid close timestamp.") from None
+
+
+def parse_bar(timestamp, open_, high, low, close, volume, *, as_of, open_time=None, available_at=None):
+    close_time = parse_timestamp(timestamp)
     if close_time > as_of:
         raise ValueError("Future close timestamp.")
     values = (open_, high, low, close)
@@ -47,24 +54,31 @@ def parse_bar(timestamp, open_, high, low, close, volume, *, as_of):
         raise ValueError("Invalid OHLC relationship.")
     if not re.fullmatch(r"[0-9]{1,10}", volume) or int(volume) > MAX_VOLUME:
         raise ValueError("Volume must be a nonnegative integer within the supported range.")
-    return Candle(close_time, *prices, int(volume))
+    if open_time is None:
+        return Candle(close_time, *prices, int(volume))
+    opening_time, availability = parse_timestamp(open_time), parse_timestamp(available_at)
+    if not opening_time < close_time <= availability <= as_of:
+        raise ValueError("Expected open_time < close_time <= available_at <= import time.")
+    return Candle(close_time, *prices, int(volume), opening_time, availability)
 
 
-def parse_csv(raw, *, as_of):
+def parse_csv(raw, *, as_of, temporal=False):
     if len(raw) > MAX_BYTES:
         raise ValueError("CSV file exceeds 512 KiB.")
     rows = csv.reader(io.StringIO(raw.decode("utf-8-sig"), newline=""), strict=True)
     try:
-        if tuple(next(rows, ())) != COLUMNS:
-            raise ValueError("Expected columns: " + ",".join(COLUMNS))
+        columns = TEMPORAL_COLUMNS if temporal else COLUMNS
+        if tuple(next(rows, ())) != columns:
+            raise ValueError("Expected columns: " + ",".join(columns))
         bars = []
         for row in rows:
             try:
                 if len(bars) >= MAX_ROWS:
                     raise ValueError("CSV file exceeds 4,000 candles.")
-                if len(row) != len(COLUMNS):
-                    raise ValueError("Expected exactly six columns.")
-                bar = parse_bar(*row, as_of=as_of)
+                if len(row) != len(columns):
+                    raise ValueError(f"Expected exactly {len(columns)} columns.")
+                temporal_values = dict(zip(columns[6:], row[6:]))
+                bar = parse_bar(*row[:6], as_of=as_of, **temporal_values)
                 if bars and bar.close_time <= bars[-1].close_time:
                     raise ValueError("Close times must be strictly increasing and unique.")
                 bars.append(bar)
