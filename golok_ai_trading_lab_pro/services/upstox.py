@@ -72,6 +72,8 @@ def history(token, key, isin, interval, session, reserve, *, transport=_https):
         for row in raw:
             if (not isinstance(row, list) or len(row) != 7
                     or any(type(value) not in (int, Decimal) for value in row[1:5])
+                    or any(isinstance(value, Decimal) and not -8 <= value.as_tuple().exponent <= 11
+                           for value in row[1:5])
                     or any(type(value) is not int or value < 0 for value in row[5:])):
                 raise ValueError
             prices = [format(value, "f") for value in row[1:5]]

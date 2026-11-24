@@ -6,7 +6,7 @@ from odoo import fields, models
 from odoo.exceptions import AccessError, ValidationError
 
 from ..models.portfolio import STRATEGIES, digest
-from ..services import backtest, performance, walk_forward
+from ..services import backtest, performance, targets, walk_forward
 
 
 class PortfolioWizard(models.TransientModel):
@@ -20,9 +20,7 @@ class PortfolioWizard(models.TransientModel):
     capital = fields.Char(required=True, default="50000")
     tick = fields.Char(required=True, default="0.05", string="Unmapped Tick Size")
     strategy = fields.Selection(STRATEGIES, required=True, default="all")
-    target_policy = fields.Selection([
-        ("structure", "Completed market structure"), ("fixed_4r", "Fixed 4R benchmark")],
-        required=True, default="structure")
+    target_policy = fields.Selection(list(targets.POLICY_CHOICES), required=True, default="structure")
     training_id = fields.Many2one("golok.lab.portfolio", string="Training replay for sealing")
     training_sessions = fields.Integer(default=2)
     validation_sessions = fields.Integer(default=1)

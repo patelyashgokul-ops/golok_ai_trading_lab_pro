@@ -2,7 +2,13 @@
 
 from decimal import Decimal
 
+from . import indicators
+
 VERSION = "structure-1"
+EXPERIMENTAL_VERSION = "atr-barrier-1"
+POLICY_CHOICES = (("structure", "Completed market structure"), ("fixed_4r", "Fixed 4R benchmark"),
+                  ("atr_barrier", "Experimental ATR-capped resistance"))
+POLICIES = tuple(code for code, _label in POLICY_CHOICES)
 
 
 def levels(history, entry, stop, release, after_open, exit_cutoff):
@@ -10,12 +16,22 @@ def levels(history, entry, stop, release, after_open, exit_cutoff):
         return (), "INVALID_STOP_OR_SESSION"
     if release == "fixed_4r":
         return (entry + (entry - stop) * 4,), "EXPLICIT_FIXED_4R_BENCHMARK"
-    if release != "structure":
+    if release not in ("structure", "atr_barrier"):
         raise ValueError("Unknown target policy.")
     # Nearest completed resistance is the first barrier. A farther level cannot
     # rescue a poor risk/reward ratio at the nearest one.
     highs = {bar.high for bar in history[-20:] if bar.available_at < after_open and bar.high > entry}
-    return ((min(highs),), "NEAREST_COMPLETED_RESISTANCE") if highs else ((), "NO_CAUSAL_TARGET")
+    if not highs:
+        return (), "NO_CAUSAL_TARGET"
+    if release == "structure":
+        return (min(highs),), "NEAREST_COMPLETED_RESISTANCE"
+    completed = [bar for bar in history[-20:] if bar.close_time <= bar.available_at < after_open]
+    if len(completed) < 15:
+        return (), "INSUFFICIENT_VOLATILITY_HISTORY"
+    atr = indicators.calculate(completed)["atr14"][-1]
+    if not atr:
+        return (), "INSUFFICIENT_VOLATILITY_HISTORY"
+    return (min(min(highs), entry + 2 * atr),), "NEAREST_RESISTANCE_WITH_ATR_CAP"
 
 
 def rank(sizing, volume):

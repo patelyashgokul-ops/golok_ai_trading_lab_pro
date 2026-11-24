@@ -37,6 +37,8 @@ test_equivalence_conflict_and_lineage (unit_p06.P06Tests.test_equivalence_confli
 test_offline_mcp_handshake_discovery_and_pinned_schema (unit_p06.P06Tests.test_offline_mcp_handshake_discovery_and_pinned_schema) ... ok
 test_provider_caps_and_decisions (unit_p06.P06Tests.test_provider_caps_and_decisions) ... ok
 test_strategy_triggers_and_anomaly (unit_p06.P06Tests.test_strategy_triggers_and_anomaly) ... ok
+test_atr_target_caps_without_bypassing_barrier_and_independent_values (unit_p06p07_r01.LevelsTest.test_atr_target_caps_without_bypassing_barrier_and_independent_values) ... ok
+test_entry_stop_and_future_data_invariance (unit_p06p07_r01.LevelsTest.test_entry_stop_and_future_data_invariance) ... ok
 test_ascending_normalization_and_receipt_provenance (unit_p06p07_r01.UpstoxTest.test_ascending_normalization_and_receipt_provenance) ... ok
 test_historical_permission_ceiling (unit_p06p07_r01.UpstoxTest.test_historical_permission_ceiling) ... ok
 test_schema_grid_and_values (unit_p06p07_r01.UpstoxTest.test_schema_grid_and_values) ... ok
@@ -56,6 +58,6 @@ test_walk_forward_uses_disjoint_trading_windows_and_embargo (unit_p09.Performanc
 test_zero_trades_remain_insufficient (unit_p09.PerformanceTests.test_zero_trades_remain_insufficient) ... ok
 
 ----------------------------------------------------------------------
-Ran 56 tests in 0.179s
+Ran 58 tests in 0.303s
 
 OK

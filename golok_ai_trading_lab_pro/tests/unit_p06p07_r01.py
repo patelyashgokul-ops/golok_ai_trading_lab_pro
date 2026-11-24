@@ -1,8 +1,12 @@
 import json
 import unittest
+from dataclasses import replace
+from datetime import timedelta
+from decimal import Decimal
 from urllib.error import HTTPError, URLError
 
-from services import calendar, ingestion, providers, upstox
+from scripts.reproduce_p05 import fixture
+from services import calendar, indicators, ingestion, level_research, providers, simulation, targets, upstox
 from services.smartapi import ProviderError
 
 
@@ -78,3 +82,56 @@ class UpstoxTest(unittest.TestCase):
         self.assertEqual(providers.route(["upstox"], "historical", providers.PURPOSES["import"], grants), "upstox")
         for purpose in ("historical_replay", "optimization", "automatic_sync", "export"):
             self.assertIsNone(providers.route(["upstox"], "historical", providers.PURPOSES[purpose], grants))
+
+
+class LevelsTest(unittest.TestCase):
+    def setUp(self):
+        assets, day, self.costs = fixture()
+        original = assets[0].sessions[day]
+        self.session = replace(original, entry_cutoff=original.opening + timedelta(hours=2),
+                               exit_cutoff=original.opening + timedelta(hours=3))
+        template = assets[0].bars[0]
+        self.history = [
+            replace(template, open_time=original.opening + timedelta(minutes=5 * i),
+                    close_time=original.opening + timedelta(minutes=5 * (i + 1)),
+                    available_at=original.opening + timedelta(minutes=5 * (i + 1)),
+                    open=Decimal("100"), close=Decimal("100"), high=Decimal("104"), low=Decimal("99.5"), volume=40000)
+            for i in range(18)
+        ]
+        self.as_of = self.history[-1].available_at + timedelta(seconds=1)
+        self.expiry = self.as_of + timedelta(minutes=2)
+
+    def evaluate(self, history, as_of=None):
+        return level_research.evaluate(history, self.session, as_of or self.as_of, self.expiry,
+                                       Decimal("99.50"), Decimal(".05"), "NSE", self.costs, simulation.RiskPolicy())
+
+    def test_entry_stop_and_future_data_invariance(self):
+        report = self.evaluate(self.history)
+        self.assertEqual(report["status"], "RESEARCH_PROPOSAL")
+        self.assertEqual(report["range"], (Decimal("99.50"), Decimal("101")))
+        self.assertEqual(report["selected"]["limit"], Decimal("100"))
+        self.assertEqual(report["selected"]["stop"], Decimal("99.50"))
+        future = replace(self.history[-1], available_at=self.as_of, low=Decimal("1"), high=Decimal("1000"))
+        self.assertEqual(self.evaluate(self.history + [future]), report)
+        opening = self.as_of + timedelta(seconds=1)
+        self.assertTrue(level_research.eligible_open(report, opening, Decimal("100")))
+        self.assertFalse(level_research.eligible_open(report, opening, Decimal("100.05")))
+        self.assertFalse(level_research.eligible_open(report, self.expiry, Decimal("100")))
+        self.assertEqual(self.evaluate(self.history, self.expiry)["status"], "NO_TRADE")
+
+    def test_atr_target_caps_without_bypassing_barrier_and_independent_values(self):
+        last = replace(self.history[-1], high=Decimal("101"))
+        history = self.history[:-1] + [last]
+        values = indicators.calculate(self.history)
+        self.assertEqual(values["atr14"][-1], Decimal("4.5"))
+        self.assertEqual(values["rsi14"][-1], Decimal("50"))
+        self.assertEqual(values["ema20"][-1], None)
+        entry, stop = Decimal("100"), Decimal("99.50")
+        results = [targets.levels(history, entry, stop, policy, self.as_of, self.session.exit_cutoff)[0]
+                   for policy in targets.POLICIES]
+        self.assertEqual(results, [(Decimal("101"),), (Decimal("102.00"),), (Decimal("101"),)])
+        high_resistance = [replace(bar, high=Decimal("110"), low=Decimal("99.5")) for bar in self.history[:1]]
+        high_resistance += [replace(bar, open=Decimal("99"), close=Decimal("99"),
+                                    high=Decimal("100"), low=Decimal("98.5")) for bar in self.history[1:]]
+        self.assertLess(targets.levels(high_resistance, entry, stop, "atr_barrier", self.as_of,
+                                       self.session.exit_cutoff)[0][0], Decimal("110"))

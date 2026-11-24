@@ -81,7 +81,7 @@ def _replay(series, starts, ends, seconds, codes, costs, *, capital, portfolio_p
             or sum(len(asset.bars) for asset in series) > MAX_BARS
             or not starts <= ends < starts + timedelta(days=31) or seconds not in (60, 180, 300, 900)
             or not codes or len(set(codes)) != len(codes) or not set(codes) <= strategies.REGISTRY.keys()
-            or target_policy not in ("structure", "fixed_4r") or not simulation.finite(capital) or capital <= 0):
+            or target_policy not in targets.POLICIES or not simulation.finite(capital) or capital <= 0):
         raise ValueError("Use bounded, distinct synthetic instruments, known strategies and positive virtual capital.")
     if (not simulation.finite(portfolio_policy.daily_loss) or not 0 < portfolio_policy.daily_loss <= 1
             or any(type(value) is not int or value <= 0 for value in (
@@ -110,6 +110,8 @@ def _replay(series, starts, ends, seconds, codes, costs, *, capital, portfolio_p
         risk_room = max(Decimal(0), daily_open * portfolio_policy.daily_loss + min(daily_realized, 0) - exposure)
         levels, target_reason = targets.levels(histories[key], bar.open, stop, target_policy, when, session.exit_cutoff)
         target = levels[0] if levels else None
+        if target is not None and target_policy == "atr_barrier":
+            target = target // asset.tick * asset.tick
         risk_capital = min(cash, daily_open)
         risk = replace(simulation.RiskPolicy(), capital=risk_capital)
         sizing = (simulation.size_long(bar.open, stop, target, asset.tick, observed.volume, session.day,

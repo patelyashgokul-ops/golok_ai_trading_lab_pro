@@ -36,7 +36,7 @@ class Portfolio(models.Model):
     capital = fields.Char(required=True)
     tick = fields.Char(required=True)
     strategy = fields.Selection(STRATEGIES, required=True)
-    target_policy = fields.Selection([("structure", "Completed market structure"), ("fixed_4r", "Fixed 4R benchmark")])
+    target_policy = fields.Selection(list(targets.POLICY_CHOICES))
     fingerprint = fields.Char(required=True)
     trade_count = fields.Integer()
     decision_count = fields.Integer()
@@ -122,7 +122,7 @@ class Portfolio(models.Model):
             raise ValidationError(_("Supply one portfolio request with no generated fields."))
         vals = vals_list[0]
         target_policy = vals.get("target_policy", "structure")
-        if target_policy not in ("structure", "fixed_4r"):
+        if target_policy not in targets.POLICIES:
             raise ValidationError(_("Select a supported target policy."))
         identifiers, tariff_id = vals["dataset_ids"], vals["tariff_id"]
         if (not isinstance(identifiers, (tuple, list)) or not 1 <= len(identifiers) <= portfolio.MAX_INSTRUMENTS
@@ -229,7 +229,8 @@ class Portfolio(models.Model):
             "interval_seconds": seconds, "capital": capital, "inputs": inputs, "tariff": tariff.id,
             "tariffs": [asdict(rule) for rule in costs.tariffs], "policy": asdict(portfolio.PortfolioPolicy()),
             "strategies": codes, "strategy_version": strategies.VERSION,
-            "target_policy": target_policy, "target_version": targets.VERSION,
+            "target_policy": target_policy, "target_version": (
+                targets.EXPERIMENTAL_VERSION if target_policy == "atr_barrier" else targets.VERSION),
             "code_digests": {module.__name__.rsplit(".", 1)[-1]: hashlib.sha256(Path(module.__file__).read_bytes()).hexdigest()
                              for module in (portfolio, strategies, decision, eligibility, simulation, calendar, targets)},
         }
