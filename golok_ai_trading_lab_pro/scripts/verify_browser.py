@@ -243,6 +243,26 @@ def verify(base_url, database, edge):
         expect(page.locator(".o_form_view [name=specification]")).to_contain_text("generated_fixture_digest")
         assert not errors, errors
         print("UI-17 historical timing fixture persisted and opened with its frozen fingerprint", flush=True)
+        page.goto(f"{base_url}/odoo/action-{xml_id('action_portfolio')}")
+        page.locator(".o_list_view").get_by_role("row").filter(has_text="ST-01").filter(
+            has_not_text="2024-01-05").last.click()
+        page.get_by_role("button", name="Calculate Performance").click()
+        expect(page.locator(".o_form_view [name=report]")).to_contain_text("p09-performance-1")
+        print("UI-18 synthetic performance report persisted with its calculation version", flush=True)
+        call("golok.lab.fixture.account", "create", {
+            "name": "Browser prospective fixture", "scenario": "target", "tariff_id": tariff})
+        page.goto(f"{base_url}/odoo/action-{xml_id('action_fixture_accounts')}")
+        page.get_by_text("Browser prospective fixture", exact=True).click()
+        page.get_by_role("button", name="Reserve Fixture Order").click()
+        page.get_by_role("button", name="Process Fixture Entry").click()
+        page.get_by_role("button", name="Process Fixture Exit").click()
+        expect(page.locator(".o_form_view [name=order_ids]")).to_contain_text("Closed")
+        page.get_by_role("tab", name="Journal (paise)").click()
+        expect(page.locator(".o_form_view [name=journal_ids]")).to_contain_text("Closed")
+        page.screenshot(path=EVIDENCE / "screenshots/prospective-fixture-journal.png")
+        expect(page.locator(".o_form_view [name=mode]")).to_contain_text("Prospective fixture simulation")
+        assert not errors, errors
+        print("UI-19 fixture-only reservation, entry, exit and journal through native forms", flush=True)
         browser.close()
 
 

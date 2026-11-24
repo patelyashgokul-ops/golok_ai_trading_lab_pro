@@ -94,6 +94,7 @@ class ResearchJob(models.Model):
     @api.model
     def _cron_run_next(self):
         # One database-local job per invocation. A process interruption rolls back the claim and result.
+        self.flush_model(["state"])
         self.env.cr.execute("""
             SELECT id FROM golok_lab_research_job WHERE state='queued'
             ORDER BY id FOR UPDATE SKIP LOCKED LIMIT 1

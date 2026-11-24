@@ -1,5 +1,9 @@
 # Owner actions for P08
 
+## P09 owner action
+
+For one historical smoke test, provide one completed-session file and the publisher's permission for local retention and private descriptive research. Upstox documents market-data access without the account-sensitive static-IP requirement. Because the owner reported inactive-segment restrictions, confirm with Upstox whether the existing account can issue a market-data Analytics Token under its current plan. Keep any token and login material local. FYERS documents a non-trading app without static IP, subject to account onboarding and source terms. [Provider decision matrix](FREE_MARKET_DATA_PROVIDER_EVALUATION.md)
+
 Offline research needs no external subscription. In **Research Schedules**, select a fixture-calendar dataset, pause it or check its phase. **Daily Research Operations** displays the saved event. Local scheduling requires the laptop and Odoo to be running.
 
 For a genuine market CSV, review the precise publisher and permit descriptive research only when the documented rights allow it. Record ongoing or fixed-term storage as specified in the grant. A transient-only authorization cannot create stored observations. Existing real datasets without bound lineage remain restricted. Start offline with the bundled synthetic fixtures. [ગુજરાતી સેટઅપ](OWNER_SETUP_GUJARATI.md)

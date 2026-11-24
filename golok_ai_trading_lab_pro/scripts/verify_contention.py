@@ -181,8 +181,100 @@ def _p03_races(env, company, instrument):
         raise AssertionError("A second consumption unexpectedly succeeded.")
     assert runner["golok.lab.holdout"].browse(seal_id).result_id
     print("PASS: independent holdout evaluations overlapped and a fresh retry rejected repeated consumption")
-    if env.cr.dbname.startswith("golok_p08_fresh_"):
+    if env.cr.dbname.startswith(("golok_p08_fresh_", "golok_p09_fresh_")):
         _interrupt_job(env, runner, dataset)
+    if env.cr.dbname.startswith("golok_p09_fresh_"):
+        _p09_races(env, runner, dataset, tariff)
+
+
+def _p09_races(env, runner, dataset, tariff):
+    scope = {"allowed_company_ids": [dataset.company_id.id]}
+    administrator = new_test_user(env, login="golok-cycle-race", groups="golok_ai_trading_lab_pro.group_admin",
+                                  company_id=dataset.company_id.id, company_ids=[(6, 0, [dataset.company_id.id])])
+    watch = env(user=administrator.id, context=scope)["golok.lab.session.watch"].create({"dataset_id": dataset.id})
+    account = runner["golok.lab.fixture.account"].create({"name": "Independent fixture order test", "tariff_id": tariff.id})
+    env.cr.commit()
+    at = datetime(2024, 1, 2, 4, 5, tzinfo=timezone.utc)
+    watch._dispatch(at)
+    with env.registry.cursor() as other:
+        peer = api.Environment(other, administrator.id, scope)["golok.lab.session.watch"].browse(watch.id)
+        assert env.cr is not other
+        assert not peer._dispatch(at)
+    env.cr.commit()
+    assert runner["golok.lab.research.cycle"].search_count([("watch_id", "=", watch.id)]) == 1
+    print("PASS: a concurrent scheduler skipped the locked watch and only one observation cycle was queued")
+
+    def account_for(other):
+        return other(user=runner.uid, context=scope)[account._name].browse(account.id)
+
+    def reserve(other):
+        account_for(other).action_reserve_fixture()
+        other.flush_all()
+
+    def close(other):
+        account_for(other).action_close_fixture()
+        other.flush_all()
+
+    _overlap(env, lambda: reserve(env), reserve, (SerializationFailure, ValidationError))
+    account.action_open_fixture()
+    env.cr.commit()
+    _overlap(env, lambda: close(env), close, SerializationFailure)
+    account.action_close_fixture()
+    account.invalidate_recordset()
+    assert len(account.order_ids) == 1 and account.order_ids.state == "closed"
+    assert account.journal_ids.mapped("kind") == ["reserved", "opened", "closed"]
+    assert account.available == account.opening + account.realized
+    print("PASS: independent fixture reservation and closure races left one order, one fill per side and a reconciled journal")
+    _interrupt_fixture_exit(env, account)
+
+
+def _interrupt_fixture_exit(env, account):
+    import odoo
+
+    account.action_reserve_fixture()
+    account.action_open_fixture()
+    order = account.order_ids[:1]
+    env.cr.execute("SELECT inet_server_port()")
+    port = str(env.cr.fetchone()[0])
+    env.cr.commit()
+    root = Path(odoo.__file__).resolve().parent.parent
+    addons = Path(__file__).resolve().parents[2]
+    process = subprocess.Popen([
+        sys.executable, "-B", str(root / "odoo-bin"), "shell", "--no-http", "-d", env.cr.dbname,
+        "--db_host=127.0.0.1", "--db_user=golok_test", f"--db_port={port}",
+        f"--addons-path={root / 'addons'},{addons}", "--data-dir=.local-test/odoo-data",
+        "--logfile=.local-test/p09-fixture-worker.log",
+    ], stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True)
+    try:
+        process.stdin.write(
+            f"from time import sleep\n"
+            f"account = env(user={account.env.uid}, context={{'allowed_company_ids': [{account.company_id.id}]}})"
+            f"['{account._name}'].browse({account.id})\n"
+            "account.action_close_fixture()\n"
+            "env.flush_all()\n"
+            "print('PAPER_EXIT_WRITTEN', flush=True)\n"
+            "sleep(45)\n"
+        )
+        process.stdin.close()
+        with ThreadPoolExecutor(max_workers=1) as executor:
+            try:
+                assert executor.submit(process.stdout.readline).result(timeout=22).strip() == "PAPER_EXIT_WRITTEN"
+            finally:
+                process.kill()
+                process.wait(timeout=5)
+    finally:
+        if process.poll() is None:
+            process.kill()
+            process.wait(timeout=5)
+        process.stdout.close()
+    env.invalidate_all()
+    assert order.state == "open" and "closed" not in account.journal_ids.filtered(lambda event: event.order_id == order).mapped("kind")
+    account.action_close_fixture()
+    assert order.state == "closed"
+    assert account.journal_ids.filtered(lambda event: event.order_id == order).mapped("kind") == ["reserved", "opened", "closed"]
+    assert account.available == account.opening + account.realized
+    env.cr.commit()
+    print("PASS: actual fixture closing worker was terminated after uncommitted writes and one retry reconciled the exit")
 
 
 def _interrupt_job(env, runner, dataset):

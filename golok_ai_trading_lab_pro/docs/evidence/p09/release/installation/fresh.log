@@ -1,0 +1,5 @@
+2026-11-24 16:15:00,375 14276 WARNING ? odoo.tools.config: option --without-demo: since 19.0, invalid boolean value: 'all', assume True
+2026-11-24 16:15:00,376 14276 INFO ? odoo: Odoo version 20.0
+2026-11-24 16:15:00,377 14276 INFO ? odoo: Using configuration file at c:\pycharmprojects\odoo20\odoo-20.0\odoo.conf
+2026-11-24 16:15:00,377 14276 INFO ? odoo: addons paths: _NamespacePath(['C:\\PycharmProjects\\odoo20\\odoo-20.0\\odoo\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons\\golok_ai_trading_lab_pro\\.local-test\\odoo-data\\addons\\20.0', 'c:\\pycharmprojects\\odoo20\\odoo-20.0\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons'])
+2026-11-24 16:15:00,377 14276 INFO ? odoo: database: golok_test@127.0.0.1:55498

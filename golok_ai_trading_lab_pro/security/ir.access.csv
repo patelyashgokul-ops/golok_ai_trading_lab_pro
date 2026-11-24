@@ -78,3 +78,10 @@ research_candidate_viewer,Research candidate reader,golok.lab.research.candidate
 research_candidate_company,Research candidate company,golok.lab.research.candidate,,crud,"[('company_id','in',company_ids)]"
 performance_report_viewer,Synthetic metrics reader,golok.lab.performance.report,golok_ai_trading_lab_pro.group_viewer,r,
 performance_report_company,Synthetic metrics company,golok.lab.performance.report,,crud,"[('company_id','in',company_ids)]"
+fixture_account_viewer,Fixture paper account reader,golok.lab.fixture.account,golok_ai_trading_lab_pro.group_viewer,r,
+fixture_account_risk,Fixture paper account risk manager,golok.lab.fixture.account,golok_ai_trading_lab_pro.group_risk,cr,
+fixture_account_company,Fixture account company,golok.lab.fixture.account,,crud,"[('company_id','in',company_ids)]"
+fixture_order_viewer,Fixture paper order reader,golok.lab.fixture.order,golok_ai_trading_lab_pro.group_viewer,r,
+fixture_order_company,Fixture order company,golok.lab.fixture.order,,crud,"[('company_id','in',company_ids)]"
+fixture_journal_viewer,Fixture paper journal reader,golok.lab.fixture.journal,golok_ai_trading_lab_pro.group_viewer,r,
+fixture_journal_company,Fixture journal company,golok.lab.fixture.journal,,crud,"[('company_id','in',company_ids)]"

@@ -213,6 +213,10 @@ class ResearchCycle(models.Model):
 
     def _publish(self, run):
         self.ensure_one()
+        if self.candidate_ids:
+            if self.candidate_ids.input_digest != run.input_digest:
+                raise ValidationError(_("A different input cannot replace a published research outcome."))
+            return
         checks = {
             "G01": run.dataset_id.origin == "synthetic",
             "G02": bool(run.dataset_id.instrument_id),

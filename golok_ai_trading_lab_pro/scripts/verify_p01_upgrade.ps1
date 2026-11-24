@@ -12,7 +12,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-if ($SourceDatabase -notmatch '^golok_[a-z0-9_]+$' -or $TargetDatabase -notmatch '^golok_p0[2345]_migration_[a-z0-9_]+$') {
+if ($SourceDatabase -notmatch '^golok_[a-z0-9_]+$' -or $TargetDatabase -notmatch '^golok_p0[23459]_migration_[a-z0-9_]+$') {
     throw 'Use only disposable test database names.'
 }
 Push-Location (Split-Path $PSScriptRoot -Parent)
@@ -74,6 +74,15 @@ select md5(string_agg(row(id, to_jsonb(d)->>'source_review_id', to_jsonb(d)->>'p
         if ($SourceVersion -eq '20.0.7.0.0') { $oldJobs = Query $jobQuery }
         $portfolioQuery = "select count(*) || ':' || coalesce(md5(string_agg((to_jsonb(t)-'target_policy')::text,';' order by id)), 'empty') from golok_lab_portfolio t"
         if ($SourceVersion -eq '20.0.6.0.0') { $oldPortfolio = Query $portfolioQuery }
+        $p08RecordDigests = @{}
+        if ($SourceVersion -eq '20.0.8.7.0') {
+            foreach ($table in @('calendar','mapping','tariff','experiment','paper_account','paper_batch','paper_event',
+                                 'findings','sync','sync_plan','sync_task','research_job','holdout','source_review',
+                                 'daily_import','portfolio','session_event','source_comparison','session_watch')) {
+                $digestSql = "select count(*) || ':' || coalesce(md5(string_agg((to_jsonb(t)-'cycle_minutes')::text,';' order by id)), 'empty') from golok_lab_$table t"
+                $p08RecordDigests[$table] = @{ Sql = $digestSql; Before = (Query $digestSql) }
+            }
+        }
         $addons = "--addons-path=$OdooRoot/addons,$(Resolve-Path ..)"
         $common = @($addons, '--data-dir=.local-test/odoo-data', '--db_host=127.0.0.1',
                     "--db_port=$PostgresPort", '--db_user=golok_test', '-d', $TargetDatabase)
@@ -83,6 +92,12 @@ select md5(string_agg(row(id, to_jsonb(d)->>'source_review_id', to_jsonb(d)->>'p
         $timer.Stop()
         if ($code) { throw "Module upgrade exited $code" }
         $after = @(Query $data)
+        $p08Evidence = foreach ($table in ($p08RecordDigests.Keys | Sort-Object)) {
+            $entry = $p08RecordDigests[$table]
+            $retained = Query $entry.Sql
+            if ($retained -ne $entry.Before) { throw "Historical P08 $table retention failed." }
+            "${table}:${retained}"
+        }
         foreach ($table in $revisionDigestSql.Keys) {
             if ((Query $revisionDigestSql[$table]) -ne $beforeRevision[$table]) { throw "Historical $table retention failed." }
         }
@@ -122,7 +137,7 @@ group by 1, 2 order by 1, 2
             "${table}:${retained}"
         }
         @("PASS: upgraded populated clone from $SourceVersion to $TargetVersion in $($timer.Elapsed.TotalSeconds) s",
-          "PASS: retained $($beforeXML.Count) existing XML IDs and record-level hashes with immutable snapshot digests") + $before + @($extraLines) |
+          "PASS: retained $($beforeXML.Count) existing XML IDs and record-level hashes with immutable snapshot digests") + $before + @($extraLines) + @($p08Evidence) |
             Tee-Object "$EvidenceDir/upgrade/retention.log"
         "from odoo.addons.golok_ai_trading_lab_pro.scripts.measure_odoo_p02 import run; run(env)" |
             & $Python -B "$OdooRoot/odoo-bin" shell @common --no-http --logfile=.local-test/benchmark-p02.log |

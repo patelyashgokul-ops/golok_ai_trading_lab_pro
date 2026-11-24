@@ -477,6 +477,52 @@ class TestLab(TransactionCase):
         self.assertEqual(cycles.search_count(domain), 3)
         self.assertEqual(watch.event_ids.filtered(lambda event: event.phase == "intraday"), summary)
 
+    def test_p09_fixture_account_reservation_risk_and_journal(self):
+        spec = json.loads((Path(__file__).parent / "fixtures/p02/spec.json").read_text())
+        tariff = self.env["golok.lab.tariff"].with_user(self.admin).create({
+            "name": "Prospective fixture tariff", "lines": json.dumps(spec["tariffs"]),
+        })
+        accounts = self.env["golok.lab.fixture.account"].with_user(self.admin)
+        account = accounts.create({"name": "Target fixture", "tariff_id": tariff.id})
+        with self.assertRaises(AccessError):
+            account.with_user(self.analyst).action_reserve_fixture()
+        self.assertEqual((account.opening, account.mode), (5000000, "fixture"))
+        account.action_reserve_fixture()
+        reserved = account.reserved
+        self.assertGreater(reserved, 0)
+        self.assertLessEqual(account.planned_risk, 25000)
+        account.action_pause()
+        self.assertEqual((account.available, account.reserved, account.order_ids.state), (5000000, 0, "cancelled"))
+        with self.assertRaises(ValidationError):
+            account.action_reserve_fixture()
+        account.action_resume()
+        account.action_reserve_fixture()
+        account.action_open_fixture()
+        account.action_open_fixture()
+        self.assertEqual((account.reserved, account.position_cost, account.entries), (0, reserved, 1))
+        account.action_close_fixture()
+        account.action_close_fixture()
+        self.assertGreater(account.realized, 0)
+        self.assertEqual(account.available, account.opening + sum(account.journal_ids.mapped("delta_cash")))
+        self.assertEqual(account.realized, sum(account.journal_ids.mapped("delta_net")))
+        self.assertEqual(account.planned_risk, 0)
+        with self.assertRaises(AccessError):
+            account.journal_ids.with_user(self.analyst).write({"delta_cash": 42})
+        losses = accounts.create({"name": "Loss fixture", "tariff_id": tariff.id, "scenario": "ambiguous"})
+        for _ in range(2):
+            losses.action_reserve_fixture()
+            losses.action_open_fixture()
+            losses.action_close_fixture()
+        self.assertEqual((losses.state, losses.loss_streak), ("risk", 2))
+        self.assertTrue(all(order.exit_paise == 9700 for order in losses.order_ids))
+        missing = accounts.create({"name": "Unresolved fixture", "tariff_id": tariff.id, "scenario": "missing"})
+        missing.action_reserve_fixture()
+        missing.action_open_fixture()
+        missing.action_close_fixture()
+        self.assertEqual(missing.order_ids.state, "unresolved")
+        self.assertGreater(missing.position_cost, 0)
+        self.assertEqual(missing.realized, 0)
+
     def test_p08_source_conflict_blocks_research_and_is_idempotent(self):
         files = Path(__file__).parent / "fixtures/p02"
         schedule = json.loads((files / "spec.json").read_text())["schedule"]
