@@ -36,8 +36,9 @@ Publisher સુધારેલી દૈનિક ફાઇલ આપે ત્
 ## P06P07-R01 માં Upstox historical sync
 
 1. Offline ચકાસણી માટે Trading System Administrator તરીકે Odooમાં NSE fixture calendar અને Upstox mapping બનાવો. Mappingની key `NSE_EQ|ISIN` સ્વરૂપમાં હોવી જોઈએ.
-2. **Synchronize Historical** ખોલીને **Synthetic fixture** પસંદ કરો. Upstox V3નું synthetic JSON અને પૂર્ણ fixture session આપો. **Sync History** માં count અને status જુઓ.
+2. **Synchronize Historical** ખોલીને **Synthetic fixture** પસંદ કરો. Upstox V3નું synthetic JSON અને પૂર્ણ fixture session આપો. **Historical Sync Plans** માં `mapping_id/YYYY-MM-DD` key હેઠળ એ જ V3 response object આપી **Process Next Session** દબાવી શકો. **Sync History** માં count અને status જુઓ.
 3. અસલી data માટે Upstox accountમાંથી Analytics Tokenની ઉપલબ્ધતા અને query, display, local storage તથા internal researchની લેખિત મંજૂરી ચકાસો. **Market Data Authorization** માં મંજૂરીની નોંધ કરો.
 4. મંજૂરી મળ્યા પછી reviewed mapping અને calendar વાપરો. સ્થાનિક Odoo workerના environmentમાં token masked promptથી દાખલ કરો અને explicit authorization setting સક્રિય કરો. પ્રક્રિયા પછી token સ્થાનિક જ રાખો.
-5. Historical portfolio wizardમાં **Experimental ATR-capped resistance** પસંદ કરીને synthetic replay ચલાવી શકો. પરિણામમાં virtual fills, ખર્ચ અને veto તપાસો. આ આવૃત્તિનું અસલી market dataset અને નફાકારકતાનું validation બાકી છે.
+5. **Provider Diagnostics → Check Upstox Readiness** માં local setup, company authorization અને છેલ્લું સફળ અસલી receipt જુઓ.
+6. Historical portfolio wizardમાં **Experimental causal entry, stop and target** પસંદ કરીને synthetic replay ચલાવો. પરિણામમાં signal સમયે નક્કી થયેલી entry range, stop, target અને veto જુઓ. એ જ policy સાથે **Run Walk-forward Experiment** દબાવો તો દરેક training foldમાં 20 strategy–policy જોડીઓ ચકાસાશે. અસલી market data અને નફાકારકતાની ચકાસણી બાકી છે.
 

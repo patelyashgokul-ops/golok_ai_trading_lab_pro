@@ -2,18 +2,19 @@
 
 **P06–P07 REPAIR PARTIAL — TECHNICAL OR EXTERNAL BLOCKERS REMAIN**
 
-Release `20.0.9.1.1` starts from verified P09.1 release `20.0.9.1.0`. P09.1 archive, requirement identifiers, source checkpoint and prior published outputs were retained.
+Release `20.0.9.1.2` continues P06P07-R01 from verified P09.1 release `20.0.9.1.0`. The P09.1 archive, requirement identifiers, source checkpoint and prior published outputs were retained.
 
 ## Implemented
 
-- Upstox V3 read-only historical acquisition for one closed NSE cash-equity session. Odoo uses the existing company-grant, reviewed calendar, instrument mapping, quota, validation and audit workflow. The injected fixture path has no account dependency.
+- Upstox V3 read-only historical acquisition for one closed NSE cash-equity session. Both the direct sync wizard and the operator-run sync plan use the provider-specific grant, reviewed calendar, instrument mapping, quota, validation and audit workflow. The injected fixture path has no account dependency.
 - Automatic equivalent-candle comparison between Upstox and SmartAPI historical sync datasets. The Odoo regression verified a material difference, durable audit records and both dataset vetoes.
-- Versioned causal entry and stop experiments with tick-aligned levels, liquidity, cost-aware sizing and expiry. An optional ATR-capped target policy is available in the historical portfolio wizard. The structure and fixed 4R baselines reproduced.
+- The **Experimental causal entry, stop and target** policy connects the evaluator to historical portfolio replay. It freezes proposed levels and expiry before checking the next eligible open. Selecting this policy in the walk-forward wizard trains on 20 strategy–policy combinations per fold and carries the selected pair into validation and evaluation. The structure and fixed 4R baselines reproduced.
+- **Provider Diagnostics** includes a local Upstox readiness check that reports setup, review status and genuine historical receipts separately.
 - The handoff reconciles all 180 P06 and P07 criteria and reviews the 97 original unresolved entries and 18 original defects. The 45 focused repair criteria are appended to traceability.
 
 ## Verification
 
-58 standalone tests passed. The fresh Odoo installation and module-update stages each reported 25 tests with zero failures and errors. Independent PostgreSQL contention and actual worker termination/recovery scenarios passed. Edge ran 20 browser scenarios. The populated P09.1 upgrade preserved 1,243 existing XML IDs and record-level digests. All eleven archived P09.1 stress cases matched.
+60 standalone tests passed. The fresh Odoo installation and module-update stages each reported 25 tests with zero failures and errors. Edge passed 21 checks, including Upstox readiness. Independent PostgreSQL contention and actual worker termination/recovery scenarios passed. The populated upgrades from P09.1 and the previous R01 build retained existing XML IDs and record-level digests. All eleven archived P09.1 stress cases matched. Of the focused repair criteria, 28 passed and 17 remain partial.
 
 ## Readiness
 
@@ -22,10 +23,10 @@ Release `20.0.9.1.1` starts from verified P09.1 release `20.0.9.1.0`. P09.1 arch
 | Provider architecture | Upstox and SmartAPI historical fixture scope verified. Unified operational and provider health scope partial. |
 | Authorized provider connectivity and genuine data | Blocked by verified entitlement and use rights. Zero genuine sessions. |
 | Data accuracy protection | Equivalent broker sync comparison and material-conflict veto verified on fixtures. Adjustment and import-route coverage partial. |
-| Entry and stop optimization | Causal standalone evaluator verified. Shared deployment and training excursion evidence partial. |
+| Entry and stop optimization | Causal historical portfolio integration verified with frozen proposals and no-trade vetoes. Prospective coverage and training excursion evidence remain open. |
 | Target optimization | Optional historical ATR policy verified. Training calibration partial. |
 | Strategy competition | Historical ranking across five strategies verified. Cross-instrument prospective competition partial. |
-| Research and parameter optimization | Existing snapshot findings and separated walk-forward workflow retained. Standardized RE coverage and broad train-only policy search partial. |
+| Research and parameter optimization | Existing snapshot findings and separated walk-forward workflow retained. The historical train-only grid covers 20 pairs per fold. Broader parameter and standardized RE coverage remain open. |
 | Automatic research and fixture paper | Local scheduler, candidates, capital and journal regressions passed. |
 | Genuine prospective paper and independent financial validation | Blocked by genuine data/use rights, independent evaluation and real cost evidence. |
 | Verified live feed and actionable live support | Disabled pending separately authorized and validated evidence. |

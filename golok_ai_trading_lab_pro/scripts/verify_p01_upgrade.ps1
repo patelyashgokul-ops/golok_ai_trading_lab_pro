@@ -83,7 +83,7 @@ select md5(string_agg(row(id, to_jsonb(d)->>'source_review_id', to_jsonb(d)->>'p
                 $p08RecordDigests[$table] = @{ Sql = $digestSql; Before = (Query $digestSql) }
             }
         }
-        if ($SourceVersion -in @('20.0.9.0.0','20.0.9.1.0')) {
+        if ($SourceVersion -in @('20.0.9.0.0','20.0.9.1.0','20.0.9.1.1')) {
             $p09Tables = @{
                 session_watch = @('paper_account_id')
                 session_event = @()
@@ -100,7 +100,7 @@ select md5(string_agg(row(id, to_jsonb(d)->>'source_review_id', to_jsonb(d)->>'p
                 holdout = @()
                 source_review = @()
             }
-            if ($SourceVersion -eq '20.0.9.1.0') {
+            if ($SourceVersion -in @('20.0.9.1.0','20.0.9.1.1')) {
                 foreach ($table in @('calendar','mapping','sync','sync_plan','sync_task','source_comparison','provider_budget')) {
                     $p09Tables[$table] = @()
                 }

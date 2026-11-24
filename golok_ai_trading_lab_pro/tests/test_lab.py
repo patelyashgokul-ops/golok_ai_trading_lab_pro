@@ -1115,7 +1115,17 @@ class TestLab(TransactionCase):
         first = submit(smart, rows)
         self.assertEqual(first.state, "complete")
         data = {"status": "success", "data": {"candles": [[*rows[1][:-1], 21, 0], [*rows[0], 0]]}}
-        second = submit(upstox, data)
+        plan_vals = {"name": "Upstox comparison", "starts": "2024-01-02", "ends": "2024-01-02",
+                     "mapping_ids": [(6, 0, upstox.ids)], "calendar_ids": [(6, 0, revision.ids)],
+                     "fixture_input": json.dumps({f"{upstox.id}/2024-01-02": data})}
+        plans = self.env["golok.lab.sync.plan"].with_user(self.admin)
+        with self.assertRaises(ValidationError), self.env.cr.savepoint():
+            plans.create({**plan_vals, "interval": "30m"})
+        plan = plans.create(plan_vals)
+        plan.action_process_next()
+        self.assertEqual(plan.state, "done")
+        self.assertFalse(plan.task_ids.fixture_rows)
+        second = plan.task_ids.report_id
         self.assertEqual((second.state, second.count, second.reason), ("complete", 2, "SOURCE_CONFLICT_QUARANTINED"))
         audits = self.env["golok.lab.source.comparison"].with_user(self.admin).search([
             ("left_id", "=", first.dataset_id.id), ("right_id", "=", second.dataset_id.id)])

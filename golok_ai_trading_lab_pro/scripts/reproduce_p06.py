@@ -8,7 +8,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from scripts.reproduce_p05 import fixture
-from services import portfolio, simulation, strategies
+from services import performance, portfolio, simulation, strategies, targets
 
 
 def run():
@@ -30,4 +30,17 @@ def run():
 
 
 if __name__ == "__main__":
-    print(json.dumps(run(), default=str, indent=2))
+    if sys.argv[1:] == ["--level-policies"]:
+        assets, day, costs = fixture()
+        codes = tuple(strategies.REGISTRY)
+        policies = {}
+        for policy in targets.POLICIES:
+            result = portfolio.replay(assets, day, day, 300, codes, costs, target_policy=policy)
+            assert result == portfolio.replay(assets[::-1], day, day, 300, codes[::-1], costs, target_policy=policy)
+            policies[policy] = {"trades": result["trades"], "decisions": result["decisions"],
+                                "metrics": performance.summarize(result)}
+        print(json.dumps(policies, default=str, indent=2))
+    elif len(sys.argv) == 1:
+        print(json.dumps(run(), default=str, indent=2))
+    else:
+        raise SystemExit("Usage: reproduce_p06.py [--level-policies]")

@@ -17,4 +17,11 @@
 
 The early numerical fixture run failed two tests because the adopted historical example contained too few bars for ATR warm-up. The corrected independent 18-bar fixture passed the complete standalone suite. Expected SQL rejection messages in ORM logs correspond to asserted uniqueness and exclusion tests.
 
+## Release 20.0.9.1.2 follow-up
+
+- The final standalone suite passed all 60 tests. The joint-policy regression exercised a valid fill and a shifted open that invalidated the fill without changing the underlying proposal. The expanded negative suite exercised identity, price, adjustment, stale and authorization cases.
+- `python -B scripts/reproduce_p06.py --level-policies` reproduces the four-policy comparison, including proposals, fills and zero-trade results. Its reference sample produced three fixed-4R trades and zero trades for structure, ATR-capped and joint policies. A separate authored fixture exercised an actual joint-policy simulated fill.
+- The Odoo test exercised four folds with 20 training combinations each and verified the selected strategy and policy carry into separate validation and evaluation dates. Fresh installation and update both passed 25 tests. Concurrent worker recovery and journal checks reran. Populated upgrades directly from 20.0.9.1.0 and from 20.0.9.1.1 retained 1,243 and 1,245 existing XML IDs respectively, along with prior table digests.
+- Edge passed 21 checks, including the actual **Check Upstox Readiness** button and its receipt output. The browser screenshots and raw log are in the evidence bundle.
+
 [Commands, raw logs and screenshots](evidence/p06_p07_repair/INDEX.md)

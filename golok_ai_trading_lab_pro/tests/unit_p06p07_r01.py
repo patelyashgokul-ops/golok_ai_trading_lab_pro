@@ -1,12 +1,13 @@
 import json
 import unittest
 from dataclasses import replace
-from datetime import timedelta
+from datetime import date, timedelta
 from decimal import Decimal
 from urllib.error import HTTPError, URLError
 
 from scripts.reproduce_p05 import fixture
-from services import calendar, indicators, ingestion, level_research, portfolio, providers, simulation, targets, upstox
+from services import (calendar, indicators, ingestion, level_research, portfolio, price_integrity,
+                      providers, rights_lifecycle, simulation, targets, upstox)
 from services.smartapi import ProviderError
 
 
@@ -83,6 +84,29 @@ class UpstoxTest(unittest.TestCase):
         for purpose in ("historical_replay", "optimization", "automatic_sync", "export"):
             self.assertIsNone(providers.route(["upstox"], "historical", providers.PURPOSES[purpose], grants))
 
+    def test_wrong_data_matrix_rejects_identity_values_and_equivalence(self):
+        rows, receipt = self.read(lambda *_: self.payload(self.rows))
+        bar = ingestion.normalize(rows, self.session, 300, receipt)[-1]
+        source = price_integrity.Observation(self.isin, "NSE", "INR", "5m", "raw",
+                                            bar.close_time, bar.available_at, bar.close, "NSE")
+        cutoff = bar.available_at + timedelta(minutes=1)
+        for field, value in (("isin", "IN0000000002"), ("currency", "USD"), ("adjustment", "split_adjusted")):
+            with self.subTest(field=field):
+                self.assertEqual(price_integrity.compare(source, replace(source, **{field: value}),
+                                                         cutoff, Decimal(".05")), "NON_EQUIVALENT")
+        self.assertEqual(price_integrity.compare(source, replace(source, price=source.price * 100),
+                                                 cutoff, Decimal(".05")), "CONFLICT")
+        self.assertEqual(ingestion.quote_freshness(bar.available_at, cutoff), "stale")
+        self.assertEqual(rights_lifecycle.state(date(2024, 1, 3), date(2024, 1, 2), None, None, "archive"),
+                         "authorization_expired")
+        for changes in ({"key": "NSE_EQ|IN0000000002"}, {"key": "BSE_EQ|" + self.isin}):
+            with self.subTest(changes=changes), self.assertRaisesRegex(ProviderError, "^DEGRADED$"):
+                self.read(lambda *_: self.fail("conflicting identity must not reach transport"), **changes)
+        for stamp, price in (("2099-01-02T09:15:00+05:30", 100), (self.rows[1][0], -100)):
+            wrong = [stamp, price, *self.rows[1][2:]]
+            with self.subTest(stamp=stamp, price=price), self.assertRaisesRegex(ProviderError, "^DEGRADED$"):
+                self.read(lambda *_: self.payload([self.rows[0], wrong]))
+
 
 class LevelsTest(unittest.TestCase):
     def setUp(self):
@@ -112,7 +136,7 @@ class LevelsTest(unittest.TestCase):
         self.assertEqual(report["selected"]["limit"], Decimal("100"))
         self.assertEqual(report["selected"]["stop"], Decimal("99.50"))
         future = replace(self.history[-1], available_at=self.as_of, low=Decimal("1"), high=Decimal("1000"))
-        self.assertEqual(self.evaluate(self.history + [future]), report)
+        self.assertEqual(self.evaluate(self.history + [future] * level_research.MAX_HISTORY), report)
         opening = self.as_of + timedelta(seconds=1)
         self.assertTrue(level_research.eligible_open(report, opening, Decimal("100")))
         self.assertFalse(level_research.eligible_open(report, opening, Decimal("100.05")))

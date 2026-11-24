@@ -5,8 +5,8 @@ from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, ValidationError
 from psycopg2.errors import LockNotAvailable
 
-from ..services import market_data
-from .sync import _ADMIN
+from ..services import market_data, upstox
+from .sync import HISTORY_PROVIDERS, _ADMIN
 
 
 MAX_TASKS = 60
@@ -91,7 +91,9 @@ class SyncPlan(models.Model):
         for offset in range((self.ends - self.starts).days + 1):
             day = self.starts + timedelta(days=offset)
             for mapping in self.mapping_ids.sorted("id"):
-                if mapping.exchange not in revisions or mapping.provider != "smartapi" or not mapping._covers(day, origin):
+                if (mapping.exchange not in revisions or mapping.provider not in HISTORY_PROVIDERS
+                        or not mapping._covers(day, origin)
+                        or (mapping.provider == "upstox" and self.interval not in upstox.INTERVALS)):
                     raise ValidationError(_("Every selected mapping must cover the requested dates with compatible provenance."))
                 revision, sessions = revisions[mapping.exchange]
                 session = sessions.get(day)
@@ -102,8 +104,11 @@ class SyncPlan(models.Model):
                 key = f"{mapping.id}/{day.isoformat()}"
                 keys.add(key)
                 rows = fixtures.get(key)
-                if self.mode == "fixture" and not isinstance(rows, list):
-                    raise ValidationError(_("Supply fixture rows for every trading task using mapping_id/YYYY-MM-DD keys."))
+                expected = dict if mapping.provider == "upstox" else list
+                if self.mode == "fixture" and not isinstance(rows, expected):
+                    raise ValidationError(_(
+                        "Supply each fixture using mapping_id/YYYY-MM-DD keys, with Upstox response objects or SmartAPI row lists."
+                    ))
                 payload = json.dumps(rows, separators=(",", ":")) if rows is not None else False
                 if payload and len(payload) > 256 * 1024:
                     raise ValidationError(_("A session fixture exceeds 256 KiB."))
@@ -138,7 +143,7 @@ class SyncPlan(models.Model):
         if not task:
             return
         if self.mode == "live":
-            self.env["golok.lab.source.review"]._authorize("smartapi", "historical", "import")
+            self.env["golok.lab.source.review"]._authorize(task.mapping_id.provider, "historical", "import")
         previous = self.env["golok.lab.sync"].search([
             ("company_id", "=", self.company_id.id), ("mapping_id", "=", task.mapping_id.id), ("day", "=", task.day),
             ("interval", "=", task.interval), ("mode", "=", task.mode), ("state", "=", "complete"),

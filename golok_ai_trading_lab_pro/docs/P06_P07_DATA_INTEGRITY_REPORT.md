@@ -8,4 +8,6 @@ Broker comparisons with reviewed identical venue lineage are classified as share
 
 Fixture chronology and expiry reran. Authenticated polling, real publication latency, live-source freshness and complete stale-feed recovery remain unverified. No market data was acquired.
 
+The follow-up verifies the operator-run history queue using the same source comparison and veto path. An independent wrong-data suite covers conflicting instrument key and venue, future candle, negative price, adjusted/raw and currency boundaries, scaled price conflict, stale receipt and expired authorization.
+
 [Fixture, authorization, concurrency and coverage evidence](evidence/p06_p07_repair/INDEX.md)

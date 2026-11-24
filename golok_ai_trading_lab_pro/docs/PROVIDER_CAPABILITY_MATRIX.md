@@ -11,4 +11,4 @@
 
 The router matches the requested feed class, permission set and implementation ceiling. Daily data cannot satisfy an intraday or live request. Upstream identity is tracked separately from the provider label.
 
-Upstox uses an explicitly selected mapping through the shared historical sync workflow. The capability ceiling is query, display, persist and descriptive research with an effective company review. Its browser offering is the existing historical sync workflow. A separate unified provider health control center remains open.
+Upstox uses an explicitly selected mapping through historical sync. **Provider Diagnostics → Check Upstox Readiness** reports the local switch, credential presence, current company import authorization and the latest recorded successful genuine receipt separately. The diagnostic requires a Trading System Administrator and performs local checks. The capability ceiling is query, display, persist and descriptive research with an effective company review.

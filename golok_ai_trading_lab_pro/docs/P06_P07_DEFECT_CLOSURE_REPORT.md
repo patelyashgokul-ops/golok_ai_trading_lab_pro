@@ -22,5 +22,7 @@
 | P07-F18 | External blocker. Zero genuine sessions and zero prospective market sample. | Independent sample, applicable rights and cost evidence. |
 | R01-F01 | Repaired and regression tested. Advanced numeric exponents in provider JSON are rejected before Decimal fixed-point conversion. | Exercise authenticated response compatibility once entitlement is established. |
 | R01-F02 | Repaired during verification. The first ATR reference fixture was shorter than the warm-up. The expanded deterministic fixture verifies proposal feasibility and future-data invariance. | Extend the independent reference series across all indicator contracts. |
+| R01-F03 | Historical sync plans now accept Upstox response objects and resolve authorization by task provider. The ORM regression checks successful queued ingestion and blocks an unsupported interval. | Live account entitlement remains unavailable. |
+| R01-F04 | The entry/stop evaluator now runs in historical portfolio replay. A simulated open that violates the frozen limit is vetoed. The separate fill test checks that the selected stop carries into the position. | Prospective cross-instrument competition remains open. |
 
 The original P07 report is preserved in [P07_DEFECT_REPAIR_REPORT.md](P07_DEFECT_REPAIR_REPORT.md). The linked evidence directory includes executed runs. [R01 evidence index](evidence/p06_p07_repair/INDEX.md)
