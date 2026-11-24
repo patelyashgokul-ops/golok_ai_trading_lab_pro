@@ -44,6 +44,26 @@ class P05Tests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 portfolio.replay([invalid], day, day, 300, ("ST-01",), costs)
 
+    def test_portfolio_suspension_carries_across_completed_sessions(self):
+        series, day, costs = fixture()
+        shift = timedelta(days=1)
+        original = series[0].sessions[day]
+        next_day = day + shift
+        tomorrow = replace(original, day=next_day, opening=original.opening + shift,
+                           closing=original.closing + shift, entry_cutoff=original.entry_cutoff + shift,
+                           exit_cutoff=original.exit_cutoff + shift)
+        assets = [replace(asset, sessions={day: original, next_day: tomorrow}, bars=asset.bars + tuple(
+            replace(bar, open_time=bar.open_time + shift, close_time=bar.close_time + shift,
+                    available_at=bar.available_at + shift) for bar in asset.bars),
+        ) for asset in series[:2]]
+        output = portfolio.replay(assets, day, next_day, 300, ("ST-01",), costs)
+        self.assertEqual([row["date"] for row in output["days"]], [day, next_day])
+        self.assertEqual(len(output["trades"]), 2)
+        self.assertEqual(output["days"][-1]["return"], 0)
+        blocked = [row for row in output["decisions"] if row["time"].date() == next_day]
+        self.assertEqual(len(blocked), 2)
+        self.assertTrue(all(not row["gates"]["G11"]["passed"] for row in blocked))
+
     def test_vwap_and_reversion_use_distinct_prior_observations(self):
         day = date(2024, 1, 2)
 

@@ -239,9 +239,9 @@ Original identifiers remain stable. The archived report preserves the historical
 | RE-04 | Candlestick Pattern Analysis | PARTIAL | See P03 criterion or related service | See P03 execution inventory | docs/evidence/p03/COMMANDS.md | Objective candle body/wick geometry persisted and tested. Full pattern catalog remains open. |
 | RE-05 | Volume Intelligence | PARTIAL | `services/research.py`, `models/lab.py` | U06–U08, O05–O06 | `docs/evidence/tests/unit.log` | Three descriptive findings exist. Complete the remaining indicator set, evidence contract and engine methods. |
 | RE-06 | Support and Resistance | PARTIAL | See P03 criterion or related service | See P03 execution inventory | docs/evidence/p03/COMMANDS.md | Twenty preceding levels implemented, with current observation excluded. |
-| RE-07 | Breakout Detection | NOT_STARTED | — | — | — | Complete the engine contract and independently verify relevant engines. |
-| RE-08 | False Breakout Detection | NOT_STARTED | — | — | — | Complete the engine contract and independently verify relevant engines. |
-| RE-09 | Market Trend Analysis | NOT_STARTED | — | — | — | Complete the engine contract and independently verify relevant engines. |
+| RE-07 | Breakout Detection | PARTIAL | P05 scope | See P05 executions | docs/evidence/p05/COMMANDS.md | Close beyond preceding high/low, research_v3.py and unit/python.log. Financial validation remains open. |
+| RE-08 | False Breakout Detection | PARTIAL | P05 scope | See P05 executions | docs/evidence/p05/COMMANDS.md | Breakout reversal with preceding levels, research_v3.py and unit/python.log. Financial validation remains open. |
+| RE-09 | Market Trend Analysis | PARTIAL | P05 scope | See P05 executions | docs/evidence/p05/COMMANDS.md | Instrument-only trend, momentum, range and volatility, research_v3.py. Financial validation remains open. |
 | RE-10 | Sector Performance and Rotation | NOT_STARTED | — | — | — | Complete the engine contract and independently verify relevant engines. |
 | RE-11 | Benchmark Index Analysis | NOT_STARTED | — | — | — | Complete the engine contract and independently verify relevant engines. |
 | RE-12 | Global Market Context | NOT_STARTED | — | — | — | Complete the engine contract and independently verify relevant engines. |
@@ -249,7 +249,7 @@ Original identifiers remain stable. The archived report preserves the historical
 | RE-14 | Institutional Activity Proxies | NOT_STARTED | — | — | — | Complete the engine contract and independently verify relevant engines. |
 | RE-15 | Historical Pattern Analysis | NOT_STARTED | — | — | — | Complete the engine contract and independently verify relevant engines. |
 | RE-16 | Statistical Probability Estimation | NOT_STARTED | — | — | — | Complete the engine contract and independently verify relevant engines. |
-| RE-17 | Liquidity Analysis | NOT_STARTED | — | — | — | Complete the engine contract and independently verify relevant engines. |
+| RE-17 | Liquidity Analysis | PARTIAL | P05 scope | See P05 executions | docs/evidence/p05/COMMANDS.md | Median close times volume as a turnover proxy, research_v3.py and unit/python.log. Financial validation remains open. |
 | RE-18 | Volatility Analysis | PARTIAL | `services/research.py`, `models/lab.py` | U06–U08, O05–O06 | `docs/evidence/tests/unit.log` | Three descriptive findings exist. Complete the remaining indicator set, evidence contract and engine methods. |
 | RE-19 | Momentum Analysis | PARTIAL | See P03 criterion or related service | See P03 execution inventory | docs/evidence/p03/COMMANDS.md | Ten-transition momentum counts and net return implemented, with warm-up guards. |
 | RE-20 | Abnormal Market Activity Detection | NOT_STARTED | — | — | — | Complete the engine contract and independently verify relevant engines. |
@@ -314,14 +314,14 @@ Original identifiers remain stable. The archived report preserves the historical
 | S11-029 | Never generate misleading values from insufficient historical observations | NOT_STARTED | — | — | — | Implement and test remaining indicators and time/session behavior. |
 | S11-030 | Prevent look-ahead bias in every indicator and feature calculation | PARTIAL | `services/research.py`, `models/lab.py` | U07, O05 | `docs/evidence/tests/unit.log` | Close-time cutoff proven by snapshot assertion if ORM passes. Point-in-time vendor availability, survivorship and future execution tests remain. |
 | S12-001 | Implement a versioned and extensible strategy framework | NOT_STARTED | — | — | — | Implement and independently validate a versioned research-only candidate. |
-| ST-01 | Opening Range Breakout | PARTIAL | See P03 criterion or related service | See P03 execution inventory | docs/evidence/p03/COMMANDS.md | Multi-session Odoo synthetic replay verified. No authorized financial validation. |
-| ST-02 | VWAP Pullback | NOT_STARTED | — | — | — | Implement and independently validate a versioned research-only candidate. |
+| ST-01 | Opening Range Breakout | PARTIAL | P05 scope | See P05 executions | docs/evidence/p05/COMMANDS.md | P05 portfolio ST-01 and sequential multi-3, unit/python.log and portfolio/fixture.json. Financial validation remains open. |
+| ST-02 | VWAP Pullback | PARTIAL | P05 scope | See P05 executions | docs/evidence/p05/COMMANDS.md | Causal pullback to prior approximate VWAP, tests/unit_p05.py. Financial validation remains open. |
 | ST-03 | VWAP Reclaim | NOT_STARTED | — | — | — | Implement and independently validate a versioned research-only candidate. |
 | ST-04 | Trend Following | NOT_STARTED | — | — | — | Implement and independently validate a versioned research-only candidate. |
 | ST-05 | Momentum Continuation | NOT_STARTED | — | — | — | Implement and independently validate a versioned research-only candidate. |
 | ST-06 | Volume Confirmed Breakout | NOT_STARTED | — | — | — | Implement and independently validate a versioned research-only candidate. |
 | ST-07 | Support and Resistance Breakout | NOT_STARTED | — | — | — | Implement and independently validate a versioned research-only candidate. |
-| ST-08 | Mean Reversion | NOT_STARTED | — | — | — | Implement and independently validate a versioned research-only candidate. |
+| ST-08 | Mean Reversion | PARTIAL | P05 scope | See P05 executions | docs/evidence/p05/COMMANDS.md | Six preceding bars define a range and causal re-entry, tests/unit_p05.py. Financial validation remains open. |
 | ST-09 | Gap Continuation | NOT_STARTED | — | — | — | Implement and independently validate a versioned research-only candidate. |
 | ST-10 | Gap Reversal | NOT_STARTED | — | — | — | Implement and independently validate a versioned research-only candidate. |
 | ST-11 | Multi-Timeframe Trend Confirmation | NOT_STARTED | — | — | — | Implement and independently validate a versioned research-only candidate. |
@@ -4077,3 +4077,828 @@ Original identifiers remain stable. The archived report preserves the historical
 | P04-S51-004 | PAPER TRADING TEST READY. | Tracked in P04 acceptance and issue inventory |
 | P04-S51-005 | VERIFIED RESEARCH BETA. | Tracked in P04 acceptance and issue inventory |
 | P04-S51-006 | VALIDATED RESEARCH RELEASE READY. | Tracked in P04 acceptance and issue inventory |
+
+## P05 acceptance
+
+| ID | Criterion | Status | Evidence or open scope | 
+| --- | --- | --- | --- | 
+| P05-AC-001 | P04 source and evidence preserved | PASSED | P04 checkpoint, preserved evidence and verified hashes, baseline/hash.log. | 
+| P05-AC-002 | Previous regression executed | PASSED | P04 standalone, ORM, contention and Edge rerun, baseline/. | 
+| P05-AC-003 | Twelve review findings investigated | PASSED | All 12 causes and dispositions recorded in docs/P05_REVIEW_ISSUES.md. | 
+| P05-AC-004 | Secure provider session lifecycle | PARTIAL | Explicit process-local session with bounded expiry and injected diagnostics verified offline. | 
+| P05-AC-005 | Controlled reauthentication | PARTIAL | Fresh timestamped TOTP, no implicit retry and cached diagnostics verified offline. | 
+| P05-AC-006 | Configurable verified or qualified quotas | PARTIAL | Fixed local reservation and task retry delay. Verified account quotas and cross-database coordination pending. | 
+| P05-AC-007 | Historical synchronization planner | PARTIAL | Native bounded multi-instrument multi-date planner. Operator-triggered processing. | 
+| P05-AC-008 | Resumable multi-session ingestion | PARTIAL | Four checkpoints, duplicate replay and cancellation. Forced process restart and real throughput unverified. | 
+| P05-AC-009 | Instrument master synchronization | NOT_RUN | Instrument master ingestion and historical universe validation remain open. | 
+| P05-AC-010 | Unified source eligibility | PARTIAL | Shared source eligibility for portfolio and supplemental findings. Legacy entry points and live eligibility remain open. | 
+| P05-AC-011 | Authorized real historical smoke test | BLOCKED | Owner-approved credentials, entitlement, egress and timestamp semantics unavailable. | 
+| P05-AC-012 | Quote freshness contract | PARTIAL | Offset-aware freshness fixture regression. Offset-less provider times remain unknown. | 
+| P05-AC-013 | Unified research registry | PARTIAL | Eight supplemental algorithms coexist with three legacy engines. | 
+| P05-AC-014 | Indicator reference matrix | PARTIAL | Flat, prefix and selected numerical references rerun. Complete matrix open. | 
+| P05-AC-015 | Expanded core research algorithms | PASSED | Four additional persisted research algorithms with causal fixture checks. | 
+| P05-AC-016 | Research evidence persistence | PASSED | Versioned findings tied to immutable input digest, release/installation/fresh.log. | 
+| P05-AC-017 | Instrument regime classification | PARTIAL | Instrument-only regime with reasons. Full independent regime matrix and benchmark pending. | 
+| P05-AC-018 | Persistent multi-strategy framework | PARTIAL | Three implementations with frozen version and hashes. Governance and approval pending. | 
+| P05-AC-019 | ST-01 regression and extension | PASSED | ST-01 multi-3 and new portfolio variant plus archived baseline. | 
+| P05-AC-020 | ST-02 implementation | PARTIAL | Causal ST-02 exists and signal fixture passed. Full trade-case coverage open. | 
+| P05-AC-021 | ST-04 implementation | NOT_RUN | ST-04 remains open. | 
+| P05-AC-022 | ST-06 implementation | NOT_RUN | Independent ST-06 remains open. | 
+| P05-AC-023 | ST-08 implementation | PARTIAL | Distinct ST-08 signal and fixture. Full trade-case coverage open. | 
+| P05-AC-024 | Authorized historical eligibility pathway | PARTIAL | Fail-closed classifications exist. No enabled authorized financial replay. | 
+| P05-AC-025 | Versioned transaction costs | PARTIAL | Frozen effective-dated hypothetical tariffs. Real fee evidence and native calculator open. | 
+| P05-AC-026 | Independent cost reconciliation | PARTIAL | Independent synthetic cash and fee reconciliation. Actual tariff estimates unverified. | 
+| P05-AC-027 | Multi-instrument portfolio replay | PASSED | Multi-instrument replay and shared cash, portfolio/fixture.json and ORM. | 
+| P05-AC-028 | Shared virtual capital integrity | PASSED | Per-event cash and fees reconcile with independent arithmetic. | 
+| P05-AC-029 | Portfolio risk enforcement | PARTIAL | Aggregate known risk, shared cash, daily and consecutive-loss guards. Sector exposure and marking open. | 
+| P05-AC-030 | Daily loss protection | PASSED | A tighter fixture risk budget vetoes the third otherwise eligible entry. | 
+| P05-AC-031 | Consecutive-loss and suspension semantics | PASSED | Incomplete date coverage and consecutive-loss pause distinguished in sequential tests. | 
+| P05-AC-032 | Independently verified portfolio metrics | PARTIAL | Cash, gross, fees, net and closed-day drawdown. Marked drawdown and uncertainty statistics open. | 
+| P05-AC-033 | Immutable chronological partitions | PARTIAL | Frozen date window and embargo. Persistence and signed input freeze pending. | 
+| P05-AC-034 | Holdout consumption enforcement | NOT_RUN | Durable single-use holdout consumption remains open. | 
+| P05-AC-035 | Walk-forward implementation | PARTIAL | Bounded walk-forward date generation. Automated evaluation per fold open. | 
+| P05-AC-036 | Temporal leakage rejection | PARTIAL | Overlap, embargo and late synthetic input rejection tested. Integrated holdout leakage protection open. | 
+| P05-AC-037 | Actual historical financial experiment | BLOCKED | Authorized point-in-time inputs, charges and sealed evaluation unavailable. | 
+| P05-AC-038 | Complete G01–G14 decision gates | PARTIAL | All fourteen gates veto independently in synthetic portfolio. Complete application integration open. | 
+| P05-AC-039 | Hard risk veto | PASSED | G11 rejects an otherwise valid third candidate in deterministic fixture. | 
+| P05-AC-040 | Explainable candidate ranking | NOT_RUN | Stable priority exists. Explainable ranking remains open. | 
+| P05-AC-041 | Multi-instrument research orchestration | NOT_RUN | Multi-instrument research orchestration remains open. | 
+| P05-AC-042 | Worker restart and checkpoint recovery | PARTIAL | Next operator request continues persisted checkpoints. Forced process restart and leases unverified. | 
+| P05-AC-043 | Independent worker contention | PARTIAL | Independent import, mapping, paper and quota races. New sync plan contention unverified. | 
+| P05-AC-044 | Professional stock scanner | PARTIAL | Existing native scanner browser regression. Ranked scanner pending. | 
+| P05-AC-045 | Advanced stock research terminal | PARTIAL | Existing chart and findings browser regression. Advanced terminal pending. | 
+| P05-AC-046 | Strategy and risk laboratory | PARTIAL | Native portfolio KPI, records and frozen inputs. Complete strategy-risk workspace pending. | 
+| P05-AC-047 | Dashboard numerical reconciliation | PARTIAL | Baseline bars, snapshots and portfolio count reconciled in Edge. All new KPIs pending. | 
+| P05-AC-048 | Virtual ledger regression | PASSED | Existing virtual account postings and ledger conservation under independent contention. | 
+| P05-AC-049 | Historical/prospective isolation | PARTIAL | Historical posting isolated. Prospective simulation remains gated out. | 
+| P05-AC-050 | Real browser workflows | PASSED | Automated Microsoft Edge against actual Odoo on loopback, release/browser/edge.log. | 
+| P05-AC-051 | Desktop and mobile usability | PARTIAL | Desktop flows and mobile overview width. Native mobile forms untested. | 
+| P05-AC-052 | Theme verification | NOT_RUN | Theme variants unverified. | 
+| P05-AC-053 | End-to-end performance | PARTIAL | 50-instrument ORM benchmark. Large portfolio and acquisition paths unprofiled. | 
+| P05-AC-054 | Resource-pressure handling | PARTIAL | Explicit bounded tasks and bars. Controlled pressure testing open. | 
+| P05-AC-055 | Security regression | PARTIAL | Role, company, provider isolation and allowlist tests. Security stress matrix open. | 
+| P05-AC-056 | Company isolation | PASSED | Active company lookups and cross-company rejection verified with real ORM. | 
+| P05-AC-057 | Real-order prohibition | PASSED | Fixed read-only operations and source scan, security/source.log. | 
+| P05-AC-058 | Fresh installation | PASSED | Fresh Odoo installation and ORM regression, release/installation/fresh.log. | 
+| P05-AC-059 | Populated P04 upgrade | PASSED | Populated P04 upgrade with unchanged record hashes and XML IDs. | 
+| P05-AC-060 | Complete evidence-backed handoff | PASSED | Sanitized ZIP, checksum and full report/evidence manifests verified. | 
+
+## P05 detailed requirements
+
+| ID | Requirement text | Verification mapping | 
+| --- | --- | --- | 
+| P05-S02-001 | `DEVELOPMENT_REPORT.md` | Section scope in P05 acceptance and issue register | 
+| P05-S02-002 | `docs/MASTER_REQUIREMENTS.md` | Section scope in P05 acceptance and issue register | 
+| P05-S02-003 | `docs/REQUIREMENTS_TRACEABILITY.md` | Section scope in P05 acceptance and issue register | 
+| P05-S02-004 | `docs/ARCHITECTURE.md` | Section scope in P05 acceptance and issue register | 
+| P05-S02-005 | `docs/DEVELOPMENT_PLAN.md` | Section scope in P05 acceptance and issue register | 
+| P05-S02-006 | `docs/DECISION_LOG.md` | Section scope in P05 acceptance and issue register | 
+| P05-S02-007 | `docs/RISK_REGISTER.md` | Section scope in P05 acceptance and issue register | 
+| P05-S02-008 | `docs/P04_REVIEW_ISSUES.md` | Section scope in P05 acceptance and issue register | 
+| P05-S02-009 | `docs/OWNER_ACTION_REQUIRED.md` | Section scope in P05 acceptance and issue register | 
+| P05-S02-010 | `docs/SMARTAPI_SETUP.md` | Section scope in P05 acceptance and issue register | 
+| P05-S02-011 | `docs/PROVIDER_OPERATIONS.md` | Section scope in P05 acceptance and issue register | 
+| P05-S02-012 | `docs/VALIDATION_PROTOCOL.md` | Section scope in P05 acceptance and issue register | 
+| P05-S02-013 | `docs/BACKTEST_EXECUTION_POLICY.md` | Section scope in P05 acceptance and issue register | 
+| P05-S02-014 | `docs/RISK_POLICY.md` | Section scope in P05 acceptance and issue register | 
+| P05-S02-015 | `docs/TRANSACTION_COST_MODEL.md` | Section scope in P05 acceptance and issue register | 
+| P05-S02-016 | `docs/PAPER_LEDGER_INVARIANTS.md` | Section scope in P05 acceptance and issue register | 
+| P05-S02-017 | `docs/RESEARCH_ENGINE_CATALOG.md` | Section scope in P05 acceptance and issue register | 
+| P05-S02-018 | `docs/STRATEGY_SPECIFICATIONS.md` | Section scope in P05 acceptance and issue register | 
+| P05-S02-019 | `docs/INDICATOR_FORMULAS.md` | Section scope in P05 acceptance and issue register | 
+| P05-S02-020 | `docs/DASHBOARD_KPI_DEFINITIONS.md` | Section scope in P05 acceptance and issue register | 
+| P05-S02-021 | RE-01 through RE-25. | Section scope in P05 acceptance and issue register | 
+| P05-S02-022 | ST-01 through ST-20. | Section scope in P05 acceptance and issue register | 
+| P05-S02-023 | INV-01 through INV-30. | Section scope in P05 acceptance and issue register | 
+| P05-S02-024 | AC-001 through AC-050. | Section scope in P05 acceptance and issue register | 
+| P05-S02-025 | P02-AC-001 through P02-AC-040. | Section scope in P05 acceptance and issue register | 
+| P05-S02-026 | P03-AC-001 through P03-AC-070. | Section scope in P05 acceptance and issue register | 
+| P05-S02-027 | P04-AC-001 through P04-AC-075. | Section scope in P05 acceptance and issue register | 
+| P05-S02-028 | All original S-series requirement identifiers. | Section scope in P05 acceptance and issue register | 
+| P05-S02-029 | All existing detailed milestone tracking identifiers. | Section scope in P05 acceptance and issue register | 
+| P05-S03-001 | 114 ZIP archive entries. | Section scope in P05 acceptance and issue register | 
+| P05-S03-002 | 27/27 evidence hashes matched. | Section scope in P05 acceptance and issue register | 
+| P05-S03-003 | 55/55 source hashes matched. | Section scope in P05 acceptance and issue register | 
+| P05-S03-004 | All four separately uploaded companion files matched their ZIP counterparts. | Section scope in P05 acceptance and issue register | 
+| P05-S03-005 | All 25 standalone Python unit tests passed during independent execution. | Section scope in P05 acceptance and issue register | 
+| P05-S03-006 | The reproduced synthetic replay JSON was semantically identical to the archived result. | Section scope in P05 acceptance and issue register | 
+| P05-S03-007 | The runtime source inspection script passed. | Section scope in P05 acceptance and issue register | 
+| P05-S03-008 | The script inspected 36 runtime source files. | Section scope in P05 acceptance and issue register | 
+| P05-S03-009 | 122 passing executions, including previous milestone regression. | Section scope in P05 acceptance and issue register | 
+| P05-S03-010 | Zero final failed executions. | Section scope in P05 acceptance and issue register | 
+| P05-S03-011 | Four named blocked external checks. | Section scope in P05 acceptance and issue register | 
+| P05-S03-012 | 24/75 P04 acceptance criteria passed. | Section scope in P05 acceptance and issue register | 
+| P05-S03-013 | 25 partial criteria. | Section scope in P05 acceptance and issue register | 
+| P05-S03-014 | Eight blocked criteria. | Section scope in P05 acceptance and issue register | 
+| P05-S03-015 | Eighteen criteria not run. | Section scope in P05 acceptance and issue register | 
+| P05-S03-016 | Seven partially implemented research engines. | Section scope in P05 acceptance and issue register | 
+| P05-S03-017 | Nineteen indicator series. | Section scope in P05 acceptance and issue register | 
+| P05-S03-018 | One synthetic-scope strategy. | Section scope in P05 acceptance and issue register | 
+| P05-S03-019 | Zero financially validated strategies. | Section scope in P05 acceptance and issue register | 
+| P05-S03-020 | No actual authorized SmartAPI authentication. | Section scope in P05 acceptance and issue register | 
+| P05-S03-021 | No actual historical market retrieval. | Section scope in P05 acceptance and issue register | 
+| P05-S03-022 | No verified live quotes. | Section scope in P05 acceptance and issue register | 
+| P05-S03-023 | No operational streaming. | Section scope in P05 acceptance and issue register | 
+| P05-S03-024 | No multi-instrument portfolio backtesting. | Section scope in P05 acceptance and issue register | 
+| P05-S03-025 | No sealed holdout. | Section scope in P05 acceptance and issue register | 
+| P05-S03-026 | No walk-forward validation. | Section scope in P05 acceptance and issue register | 
+| P05-S03-027 | No prospective paper trading. | Section scope in P05 acceptance and issue register | 
+| P05-S03-028 | Original comparable coverage: 73/1,236. | Section scope in P05 acceptance and issue register | 
+| P05-S03-029 | Corrected coverage: 57/1,211. | Section scope in P05 acceptance and issue register | 
+| P05-S03-030 | Original acceptance: 14/50. | Section scope in P05 acceptance and issue register | 
+| P05-S03-031 | P02 acceptance: 30/40. | Section scope in P05 acceptance and issue register | 
+| P05-S03-032 | P03 acceptance: 29/70. | Section scope in P05 acceptance and issue register | 
+| P05-S04-001 | Name: Golok AI Trading Lab Pro. | Section scope in P05 acceptance and issue register | 
+| P05-S04-002 | Brand: Golok Technology. | Section scope in P05 acceptance and issue register | 
+| P05-S04-003 | Technical addon: `golok_ai_trading_lab_pro`. | Section scope in P05 acceptance and issue register | 
+| P05-S04-004 | Platform: Odoo 20 Community. | Section scope in P05 acceptance and issue register | 
+| P05-S04-005 | Frontend: Native Odoo OWL. | Section scope in P05 acceptance and issue register | 
+| P05-S04-006 | Backend: Python. | Section scope in P05 acceptance and issue register | 
+| P05-S04-007 | Database: PostgreSQL. | Section scope in P05 acceptance and issue register | 
+| P05-S04-008 | Deployment: Localhost. | Section scope in P05 acceptance and issue register | 
+| P05-S04-009 | Primary market: Indian cash equities. | Section scope in P05 acceptance and issue register | 
+| P05-S04-010 | Primary provider: Angel One SmartAPI. | Section scope in P05 acceptance and issue register | 
+| P05-S04-011 | Timezone: Asia/Kolkata. | Section scope in P05 acceptance and issue register | 
+| P05-S04-012 | Currency: INR. | Section scope in P05 acceptance and issue register | 
+| P05-S04-013 | Intel Core i5-10210U. | Section scope in P05 acceptance and issue register | 
+| P05-S04-014 | Four physical CPU cores. | Section scope in P05 acceptance and issue register | 
+| P05-S04-015 | Eight logical processors. | Section scope in P05 acceptance and issue register | 
+| P05-S04-016 | 16 GB RAM. | Section scope in P05 acceptance and issue register | 
+| P05-S04-017 | Intel UHD integrated graphics. | Section scope in P05 acceptance and issue register | 
+| P05-S04-018 | No dedicated GPU. | Section scope in P05 acceptance and issue register | 
+| P05-S04-019 | Windows. | Section scope in P05 acceptance and issue register | 
+| P05-S04-020 | Python 3.14.6. | Section scope in P05 acceptance and issue register | 
+| P05-S04-021 | PostgreSQL 18.4. | Section scope in P05 acceptance and issue register | 
+| P05-S04-022 | Paid AI APIs. | Section scope in P05 acceptance and issue register | 
+| P05-S04-023 | Local LLMs. | Section scope in P05 acceptance and issue register | 
+| P05-S04-024 | Ollama. | Section scope in P05 acceptance and issue register | 
+| P05-S04-025 | GPU acceleration. | Section scope in P05 acceptance and issue register | 
+| P05-S04-026 | Paid cloud infrastructure. | Section scope in P05 acceptance and issue register | 
+| P05-S04-027 | Heavy distributed systems. | Section scope in P05 acceptance and issue register | 
+| P05-S04-028 | Mandatory paid analytics subscriptions. | Section scope in P05 acceptance and issue register | 
+| P05-S05-001 | Real broker order placement. | Section scope in P05 acceptance and issue register | 
+| P05-S05-002 | Real broker order modification. | Section scope in P05 acceptance and issue register | 
+| P05-S05-003 | Real broker order cancellation. | Section scope in P05 acceptance and issue register | 
+| P05-S05-004 | Automatic real-money buying or selling. | Section scope in P05 acceptance and issue register | 
+| P05-S05-005 | Real account balance allocation. | Section scope in P05 acceptance and issue register | 
+| P05-S05-006 | Automatic allocation of 25% of real capital. | Section scope in P05 acceptance and issue register | 
+| P05-S05-007 | Fund transfers. | Section scope in P05 acceptance and issue register | 
+| P05-S05-008 | Hidden or dormant real-order functionality. | Section scope in P05 acceptance and issue register | 
+| P05-S05-009 | Actual accounting mutations. | Section scope in P05 acceptance and issue register | 
+| P05-S06-001 | Preserve P04 and repair confirmed operational defects. | Section scope in P05 acceptance and issue register | 
+| P05-S06-002 | Establish practical historical data acquisition. | Section scope in P05 acceptance and issue register | 
+| P05-S06-003 | Complete a unified quantitative research framework. | Section scope in P05 acceptance and issue register | 
+| P05-S06-004 | Implement multiple distinct strategy candidates. | Section scope in P05 acceptance and issue register | 
+| P05-S06-005 | Establish multi-instrument backtesting and shared risk. | Section scope in P05 acceptance and issue register | 
+| P05-S06-006 | Implement temporal validation and decision gates. | Section scope in P05 acceptance and issue register | 
+| P05-S06-007 | Deliver an integrated professional research terminal. | Section scope in P05 acceptance and issue register | 
+| P05-S06-008 | Execute regression, performance and security verification. | Section scope in P05 acceptance and issue register | 
+| P05-S06-009 | Research algorithm development. | Section scope in P05 acceptance and issue register | 
+| P05-S06-010 | Strategy implementation. | Section scope in P05 acceptance and issue register | 
+| P05-S06-011 | Multi-instrument fixture replay. | Section scope in P05 acceptance and issue register | 
+| P05-S06-012 | Portfolio risk development. | Section scope in P05 acceptance and issue register | 
+| P05-S06-013 | Temporal partition testing. | Section scope in P05 acceptance and issue register | 
+| P05-S06-014 | Decision engine development. | Section scope in P05 acceptance and issue register | 
+| P05-S06-015 | Dashboard development. | Section scope in P05 acceptance and issue register | 
+| P05-S06-016 | Security regression. | Section scope in P05 acceptance and issue register | 
+| P05-S07-001 | Preserve the complete P04 source. | Section scope in P05 acceptance and issue register | 
+| P05-S07-002 | Archive the P04 development report. | Section scope in P05 acceptance and issue register | 
+| P05-S07-003 | Preserve the P04 traceability matrix. | Section scope in P05 acceptance and issue register | 
+| P05-S07-004 | Verify all available source and evidence hashes. | Section scope in P05 acceptance and issue register | 
+| P05-S07-005 | Create a recoverable source checkpoint. | Section scope in P05 acceptance and issue register | 
+| P05-S07-006 | Preserve the previous evidence directories. | Section scope in P05 acceptance and issue register | 
+| P05-S07-007 | Create `docs/evidence/p05/`. | Section scope in P05 acceptance and issue register | 
+| P05-S07-008 | `docs/history/DEVELOPMENT_REPORT_P04.md` | Section scope in P05 acceptance and issue register | 
+| P05-S07-009 | P04 source checkpoint. | Section scope in P05 acceptance and issue register | 
+| P05-S07-010 | P04 source hash manifest. | Section scope in P05 acceptance and issue register | 
+| P05-S07-011 | P05 baseline verification inventory. | Section scope in P05 acceptance and issue register | 
+| P05-S07-012 | All 25 standalone Python tests. | Section scope in P05 acceptance and issue register | 
+| P05-S07-013 | Existing synthetic replay reproduction. | Section scope in P05 acceptance and issue register | 
+| P05-S07-014 | Runtime source inspection. | Section scope in P05 acceptance and issue register | 
+| P05-S07-015 | Fresh Odoo installation. | Section scope in P05 acceptance and issue register | 
+| P05-S07-016 | Same-version upgrade. | Section scope in P05 acceptance and issue register | 
+| P05-S07-017 | Populated P04 upgrade. | Section scope in P05 acceptance and issue register | 
+| P05-S07-018 | Existing PostgreSQL contention scenarios. | Section scope in P05 acceptance and issue register | 
+| P05-S07-019 | Provider quota contention. | Section scope in P05 acceptance and issue register | 
+| P05-S07-020 | Existing Edge browser tests. | Section scope in P05 acceptance and issue register | 
+| P05-S08-001 | Software execution completed. | Section scope in P05 acceptance and issue register | 
+| P05-S08-002 | Requested coverage completed. | Section scope in P05 acceptance and issue register | 
+| P05-S08-003 | Risk-suspended evaluation. | Section scope in P05 acceptance and issue register | 
+| P05-S08-004 | Unresolved evaluation. | Section scope in P05 acceptance and issue register | 
+| P05-S08-005 | Financial validation outcome. | Section scope in P05 acceptance and issue register | 
+| P05-S08-006 | Confirmed defect or implementation limitation. | Section scope in P05 acceptance and issue register | 
+| P05-S08-007 | Actual root cause. | Section scope in P05 acceptance and issue register | 
+| P05-S08-008 | Affected source. | Section scope in P05 acceptance and issue register | 
+| P05-S08-009 | Reproduction. | Section scope in P05 acceptance and issue register | 
+| P05-S08-010 | Repair. | Section scope in P05 acceptance and issue register | 
+| P05-S08-011 | Executed regression. | Section scope in P05 acceptance and issue register | 
+| P05-S08-012 | Evidence path. | Section scope in P05 acceptance and issue register | 
+| P05-S08-013 | Remaining limitations. | Section scope in P05 acceptance and issue register | 
+| P05-S09-001 | https://smartapi.angelone.in/ | Section scope in P05 acceptance and issue register | 
+| P05-S09-002 | https://smartapi.angelone.in/docs | Section scope in P05 acceptance and issue register | 
+| P05-S09-003 | https://github.com/angel-one/smartapi-python | Section scope in P05 acceptance and issue register | 
+| P05-S09-004 | Account entitlement. | Section scope in P05 acceptance and issue register | 
+| P05-S09-005 | Authentication requirements. | Section scope in P05 acceptance and issue register | 
+| P05-S09-006 | Approved network egress. | Section scope in P05 acceptance and issue register | 
+| P05-S09-007 | Current API fees. | Section scope in P05 acceptance and issue register | 
+| P05-S09-008 | Historical request limits. | Section scope in P05 acceptance and issue register | 
+| P05-S09-009 | Request quotas. | Section scope in P05 acceptance and issue register | 
+| P05-S09-010 | Quote permissions. | Section scope in P05 acceptance and issue register | 
+| P05-S09-011 | WebSocket permissions. | Section scope in P05 acceptance and issue register | 
+| P05-S09-012 | Market timestamp semantics. | Section scope in P05 acceptance and issue register | 
+| P05-S09-013 | Market data storage permissions. | Section scope in P05 acceptance and issue register | 
+| P05-S09-014 | Permitted research use. | Section scope in P05 acceptance and issue register | 
+| P05-S10-001 | Instrument selection. | Section scope in P05 acceptance and issue register | 
+| P05-S10-002 | Multiple instrument selection. | Section scope in P05 acceptance and issue register | 
+| P05-S10-003 | Eligible interval selection. | Section scope in P05 acceptance and issue register | 
+| P05-S10-004 | Date range selection. | Section scope in P05 acceptance and issue register | 
+| P05-S10-005 | Session enumeration. | Section scope in P05 acceptance and issue register | 
+| P05-S10-006 | Required coverage calculation. | Section scope in P05 acceptance and issue register | 
+| P05-S10-007 | Existing coverage detection. | Section scope in P05 acceptance and issue register | 
+| P05-S10-008 | Missing range detection. | Section scope in P05 acceptance and issue register | 
+| P05-S10-009 | Persistent download tasks. | Section scope in P05 acceptance and issue register | 
+| P05-S10-010 | Provider quota reservation. | Section scope in P05 acceptance and issue register | 
+| P05-S10-011 | Retry scheduling. | Section scope in P05 acceptance and issue register | 
+| P05-S10-012 | Progress reporting. | Section scope in P05 acceptance and issue register | 
+| P05-S10-013 | Checkpoints. | Section scope in P05 acceptance and issue register | 
+| P05-S10-014 | Cancellation. | Section scope in P05 acceptance and issue register | 
+| P05-S10-015 | Interrupted task recovery. | Section scope in P05 acceptance and issue register | 
+| P05-S11-001 | NSE cash equities. | Section scope in P05 acceptance and issue register | 
+| P05-S11-002 | BSE cash equities when authorized. | Section scope in P05 acceptance and issue register | 
+| P05-S11-003 | Provider tokens. | Section scope in P05 acceptance and issue register | 
+| P05-S11-004 | Trading symbols. | Section scope in P05 acceptance and issue register | 
+| P05-S11-005 | ISIN where available. | Section scope in P05 acceptance and issue register | 
+| P05-S11-006 | Tick size. | Section scope in P05 acceptance and issue register | 
+| P05-S11-007 | Lot size. | Section scope in P05 acceptance and issue register | 
+| P05-S11-008 | Instrument type. | Section scope in P05 acceptance and issue register | 
+| P05-S11-009 | Effective dates. | Section scope in P05 acceptance and issue register | 
+| P05-S11-010 | Archived mappings. | Section scope in P05 acceptance and issue register | 
+| P05-S12-001 | SYNTHETIC_FIXTURE. | Section scope in P05 acceptance and issue register | 
+| P05-S12-002 | IMPORTED_UNVERIFIED. | Section scope in P05 acceptance and issue register | 
+| P05-S12-003 | AUTHORIZED_HISTORICAL. | Section scope in P05 acceptance and issue register | 
+| P05-S12-004 | HISTORICAL_AVAILABILITY_MODELED. | Section scope in P05 acceptance and issue register | 
+| P05-S12-005 | DELAYED_MARKET. | Section scope in P05 acceptance and issue register | 
+| P05-S12-006 | VERIFIED_LIVE. | Section scope in P05 acceptance and issue register | 
+| P05-S12-007 | QUARANTINED. | Section scope in P05 acceptance and issue register | 
+| P05-S12-008 | Market event time. | Section scope in P05 acceptance and issue register | 
+| P05-S12-009 | Candle open. | Section scope in P05 acceptance and issue register | 
+| P05-S12-010 | Candle close. | Section scope in P05 acceptance and issue register | 
+| P05-S12-011 | Vendor publication time. | Section scope in P05 acceptance and issue register | 
+| P05-S12-012 | Provider receipt. | Section scope in P05 acceptance and issue register | 
+| P05-S12-013 | Application ingestion. | Section scope in P05 acceptance and issue register | 
+| P05-S12-014 | Modeled historical availability. | Section scope in P05 acceptance and issue register | 
+| P05-S12-015 | Research decision cutoff. | Section scope in P05 acceptance and issue register | 
+| P05-S13-001 | Timeout. | Section scope in P05 acceptance and issue register | 
+| P05-S13-002 | Invalid credentials. | Section scope in P05 acceptance and issue register | 
+| P05-S13-003 | Expired session. | Section scope in P05 acceptance and issue register | 
+| P05-S13-004 | Rate limiting. | Section scope in P05 acceptance and issue register | 
+| P05-S13-005 | Missing response. | Section scope in P05 acceptance and issue register | 
+| P05-S13-006 | Malformed response. | Section scope in P05 acceptance and issue register | 
+| P05-S13-007 | Duplicate observations. | Section scope in P05 acceptance and issue register | 
+| P05-S13-008 | Conflicting observations. | Section scope in P05 acceptance and issue register | 
+| P05-S13-009 | Partial sessions. | Section scope in P05 acceptance and issue register | 
+| P05-S13-010 | Unknown mapping. | Section scope in P05 acceptance and issue register | 
+| P05-S13-011 | Unauthorized instrument. | Section scope in P05 acceptance and issue register | 
+| P05-S13-012 | Incorrect exchange. | Section scope in P05 acceptance and issue register | 
+| P05-S13-013 | Invalid tick size. | Section scope in P05 acceptance and issue register | 
+| P05-S13-014 | Future timestamps. | Section scope in P05 acceptance and issue register | 
+| P05-S13-015 | Incorrect publication ordering. | Section scope in P05 acceptance and issue register | 
+| P05-S13-016 | Database rollback. | Section scope in P05 acceptance and issue register | 
+| P05-S13-017 | Worker interruption. | Section scope in P05 acceptance and issue register | 
+| P05-S14-001 | Authentication status. | Section scope in P05 acceptance and issue register | 
+| P05-S14-002 | Connectivity. | Section scope in P05 acceptance and issue register | 
+| P05-S14-003 | Latest successful request. | Section scope in P05 acceptance and issue register | 
+| P05-S14-004 | Latest market observation. | Section scope in P05 acceptance and issue register | 
+| P05-S14-005 | Market event timestamp. | Section scope in P05 acceptance and issue register | 
+| P05-S14-006 | Freshness. | Section scope in P05 acceptance and issue register | 
+| P05-S14-007 | Streaming health. | Section scope in P05 acceptance and issue register | 
+| P05-S15-001 | Engine identifier. | Section scope in P05 acceptance and issue register | 
+| P05-S15-002 | Algorithm version. | Section scope in P05 acceptance and issue register | 
+| P05-S15-003 | Required inputs. | Section scope in P05 acceptance and issue register | 
+| P05-S15-004 | Minimum warm-up. | Section scope in P05 acceptance and issue register | 
+| P05-S15-005 | Supported intervals. | Section scope in P05 acceptance and issue register | 
+| P05-S15-006 | Data eligibility. | Section scope in P05 acceptance and issue register | 
+| P05-S15-007 | Applicable strategies. | Section scope in P05 acceptance and issue register | 
+| P05-S15-008 | Findings. | Section scope in P05 acceptance and issue register | 
+| P05-S15-009 | Supporting evidence. | Section scope in P05 acceptance and issue register | 
+| P05-S15-010 | Contradictory evidence. | Section scope in P05 acceptance and issue register | 
+| P05-S15-011 | Missing inputs. | Section scope in P05 acceptance and issue register | 
+| P05-S15-012 | Calculation cutoff. | Section scope in P05 acceptance and issue register | 
+| P05-S15-013 | Input digest. | Section scope in P05 acceptance and issue register | 
+| P05-S15-014 | Execution duration. | Section scope in P05 acceptance and issue register | 
+| P05-S15-015 | Result status. | Section scope in P05 acceptance and issue register | 
+| P05-S15-016 | COMPLETED. | Section scope in P05 acceptance and issue register | 
+| P05-S15-017 | NOT_APPLICABLE. | Section scope in P05 acceptance and issue register | 
+| P05-S15-018 | INSUFFICIENT_DATA. | Section scope in P05 acceptance and issue register | 
+| P05-S15-019 | STALE_DATA. | Section scope in P05 acceptance and issue register | 
+| P05-S15-020 | ERROR. | Section scope in P05 acceptance and issue register | 
+| P05-S16-001 | Document the mathematical method. | Section scope in P05 acceptance and issue register | 
+| P05-S16-002 | Implement the actual algorithm. | Section scope in P05 acceptance and issue register | 
+| P05-S16-003 | Add independent reference tests. | Section scope in P05 acceptance and issue register | 
+| P05-S16-004 | Add warm-up and insufficient-data tests. | Section scope in P05 acceptance and issue register | 
+| P05-S16-005 | Add causal prefix tests. | Section scope in P05 acceptance and issue register | 
+| P05-S16-006 | Integrate into Odoo. | Section scope in P05 acceptance and issue register | 
+| P05-S16-007 | Persist evidence. | Section scope in P05 acceptance and issue register | 
+| P05-S16-008 | Expose the result through the research terminal. | Section scope in P05 acceptance and issue register | 
+| P05-S17-001 | RE-02 Fundamental Analysis. | Section scope in P05 acceptance and issue register | 
+| P05-S17-002 | RE-10 Sector Performance. | Section scope in P05 acceptance and issue register | 
+| P05-S17-003 | RE-11 Benchmark Index Analysis. | Section scope in P05 acceptance and issue register | 
+| P05-S17-004 | RE-12 Global Market Context. | Section scope in P05 acceptance and issue register | 
+| P05-S17-005 | RE-13 Financial News and Events. | Section scope in P05 acceptance and issue register | 
+| P05-S17-006 | RE-14 Institutional Activity Proxies. | Section scope in P05 acceptance and issue register | 
+| P05-S17-007 | RE-16 Statistical Probability. | Section scope in P05 acceptance and issue register | 
+| P05-S17-008 | RE-21 Entry Optimization. | Section scope in P05 acceptance and issue register | 
+| P05-S17-009 | RE-22 Stop-Loss Optimization. | Section scope in P05 acceptance and issue register | 
+| P05-S17-010 | RE-23 Profit Target Optimization. | Section scope in P05 acceptance and issue register | 
+| P05-S17-011 | RE-24 Historical Strategy Performance. | Section scope in P05 acceptance and issue register | 
+| P05-S17-012 | RE-25 Net Expected Profit and Risk Validation. | Section scope in P05 acceptance and issue register | 
+| P05-S18-001 | SMA. | Section scope in P05 acceptance and issue register | 
+| P05-S18-002 | EMA. | Section scope in P05 acceptance and issue register | 
+| P05-S18-003 | RSI. | Section scope in P05 acceptance and issue register | 
+| P05-S18-004 | MACD. | Section scope in P05 acceptance and issue register | 
+| P05-S18-005 | ATR. | Section scope in P05 acceptance and issue register | 
+| P05-S18-006 | VWAP. | Section scope in P05 acceptance and issue register | 
+| P05-S18-007 | ADX. | Section scope in P05 acceptance and issue register | 
+| P05-S18-008 | Bollinger Bands. | Section scope in P05 acceptance and issue register | 
+| P05-S18-009 | Stochastic. | Section scope in P05 acceptance and issue register | 
+| P05-S18-010 | Relative Volume. | Section scope in P05 acceptance and issue register | 
+| P05-S18-011 | Rate of Change. | Section scope in P05 acceptance and issue register | 
+| P05-S18-012 | OBV. | Section scope in P05 acceptance and issue register | 
+| P05-S18-013 | Historical Volatility. | Section scope in P05 acceptance and issue register | 
+| P05-S18-014 | Rolling Highs and Lows. | Section scope in P05 acceptance and issue register | 
+| P05-S18-015 | Opening Range. | Section scope in P05 acceptance and issue register | 
+| P05-S18-016 | Relative Strength. | Section scope in P05 acceptance and issue register | 
+| P05-S18-017 | Price Gaps. | Section scope in P05 acceptance and issue register | 
+| P05-S18-018 | Volume Spikes. | Section scope in P05 acceptance and issue register | 
+| P05-S18-019 | Trend Slopes. | Section scope in P05 acceptance and issue register | 
+| P05-S18-020 | Independent nonflat numerical references. | Section scope in P05 acceptance and issue register | 
+| P05-S18-021 | Flat inputs. | Section scope in P05 acceptance and issue register | 
+| P05-S18-022 | Increasing and decreasing inputs. | Section scope in P05 acceptance and issue register | 
+| P05-S18-023 | Warm-up. | Section scope in P05 acceptance and issue register | 
+| P05-S18-024 | Missing observations. | Section scope in P05 acceptance and issue register | 
+| P05-S18-025 | Zero volume. | Section scope in P05 acceptance and issue register | 
+| P05-S18-026 | Invalid numerical values. | Section scope in P05 acceptance and issue register | 
+| P05-S18-027 | Multiple sessions. | Section scope in P05 acceptance and issue register | 
+| P05-S18-028 | Numerical tolerance. | Section scope in P05 acceptance and issue register | 
+| P05-S18-029 | Prefix invariance. | Section scope in P05 acceptance and issue register | 
+| P05-S18-030 | Incremental versus complete calculations where implemented. | Section scope in P05 acceptance and issue register | 
+| P05-S19-001 | Trend direction. | Section scope in P05 acceptance and issue register | 
+| P05-S19-002 | Trend strength. | Section scope in P05 acceptance and issue register | 
+| P05-S19-003 | Momentum state. | Section scope in P05 acceptance and issue register | 
+| P05-S19-004 | Volatility state. | Section scope in P05 acceptance and issue register | 
+| P05-S19-005 | Range-bound conditions. | Section scope in P05 acceptance and issue register | 
+| P05-S19-006 | Abnormal stress. | Section scope in P05 acceptance and issue register | 
+| P05-S19-007 | Insufficient evidence. | Section scope in P05 acceptance and issue register | 
+| P05-S20-001 | Strategy ID. | Section scope in P05 acceptance and issue register | 
+| P05-S20-002 | Immutable version. | Section scope in P05 acceptance and issue register | 
+| P05-S20-003 | Economic hypothesis. | Section scope in P05 acceptance and issue register | 
+| P05-S20-004 | Required observations. | Section scope in P05 acceptance and issue register | 
+| P05-S20-005 | Required engines. | Section scope in P05 acceptance and issue register | 
+| P05-S20-006 | Applicable regimes. | Section scope in P05 acceptance and issue register | 
+| P05-S20-007 | Entry rules. | Section scope in P05 acceptance and issue register | 
+| P05-S20-008 | Exit rules. | Section scope in P05 acceptance and issue register | 
+| P05-S20-009 | Stop methodology. | Section scope in P05 acceptance and issue register | 
+| P05-S20-010 | Target methodology. | Section scope in P05 acceptance and issue register | 
+| P05-S20-011 | Invalidation. | Section scope in P05 acceptance and issue register | 
+| P05-S20-012 | Holding period. | Section scope in P05 acceptance and issue register | 
+| P05-S20-013 | Cost policy. | Section scope in P05 acceptance and issue register | 
+| P05-S20-014 | Risk policy. | Section scope in P05 acceptance and issue register | 
+| P05-S20-015 | Implementation digest. | Section scope in P05 acceptance and issue register | 
+| P05-S20-016 | Validation status. | Section scope in P05 acceptance and issue register | 
+| P05-S22-001 | Authorized dataset provenance. | Section scope in P05 acceptance and issue register | 
+| P05-S22-002 | Immutable dataset revision or input manifest. | Section scope in P05 acceptance and issue register | 
+| P05-S22-003 | Applicable instrument mapping. | Section scope in P05 acceptance and issue register | 
+| P05-S22-004 | Exchange calendar. | Section scope in P05 acceptance and issue register | 
+| P05-S22-005 | Adjustment convention. | Section scope in P05 acceptance and issue register | 
+| P05-S22-006 | Historical availability policy. | Section scope in P05 acceptance and issue register | 
+| P05-S22-007 | Adequate data coverage. | Section scope in P05 acceptance and issue register | 
+| P05-S22-008 | Applicable cost schedule. | Section scope in P05 acceptance and issue register | 
+| P05-S22-009 | Frozen strategy version. | Section scope in P05 acceptance and issue register | 
+| P05-S22-010 | Frozen risk policy. | Section scope in P05 acceptance and issue register | 
+| P05-S22-011 | Frozen execution policy. | Section scope in P05 acceptance and issue register | 
+| P05-S23-001 | Brokerage. | Section scope in P05 acceptance and issue register | 
+| P05-S23-002 | Securities Transaction Tax. | Section scope in P05 acceptance and issue register | 
+| P05-S23-003 | Exchange charges. | Section scope in P05 acceptance and issue register | 
+| P05-S23-004 | SEBI charges. | Section scope in P05 acceptance and issue register | 
+| P05-S23-005 | GST. | Section scope in P05 acceptance and issue register | 
+| P05-S23-006 | Stamp duty. | Section scope in P05 acceptance and issue register | 
+| P05-S23-007 | Spread. | Section scope in P05 acceptance and issue register | 
+| P05-S23-008 | Slippage. | Section scope in P05 acceptance and issue register | 
+| P05-S23-009 | Other relevant costs. | Section scope in P05 acceptance and issue register | 
+| P05-S23-010 | Hypothetical. | Section scope in P05 acceptance and issue register | 
+| P05-S23-011 | Estimated. | Section scope in P05 acceptance and issue register | 
+| P05-S23-012 | Officially sourced. | Section scope in P05 acceptance and issue register | 
+| P05-S23-013 | Account-reconciled. | Section scope in P05 acceptance and issue register | 
+| P05-S24-001 | Shared available cash. | Section scope in P05 acceptance and issue register | 
+| P05-S24-002 | Cash reservations. | Section scope in P05 acceptance and issue register | 
+| P05-S24-003 | Open positions. | Section scope in P05 acceptance and issue register | 
+| P05-S24-004 | Closed positions. | Section scope in P05 acceptance and issue register | 
+| P05-S24-005 | Simultaneous candidates. | Section scope in P05 acceptance and issue register | 
+| P05-S24-006 | Portfolio exposure. | Section scope in P05 acceptance and issue register | 
+| P05-S24-007 | Fees. | Section scope in P05 acceptance and issue register | 
+| P05-S24-008 | Liquidity constraints. | Section scope in P05 acceptance and issue register | 
+| P05-S24-009 | Daily risk. | Section scope in P05 acceptance and issue register | 
+| P05-S24-010 | Position valuation. | Section scope in P05 acceptance and issue register | 
+| P05-S24-011 | Session closure. | Section scope in P05 acceptance and issue register | 
+| P05-S24-012 | Rejected candidates. | Section scope in P05 acceptance and issue register | 
+| P05-S24-013 | Unresolved positions. | Section scope in P05 acceptance and issue register | 
+| P05-S24-014 | Equity snapshots. | Section scope in P05 acceptance and issue register | 
+| P05-S25-001 | Virtual capital: INR 50,000. | Section scope in P05 acceptance and issue register | 
+| P05-S25-002 | Planned per-trade risk: 0.5%. | Section scope in P05 acceptance and issue register | 
+| P05-S25-003 | Planned daily loss threshold: 1%. | Section scope in P05 acceptance and issue register | 
+| P05-S25-004 | Maximum daily entries: three. | Section scope in P05 acceptance and issue register | 
+| P05-S25-005 | Pause after two consecutive realized losses. | Section scope in P05 acceptance and issue register | 
+| P05-S25-006 | Minimum planned net reward-to-risk: 2:1. | Section scope in P05 acceptance and issue register | 
+| P05-S25-007 | Preferred reward-to-risk: 3:1. | Section scope in P05 acceptance and issue register | 
+| P05-S25-008 | No leverage. | Section scope in P05 acceptance and issue register | 
+| P05-S25-009 | No averaging losing positions. | Section scope in P05 acceptance and issue register | 
+| P05-S25-010 | No martingale. | Section scope in P05 acceptance and issue register | 
+| P05-S25-011 | Long-only simulation. | Section scope in P05 acceptance and issue register | 
+| P05-S25-012 | No planned overnight intraday positions. | Section scope in P05 acceptance and issue register | 
+| P05-S25-013 | Fee-aware position sizing. | Section scope in P05 acceptance and issue register | 
+| P05-S25-014 | Available cash limits. | Section scope in P05 acceptance and issue register | 
+| P05-S25-015 | Reserved cash. | Section scope in P05 acceptance and issue register | 
+| P05-S25-016 | Aggregate exposure. | Section scope in P05 acceptance and issue register | 
+| P05-S25-017 | Existing position risk. | Section scope in P05 acceptance and issue register | 
+| P05-S25-018 | Remaining daily planned risk. | Section scope in P05 acceptance and issue register | 
+| P05-S25-019 | Realized loss monitoring. | Section scope in P05 acceptance and issue register | 
+| P05-S25-020 | Eligible marked losses. | Section scope in P05 acceptance and issue register | 
+| P05-S25-021 | Consecutive-loss state. | Section scope in P05 acceptance and issue register | 
+| P05-S25-022 | Portfolio suspension. | Section scope in P05 acceptance and issue register | 
+| P05-S25-023 | Strategy suspension. | Section scope in P05 acceptance and issue register | 
+| P05-S25-024 | Virtual kill switch. | Section scope in P05 acceptance and issue register | 
+| P05-S25-025 | Sector concentration where supported. | Section scope in P05 acceptance and issue register | 
+| P05-S26-001 | Gross P&L. | Section scope in P05 acceptance and issue register | 
+| P05-S26-002 | Net P&L. | Section scope in P05 acceptance and issue register | 
+| P05-S26-003 | Total charges. | Section scope in P05 acceptance and issue register | 
+| P05-S26-004 | Winning trades. | Section scope in P05 acceptance and issue register | 
+| P05-S26-005 | Losing trades. | Section scope in P05 acceptance and issue register | 
+| P05-S26-006 | Neutral trades. | Section scope in P05 acceptance and issue register | 
+| P05-S26-007 | Average net win. | Section scope in P05 acceptance and issue register | 
+| P05-S26-008 | Average net loss. | Section scope in P05 acceptance and issue register | 
+| P05-S26-009 | Win rate. | Section scope in P05 acceptance and issue register | 
+| P05-S26-010 | Profit factor. | Section scope in P05 acceptance and issue register | 
+| P05-S26-011 | Net expectancy. | Section scope in P05 acceptance and issue register | 
+| P05-S26-012 | Equity curve. | Section scope in P05 acceptance and issue register | 
+| P05-S26-013 | Maximum drawdown. | Section scope in P05 acceptance and issue register | 
+| P05-S26-014 | Consecutive losses. | Section scope in P05 acceptance and issue register | 
+| P05-S26-015 | Turnover. | Section scope in P05 acceptance and issue register | 
+| P05-S26-016 | Daily portfolio returns. | Section scope in P05 acceptance and issue register | 
+| P05-S26-017 | Maximum adverse excursion where supported. | Section scope in P05 acceptance and issue register | 
+| P05-S26-018 | Maximum favorable excursion where supported. | Section scope in P05 acceptance and issue register | 
+| P05-S27-001 | Training. | Section scope in P05 acceptance and issue register | 
+| P05-S27-002 | Validation. | Section scope in P05 acceptance and issue register | 
+| P05-S27-003 | Final holdout. | Section scope in P05 acceptance and issue register | 
+| P05-S27-004 | Rolling walk-forward. | Section scope in P05 acceptance and issue register | 
+| P05-S27-005 | Expanding walk-forward. | Section scope in P05 acceptance and issue register | 
+| P05-S27-006 | Experiment lineage. | Section scope in P05 acceptance and issue register | 
+| P05-S27-007 | Frozen parameter versions. | Section scope in P05 acceptance and issue register | 
+| P05-S27-008 | Dataset revisions. | Section scope in P05 acceptance and issue register | 
+| P05-S27-009 | Holdout access audit. | Section scope in P05 acceptance and issue register | 
+| P05-S27-010 | Feature computation. | Section scope in P05 acceptance and issue register | 
+| P05-S27-011 | Normalization. | Section scope in P05 acceptance and issue register | 
+| P05-S27-012 | Dataset selection. | Section scope in P05 acceptance and issue register | 
+| P05-S27-013 | Corporate actions. | Section scope in P05 acceptance and issue register | 
+| P05-S27-014 | Benchmark observations. | Section scope in P05 acceptance and issue register | 
+| P05-S27-015 | Universe membership. | Section scope in P05 acceptance and issue register | 
+| P05-S27-016 | Parameter selection. | Section scope in P05 acceptance and issue register | 
+| P05-S28-001 | Net expectancy after costs. | Section scope in P05 acceptance and issue register | 
+| P05-S28-002 | Maximum drawdown. | Section scope in P05 acceptance and issue register | 
+| P05-S28-003 | Sample adequacy. | Section scope in P05 acceptance and issue register | 
+| P05-S28-004 | Execution sensitivity. | Section scope in P05 acceptance and issue register | 
+| P05-S28-005 | Parameter sensitivity. | Section scope in P05 acceptance and issue register | 
+| P05-S28-006 | Performance across regimes. | Section scope in P05 acceptance and issue register | 
+| P05-S28-007 | Out-of-sample stability. | Section scope in P05 acceptance and issue register | 
+| P05-S28-008 | Baseline comparison. | Section scope in P05 acceptance and issue register | 
+| P05-S28-009 | Statistical uncertainty. | Section scope in P05 acceptance and issue register | 
+| P05-S28-010 | SOFTWARE VERIFIED. | Section scope in P05 acceptance and issue register | 
+| P05-S28-011 | SYNTHETIC CORRECTNESS VERIFIED. | Section scope in P05 acceptance and issue register | 
+| P05-S28-012 | EXPLORATORY HISTORICAL EVIDENCE. | Section scope in P05 acceptance and issue register | 
+| P05-S28-013 | OUT-OF-SAMPLE EVIDENCE AVAILABLE. | Section scope in P05 acceptance and issue register | 
+| P05-S28-014 | FINANCIAL VALIDATION INSUFFICIENT. | Section scope in P05 acceptance and issue register | 
+| P05-S28-015 | PROSPECTIVE PAPER EVIDENCE AVAILABLE. | Section scope in P05 acceptance and issue register | 
+| P05-S29-001 | G01 — Source eligibility. | Section scope in P05 acceptance and issue register | 
+| P05-S29-002 | G02 — Instrument eligibility. | Section scope in P05 acceptance and issue register | 
+| P05-S29-003 | G03 — Session validity. | Section scope in P05 acceptance and issue register | 
+| P05-S29-004 | G04 — Candle completeness. | Section scope in P05 acceptance and issue register | 
+| P05-S29-005 | G05 — Required freshness. | Section scope in P05 acceptance and issue register | 
+| P05-S29-006 | G06 — Research input sufficiency. | Section scope in P05 acceptance and issue register | 
+| P05-S29-007 | G07 — Strategy implementation status. | Section scope in P05 acceptance and issue register | 
+| P05-S29-008 | G08 — Strategy validation status. | Section scope in P05 acceptance and issue register | 
+| P05-S29-009 | G09 — Cost availability. | Section scope in P05 acceptance and issue register | 
+| P05-S29-010 | G10 — Position sizing. | Section scope in P05 acceptance and issue register | 
+| P05-S29-011 | G11 — Independent risk veto. | Section scope in P05 acceptance and issue register | 
+| P05-S29-012 | G12 — Decision expiry. | Section scope in P05 acceptance and issue register | 
+| P05-S29-013 | G13 — Evidence integrity. | Section scope in P05 acceptance and issue register | 
+| P05-S29-014 | G14 — Research mode restriction. | Section scope in P05 acceptance and issue register | 
+| P05-S29-015 | Market regime. | Section scope in P05 acceptance and issue register | 
+| P05-S29-016 | Portfolio capacity. | Section scope in P05 acceptance and issue register | 
+| P05-S29-017 | Strategy suspension. | Section scope in P05 acceptance and issue register | 
+| P05-S29-018 | Contradictory observations. | Section scope in P05 acceptance and issue register | 
+| P05-S29-019 | Duplicate candidates. | Section scope in P05 acceptance and issue register | 
+| P05-S29-020 | Provider health where required. | Section scope in P05 acceptance and issue register | 
+| P05-S29-021 | WATCH. | Section scope in P05 acceptance and issue register | 
+| P05-S29-022 | RESEARCH_CANDIDATE. | Section scope in P05 acceptance and issue register | 
+| P05-S29-023 | HISTORICAL_CANDIDATE. | Section scope in P05 acceptance and issue register | 
+| P05-S29-024 | SIMULATION_CANDIDATE. | Section scope in P05 acceptance and issue register | 
+| P05-S29-025 | NO_TRADE. | Section scope in P05 acceptance and issue register | 
+| P05-S29-026 | INVALIDATED. | Section scope in P05 acceptance and issue register | 
+| P05-S29-027 | EXPIRED. | Section scope in P05 acceptance and issue register | 
+| P05-S30-001 | Data quality. | Section scope in P05 acceptance and issue register | 
+| P05-S30-002 | Research completeness. | Section scope in P05 acceptance and issue register | 
+| P05-S30-003 | Regime compatibility. | Section scope in P05 acceptance and issue register | 
+| P05-S30-004 | Liquidity. | Section scope in P05 acceptance and issue register | 
+| P05-S30-005 | Strategy evidence. | Section scope in P05 acceptance and issue register | 
+| P05-S30-006 | Execution feasibility. | Section scope in P05 acceptance and issue register | 
+| P05-S30-007 | Net planned reward. | Section scope in P05 acceptance and issue register | 
+| P05-S30-008 | Planned downside. | Section scope in P05 acceptance and issue register | 
+| P05-S30-009 | Statistical uncertainty. | Section scope in P05 acceptance and issue register | 
+| P05-S31-001 | Persistent batch identity. | Section scope in P05 acceptance and issue register | 
+| P05-S31-002 | Worker claims. | Section scope in P05 acceptance and issue register | 
+| P05-S31-003 | Requester permissions. | Section scope in P05 acceptance and issue register | 
+| P05-S31-004 | Company scope. | Section scope in P05 acceptance and issue register | 
+| P05-S31-005 | Claim ownership. | Section scope in P05 acceptance and issue register | 
+| P05-S31-006 | Lease or equivalent restart-safe ownership. | Section scope in P05 acceptance and issue register | 
+| P05-S31-007 | Retry limits. | Section scope in P05 acceptance and issue register | 
+| P05-S31-008 | Checkpoints. | Section scope in P05 acceptance and issue register | 
+| P05-S31-009 | Cancellation. | Section scope in P05 acceptance and issue register | 
+| P05-S31-010 | Timeout handling. | Section scope in P05 acceptance and issue register | 
+| P05-S31-011 | Idempotent results. | Section scope in P05 acceptance and issue register | 
+| P05-S31-012 | Failed task reporting. | Section scope in P05 acceptance and issue register | 
+| P05-S31-013 | Select eligible instruments. | Section scope in P05 acceptance and issue register | 
+| P05-S31-014 | Resolve datasets. | Section scope in P05 acceptance and issue register | 
+| P05-S31-015 | Validate observations. | Section scope in P05 acceptance and issue register | 
+| P05-S31-016 | Calculate indicators. | Section scope in P05 acceptance and issue register | 
+| P05-S31-017 | Run applicable research engines. | Section scope in P05 acceptance and issue register | 
+| P05-S31-018 | Classify market regime. | Section scope in P05 acceptance and issue register | 
+| P05-S31-019 | Evaluate strategy candidates. | Section scope in P05 acceptance and issue register | 
+| P05-S31-020 | Apply cost and risk policy. | Section scope in P05 acceptance and issue register | 
+| P05-S31-021 | Apply decision gates. | Section scope in P05 acceptance and issue register | 
+| P05-S31-022 | Persist accepted and rejected results. | Section scope in P05 acceptance and issue register | 
+| P05-S31-023 | Update the dashboard. | Section scope in P05 acceptance and issue register | 
+| P05-S31-024 | Generate a research summary. | Section scope in P05 acceptance and issue register | 
+| P05-S32-001 | Native Odoo 20 Community-compatible OWL. | Section scope in P05 acceptance and issue register | 
+| P05-S32-002 | Golok Technology branding. | Section scope in P05 acceptance and issue register | 
+| P05-S32-003 | Compact financial information hierarchy. | Section scope in P05 acceptance and issue register | 
+| P05-S32-004 | Accessible typography. | Section scope in P05 acceptance and issue register | 
+| P05-S32-005 | Consistent spacing. | Section scope in P05 acceptance and issue register | 
+| P05-S32-006 | Responsive desktop and mobile design. | Section scope in P05 acceptance and issue register | 
+| P05-S32-007 | Light and dark compatibility where supported. | Section scope in P05 acceptance and issue register | 
+| P05-S32-008 | Meaningful status colors. | Section scope in P05 acceptance and issue register | 
+| P05-S32-009 | Efficient local chart assets. | Section scope in P05 acceptance and issue register | 
+| P05-S32-010 | Clear provenance and timestamps. | Section scope in P05 acceptance and issue register | 
+| P05-S32-011 | Bounded RPC calls. | Section scope in P05 acceptance and issue register | 
+| P05-S32-012 | Useful empty, loading, error and stale states. | Section scope in P05 acceptance and issue register | 
+| P05-S33-001 | Provider state. | Section scope in P05 acceptance and issue register | 
+| P05-S33-002 | Research mode. | Section scope in P05 acceptance and issue register | 
+| P05-S33-003 | Last successful observation. | Section scope in P05 acceptance and issue register | 
+| P05-S33-004 | Dataset coverage. | Section scope in P05 acceptance and issue register | 
+| P05-S33-005 | Eligible instruments. | Section scope in P05 acceptance and issue register | 
+| P05-S33-006 | Research progress. | Section scope in P05 acceptance and issue register | 
+| P05-S33-007 | Engine implementation and verification state. | Section scope in P05 acceptance and issue register | 
+| P05-S33-008 | Strategy implementation and validation state. | Section scope in P05 acceptance and issue register | 
+| P05-S33-009 | Qualified research candidates. | Section scope in P05 acceptance and issue register | 
+| P05-S33-010 | Rejected candidates. | Section scope in P05 acceptance and issue register | 
+| P05-S33-011 | Data quality warnings. | Section scope in P05 acceptance and issue register | 
+| P05-S33-012 | Background worker state. | Section scope in P05 acceptance and issue register | 
+| P05-S34-001 | Search. | Section scope in P05 acceptance and issue register | 
+| P05-S34-002 | Exchange filter. | Section scope in P05 acceptance and issue register | 
+| P05-S34-003 | Dataset filter. | Section scope in P05 acceptance and issue register | 
+| P05-S34-004 | Timeframe filter. | Section scope in P05 acceptance and issue register | 
+| P05-S34-005 | Strategy filter. | Section scope in P05 acceptance and issue register | 
+| P05-S34-006 | Research status filter. | Section scope in P05 acceptance and issue register | 
+| P05-S34-007 | Data quality filter. | Section scope in P05 acceptance and issue register | 
+| P05-S34-008 | Eligibility filter. | Section scope in P05 acceptance and issue register | 
+| P05-S34-009 | Server-side pagination. | Section scope in P05 acceptance and issue register | 
+| P05-S34-010 | Sorting. | Section scope in P05 acceptance and issue register | 
+| P05-S34-011 | Batch research submission. | Section scope in P05 acceptance and issue register | 
+| P05-S34-012 | Actual job progress. | Section scope in P05 acceptance and issue register | 
+| P05-S34-013 | Symbol. | Section scope in P05 acceptance and issue register | 
+| P05-S34-014 | Instrument name. | Section scope in P05 acceptance and issue register | 
+| P05-S34-015 | Latest eligible observation. | Section scope in P05 acceptance and issue register | 
+| P05-S34-016 | Observation timestamp. | Section scope in P05 acceptance and issue register | 
+| P05-S34-017 | Technical trend. | Section scope in P05 acceptance and issue register | 
+| P05-S34-018 | Momentum. | Section scope in P05 acceptance and issue register | 
+| P05-S34-019 | Relative volume. | Section scope in P05 acceptance and issue register | 
+| P05-S34-020 | Volatility. | Section scope in P05 acceptance and issue register | 
+| P05-S34-021 | Market regime. | Section scope in P05 acceptance and issue register | 
+| P05-S34-022 | Applicable strategies. | Section scope in P05 acceptance and issue register | 
+| P05-S34-023 | Candidate state. | Section scope in P05 acceptance and issue register | 
+| P05-S34-024 | Rejection reasons. | Section scope in P05 acceptance and issue register | 
+| P05-S35-001 | Instrument selection. | Section scope in P05 acceptance and issue register | 
+| P05-S35-002 | Supported timeframe selection. | Section scope in P05 acceptance and issue register | 
+| P05-S35-003 | Historical date range. | Section scope in P05 acceptance and issue register | 
+| P05-S35-004 | Candlestick chart. | Section scope in P05 acceptance and issue register | 
+| P05-S35-005 | Volume chart. | Section scope in P05 acceptance and issue register | 
+| P05-S35-006 | EMA overlay. | Section scope in P05 acceptance and issue register | 
+| P05-S35-007 | SMA overlay. | Section scope in P05 acceptance and issue register | 
+| P05-S35-008 | VWAP overlay where supported. | Section scope in P05 acceptance and issue register | 
+| P05-S35-009 | Support and resistance levels. | Section scope in P05 acceptance and issue register | 
+| P05-S35-010 | Opening range. | Section scope in P05 acceptance and issue register | 
+| P05-S35-011 | Technical indicator panel. | Section scope in P05 acceptance and issue register | 
+| P05-S35-012 | Research engine results. | Section scope in P05 acceptance and issue register | 
+| P05-S35-013 | Strategy analysis. | Section scope in P05 acceptance and issue register | 
+| P05-S35-014 | Data quality and provenance. | Section scope in P05 acceptance and issue register | 
+| P05-S35-015 | Calculation cutoff. | Section scope in P05 acceptance and issue register | 
+| P05-S36-001 | Strategy versions. | Section scope in P05 acceptance and issue register | 
+| P05-S36-002 | Historical experiments. | Section scope in P05 acceptance and issue register | 
+| P05-S36-003 | Dataset eligibility. | Section scope in P05 acceptance and issue register | 
+| P05-S36-004 | Experiment progress. | Section scope in P05 acceptance and issue register | 
+| P05-S36-005 | Synthetic versus actual historical results. | Section scope in P05 acceptance and issue register | 
+| P05-S36-006 | Financial metrics. | Section scope in P05 acceptance and issue register | 
+| P05-S36-007 | Equity curves. | Section scope in P05 acceptance and issue register | 
+| P05-S36-008 | Drawdown curves. | Section scope in P05 acceptance and issue register | 
+| P05-S36-009 | Training and validation windows. | Section scope in P05 acceptance and issue register | 
+| P05-S36-010 | Holdout status. | Section scope in P05 acceptance and issue register | 
+| P05-S36-011 | Walk-forward results. | Section scope in P05 acceptance and issue register | 
+| P05-S36-012 | Virtual portfolio cash. | Section scope in P05 acceptance and issue register | 
+| P05-S36-013 | Reserved cash. | Section scope in P05 acceptance and issue register | 
+| P05-S36-014 | Risk policy. | Section scope in P05 acceptance and issue register | 
+| P05-S36-015 | Risk suspension. | Section scope in P05 acceptance and issue register | 
+| P05-S36-016 | Candidate rejection history. | Section scope in P05 acceptance and issue register | 
+| P05-S37-001 | Paper Portfolio. | Section scope in P05 acceptance and issue register | 
+| P05-S37-002 | Research Opportunities. | Section scope in P05 acceptance and issue register | 
+| P05-S37-003 | Provider and System Health. | Section scope in P05 acceptance and issue register | 
+| P05-S37-004 | Daily Research Report. | Section scope in P05 acceptance and issue register | 
+| P05-S37-005 | Readiness Center. | Section scope in P05 acceptance and issue register | 
+| P05-S38-001 | Virtual cash integrity. | Section scope in P05 acceptance and issue register | 
+| P05-S38-002 | Reservation integrity. | Section scope in P05 acceptance and issue register | 
+| P05-S38-003 | Position quantity integrity. | Section scope in P05 acceptance and issue register | 
+| P05-S38-004 | Fee reconciliation. | Section scope in P05 acceptance and issue register | 
+| P05-S38-005 | Fill idempotency. | Section scope in P05 acceptance and issue register | 
+| P05-S38-006 | Historical account isolation. | Section scope in P05 acceptance and issue register | 
+| P05-S38-007 | Frozen capital compatibility. | Section scope in P05 acceptance and issue register | 
+| P05-S38-008 | Independent PostgreSQL contention. | Section scope in P05 acceptance and issue register | 
+| P05-S39-001 | 50 synthetic instruments. | Section scope in P05 acceptance and issue register | 
+| P05-S39-002 | 3,750 candles. | Section scope in P05 acceptance and issue register | 
+| P05-S39-003 | 361 SQL statements. | Section scope in P05 acceptance and issue register | 
+| P05-S39-004 | 4.110 seconds total wall time. | Section scope in P05 acceptance and issue register | 
+| P05-S39-005 | 1.915 seconds ingestion. | Section scope in P05 acceptance and issue register | 
+| P05-S39-006 | 1.121 seconds research. | Section scope in P05 acceptance and issue register | 
+| P05-S39-007 | 141.0 MiB sampled process peak RSS. | Section scope in P05 acceptance and issue register | 
+| P05-S39-008 | 10 instruments. | Section scope in P05 acceptance and issue register | 
+| P05-S39-009 | 50 instruments. | Section scope in P05 acceptance and issue register | 
+| P05-S39-010 | 100 instruments. | Section scope in P05 acceptance and issue register | 
+| P05-S39-011 | 250 instruments when justified. | Section scope in P05 acceptance and issue register | 
+| P05-S39-012 | Ingestion duration. | Section scope in P05 acceptance and issue register | 
+| P05-S39-013 | Indicator duration. | Section scope in P05 acceptance and issue register | 
+| P05-S39-014 | Research engine duration. | Section scope in P05 acceptance and issue register | 
+| P05-S39-015 | Strategy evaluation duration. | Section scope in P05 acceptance and issue register | 
+| P05-S39-016 | Portfolio replay duration. | Section scope in P05 acceptance and issue register | 
+| P05-S39-017 | SQL queries. | Section scope in P05 acceptance and issue register | 
+| P05-S39-018 | Process memory. | Section scope in P05 acceptance and issue register | 
+| P05-S39-019 | Available system memory. | Section scope in P05 acceptance and issue register | 
+| P05-S39-020 | CPU utilization. | Section scope in P05 acceptance and issue register | 
+| P05-S39-021 | Browser latency. | Section scope in P05 acceptance and issue register | 
+| P05-S40-001 | Every new public RPC method. | Section scope in P05 acceptance and issue register | 
+| P05-S40-002 | Provider session management. | Section scope in P05 acceptance and issue register | 
+| P05-S40-003 | Credential isolation. | Section scope in P05 acceptance and issue register | 
+| P05-S40-004 | Server-side authorization. | Section scope in P05 acceptance and issue register | 
+| P05-S40-005 | Company isolation. | Section scope in P05 acceptance and issue register | 
+| P05-S40-006 | Strategy configuration. | Section scope in P05 acceptance and issue register | 
+| P05-S40-007 | Dataset eligibility. | Section scope in P05 acceptance and issue register | 
+| P05-S40-008 | Research job execution. | Section scope in P05 acceptance and issue register | 
+| P05-S40-009 | Experiment immutability. | Section scope in P05 acceptance and issue register | 
+| P05-S40-010 | Risk configuration. | Section scope in P05 acceptance and issue register | 
+| P05-S40-011 | Virtual accounting. | Section scope in P05 acceptance and issue register | 
+| P05-S40-012 | All `sudo()` usage. | Section scope in P05 acceptance and issue register | 
+| P05-S40-013 | Raw SQL. | Section scope in P05 acceptance and issue register | 
+| P05-S40-014 | Endpoint allowlists. | Section scope in P05 acceptance and issue register | 
+| P05-S40-015 | Sensitive logs. | Section scope in P05 acceptance and issue register | 
+| P05-S43-001 | Baseline regression. | Section scope in P05 acceptance and issue register | 
+| P05-S43-002 | Provider authorization. | Section scope in P05 acceptance and issue register | 
+| P05-S43-003 | Session expiry. | Section scope in P05 acceptance and issue register | 
+| P05-S43-004 | Historical synchronization. | Section scope in P05 acceptance and issue register | 
+| P05-S43-005 | Shared quotas. | Section scope in P05 acceptance and issue register | 
+| P05-S43-006 | Instrument identity. | Section scope in P05 acceptance and issue register | 
+| P05-S43-007 | Data eligibility. | Section scope in P05 acceptance and issue register | 
+| P05-S43-008 | Indicator formulas. | Section scope in P05 acceptance and issue register | 
+| P05-S43-009 | Research causality. | Section scope in P05 acceptance and issue register | 
+| P05-S43-010 | Strategy logic. | Section scope in P05 acceptance and issue register | 
+| P05-S43-011 | Execution timing. | Section scope in P05 acceptance and issue register | 
+| P05-S43-012 | Cost calculations. | Section scope in P05 acceptance and issue register | 
+| P05-S43-013 | Portfolio accounting. | Section scope in P05 acceptance and issue register | 
+| P05-S43-014 | Concurrent risk allocation. | Section scope in P05 acceptance and issue register | 
+| P05-S43-015 | Temporal partitions. | Section scope in P05 acceptance and issue register | 
+| P05-S43-016 | Holdout isolation. | Section scope in P05 acceptance and issue register | 
+| P05-S43-017 | Decision gates. | Section scope in P05 acceptance and issue register | 
+| P05-S43-018 | Ranking. | Section scope in P05 acceptance and issue register | 
+| P05-S43-019 | Background worker recovery. | Section scope in P05 acceptance and issue register | 
+| P05-S43-020 | Browser functionality. | Section scope in P05 acceptance and issue register | 
+| P05-S43-021 | Fresh installation. | Section scope in P05 acceptance and issue register | 
+| P05-S43-022 | Historical upgrade. | Section scope in P05 acceptance and issue register | 
+| P05-S43-023 | Security. | Section scope in P05 acceptance and issue register | 
+| P05-S43-024 | Performance. | Section scope in P05 acceptance and issue register | 
+| P05-S44-001 | New functional algorithms. | Section scope in P05 acceptance and issue register | 
+| P05-S44-002 | New integrated engines. | Section scope in P05 acceptance and issue register | 
+| P05-S44-003 | Newly implemented strategies. | Section scope in P05 acceptance and issue register | 
+| P05-S44-004 | Newly verified business capabilities. | Section scope in P05 acceptance and issue register | 
+| P05-S44-005 | Regression executions. | Section scope in P05 acceptance and issue register | 
+| P05-S44-006 | External integration verification. | Section scope in P05 acceptance and issue register | 
+| P05-S44-007 | Financial validation. | Section scope in P05 acceptance and issue register | 
+| P05-S44-008 | Prospective paper evaluation. | Section scope in P05 acceptance and issue register | 
+| P05-S44-009 | A new model without functional behavior as a completed feature. | Section scope in P05 acceptance and issue register | 
+| P05-S44-010 | A registry entry as a completed research engine. | Section scope in P05 acceptance and issue register | 
+| P05-S44-011 | A renamed algorithm as a distinct strategy. | Section scope in P05 acceptance and issue register | 
+| P05-S44-012 | A static card as a completed dashboard. | Section scope in P05 acceptance and issue register | 
+| P05-S44-013 | A fixture as an authorized market integration. | Section scope in P05 acceptance and issue register | 
+| P05-S44-014 | A passing software test as financial validation. | Section scope in P05 acceptance and issue register | 
+| P05-S44-015 | Repeated test executions as new business functionality. | Section scope in P05 acceptance and issue register | 
+| P05-S45-001 | Executive summary. | Section scope in P05 acceptance and issue register | 
+| P05-S45-002 | Actual environment. | Section scope in P05 acceptance and issue register | 
+| P05-S45-003 | Architecture. | Section scope in P05 acceptance and issue register | 
+| P05-S45-004 | P04-to-P05 implementation delta. | Section scope in P05 acceptance and issue register | 
+| P05-S45-005 | Requirements traceability. | Section scope in P05 acceptance and issue register | 
+| P05-S45-006 | Individual RE-01 through RE-25 status. | Section scope in P05 acceptance and issue register | 
+| P05-S45-007 | Individual ST-01 through ST-20 status. | Section scope in P05 acceptance and issue register | 
+| P05-S45-008 | SmartAPI integration. | Section scope in P05 acceptance and issue register | 
+| P05-S45-009 | Dashboard inventory. | Section scope in P05 acceptance and issue register | 
+| P05-S45-010 | Complete test inventory. | Section scope in P05 acceptance and issue register | 
+| P05-S45-011 | Actual execution evidence. | Section scope in P05 acceptance and issue register | 
+| P05-S45-012 | INV-01 through INV-30. | Section scope in P05 acceptance and issue register | 
+| P05-S45-013 | All previous acceptance criteria. | Section scope in P05 acceptance and issue register | 
+| P05-S45-014 | P05-AC-001 through P05-AC-060. | Section scope in P05 acceptance and issue register | 
+| P05-S45-015 | Financial research results. | Section scope in P05 acceptance and issue register | 
+| P05-S45-016 | Performance results. | Section scope in P05 acceptance and issue register | 
+| P05-S45-017 | Security. | Section scope in P05 acceptance and issue register | 
+| P05-S45-018 | Errors and fixes. | Section scope in P05 acceptance and issue register | 
+| P05-S45-019 | Incomplete features. | Section scope in P05 acceptance and issue register | 
+| P05-S45-020 | Development completion metrics. | Section scope in P05 acceptance and issue register | 
+| P05-S45-021 | Next development recommendations. | Section scope in P05 acceptance and issue register | 
+| P05-S45-022 | Owner setup instructions. | Section scope in P05 acceptance and issue register | 
+| P05-S45-023 | Final readiness decision. | Section scope in P05 acceptance and issue register | 
+| P05-S45-024 | P04 implementation. | Section scope in P05 acceptance and issue register | 
+| P05-S45-025 | P05 implementation. | Section scope in P05 acceptance and issue register | 
+| P05-S45-026 | New source paths. | Section scope in P05 acceptance and issue register | 
+| P05-S45-027 | Executed verification. | Section scope in P05 acceptance and issue register | 
+| P05-S45-028 | Remaining limitation. | Section scope in P05 acceptance and issue register | 
+| P05-S46-001 | What already works offline. | Section scope in P05 acceptance and issue register | 
+| P05-S46-002 | What requires SmartAPI credentials. | Section scope in P05 acceptance and issue register | 
+| P05-S46-003 | What requires account entitlement. | Section scope in P05 acceptance and issue register | 
+| P05-S46-004 | What requires verified network configuration. | Section scope in P05 acceptance and issue register | 
+| P05-S46-005 | What requires historical data authorization. | Section scope in P05 acceptance and issue register | 
+| P05-S46-006 | What requires applicable fee evidence. | Section scope in P05 acceptance and issue register | 
+| P05-S47-001 | Baseline. | Section scope in P05 acceptance and issue register | 
+| P05-S47-002 | Unit tests. | Section scope in P05 acceptance and issue register | 
+| P05-S47-003 | Integration tests. | Section scope in P05 acceptance and issue register | 
+| P05-S47-004 | Provider tests. | Section scope in P05 acceptance and issue register | 
+| P05-S47-005 | Market data tests. | Section scope in P05 acceptance and issue register | 
+| P05-S47-006 | Quantitative tests. | Section scope in P05 acceptance and issue register | 
+| P05-S47-007 | Strategy tests. | Section scope in P05 acceptance and issue register | 
+| P05-S47-008 | Portfolio tests. | Section scope in P05 acceptance and issue register | 
+| P05-S47-009 | Statistical validation. | Section scope in P05 acceptance and issue register | 
+| P05-S47-010 | Decision engine tests. | Section scope in P05 acceptance and issue register | 
+| P05-S47-011 | Background worker tests. | Section scope in P05 acceptance and issue register | 
+| P05-S47-012 | Browser tests. | Section scope in P05 acceptance and issue register | 
+| P05-S47-013 | Screenshots. | Section scope in P05 acceptance and issue register | 
+| P05-S47-014 | Installation. | Section scope in P05 acceptance and issue register | 
+| P05-S47-015 | Upgrade. | Section scope in P05 acceptance and issue register | 
+| P05-S47-016 | Concurrency. | Section scope in P05 acceptance and issue register | 
+| P05-S47-017 | Security. | Section scope in P05 acceptance and issue register | 
+| P05-S47-018 | Performance. | Section scope in P05 acceptance and issue register | 
+| P05-S47-019 | `docs/evidence/p05/COMMANDS.md` | Section scope in P05 acceptance and issue register | 
+| P05-S47-020 | `docs/evidence/p05/manifest.sha256` | Section scope in P05 acceptance and issue register | 
+| P05-S47-021 | P05 source hash manifest. | Section scope in P05 acceptance and issue register | 
+| P05-S48-001 | Sanitized complete runtime source. | Section scope in P05 acceptance and issue register | 
+| P05-S48-002 | Security definitions. | Section scope in P05 acceptance and issue register | 
+| P05-S48-003 | Views and frontend assets. | Section scope in P05 acceptance and issue register | 
+| P05-S48-004 | Tests and redistributable fixtures. | Section scope in P05 acceptance and issue register | 
+| P05-S48-005 | Verification scripts. | Section scope in P05 acceptance and issue register | 
+| P05-S48-006 | Development report. | Section scope in P05 acceptance and issue register | 
+| P05-S48-007 | Requirements traceability. | Section scope in P05 acceptance and issue register | 
+| P05-S48-008 | Governing requirements. | Section scope in P05 acceptance and issue register | 
+| P05-S48-009 | P05 issue register. | Section scope in P05 acceptance and issue register | 
+| P05-S48-010 | Owner action report. | Section scope in P05 acceptance and issue register | 
+| P05-S48-011 | Actual test logs. | Section scope in P05 acceptance and issue register | 
+| P05-S48-012 | Actual browser screenshots. | Section scope in P05 acceptance and issue register | 
+| P05-S48-013 | Research results. | Section scope in P05 acceptance and issue register | 
+| P05-S48-014 | Portfolio simulation results. | Section scope in P05 acceptance and issue register | 
+| P05-S48-015 | Acceptance results. | Section scope in P05 acceptance and issue register | 
+| P05-S48-016 | Evidence manifest. | Section scope in P05 acceptance and issue register | 
+| P05-S48-017 | Source hash manifest. | Section scope in P05 acceptance and issue register | 
+| P05-S48-018 | Credentials. | Section scope in P05 acceptance and issue register | 
+| P05-S48-019 | API keys. | Section scope in P05 acceptance and issue register | 
+| P05-S48-020 | Account codes. | Section scope in P05 acceptance and issue register | 
+| P05-S48-021 | PINs. | Section scope in P05 acceptance and issue register | 
+| P05-S48-022 | TOTP secrets and codes. | Section scope in P05 acceptance and issue register | 
+| P05-S48-023 | Authentication tokens. | Section scope in P05 acceptance and issue register | 
+| P05-S48-024 | Private account records. | Section scope in P05 acceptance and issue register | 
+| P05-S48-025 | Production databases. | Section scope in P05 acceptance and issue register | 
+| P05-S48-026 | Unauthorized market datasets. | Section scope in P05 acceptance and issue register | 
+| P05-S48-027 | Virtual environments. | Section scope in P05 acceptance and issue register | 
+| P05-S48-028 | Sensitive runtime files. | Section scope in P05 acceptance and issue register | 
+| P05-S49-001 | Working bounded historical acquisition workflow. | Section scope in P05 acceptance and issue register | 
+| P05-S49-002 | Unified data eligibility. | Section scope in P05 acceptance and issue register | 
+| P05-S49-003 | Measurable expansion of core research engines. | Section scope in P05 acceptance and issue register | 
+| P05-S49-004 | Multiple distinct research strategies. | Section scope in P05 acceptance and issue register | 
+| P05-S49-005 | Multi-instrument shared-capital replay. | Section scope in P05 acceptance and issue register | 
+| P05-S49-006 | Independent portfolio risk enforcement. | Section scope in P05 acceptance and issue register | 
+| P05-S49-007 | Temporal validation infrastructure. | Section scope in P05 acceptance and issue register | 
+| P05-S49-008 | Centralized decision gates. | Section scope in P05 acceptance and issue register | 
+| P05-S49-009 | Integrated professional research dashboard. | Section scope in P05 acceptance and issue register | 
+| P05-S49-010 | DEVELOPMENT INCOMPLETE. | Section scope in P05 acceptance and issue register | 
+| P05-S49-011 | FOUNDATION VERIFIED. | Section scope in P05 acceptance and issue register | 
+| P05-S49-012 | HISTORICAL RESEARCH READY. | Section scope in P05 acceptance and issue register | 
+| P05-S49-013 | PAPER TRADING TEST READY. | Section scope in P05 acceptance and issue register | 
+| P05-S49-014 | VERIFIED RESEARCH BETA. | Section scope in P05 acceptance and issue register | 
+| P05-S49-015 | VALIDATED RESEARCH RELEASE READY. | Section scope in P05 acceptance and issue register |

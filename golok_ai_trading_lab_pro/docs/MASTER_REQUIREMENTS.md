@@ -8768,3 +8768,2136 @@ Report actual measured results only.
 Prioritize trustworthy market data, mathematical correctness, realistic financial simulation, risk-adjusted research, capital protection and professional usability.
 
 END OF MASTER DEVELOPMENT PROMPT 04.
+
+## P05 specification addition
+
+# GOLOK AI TRADING LAB PRO
+
+## MASTER AGENTIC DEVELOPMENT PROMPT 05 — QUANTITATIVE INTELLIGENCE, OPERATIONAL MARKET DATA, MULTI-STRATEGY PORTFOLIO RESEARCH AND PROFESSIONAL DECISION SUPPORT TERMINAL
+
+### 1. Engineering Mission
+
+Act as a multidisciplinary senior engineering and quantitative research team responsible for continuing the existing Golok AI Trading Lab Pro application.
+
+Apply professional quantitative research discipline, financial mathematics, conservative execution modeling, statistical validation, capital protection, Odoo architecture, PostgreSQL transaction integrity, native OWL development, cybersecurity and rigorous software testing.
+
+The previous four milestones established a substantial technical foundation but insufficient operational research capability.
+
+P05 must prioritize genuine quantitative functionality rather than repeatedly expanding foundational infrastructure.
+
+The primary objective is:
+
+Authorized market observations → causal quantitative analysis → multiple independently testable strategies → realistic portfolio simulation → independent risk veto → explainable research decisions → professional Odoo dashboard.
+
+Implement actual working software.
+
+Inspect, implement, execute, test, debug, repair, retest and document.
+
+Do not finish with architectural suggestions, pseudocode, empty models or documentation-only changes.
+
+Do not guarantee trading profitability or claim proprietary professional trading expertise.
+
+---
+
+### 2. Governing Requirements
+
+Read the complete existing governing documents, including:
+
+- `DEVELOPMENT_REPORT.md`
+- `docs/MASTER_REQUIREMENTS.md`
+- `docs/REQUIREMENTS_TRACEABILITY.md`
+- `docs/ARCHITECTURE.md`
+- `docs/DEVELOPMENT_PLAN.md`
+- `docs/DECISION_LOG.md`
+- `docs/RISK_REGISTER.md`
+- `docs/P04_REVIEW_ISSUES.md`
+- `docs/OWNER_ACTION_REQUIRED.md`
+- `docs/SMARTAPI_SETUP.md`
+- `docs/PROVIDER_OPERATIONS.md`
+- `docs/VALIDATION_PROTOCOL.md`
+- `docs/BACKTEST_EXECUTION_POLICY.md`
+- `docs/RISK_POLICY.md`
+- `docs/TRANSACTION_COST_MODEL.md`
+- `docs/PAPER_LEDGER_INVARIANTS.md`
+- `docs/RESEARCH_ENGINE_CATALOG.md`
+- `docs/STRATEGY_SPECIFICATIONS.md`
+- `docs/INDICATOR_FORMULAS.md`
+- `docs/DASHBOARD_KPI_DEFINITIONS.md`
+
+Preserve all previous master prompts and their requirements.
+
+Retain:
+
+- RE-01 through RE-25.
+- ST-01 through ST-20.
+- INV-01 through INV-30.
+- AC-001 through AC-050.
+- P02-AC-001 through P02-AC-040.
+- P03-AC-001 through P03-AC-070.
+- P04-AC-001 through P04-AC-075.
+- All original S-series requirement identifiers.
+- All existing detailed milestone tracking identifiers.
+
+P05 changes implementation priorities, not the governing product requirements.
+
+Do not restart development.
+
+Preserve existing data, XML IDs, immutable snapshots, financial records, compatibility and verified functionality.
+
+---
+
+### 3. Independently Reviewed P04 Baseline
+
+The external review of P04 established:
+
+- 114 ZIP archive entries.
+- 27/27 evidence hashes matched.
+- 55/55 source hashes matched.
+- All four separately uploaded companion files matched their ZIP counterparts.
+- All 25 standalone Python unit tests passed during independent execution.
+- The reproduced synthetic replay JSON was semantically identical to the archived result.
+- The runtime source inspection script passed.
+- The script inspected 36 runtime source files.
+
+The external reviewer inspected source code, reports and screenshots but did not independently recreate the Windows Odoo/PostgreSQL/Edge environment.
+
+Reported P04 results:
+
+- 122 passing executions, including previous milestone regression.
+- Zero final failed executions.
+- Four named blocked external checks.
+- 24/75 P04 acceptance criteria passed.
+- 25 partial criteria.
+- Eight blocked criteria.
+- Eighteen criteria not run.
+- Seven partially implemented research engines.
+- Nineteen indicator series.
+- One synthetic-scope strategy.
+- Zero financially validated strategies.
+- No actual authorized SmartAPI authentication.
+- No actual historical market retrieval.
+- No verified live quotes.
+- No operational streaming.
+- No multi-instrument portfolio backtesting.
+- No sealed holdout.
+- No walk-forward validation.
+- No prospective paper trading.
+
+Preserved P03 coverage references:
+
+- Original comparable coverage: 73/1,236.
+- Corrected coverage: 57/1,211.
+- Original acceptance: 14/50.
+- P02 acceptance: 30/40.
+- P03 acceptance: 29/70.
+
+P04 did not recompute full original requirement coverage.
+
+Do not misrepresent P04 acceptance coverage as overall application completion.
+
+Current readiness:
+
+**PAPER TRADING TEST READY FOR BOUNDED HISTORICAL SYNTHETIC REPLAY ONLY.**
+
+---
+
+### 4. Target Environment
+
+Product:
+
+- Name: Golok AI Trading Lab Pro.
+- Brand: Golok Technology.
+- Technical addon: `golok_ai_trading_lab_pro`.
+- Platform: Odoo 20 Community.
+- Frontend: Native Odoo OWL.
+- Backend: Python.
+- Database: PostgreSQL.
+- Deployment: Localhost.
+- Primary market: Indian cash equities.
+- Primary provider: Angel One SmartAPI.
+- Timezone: Asia/Kolkata.
+- Currency: INR.
+
+Reported hardware:
+
+- Intel Core i5-10210U.
+- Four physical CPU cores.
+- Eight logical processors.
+- 16 GB RAM.
+- Intel UHD integrated graphics.
+- No dedicated GPU.
+- Windows.
+- Python 3.14.6.
+- PostgreSQL 18.4.
+
+Verify actual versions.
+
+Do not require:
+
+- Paid AI APIs.
+- Local LLMs.
+- Ollama.
+- GPU acceleration.
+- Paid cloud infrastructure.
+- Heavy distributed systems.
+- Mandatory paid analytics subscriptions.
+
+Prefer standard-library implementations and compatible lightweight numerical libraries.
+
+Do not change the owner's Python installation, Odoo environment or database configuration without authorization.
+
+---
+
+### 5. Non-Negotiable Financial Boundary
+
+The application remains a research and simulation platform.
+
+The owner manually executes actual trades outside this application.
+
+Prohibit:
+
+- Real broker order placement.
+- Real broker order modification.
+- Real broker order cancellation.
+- Automatic real-money buying or selling.
+- Real account balance allocation.
+- Automatic allocation of 25% of real capital.
+- Fund transfers.
+- Hidden or dormant real-order functionality.
+- Actual accounting mutations.
+
+The broker adapter must support only explicitly authorized authentication and read-only market data operations.
+
+All trading candidates produced during P05 must remain historical, experimental or paper-simulation candidates.
+
+Do not enable actionable real-money trading recommendations.
+
+No software test, favorable historical result or research score establishes guaranteed financial returns.
+
+---
+
+### 6. Focused Execution Policy
+
+Do not repeat the previous broad feature-accumulation approach.
+
+Use the following implementation priorities:
+
+1. Preserve P04 and repair confirmed operational defects.
+2. Establish practical historical data acquisition.
+3. Complete a unified quantitative research framework.
+4. Implement multiple distinct strategy candidates.
+5. Establish multi-instrument backtesting and shared risk.
+6. Implement temporal validation and decision gates.
+7. Deliver an integrated professional research terminal.
+8. Execute regression, performance and security verification.
+
+Mandatory rule:
+
+An unavailable external dependency must block only the functionality genuinely dependent upon it.
+
+Missing SmartAPI credentials must not prevent:
+
+- Research algorithm development.
+- Strategy implementation.
+- Multi-instrument fixture replay.
+- Portfolio risk development.
+- Temporal partition testing.
+- Decision engine development.
+- Dashboard development.
+- Security regression.
+
+Do not consume the entire execution budget on authentication documentation or historical regression alone.
+
+Complete functional vertical slices before adding new scope.
+
+---
+
+### 7. Baseline Preservation and Regression
+
+Before changing source:
+
+- Preserve the complete P04 source.
+- Archive the P04 development report.
+- Preserve the P04 traceability matrix.
+- Verify all available source and evidence hashes.
+- Create a recoverable source checkpoint.
+- Preserve the previous evidence directories.
+- Create `docs/evidence/p05/`.
+
+Create:
+
+- `docs/history/DEVELOPMENT_REPORT_P04.md`
+- P04 source checkpoint.
+- P04 source hash manifest.
+- P05 baseline verification inventory.
+
+Re-execute:
+
+- All 25 standalone Python tests.
+- Existing synthetic replay reproduction.
+- Runtime source inspection.
+- Fresh Odoo installation.
+- Same-version upgrade.
+- Populated P04 upgrade.
+- Existing PostgreSQL contention scenarios.
+- Provider quota contention.
+- Existing Edge browser tests.
+
+Use disposable test databases.
+
+Never perform destructive tests on the owner's working database.
+
+Preserve PostgreSQL `btree_gist` compatibility.
+
+If the previous source or evidence is missing, report it explicitly.
+
+---
+
+### 8. Mandatory P05 Review Findings
+
+Create `docs/P05_REVIEW_ISSUES.md`.
+
+Investigate the following issues.
+
+#### BUG-P05-01 — Short-lived provider session cache
+
+Inspect `_SESSIONS` and `_client()` in `models/sync.py`.
+
+The current session cache expires after five minutes.
+
+Determine whether this is an appropriate local security policy or an unnecessary operational limitation.
+
+Implement a controlled provider session lifecycle based on verified provider semantics and explicit local security policy.
+
+Do not assume a broker session remains valid indefinitely.
+
+Test expiry, invalidation, authorization changes and process restart.
+
+#### BUG-P05-02 — Authentication diagnostics discard session
+
+Inspect `models/provider.py`.
+
+The diagnostics action performs authentication and discards the token.
+
+A later historical synchronization may require another authentication attempt.
+
+Unify authorized diagnostics and operational session management where appropriate without exposing tokens.
+
+Preserve a diagnostic-only mode where required.
+
+#### BUG-P05-03 — Expired TOTP reauthentication
+
+The current environment-based TOTP value becomes invalid over time.
+
+Implement an explicit `REAUTHENTICATION_REQUIRED` workflow.
+
+Support safe local credential renewal.
+
+Do not create automatic repeated login attempts using expired codes.
+
+Do not bypass multifactor authentication.
+
+#### BUG-P05-04 — Restrictive local request pacing
+
+Inspect `golok.lab.provider.budget`.
+
+P04 applies one request per 60 seconds for each implemented operation.
+
+This is a conservative local limit, not a verified SmartAPI quota.
+
+Implement configurable bounded quota policies based on authoritative provider documentation and approved account restrictions.
+
+Never increase request frequency merely to improve benchmark results.
+
+#### BUG-P05-05 — Single-session synchronization
+
+Extend the current single-session wizard into a bounded historical synchronization planner.
+
+Support multiple instruments and eligible session ranges with persistent checkpoints.
+
+Batch requests only within verified provider limits.
+
+#### BUG-P05-06 — Database-local quota scope
+
+The current database reservation prevents contention within one database.
+
+It does not establish account-wide quota enforcement across different databases or hosts.
+
+Define a practical supported deployment boundary.
+
+For the owner's localhost deployment, enforce one authorized provider worker or another demonstrably shared quota mechanism.
+
+Do not claim account-wide enforcement unless verified.
+
+#### BUG-P05-07 — Synthetic-only financial replay
+
+The existing experiment engine rejects provider-origin datasets.
+
+Preserve this guard until a separate, secure historical financial eligibility pathway exists.
+
+Implement the separate pathway rather than deleting the origin checks.
+
+#### BUG-P05-08 — Suspension outcome semantics
+
+The synthetic experiment can stop after consecutive losses and still return an overall completed state.
+
+Separate:
+
+- Software execution completed.
+- Requested coverage completed.
+- Risk-suspended evaluation.
+- Unresolved evaluation.
+- Financial validation outcome.
+
+Ensure unprocessed sessions are not silently counted as successfully evaluated.
+
+#### BUG-P05-09 — Strategy implementation stagnation
+
+Only ST-01 currently has a working synthetic implementation.
+
+Implement additional distinct, fully testable strategy candidates.
+
+#### BUG-P05-10 — Decision engine incompleteness
+
+Implement centralized G01–G14 enforcement.
+
+#### BUG-P05-11 — Missing statistical validation
+
+Implement chronological partitions, sealed holdout consumption and walk-forward infrastructure.
+
+#### BUG-P05-12 — Background worker recovery
+
+Implement persistent claims, retries, checkpoint recovery and independent contention tests.
+
+For every issue record:
+
+- Confirmed defect or implementation limitation.
+- Actual root cause.
+- Affected source.
+- Reproduction.
+- Repair.
+- Executed regression.
+- Evidence path.
+- Remaining limitations.
+
+---
+
+### 9. Operational SmartAPI Documentation and Authorization
+
+Verify current official documentation and provider-supported SDK behavior.
+
+Sources:
+
+- https://smartapi.angelone.in/
+- https://smartapi.angelone.in/docs
+- https://github.com/angel-one/smartapi-python
+
+Verify:
+
+- Account entitlement.
+- Authentication requirements.
+- Approved network egress.
+- Current API fees.
+- Historical request limits.
+- Request quotas.
+- Quote permissions.
+- WebSocket permissions.
+- Market timestamp semantics.
+- Market data storage permissions.
+- Permitted research use.
+
+Do not fabricate unavailable documentation.
+
+Do not assume every API is free.
+
+Do not bypass provider restrictions or activate paid services.
+
+The owner already has an Angel One account.
+
+Provide a secure local-only setup workflow.
+
+Never request that credentials be included in ChatGPT messages, source files, screenshots or review reports.
+
+If authorized credentials and account permissions are unavailable, retain the external integration state as BLOCKED.
+
+Continue all independent software development.
+
+---
+
+### 10. Historical Synchronization Planner
+
+Extend the P04 fixture-backed single-session path into an operational historical data subsystem.
+
+Implement:
+
+- Instrument selection.
+- Multiple instrument selection.
+- Eligible interval selection.
+- Date range selection.
+- Session enumeration.
+- Required coverage calculation.
+- Existing coverage detection.
+- Missing range detection.
+- Persistent download tasks.
+- Provider quota reservation.
+- Retry scheduling.
+- Progress reporting.
+- Checkpoints.
+- Cancellation.
+- Interrupted task recovery.
+
+Do not repeatedly request already validated historical observations.
+
+Do not permit unbounded download ranges.
+
+Respect provider quotas, response sizes and available system resources.
+
+Use a shared provider-to-ORM pipeline for fixture and authorized historical modes.
+
+Keep fixture and genuine market data strictly separated.
+
+Provide a complete native Odoo workflow.
+
+The owner must be able to configure and request data without editing Python source.
+
+---
+
+### 11. Instrument Master Synchronization
+
+Implement a verified instrument master ingestion mechanism where officially supported.
+
+Support:
+
+- NSE cash equities.
+- BSE cash equities when authorized.
+- Provider tokens.
+- Trading symbols.
+- ISIN where available.
+- Tick size.
+- Lot size.
+- Instrument type.
+- Effective dates.
+- Archived mappings.
+
+Do not silently replace existing effective-dated mappings.
+
+Prevent recycled token ambiguity.
+
+Preserve source revisions.
+
+Do not infer historical universe membership from a current instrument master.
+
+If historical listing or delisting information is unavailable, disclose the survivorship limitation.
+
+Test malformed rows, conflicting mappings, repeated imports and independent concurrent updates.
+
+---
+
+### 12. Unified Market Data Eligibility
+
+Create one reusable data eligibility contract.
+
+Support:
+
+- SYNTHETIC_FIXTURE.
+- IMPORTED_UNVERIFIED.
+- AUTHORIZED_HISTORICAL.
+- HISTORICAL_AVAILABILITY_MODELED.
+- DELAYED_MARKET.
+- VERIFIED_LIVE.
+- QUARANTINED.
+
+Keep separate fields for:
+
+- Market event time.
+- Candle open.
+- Candle close.
+- Vendor publication time.
+- Provider receipt.
+- Application ingestion.
+- Modeled historical availability.
+- Research decision cutoff.
+
+Historical receipt time must never be represented as original historical publication time.
+
+Where historically appropriate availability assumptions are modeled, preserve the assumptions, latency model, validation limitations and dataset revision.
+
+Do not promote modeled availability to verified point-in-time provenance.
+
+Every consumer must request a specific eligibility mode.
+
+Implement fail-closed behavior for missing required information.
+
+---
+
+### 13. Market Data Failure Handling
+
+Test:
+
+- Timeout.
+- Invalid credentials.
+- Expired session.
+- Rate limiting.
+- Missing response.
+- Malformed response.
+- Duplicate observations.
+- Conflicting observations.
+- Partial sessions.
+- Unknown mapping.
+- Unauthorized instrument.
+- Incorrect exchange.
+- Invalid tick size.
+- Future timestamps.
+- Incorrect publication ordering.
+- Database rollback.
+- Worker interruption.
+
+Do not create synthetic observations to conceal missing data.
+
+Maintain an auditable rejected-ingestion history.
+
+Do not expose sensitive provider response contents.
+
+---
+
+### 14. Read-Only Quote and Streaming Foundation
+
+Implement a controlled quote observation workflow.
+
+Persist only permitted, validated market observations.
+
+Distinguish:
+
+- Authentication status.
+- Connectivity.
+- Latest successful request.
+- Latest market observation.
+- Market event timestamp.
+- Freshness.
+- Streaming health.
+
+Verify actual provider timestamp conventions.
+
+Do not relabel an offset-less timestamp with an assumed timezone.
+
+If authoritative semantics are unavailable, preserve UNKNOWN freshness.
+
+Implement a bounded read-only streaming adapter and deterministic streaming fixtures if supported dependencies and documented protocols permit.
+
+Include duplicate handling, reconnection, sequence integrity, heartbeat and bounded queues.
+
+If streaming cannot be implemented safely, report the exact blocker and preserve its pending requirements.
+
+Do not allow unavailable live access to prevent the historical research milestone.
+
+---
+
+### 15. Quantitative Research Registry
+
+Consolidate legacy and supplemental research implementations into one versioned registry.
+
+Preserve original snapshots.
+
+Every research engine must expose:
+
+- Engine identifier.
+- Algorithm version.
+- Required inputs.
+- Minimum warm-up.
+- Supported intervals.
+- Data eligibility.
+- Applicable strategies.
+- Findings.
+- Supporting evidence.
+- Contradictory evidence.
+- Missing inputs.
+- Calculation cutoff.
+- Input digest.
+- Execution duration.
+- Result status.
+
+Use:
+
+- COMPLETED.
+- NOT_APPLICABLE.
+- INSUFFICIENT_DATA.
+- STALE_DATA.
+- ERROR.
+
+A registry entry without an implemented algorithm and executed verification does not count as a completed engine.
+
+Do not assign positive research evidence when required data is missing.
+
+---
+
+### 16. Complete the Core Quantitative Research Engines
+
+The previous two milestones retained seven partial research engines.
+
+P05 must achieve measurable algorithmic progress.
+
+Prioritize the following thirteen core capabilities.
+
+**RE-01 — Technical Analysis**
+
+Combine independently verified trend, momentum and volatility observations.
+
+**RE-03 — Price Action**
+
+Implement causal swing structure, higher highs, lower lows and market structure changes.
+
+**RE-04 — Candlestick Patterns**
+
+Implement mathematically defined candle patterns with explicit prerequisites.
+
+Patterns are observations, not guarantees.
+
+**RE-05 — Volume Intelligence**
+
+Implement session-aware relative volume and price-volume relationships.
+
+**RE-06 — Support and Resistance**
+
+Implement causal rolling levels and confirmed swing levels.
+
+**RE-07 — Breakout Detection**
+
+Evaluate previously established resistance and support, confirmation and invalidation.
+
+**RE-08 — False Breakout Detection**
+
+Detect failed breakouts only after confirming observations become available.
+
+**RE-09 — Market Trend**
+
+Separate stock-specific trend from benchmark-supported market trend.
+
+**RE-15 — Historical Patterns**
+
+Measure reproducible historical outcomes, sample size and uncertainty.
+
+**RE-17 — Liquidity Analysis**
+
+Use actual spread and depth when available. Label OHLCV liquidity measures as proxies.
+
+**RE-18 — Volatility Analysis**
+
+Implement realized volatility, ATR, range behavior and volatility classifications.
+
+**RE-19 — Momentum Analysis**
+
+Measure direction, persistence, acceleration and relative strength where benchmark data exists.
+
+**RE-20 — Abnormal Market Activity**
+
+Detect statistical price, volume and volatility abnormalities without claiming proven manipulation.
+
+For each engine:
+
+- Document the mathematical method.
+- Implement the actual algorithm.
+- Add independent reference tests.
+- Add warm-up and insufficient-data tests.
+- Add causal prefix tests.
+- Integrate into Odoo.
+- Persist evidence.
+- Expose the result through the research terminal.
+
+Target all thirteen capabilities, but report actual completion accurately.
+
+Do not create superficial implementations to meet a numeric target.
+
+---
+
+### 17. Remaining Research Engine Architecture
+
+Preserve all other RE identifiers.
+
+Establish genuine contracts for:
+
+- RE-02 Fundamental Analysis.
+- RE-10 Sector Performance.
+- RE-11 Benchmark Index Analysis.
+- RE-12 Global Market Context.
+- RE-13 Financial News and Events.
+- RE-14 Institutional Activity Proxies.
+- RE-16 Statistical Probability.
+- RE-21 Entry Optimization.
+- RE-22 Stop-Loss Optimization.
+- RE-23 Profit Target Optimization.
+- RE-24 Historical Strategy Performance.
+- RE-25 Net Expected Profit and Risk Validation.
+
+Implement these only when their data and statistical prerequisites are satisfied.
+
+Use lawful, authorized sources.
+
+Do not fabricate fundamentals, news, institutional activity, index values or expected profitability.
+
+Do not claim statistical probability without calibration evidence.
+
+---
+
+### 18. Indicator Mathematical Verification
+
+Complete the existing nineteen-indicator reference matrix.
+
+Verify:
+
+- SMA.
+- EMA.
+- RSI.
+- MACD.
+- ATR.
+- VWAP.
+- ADX.
+- Bollinger Bands.
+- Stochastic.
+- Relative Volume.
+- Rate of Change.
+- OBV.
+- Historical Volatility.
+- Rolling Highs and Lows.
+- Opening Range.
+- Relative Strength.
+- Price Gaps.
+- Volume Spikes.
+- Trend Slopes.
+
+For each indicator test:
+
+- Independent nonflat numerical references.
+- Flat inputs.
+- Increasing and decreasing inputs.
+- Warm-up.
+- Missing observations.
+- Zero volume.
+- Invalid numerical values.
+- Multiple sessions.
+- Numerical tolerance.
+- Prefix invariance.
+- Incremental versus complete calculations where implemented.
+
+P04's flat-series test is useful but insufficient for complete formula verification.
+
+Document exact smoothing and initialization conventions.
+
+Label OHLCV-derived VWAP as an approximation when appropriate.
+
+---
+
+### 19. Market Regime Engine
+
+Implement instrument-level regime classification.
+
+Support independently represented:
+
+- Trend direction.
+- Trend strength.
+- Momentum state.
+- Volatility state.
+- Range-bound conditions.
+- Abnormal stress.
+- Insufficient evidence.
+
+Implement benchmark-aligned market-wide classification when authorized index data is available.
+
+Support strategy-specific compatibility rules.
+
+Do not classify the entire market using a single instrument.
+
+Test bullish, bearish, sideways and high-volatility fixture scenarios.
+
+Persist classification reasons and algorithm versions.
+
+---
+
+### 20. Persistent Multi-Strategy Framework
+
+Replace the single-strategy execution restriction with a versioned strategy registry.
+
+Each strategy must define:
+
+- Strategy ID.
+- Immutable version.
+- Economic hypothesis.
+- Required observations.
+- Required engines.
+- Applicable regimes.
+- Entry rules.
+- Exit rules.
+- Stop methodology.
+- Target methodology.
+- Invalidation.
+- Holding period.
+- Cost policy.
+- Risk policy.
+- Implementation digest.
+- Validation status.
+
+Preserve the original ST-01 multi-1 and multi-2 history.
+
+Do not silently alter historical strategy results.
+
+Support explicit strategy suspension and approval governance.
+
+No automatic strategy promotion.
+
+---
+
+### 21. Priority Strategy Implementations
+
+Implement the following as distinct experimental research strategies.
+
+#### ST-01 — Opening Range Breakout
+
+Preserve and extend the existing implementation.
+
+Verify opening range construction, entry validity, confirmation, session cutoff, price gaps and stop handling.
+
+#### ST-02 — VWAP Pullback
+
+Implement a documented trend-aligned pullback hypothesis using valid VWAP observations and causal confirmation.
+
+#### ST-04 — Trend Following
+
+Implement independent trend-continuation logic with explicit regime compatibility.
+
+#### ST-06 — Volume Confirmed Breakout
+
+Implement breakout confirmation using causal price and volume conditions.
+
+#### ST-08 — Mean Reversion
+
+Implement a distinct range-market hypothesis with explicit invalidation and trend-risk rejection.
+
+Target five working research strategies including ST-01.
+
+Complete at least two additional strategies as the minimum P05 research expansion objective, unless actual implementation blockers prevent this.
+
+A failed research hypothesis must remain a valid result.
+
+Do not tune parameters merely to make synthetic fixtures profitable.
+
+For every strategy execute winning, losing, rejected, missing-data, expired-entry and unresolved scenarios.
+
+Use one shared cost, risk and execution interface.
+
+---
+
+### 22. Authorized Historical Experiment Eligibility
+
+Create an explicit historical financial research mode.
+
+Preserve synthetic replay compatibility.
+
+Require:
+
+- Authorized dataset provenance.
+- Immutable dataset revision or input manifest.
+- Applicable instrument mapping.
+- Exchange calendar.
+- Adjustment convention.
+- Historical availability policy.
+- Adequate data coverage.
+- Applicable cost schedule.
+- Frozen strategy version.
+- Frozen risk policy.
+- Frozen execution policy.
+
+Allow authorized local dataset imports where broker access is unavailable.
+
+Do not remove source eligibility checks merely to run experiments.
+
+Support clearly labeled exploratory experiments using modeled historical availability where justified.
+
+Do not classify exploratory results as verified point-in-time financial validation.
+
+If real data is unavailable, execute the identical workflow using isolated synthetic fixtures.
+
+---
+
+### 23. Transaction Costs and Net Economics
+
+Expand the existing hypothetical tariff framework into a versioned cost system.
+
+Support applicable:
+
+- Brokerage.
+- Securities Transaction Tax.
+- Exchange charges.
+- SEBI charges.
+- GST.
+- Stamp duty.
+- Spread.
+- Slippage.
+- Other relevant costs.
+
+Verify actual tariffs against authoritative sources.
+
+Record effective dates and applicable segments.
+
+Distinguish:
+
+- Hypothetical.
+- Estimated.
+- Officially sourced.
+- Account-reconciled.
+
+Implement correct order-level and fill-level charging.
+
+Do not double-count slippage or capped brokerage.
+
+Use exact financial rounding.
+
+Provide a native Odoo cost calculator.
+
+Do not require private contract notes when official tariff evidence can establish a separately qualified configuration.
+
+---
+
+### 24. Multi-Instrument Portfolio Backtesting
+
+This is a mandatory P05 development target.
+
+Implement chronological replay for multiple instruments and sessions.
+
+Use one shared virtual portfolio.
+
+Support:
+
+- Shared available cash.
+- Cash reservations.
+- Open positions.
+- Closed positions.
+- Simultaneous candidates.
+- Portfolio exposure.
+- Fees.
+- Liquidity constraints.
+- Daily risk.
+- Position valuation.
+- Session closure.
+- Rejected candidates.
+- Unresolved positions.
+- Equity snapshots.
+
+Process market events in deterministic temporal order.
+
+Define tie-breaking rules without future information.
+
+Prevent several candidates from independently consuming the same capital.
+
+Do not assume fills occur just because a candle touches a price.
+
+Model gaps and ambiguous stop/target observations conservatively.
+
+Do not invent closing prices during missing observations.
+
+Implement bounded processing and resumable checkpoints.
+
+Preserve the original single-instrument replay as a compatibility path.
+
+At minimum, verify a multi-instrument, multi-session fixture with competing capital reservations and overlapping candidate events.
+
+---
+
+### 25. Independent Portfolio Risk Engine
+
+Use configurable experimental defaults:
+
+- Virtual capital: INR 50,000.
+- Planned per-trade risk: 0.5%.
+- Planned daily loss threshold: 1%.
+- Maximum daily entries: three.
+- Pause after two consecutive realized losses.
+- Minimum planned net reward-to-risk: 2:1.
+- Preferred reward-to-risk: 3:1.
+- No leverage.
+- No averaging losing positions.
+- No martingale.
+- Long-only simulation.
+- No planned overnight intraday positions.
+
+These defaults are experimental risk policies, not proven optimal parameters.
+
+Implement:
+
+- Fee-aware position sizing.
+- Available cash limits.
+- Reserved cash.
+- Aggregate exposure.
+- Existing position risk.
+- Remaining daily planned risk.
+- Realized loss monitoring.
+- Eligible marked losses.
+- Consecutive-loss state.
+- Portfolio suspension.
+- Strategy suspension.
+- Virtual kill switch.
+- Sector concentration where supported.
+
+Verify actual enforcement before reservation and immediately before simulated execution.
+
+A research score must not override a risk veto.
+
+Test concurrent capital and risk allocation.
+
+Define suspension reset semantics and authorized resume behavior.
+
+Do not silently reset accumulated loss history.
+
+Do not describe stop losses as guaranteed maximum losses.
+
+---
+
+### 26. Financial Metrics
+
+Implement independently verified portfolio metrics:
+
+- Gross P&L.
+- Net P&L.
+- Total charges.
+- Winning trades.
+- Losing trades.
+- Neutral trades.
+- Average net win.
+- Average net loss.
+- Win rate.
+- Profit factor.
+- Net expectancy.
+- Equity curve.
+- Maximum drawdown.
+- Consecutive losses.
+- Turnover.
+- Daily portfolio returns.
+- Maximum adverse excursion where supported.
+- Maximum favorable excursion where supported.
+
+Calculate Sharpe and Sortino only where the return series and sample size support meaningful reporting.
+
+Handle zero denominators and insufficient observations explicitly.
+
+Distinguish closed-trade equity from mark-to-market equity.
+
+Do not conceal negative results or unresolved positions.
+
+---
+
+### 27. Temporal Validation and Holdout Isolation
+
+Implement immutable chronological partitions.
+
+Support:
+
+- Training.
+- Validation.
+- Final holdout.
+- Rolling walk-forward.
+- Expanding walk-forward.
+- Experiment lineage.
+- Frozen parameter versions.
+- Dataset revisions.
+- Holdout access audit.
+
+Prevent repeated holdout optimization.
+
+Require strategy parameters and evaluation policy to be frozen before final holdout consumption.
+
+Implement purging and embargo when overlapping outcome windows require them.
+
+Prevent future information leakage through:
+
+- Feature computation.
+- Normalization.
+- Dataset selection.
+- Corporate actions.
+- Benchmark observations.
+- Universe membership.
+- Parameter selection.
+
+Execute deliberate leakage attempts and negative tests.
+
+Do not claim that a partition label establishes statistical independence.
+
+---
+
+### 28. Strategy Evaluation Protocol
+
+Define a predeclared evaluation policy.
+
+Evaluate:
+
+- Net expectancy after costs.
+- Maximum drawdown.
+- Sample adequacy.
+- Execution sensitivity.
+- Parameter sensitivity.
+- Performance across regimes.
+- Out-of-sample stability.
+- Baseline comparison.
+- Statistical uncertainty.
+
+Use suitable bootstrap or uncertainty methods when the observation structure supports them.
+
+Account for correlated trades and multiple strategy comparisons.
+
+Preserve unsuccessful experiments.
+
+Do not force any strategy to receive a passing financial validation status.
+
+Separate:
+
+- SOFTWARE VERIFIED.
+- SYNTHETIC CORRECTNESS VERIFIED.
+- EXPLORATORY HISTORICAL EVIDENCE.
+- OUT-OF-SAMPLE EVIDENCE AVAILABLE.
+- FINANCIAL VALIDATION INSUFFICIENT.
+- PROSPECTIVE PAPER EVIDENCE AVAILABLE.
+
+Do not infer future profitability from historical results.
+
+---
+
+### 29. Master Decision Engine
+
+Implement centralized G01 through G14.
+
+- G01 — Source eligibility.
+- G02 — Instrument eligibility.
+- G03 — Session validity.
+- G04 — Candle completeness.
+- G05 — Required freshness.
+- G06 — Research input sufficiency.
+- G07 — Strategy implementation status.
+- G08 — Strategy validation status.
+- G09 — Cost availability.
+- G10 — Position sizing.
+- G11 — Independent risk veto.
+- G12 — Decision expiry.
+- G13 — Evidence integrity.
+- G14 — Research mode restriction.
+
+Add explicit checks for:
+
+- Market regime.
+- Portfolio capacity.
+- Strategy suspension.
+- Contradictory observations.
+- Duplicate candidates.
+- Provider health where required.
+
+Return:
+
+- WATCH.
+- RESEARCH_CANDIDATE.
+- HISTORICAL_CANDIDATE.
+- SIMULATION_CANDIDATE.
+- NO_TRADE.
+- INVALIDATED.
+- EXPIRED.
+
+Persist each decision and all gate outcomes.
+
+Unknown mandatory evidence must fail closed.
+
+Mode-specific requirements must distinguish historical research from prospective operation.
+
+Actionable real-money recommendation states remain disabled.
+
+Test each gate independently and test simultaneous failures.
+
+---
+
+### 30. Research Candidate Ranking
+
+Implement transparent research ranking only among eligible experimental candidates.
+
+Separate:
+
+- Data quality.
+- Research completeness.
+- Regime compatibility.
+- Liquidity.
+- Strategy evidence.
+- Execution feasibility.
+- Net planned reward.
+- Planned downside.
+- Statistical uncertainty.
+
+Avoid double-counting correlated indicators.
+
+Do not assign arbitrary high scores to make the dashboard impressive.
+
+A research score is not a probability of profit.
+
+Return unavailable where a defensible score cannot be established.
+
+Support successful research runs with zero qualified candidates.
+
+---
+
+### 31. Automatic Research Orchestration
+
+Extend the historical research queue into a bounded orchestration framework.
+
+Implement:
+
+- Persistent batch identity.
+- Worker claims.
+- Requester permissions.
+- Company scope.
+- Claim ownership.
+- Lease or equivalent restart-safe ownership.
+- Retry limits.
+- Checkpoints.
+- Cancellation.
+- Timeout handling.
+- Idempotent results.
+- Failed task reporting.
+
+Support a complete historical research batch:
+
+1. Select eligible instruments.
+2. Resolve datasets.
+3. Validate observations.
+4. Calculate indicators.
+5. Run applicable research engines.
+6. Classify market regime.
+7. Evaluate strategy candidates.
+8. Apply cost and risk policy.
+9. Apply decision gates.
+10. Persist accepted and rejected results.
+11. Update the dashboard.
+12. Generate a research summary.
+
+Use bounded instrument batches.
+
+Implement independent worker contention and process restart tests.
+
+Do not assume research continues when the owner's laptop is asleep or powered off.
+
+Record missed scheduled cycles.
+
+---
+
+### 32. Premium Native Odoo Research Terminal
+
+The P04 screenshot demonstrates a functional but basic historical overview.
+
+Build a coherent professional financial research workspace.
+
+Use:
+
+- Native Odoo 20 Community-compatible OWL.
+- Golok Technology branding.
+- Compact financial information hierarchy.
+- Accessible typography.
+- Consistent spacing.
+- Responsive desktop and mobile design.
+- Light and dark compatibility where supported.
+- Meaningful status colors.
+- Efficient local chart assets.
+- Clear provenance and timestamps.
+- Bounded RPC calls.
+- Useful empty, loading, error and stale states.
+
+No mandatory external CDN.
+
+Do not fabricate prices, profits, charts or strategy performance.
+
+Prioritize these four working dashboard workflows before cosmetic expansion.
+
+---
+
+### 33. Workspace A — Market Command Center
+
+Display actual:
+
+- Provider state.
+- Research mode.
+- Last successful observation.
+- Dataset coverage.
+- Eligible instruments.
+- Research progress.
+- Engine implementation and verification state.
+- Strategy implementation and validation state.
+- Qualified research candidates.
+- Rejected candidates.
+- Data quality warnings.
+- Background worker state.
+
+Show unavailable information explicitly.
+
+Include authorized benchmark values only when actually available.
+
+---
+
+### 34. Workspace B — Professional Stock Scanner
+
+Implement a genuine multi-instrument research scanner rather than only a native snapshot list.
+
+Provide:
+
+- Search.
+- Exchange filter.
+- Dataset filter.
+- Timeframe filter.
+- Strategy filter.
+- Research status filter.
+- Data quality filter.
+- Eligibility filter.
+- Server-side pagination.
+- Sorting.
+- Batch research submission.
+- Actual job progress.
+
+Display:
+
+- Symbol.
+- Instrument name.
+- Latest eligible observation.
+- Observation timestamp.
+- Technical trend.
+- Momentum.
+- Relative volume.
+- Volatility.
+- Market regime.
+- Applicable strategies.
+- Candidate state.
+- Rejection reasons.
+
+Every displayed value must originate from actual persisted records or a documented calculation.
+
+---
+
+### 35. Workspace C — Advanced Stock Research Terminal
+
+Provide:
+
+- Instrument selection.
+- Supported timeframe selection.
+- Historical date range.
+- Candlestick chart.
+- Volume chart.
+- EMA overlay.
+- SMA overlay.
+- VWAP overlay where supported.
+- Support and resistance levels.
+- Opening range.
+- Technical indicator panel.
+- Research engine results.
+- Strategy analysis.
+- Data quality and provenance.
+- Calculation cutoff.
+
+Add hypothetical entry, stop and target overlays only for actual stored simulation candidates.
+
+Verify all overlays against backend numerical calculations.
+
+Use bounded chart retrieval.
+
+Do not silently truncate data.
+
+---
+
+### 36. Workspace D — Strategy and Risk Laboratory
+
+Display:
+
+- Strategy versions.
+- Historical experiments.
+- Dataset eligibility.
+- Experiment progress.
+- Synthetic versus actual historical results.
+- Financial metrics.
+- Equity curves.
+- Drawdown curves.
+- Training and validation windows.
+- Holdout status.
+- Walk-forward results.
+- Virtual portfolio cash.
+- Reserved cash.
+- Risk policy.
+- Risk suspension.
+- Candidate rejection history.
+
+Provide authorized drill-down to underlying evidence.
+
+Show failed strategies and negative results.
+
+Keep historical replay, experimental historical research and prospective paper records separate.
+
+---
+
+### 37. Remaining Dashboard Requirements
+
+Preserve all remaining original dashboard requirements.
+
+Extend the existing:
+
+- Paper Portfolio.
+- Research Opportunities.
+- Provider and System Health.
+- Daily Research Report.
+- Readiness Center.
+
+Implement actual integrations where their backend prerequisites exist.
+
+Do not create nonfunctional screens merely to increase the completed dashboard count.
+
+Identify every remaining missing control and KPI in the development report.
+
+---
+
+### 38. Prospective Paper Trading Boundary
+
+Preserve and extend the virtual accounting model where necessary for portfolio replay.
+
+Do not enable prospective market-driven paper operation unless its separate required feed, lifecycle, recovery and risk gates have been verified.
+
+At minimum, preserve:
+
+- Virtual cash integrity.
+- Reservation integrity.
+- Position quantity integrity.
+- Fee reconciliation.
+- Fill idempotency.
+- Historical account isolation.
+- Frozen capital compatibility.
+- Independent PostgreSQL contention.
+
+Do not connect any virtual execution service to a real broker order endpoint.
+
+Do not represent historical replay as actual forward paper performance.
+
+---
+
+### 39. CPU and Memory Optimization
+
+P04 benchmark:
+
+- 50 synthetic instruments.
+- 3,750 candles.
+- 361 SQL statements.
+- 4.110 seconds total wall time.
+- 1.915 seconds ingestion.
+- 1.121 seconds research.
+- 141.0 MiB sampled process peak RSS.
+
+This does not establish full live-scanner capacity.
+
+Measure the new complete research workflow at:
+
+- 10 instruments.
+- 50 instruments.
+- 100 instruments.
+- 250 instruments when justified.
+
+Measure larger workloads only after safe smaller runs.
+
+Record:
+
+- Ingestion duration.
+- Indicator duration.
+- Research engine duration.
+- Strategy evaluation duration.
+- Portfolio replay duration.
+- SQL queries.
+- Process memory.
+- Available system memory.
+- CPU utilization.
+- Browser latency.
+
+Use bounded reads, suitable indexes, batch persistence and limited concurrency.
+
+Avoid heavyweight dependencies.
+
+Pause or reduce workloads under memory pressure.
+
+Do not claim 1,000-stock real-time scanning without actual supporting measurement.
+
+---
+
+### 40. Security Regression
+
+Preserve existing security roles.
+
+Review:
+
+- Every new public RPC method.
+- Provider session management.
+- Credential isolation.
+- Server-side authorization.
+- Company isolation.
+- Strategy configuration.
+- Dataset eligibility.
+- Research job execution.
+- Experiment immutability.
+- Risk configuration.
+- Virtual accounting.
+- All `sudo()` usage.
+- Raw SQL.
+- Endpoint allowlists.
+- Sensitive logs.
+
+Test forged requests, cross-company references, unauthorized actions and context injection.
+
+Prove that synthetic origins and external provider states cannot be elevated through user-supplied parameters.
+
+Verify real-order prohibition through runtime endpoint restrictions and source inspection.
+
+Do not rely solely on keyword scans.
+
+---
+
+### 41. Mandatory P05 Acceptance Criteria
+
+Preserve every previous acceptance criterion.
+
+Add the following focused P05 criteria.
+
+| ID | Acceptance criterion |
+|---|---|
+| P05-AC-001 | P04 source and evidence preserved |
+| P05-AC-002 | Previous regression executed |
+| P05-AC-003 | Twelve review findings investigated |
+| P05-AC-004 | Secure provider session lifecycle |
+| P05-AC-005 | Controlled reauthentication |
+| P05-AC-006 | Configurable verified or qualified quotas |
+| P05-AC-007 | Historical synchronization planner |
+| P05-AC-008 | Resumable multi-session ingestion |
+| P05-AC-009 | Instrument master synchronization |
+| P05-AC-010 | Unified source eligibility |
+| P05-AC-011 | Authorized real historical smoke test |
+| P05-AC-012 | Quote freshness contract |
+| P05-AC-013 | Unified research registry |
+| P05-AC-014 | Indicator reference matrix |
+| P05-AC-015 | Expanded core research algorithms |
+| P05-AC-016 | Research evidence persistence |
+| P05-AC-017 | Instrument regime classification |
+| P05-AC-018 | Persistent multi-strategy framework |
+| P05-AC-019 | ST-01 regression and extension |
+| P05-AC-020 | ST-02 implementation |
+| P05-AC-021 | ST-04 implementation |
+| P05-AC-022 | ST-06 implementation |
+| P05-AC-023 | ST-08 implementation |
+| P05-AC-024 | Authorized historical eligibility pathway |
+| P05-AC-025 | Versioned transaction costs |
+| P05-AC-026 | Independent cost reconciliation |
+| P05-AC-027 | Multi-instrument portfolio replay |
+| P05-AC-028 | Shared virtual capital integrity |
+| P05-AC-029 | Portfolio risk enforcement |
+| P05-AC-030 | Daily loss protection |
+| P05-AC-031 | Consecutive-loss and suspension semantics |
+| P05-AC-032 | Independently verified portfolio metrics |
+| P05-AC-033 | Immutable chronological partitions |
+| P05-AC-034 | Holdout consumption enforcement |
+| P05-AC-035 | Walk-forward implementation |
+| P05-AC-036 | Temporal leakage rejection |
+| P05-AC-037 | Actual historical financial experiment |
+| P05-AC-038 | Complete G01–G14 decision gates |
+| P05-AC-039 | Hard risk veto |
+| P05-AC-040 | Explainable candidate ranking |
+| P05-AC-041 | Multi-instrument research orchestration |
+| P05-AC-042 | Worker restart and checkpoint recovery |
+| P05-AC-043 | Independent worker contention |
+| P05-AC-044 | Professional stock scanner |
+| P05-AC-045 | Advanced stock research terminal |
+| P05-AC-046 | Strategy and risk laboratory |
+| P05-AC-047 | Dashboard numerical reconciliation |
+| P05-AC-048 | Virtual ledger regression |
+| P05-AC-049 | Historical/prospective isolation |
+| P05-AC-050 | Real browser workflows |
+| P05-AC-051 | Desktop and mobile usability |
+| P05-AC-052 | Theme verification |
+| P05-AC-053 | End-to-end performance |
+| P05-AC-054 | Resource-pressure handling |
+| P05-AC-055 | Security regression |
+| P05-AC-056 | Company isolation |
+| P05-AC-057 | Real-order prohibition |
+| P05-AC-058 | Fresh installation |
+| P05-AC-059 | Populated P04 upgrade |
+| P05-AC-060 | Complete evidence-backed handoff |
+
+A PASSED criterion requires actual supporting evidence for its declared scope.
+
+Use PARTIAL for restricted implementations.
+
+Use BLOCKED only for genuine unresolved prerequisites.
+
+Use NOT_RUN for tests not executed.
+
+Do not mark an external test passed using a fixture.
+
+---
+
+### 42. Required End-to-End Demonstrations
+
+The following demonstrations are higher priority than accumulating administrative requirement counts.
+
+#### Demonstration A — Historical Data Acquisition
+
+Select instruments and dates.
+
+Submit a synchronization plan.
+
+Process bounded fixture-backed provider responses through the real Odoo pipeline.
+
+Verify coverage, idempotency, provenance and rejection behavior.
+
+#### Demonstration B — Quantitative Research Batch
+
+Select multiple instruments.
+
+Run applicable research engines.
+
+Persist distinct findings, insufficient-data results and supporting evidence.
+
+Display results in the scanner and research terminal.
+
+#### Demonstration C — Multi-Strategy Research
+
+Evaluate ST-01 and additional implemented strategies using shared cost and risk interfaces.
+
+Include both accepted and rejected experimental candidates.
+
+#### Demonstration D — Portfolio Replay
+
+Replay several instruments over multiple sessions using one virtual account.
+
+Verify competing capital reservations, daily risk and losses.
+
+Reconcile the complete virtual portfolio.
+
+#### Demonstration E — Temporal Validation
+
+Create chronological partitions.
+
+Run a walk-forward fixture.
+
+Seal and consume a final holdout.
+
+Reject unauthorized changes and repeated optimization attempts.
+
+#### Demonstration F — Decision Pipeline
+
+Exercise all G01–G14 gates.
+
+Demonstrate that missing data, expiry, risk failure and ineligible modes prevent candidate qualification.
+
+#### Demonstration G — Professional Browser Workflow
+
+Open the command center.
+
+Launch a research batch.
+
+Observe actual progress.
+
+Open the stock terminal.
+
+Inspect charts and engine evidence.
+
+Open strategy experiments.
+
+Inspect portfolio and risk results.
+
+Verify authorized drill-downs.
+
+Capture actual desktop and mobile screenshots.
+
+Do not substitute static mockups for functional demonstrations.
+
+---
+
+### 43. Testing Program
+
+Execute actual tests covering:
+
+- Baseline regression.
+- Provider authorization.
+- Session expiry.
+- Historical synchronization.
+- Shared quotas.
+- Instrument identity.
+- Data eligibility.
+- Indicator formulas.
+- Research causality.
+- Strategy logic.
+- Execution timing.
+- Cost calculations.
+- Portfolio accounting.
+- Concurrent risk allocation.
+- Temporal partitions.
+- Holdout isolation.
+- Decision gates.
+- Ranking.
+- Background worker recovery.
+- Browser functionality.
+- Fresh installation.
+- Historical upgrade.
+- Security.
+- Performance.
+
+For independent contention tests, use separate committed database transactions or worker processes.
+
+For browser verification, use actual Odoo running in a disposable environment.
+
+Record failures and subsequent repairs.
+
+Do not delete unsuccessful test attempts from the evidence history.
+
+---
+
+### 44. Prevent Documentation Inflation
+
+Previous milestones achieved increasing execution counts without comparable expansion of core research capabilities.
+
+P05 must separately report:
+
+- New functional algorithms.
+- New integrated engines.
+- Newly implemented strategies.
+- Newly verified business capabilities.
+- Regression executions.
+- External integration verification.
+- Financial validation.
+- Prospective paper evaluation.
+
+Do not count:
+
+- A new model without functional behavior as a completed feature.
+- A registry entry as a completed research engine.
+- A renamed algorithm as a distinct strategy.
+- A static card as a completed dashboard.
+- A fixture as an authorized market integration.
+- A passing software test as financial validation.
+- Repeated test executions as new business functionality.
+
+Reconcile original traceability rows against actual source.
+
+Retain historical coverage values.
+
+Publish newly calculated coverage only when its denominator and adjudication method are documented.
+
+---
+
+### 45. Mandatory Development Report
+
+Update:
+
+`DEVELOPMENT_REPORT.md`
+
+Preserve the established 22-section structure.
+
+Include:
+
+- Executive summary.
+- Actual environment.
+- Architecture.
+- P04-to-P05 implementation delta.
+- Requirements traceability.
+- Individual RE-01 through RE-25 status.
+- Individual ST-01 through ST-20 status.
+- SmartAPI integration.
+- Dashboard inventory.
+- Complete test inventory.
+- Actual execution evidence.
+- INV-01 through INV-30.
+- All previous acceptance criteria.
+- P05-AC-001 through P05-AC-060.
+- Financial research results.
+- Performance results.
+- Security.
+- Errors and fixes.
+- Incomplete features.
+- Development completion metrics.
+- Next development recommendations.
+- Owner setup instructions.
+- Final readiness decision.
+
+Add a specific P05 product progress table comparing:
+
+- P04 implementation.
+- P05 implementation.
+- New source paths.
+- Executed verification.
+- Remaining limitation.
+
+For every test execution report its unique identity, exact command, expected outcome, actual outcome, exit code and evidence path.
+
+---
+
+### 46. Owner Action Report
+
+Update:
+
+`docs/OWNER_ACTION_REQUIRED.md`
+
+Provide simple practical instructions.
+
+Separate:
+
+- What already works offline.
+- What requires SmartAPI credentials.
+- What requires account entitlement.
+- What requires verified network configuration.
+- What requires historical data authorization.
+- What requires applicable fee evidence.
+
+Provide a safe local read-only authentication and historical smoke workflow.
+
+If credentials are missing, do not repeatedly stop the entire development process.
+
+Do not request secrets in the review handoff.
+
+Do not assume access is free.
+
+---
+
+### 47. P05 Evidence Package
+
+Create:
+
+`docs/evidence/p05/`
+
+Include:
+
+- Baseline.
+- Unit tests.
+- Integration tests.
+- Provider tests.
+- Market data tests.
+- Quantitative tests.
+- Strategy tests.
+- Portfolio tests.
+- Statistical validation.
+- Decision engine tests.
+- Background worker tests.
+- Browser tests.
+- Screenshots.
+- Installation.
+- Upgrade.
+- Concurrency.
+- Security.
+- Performance.
+
+Create:
+
+- `docs/evidence/p05/COMMANDS.md`
+- `docs/evidence/p05/manifest.sha256`
+- P05 source hash manifest.
+
+Verify all listed hashes.
+
+Include deterministic independently reproducible research and financial fixture results.
+
+Do not package unauthorized market data.
+
+---
+
+### 48. Mandatory Review Handoff
+
+Create:
+
+`P05_REVIEW_HANDOFF.zip`
+
+Include:
+
+- Sanitized complete runtime source.
+- Security definitions.
+- Views and frontend assets.
+- Tests and redistributable fixtures.
+- Verification scripts.
+- Development report.
+- Requirements traceability.
+- Governing requirements.
+- P05 issue register.
+- Owner action report.
+- Actual test logs.
+- Actual browser screenshots.
+- Research results.
+- Portfolio simulation results.
+- Acceptance results.
+- Evidence manifest.
+- Source hash manifest.
+
+Create a separate SHA-256 checksum file for the final ZIP.
+
+Exclude:
+
+- Credentials.
+- API keys.
+- Account codes.
+- PINs.
+- TOTP secrets and codes.
+- Authentication tokens.
+- Private account records.
+- Production databases.
+- Unauthorized market datasets.
+- Virtual environments.
+- Sensitive runtime files.
+
+Verify archive integrity and perform secret checks.
+
+The handoff must support independent source and test verification.
+
+---
+
+### 49. P05 Completion Gate
+
+The highest priority technical exit targets are:
+
+- Working bounded historical acquisition workflow.
+- Unified data eligibility.
+- Measurable expansion of core research engines.
+- Multiple distinct research strategies.
+- Multi-instrument shared-capital replay.
+- Independent portfolio risk enforcement.
+- Temporal validation infrastructure.
+- Centralized decision gates.
+- Integrated professional research dashboard.
+
+These targets must be verified through actual implementation and tests.
+
+If a target remains incomplete, report the precise blocker and preserve its open requirement.
+
+Do not declare P05 functionally complete merely because its regression tests pass.
+
+Choose the highest justified readiness classification:
+
+- DEVELOPMENT INCOMPLETE.
+- FOUNDATION VERIFIED.
+- HISTORICAL RESEARCH READY.
+- PAPER TRADING TEST READY.
+- VERIFIED RESEARCH BETA.
+- VALIDATED RESEARCH RELEASE READY.
+
+Always qualify the scope.
+
+External financial validation remains separate from software readiness.
+
+Real-money execution and actionable real-market recommendations remain prohibited.
+
+---
+
+### 50. Final Agentic Execution Instruction
+
+Begin actual implementation immediately.
+
+Prioritize genuine quantitative functionality.
+
+Complete the historical acquisition path.
+
+Expand the research algorithms.
+
+Implement multiple strategies.
+
+Establish portfolio replay and risk protection.
+
+Implement temporal validation.
+
+Deliver the centralized decision engine.
+
+Build a professional research terminal backed by actual database records.
+
+Execute actual tests.
+
+Repair confirmed failures.
+
+Preserve all prior successful functionality.
+
+Produce the updated report and sanitized handoff package.
+
+At completion print the following terminal summary using actual measured values:
+
+```text
+PROJECT: Golok AI Trading Lab Pro
+MILESTONE: P05
+
+P04 BASELINE PRESERVED:
+PREVIOUS REGRESSION:
+REVIEW FINDINGS RESOLVED:
+REVIEW FINDINGS OPEN:
+
+SMARTAPI SESSION STATUS:
+ACTUAL AUTHENTICATION STATUS:
+HISTORICAL PLANNER STATUS:
+FIXTURE INGESTION STATUS:
+AUTHORIZED HISTORY STATUS:
+QUOTE STATUS:
+STREAMING STATUS:
+OWNER ACTION REQUIRED:
+
+INDICATORS IMPLEMENTED:
+INDICATORS FULLY VERIFIED:
+
+RESEARCH ENGINES COMPLETE:
+RESEARCH ENGINES PARTIAL:
+RESEARCH ENGINES NOT STARTED:
+NEW ENGINES IMPLEMENTED IN P05:
+
+STRATEGIES IMPLEMENTED:
+NEW STRATEGIES IN P05:
+STRATEGIES FINANCIALLY VALIDATED:
+
+MULTI-INSTRUMENT REPLAY STATUS:
+PORTFOLIO ACCOUNTING STATUS:
+PORTFOLIO RISK STATUS:
+TRANSACTION COST STATUS:
+
+SEALED PARTITION STATUS:
+HOLDOUT CONTROL STATUS:
+WALK-FORWARD STATUS:
+ACTUAL HISTORICAL EXPERIMENTS:
+
+MASTER DECISION ENGINE STATUS:
+DECISION GATES VERIFIED:
+CANDIDATE RANKING STATUS:
+
+AUTOMATIC RESEARCH STATUS:
+WORKER RECOVERY STATUS:
+PAPER TRADING STATUS:
+
+PROFESSIONAL SCANNER STATUS:
+STOCK TERMINAL STATUS:
+STRATEGY LABORATORY STATUS:
+RISK DASHBOARD STATUS:
+
+TESTS EXECUTED:
+TESTS PASSED:
+TESTS FAILED:
+TESTS BLOCKED:
+TESTS SKIPPED:
+TEST GROUPS NOT RUN:
+
+NEW BUSINESS CAPABILITIES VERIFIED:
+P05 ACCEPTANCE COVERAGE:
+ORIGINAL REQUIREMENTS COVERAGE:
+
+PERFORMANCE RESULTS:
+MEMORY RESULTS:
+CRITICAL BLOCKERS:
+CURRENT READINESS:
+
+REAL ORDER EXECUTION: PROHIBITED
+ACTIONABLE REAL-MARKET RECOMMENDATIONS: DISABLED
+
+DEVELOPMENT REPORT PATH:
+OWNER ACTION REPORT PATH:
+EVIDENCE MANIFEST PATH:
+SOURCE MANIFEST PATH:
+REVIEW HANDOFF ZIP PATH:
+REVIEW HANDOFF SHA-256:
+
+NEXT RECOMMENDED MILESTONE:
+```
+
+Do not fabricate results.
+
+Do not force positive profitability.
+
+Build trustworthy research intelligence, realistic financial simulations, disciplined risk protection and professional usability.
+
+CAPITAL PROTECTION FIRST — PROFIT OPTIMIZATION SECOND.
+
+END OF MASTER DEVELOPMENT PROMPT 05.

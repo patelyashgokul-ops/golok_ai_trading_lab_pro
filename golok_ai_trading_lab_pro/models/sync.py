@@ -8,7 +8,7 @@ from odoo.exceptions import AccessError, UserError, ValidationError
 
 from ..services import ingestion, market_data
 from ..services.smartapi import ProviderError, SmartAPI
-from .provider import _SESSION_LOCK, _SESSIONS, cached_client
+from . import provider
 
 _ADMIN = "golok_ai_trading_lab_pro.group_admin"
 
@@ -51,11 +51,11 @@ class Synchronization(models.Model):
     @api.model
     def _client(self):
         if environ.get("GOLOK_SMARTAPI_AUTHORIZED") != "1":
-            _SESSIONS.pop(self.env.cr.dbname, None)
+            provider._SESSIONS.pop(self.env.cr.dbname, None)
             raise ProviderError("LOCAL_AUTHORIZATION_REQUIRED")
         if environ.get("GOLOK_SMARTAPI_HISTORY_OPEN_STAMPED") != "1":
             raise ProviderError("LOCAL_AUTHORIZATION_REQUIRED")
-        return cached_client(self.env.cr.dbname)
+        return provider.cached_client(self.env.cr.dbname)
 
     @api.model
     def _fetch(self, wizard, session):
@@ -66,7 +66,7 @@ class Synchronization(models.Model):
             client._token = "fixture"
             return client.history(wizard.mapping_id.exchange, wizard.mapping_id.token, wizard.interval,
                                   session.opening, session.closing), client.last_success
-        if not _SESSION_LOCK.acquire(blocking=False):
+        if not provider._SESSION_LOCK.acquire(blocking=False):
             raise ProviderError("PROVIDER_BUSY")
         try:
             client = self._client()
@@ -79,12 +79,12 @@ class Synchronization(models.Model):
                                       session.opening, session.closing), client.last_success
             except ProviderError:
                 if client.state == "AUTH_REQUIRED":
-                    _SESSIONS.pop(self.env.cr.dbname, None)
+                    provider._SESSIONS.pop(self.env.cr.dbname, None)
                 raise
             finally:
                 client._quota = None
         finally:
-            _SESSION_LOCK.release()
+            provider._SESSION_LOCK.release()
 
     @api.model
     def _run(self, wizard):
