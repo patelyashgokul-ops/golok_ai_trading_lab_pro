@@ -219,6 +219,8 @@ class TestLab(TransactionCase):
         result = json.loads(experiment.result)
         self.assertEqual(experiment.status, "completed")
         self.assertEqual(experiment.trade_count, 2)
+        self.assertEqual(set(json.loads(experiment.specification)["code_digests"]),
+                         {"experiments", "backtest", "calendar", "simulation"})
         self.assertEqual([day["status"] for day in result["days"]], ["REPLAYED", "REPLAYED"])
         self.assertEqual(result["metrics"]["consecutive_losses"], 2)
         with self.assertRaises(AccessError):
@@ -268,6 +270,10 @@ class TestLab(TransactionCase):
             setup.action_check_configuration()
             setup.action_test_authentication()
         self.assertEqual(setup.status, "OFFLINE")
+        with self.assertRaises(ValidationError):
+            setup.write({"status": "CONNECTED"})
+        with self.assertRaises(ValidationError):
+            self.env[setup._name].with_user(self.admin).create({"status": "CONNECTED"})
         with self.assertRaises(AccessError):
             self.env[setup._name].with_user(self.analyst).create({})
 

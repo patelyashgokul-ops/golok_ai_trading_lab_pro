@@ -1,0 +1,5 @@
+Intel(R) Core(TM) i5-10210U CPU @ 1.60GHz
+Microsoft Windows NT 10.0.26300.0
+Python 3.14.6; physical=4 logical=8; total=16918601728; available=4071284736
+postgres (PostgreSQL) 18.4
+Odoo Server 20.0

@@ -2,8 +2,8 @@ from os import environ
 
 from psycopg2 import errors
 
-from odoo import _, fields, models
-from odoo.exceptions import AccessError
+from odoo import _, api, fields, models
+from odoo.exceptions import AccessError, ValidationError
 
 from ..services.smartapi import CAPABILITIES, ProviderError, SmartAPI
 
@@ -47,6 +47,17 @@ class ProviderSetup(models.TransientModel):
     details = fields.Text(readonly=True)
     checked_at = fields.Datetime(readonly=True)
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        if any(vals for vals in vals_list):
+            raise ValidationError(_("Diagnostics are computed by the server."))
+        return super(ProviderSetup, self.with_context({})).create(vals_list)
+
+    def write(self, vals):
+        if vals:
+            raise ValidationError(_("Run a diagnostic action to update the result."))
+        return super().write(vals)
+
     def _check_setup_rights(self):
         self.ensure_one()
         self.check_access("write")
@@ -54,7 +65,7 @@ class ProviderSetup(models.TransientModel):
             raise AccessError(_("Only Trading System Administrators may diagnose the provider."))
 
     def _finish(self, status, details):
-        self.write({"status": status, "details": details, "checked_at": fields.Datetime.now()})
+        super().write({"status": status, "details": details, "checked_at": fields.Datetime.now()})
         return {"type": "ir.actions.act_window", "res_model": self._name,
                 "res_id": self.id, "views": [(False, "form")], "target": "new"}
 

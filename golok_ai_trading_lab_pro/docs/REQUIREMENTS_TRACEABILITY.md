@@ -146,7 +146,7 @@ Original identifiers remain stable. The archived report preserves the historical
 | S07-014 | Scikit-learn | OPTIONAL | — | — | — | Technology option, excluded from functional coverage. |
 | S07-015 | XGBoost with controlled CPU resources | OPTIONAL | — | — | — | Technology option, excluded from functional coverage. |
 | S07-016 | Python standard library | OPTIONAL | — | — | — | Technology option, excluded from functional coverage. |
-| S07-017 | PostgreSQL | OPTIONAL | — | — | — | Technology option, excluded from functional coverage. |
+| S07-017 | PostgreSQL | COMPLETE | See P03 criterion or related service | See P03 execution inventory | docs/evidence/p03/COMMANDS.md | PostgreSQL is mandatory. P03 fresh/upgrade and independent constraints verified. |
 | S07-018 | Lightweight financial NLP dictionaries | OPTIONAL | — | — | — | Technology option, excluded from functional coverage. |
 | S07-019 | Native Odoo scheduled actions | OPTIONAL | — | — | — | Technology option, excluded from functional coverage. |
 | S07-020 | Bounded batch processing | PARTIAL | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | U04, P01 | `docs/evidence/performance/services.csv` | Current paths are bounded and manual. Add bounded scheduling when implemented. |
@@ -235,10 +235,10 @@ Original identifiers remain stable. The archived report preserves the historical
 | S10-001 | Create a standardized interface for the following 25 research capabilities | NOT_STARTED | — | — | — | Complete the engine contract and independently verify relevant engines. |
 | RE-01 | Technical Analysis | PARTIAL | `services/research.py`, `models/lab.py` | U06–U08, O05–O06 | `docs/evidence/tests/unit.log` | Three descriptive findings exist. Complete the remaining indicator set, evidence contract and engine methods. |
 | RE-02 | Fundamental Analysis | NOT_STARTED | — | — | — | Complete the engine contract and independently verify relevant engines. |
-| RE-03 | Price Action Analysis | NOT_STARTED | — | — | — | Complete the engine contract and independently verify relevant engines. |
-| RE-04 | Candlestick Pattern Analysis | NOT_STARTED | — | — | — | Complete the engine contract and independently verify relevant engines. |
+| RE-03 | Price Action Analysis | PARTIAL | See P03 criterion or related service | See P03 execution inventory | docs/evidence/p03/COMMANDS.md | Six-bar causal structural observations persisted and tested within the limited scope. |
+| RE-04 | Candlestick Pattern Analysis | PARTIAL | See P03 criterion or related service | See P03 execution inventory | docs/evidence/p03/COMMANDS.md | Objective candle body/wick geometry persisted and tested. Full pattern catalog remains open. |
 | RE-05 | Volume Intelligence | PARTIAL | `services/research.py`, `models/lab.py` | U06–U08, O05–O06 | `docs/evidence/tests/unit.log` | Three descriptive findings exist. Complete the remaining indicator set, evidence contract and engine methods. |
-| RE-06 | Support and Resistance | NOT_STARTED | — | — | — | Complete the engine contract and independently verify relevant engines. |
+| RE-06 | Support and Resistance | PARTIAL | See P03 criterion or related service | See P03 execution inventory | docs/evidence/p03/COMMANDS.md | Twenty preceding levels implemented, with current observation excluded. |
 | RE-07 | Breakout Detection | NOT_STARTED | — | — | — | Complete the engine contract and independently verify relevant engines. |
 | RE-08 | False Breakout Detection | NOT_STARTED | — | — | — | Complete the engine contract and independently verify relevant engines. |
 | RE-09 | Market Trend Analysis | NOT_STARTED | — | — | — | Complete the engine contract and independently verify relevant engines. |
@@ -251,7 +251,7 @@ Original identifiers remain stable. The archived report preserves the historical
 | RE-16 | Statistical Probability Estimation | NOT_STARTED | — | — | — | Complete the engine contract and independently verify relevant engines. |
 | RE-17 | Liquidity Analysis | NOT_STARTED | — | — | — | Complete the engine contract and independently verify relevant engines. |
 | RE-18 | Volatility Analysis | PARTIAL | `services/research.py`, `models/lab.py` | U06–U08, O05–O06 | `docs/evidence/tests/unit.log` | Three descriptive findings exist. Complete the remaining indicator set, evidence contract and engine methods. |
-| RE-19 | Momentum Analysis | NOT_STARTED | — | — | — | Complete the engine contract and independently verify relevant engines. |
+| RE-19 | Momentum Analysis | PARTIAL | See P03 criterion or related service | See P03 execution inventory | docs/evidence/p03/COMMANDS.md | Ten-transition momentum counts and net return implemented, with warm-up guards. |
 | RE-20 | Abnormal Market Activity Detection | NOT_STARTED | — | — | — | Complete the engine contract and independently verify relevant engines. |
 | RE-21 | Entry Optimization | NOT_STARTED | — | — | — | Complete the engine contract and independently verify relevant engines. |
 | RE-22 | Stop-Loss Optimization | NOT_STARTED | — | — | — | Complete the engine contract and independently verify relevant engines. |
@@ -285,24 +285,24 @@ Original identifiers remain stable. The archived report preserves the historical
 | S10-026 | Do not force every research capability to influence every intraday signal. Apply relevant engines according to strategy type and data availability | NOT_STARTED | — | — | — | Complete the engine contract and independently verify relevant engines. |
 | S11-001 | Implement mathematically correct, independently tested indicators | PARTIAL | `services/research.py`, `models/lab.py` | U06–U08, O05–O06 | `docs/evidence/tests/unit.log` | Three descriptive findings exist. Complete the remaining indicator set, evidence contract and engine methods. |
 | S11-002 | SMA | PARTIAL | `services/research.py`, `models/lab.py` | U06–U08, O05–O06 | `docs/evidence/tests/unit.log` | Three descriptive findings exist. Complete the remaining indicator set, evidence contract and engine methods. |
-| S11-003 | EMA | NOT_STARTED | — | — | — | Implement and test remaining indicators and time/session behavior. |
-| S11-004 | RSI | NOT_STARTED | — | — | — | Implement and test remaining indicators and time/session behavior. |
-| S11-005 | MACD | NOT_STARTED | — | — | — | Implement and test remaining indicators and time/session behavior. |
+| S11-003 | EMA | PARTIAL | `services/indicators.py` | unit_p02.IndicatorsTests | docs/evidence/p03/unit/python.log | Implemented as a causal series. Complete independent input/tolerance coverage pending. |
+| S11-004 | RSI | PARTIAL | `services/indicators.py` | unit_p02.IndicatorsTests | docs/evidence/p03/unit/python.log | Implemented as a causal series. Complete independent input/tolerance coverage pending. |
+| S11-005 | MACD | PARTIAL | `services/indicators.py` | unit_p02.IndicatorsTests | docs/evidence/p03/unit/python.log | Implemented as a causal series. Complete independent input/tolerance coverage pending. |
 | S11-006 | ATR | PARTIAL | `services/research.py`, `models/lab.py` | U06–U08, O05–O06 | `docs/evidence/tests/unit.log` | Three descriptive findings exist. Complete the remaining indicator set, evidence contract and engine methods. |
-| S11-007 | VWAP | NOT_STARTED | — | — | — | Implement and test remaining indicators and time/session behavior. |
-| S11-008 | ADX | NOT_STARTED | — | — | — | Implement and test remaining indicators and time/session behavior. |
-| S11-009 | Bollinger Bands | NOT_STARTED | — | — | — | Implement and test remaining indicators and time/session behavior. |
-| S11-010 | Stochastic Oscillator | NOT_STARTED | — | — | — | Implement and test remaining indicators and time/session behavior. |
+| S11-007 | VWAP | PARTIAL | `services/indicators.py` | unit_p02.IndicatorsTests | docs/evidence/p03/unit/python.log | Implemented as a causal series. Complete independent input/tolerance coverage pending. |
+| S11-008 | ADX | PARTIAL | `services/indicators.py` | unit_p02.IndicatorsTests | docs/evidence/p03/unit/python.log | Implemented as a causal series. Complete independent input/tolerance coverage pending. |
+| S11-009 | Bollinger Bands | PARTIAL | `services/indicators.py` | unit_p02.IndicatorsTests | docs/evidence/p03/unit/python.log | Implemented as a causal series. Complete independent input/tolerance coverage pending. |
+| S11-010 | Stochastic Oscillator | PARTIAL | `services/indicators.py` | unit_p02.IndicatorsTests | docs/evidence/p03/unit/python.log | Implemented as a causal series. Complete independent input/tolerance coverage pending. |
 | S11-011 | Relative Volume | PARTIAL | `services/research.py`, `models/lab.py` | U06–U08, O05–O06 | `docs/evidence/tests/unit.log` | Three descriptive findings exist. Complete the remaining indicator set, evidence contract and engine methods. |
-| S11-012 | Rate of Change | NOT_STARTED | — | — | — | Implement and test remaining indicators and time/session behavior. |
-| S11-013 | On-Balance Volume | NOT_STARTED | — | — | — | Implement and test remaining indicators and time/session behavior. |
-| S11-014 | Historical Volatility | NOT_STARTED | — | — | — | Implement and test remaining indicators and time/session behavior. |
-| S11-015 | Rolling Highs and Lows | NOT_STARTED | — | — | — | Implement and test remaining indicators and time/session behavior. |
-| S11-016 | Opening Range | NOT_STARTED | — | — | — | Implement and test remaining indicators and time/session behavior. |
-| S11-017 | Relative Strength | NOT_STARTED | — | — | — | Implement and test remaining indicators and time/session behavior. |
-| S11-018 | Price Gaps | NOT_STARTED | — | — | — | Implement and test remaining indicators and time/session behavior. |
-| S11-019 | Volume Spikes | NOT_STARTED | — | — | — | Implement and test remaining indicators and time/session behavior. |
-| S11-020 | Trend Slopes | NOT_STARTED | — | — | — | Implement and test remaining indicators and time/session behavior. |
+| S11-012 | Rate of Change | PARTIAL | `services/indicators.py` | unit_p02.IndicatorsTests | docs/evidence/p03/unit/python.log | Implemented as a causal series. Complete independent input/tolerance coverage pending. |
+| S11-013 | On-Balance Volume | PARTIAL | `services/indicators.py` | unit_p02.IndicatorsTests | docs/evidence/p03/unit/python.log | Implemented as a causal series. Complete independent input/tolerance coverage pending. |
+| S11-014 | Historical Volatility | PARTIAL | `services/indicators.py` | unit_p02.IndicatorsTests | docs/evidence/p03/unit/python.log | Implemented as a causal series. Complete independent input/tolerance coverage pending. |
+| S11-015 | Rolling Highs and Lows | PARTIAL | `services/indicators.py` | unit_p02.IndicatorsTests | docs/evidence/p03/unit/python.log | Implemented as a causal series. Complete independent input/tolerance coverage pending. |
+| S11-016 | Opening Range | PARTIAL | `services/indicators.py` | unit_p02.IndicatorsTests | docs/evidence/p03/unit/python.log | Implemented as a causal series. Complete independent input/tolerance coverage pending. |
+| S11-017 | Relative Strength | PARTIAL | `services/indicators.py` | unit_p02.IndicatorsTests | docs/evidence/p03/unit/python.log | Implemented as a causal series. Complete independent input/tolerance coverage pending. |
+| S11-018 | Price Gaps | PARTIAL | `services/indicators.py` | unit_p02.IndicatorsTests | docs/evidence/p03/unit/python.log | Implemented as a causal series. Complete independent input/tolerance coverage pending. |
+| S11-019 | Volume Spikes | PARTIAL | `services/indicators.py` | unit_p02.IndicatorsTests | docs/evidence/p03/unit/python.log | Implemented as a causal series. Complete independent input/tolerance coverage pending. |
+| S11-020 | Trend Slopes | PARTIAL | `services/indicators.py` | unit_p02.IndicatorsTests | docs/evidence/p03/unit/python.log | Implemented as a causal series. Complete independent input/tolerance coverage pending. |
 | S11-021 | 1 minute | NOT_STARTED | — | — | — | Implement and test remaining indicators and time/session behavior. |
 | S11-022 | 3 minutes | NOT_STARTED | — | — | — | Implement and test remaining indicators and time/session behavior. |
 | S11-023 | 5 minutes | NOT_STARTED | — | — | — | Implement and test remaining indicators and time/session behavior. |
@@ -314,7 +314,7 @@ Original identifiers remain stable. The archived report preserves the historical
 | S11-029 | Never generate misleading values from insufficient historical observations | NOT_STARTED | — | — | — | Implement and test remaining indicators and time/session behavior. |
 | S11-030 | Prevent look-ahead bias in every indicator and feature calculation | PARTIAL | `services/research.py`, `models/lab.py` | U07, O05 | `docs/evidence/tests/unit.log` | Close-time cutoff proven by snapshot assertion if ORM passes. Point-in-time vendor availability, survivorship and future execution tests remain. |
 | S12-001 | Implement a versioned and extensible strategy framework | NOT_STARTED | — | — | — | Implement and independently validate a versioned research-only candidate. |
-| ST-01 | Opening Range Breakout | PARTIAL | `services/backtest.py` | P02-BT-01 | `docs/evidence/p02/backtesting/synthetic.json` | Synthetic only. No financial validation. |
+| ST-01 | Opening Range Breakout | PARTIAL | See P03 criterion or related service | See P03 execution inventory | docs/evidence/p03/COMMANDS.md | Multi-session Odoo synthetic replay verified. No authorized financial validation. |
 | ST-02 | VWAP Pullback | NOT_STARTED | — | — | — | Implement and independently validate a versioned research-only candidate. |
 | ST-03 | VWAP Reclaim | NOT_STARTED | — | — | — | Implement and independently validate a versioned research-only candidate. |
 | ST-04 | Trend Following | NOT_STARTED | — | — | — | Implement and independently validate a versioned research-only candidate. |
@@ -802,15 +802,15 @@ Original identifiers remain stable. The archived report preserves the historical
 | INV-06 | No look-ahead bias | PARTIAL | `services/research.py`, `models/lab.py` | U07, O05 | `docs/evidence/tests/unit.log` | Close-time cutoff proven by snapshot assertion if ORM passes. Point-in-time vendor availability, survivorship and future execution tests remain. |
 | INV-07 | No future information in historical decisions | PARTIAL | `services/research.py`, `models/lab.py` | U07, O05 | `docs/evidence/tests/unit.log` | Close-time cutoff proven by snapshot assertion if ORM passes. Point-in-time vendor availability, survivorship and future execution tests remain. |
 | INV-08 | No duplicate market data records | COMPLETE | `services/market_data.py`, `wizard/lab.py`, `models/lab.py` | O03–O04, O08 | `docs/evidence/installation/{fresh,upgrade}.log`, `docs/evidence/security/contention.log` | — |
-| INV-09 | No duplicate paper-trade execution | NOT_STARTED | — | — | — | Required when virtual execution, costs and sizing are implemented. |
+| INV-09 | No duplicate paper-trade execution | PARTIAL | See P03 criterion or related service | See P03 execution inventory | docs/evidence/p03/COMMANDS.md | Historical journal fill idempotency verified under actual overlap; prospective lifecycle pending. |
 | INV-10 | No misleading profit guarantees | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
 | INV-11 | No uncalibrated score represented as probability | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
 | INV-12 | No unauthorized broker credential exposure | PARTIAL | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | No credential field or adapter exists. Add real sensitive-field and logging tests when integration is implemented. |
 | INV-13 | No strategy promotion without validation | GUARD_ONLY | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Scope guard holds for existing paths. Future features need their own enforcement and tests. |
 | INV-14 | No retrospective performance manipulation | PARTIAL | `services/research.py`, `models/lab.py` | O05, O07 | `docs/evidence/installation/{fresh,upgrade}.log` | Snapshot input hashes and role-level immutability exist. Add experiment parameters, amendments and prospective outcomes. |
 | INV-15 | No silent synthetic-data substitution | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
-| INV-16 | No ignoring material transaction costs in net returns | NOT_STARTED | — | — | — | Required when virtual execution, costs and sizing are implemented. |
-| INV-17 | No invalid position sizing | NOT_STARTED | — | — | — | Required when virtual execution, costs and sizing are implemented. |
+| INV-16 | No ignoring material transaction costs in net returns | PARTIAL | See P03 criterion or related service | See P03 execution inventory | docs/evidence/p03/COMMANDS.md | Hypothetical synthetic fees verified; actual fee reconciliation unavailable. |
+| INV-17 | No invalid position sizing | PARTIAL | See P03 criterion or related service | See P03 execution inventory | docs/evidence/p03/COMMANDS.md | Synthetic cash sizing and independent risk veto exercised. |
 | INV-18 | No cross-company unauthorized access | COMPLETE | `security/ir.access.csv`, `models/lab.py` | O07 | `docs/evidence/installation/{fresh,upgrade}.log` | Add regression checks for future features and independent API calls. |
 | INV-19 | No risk veto overridden by signal score | GUARD_ONLY | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Scope guard holds for existing paths. Future features need their own enforcement and tests. |
 | INV-20 | No forced daily trading recommendation | COMPLETE | `__manifest__.py`, `models/lab.py` | S01 | `docs/evidence/security/source-scan.log` | Recheck when new paths are introduced. |
@@ -960,14 +960,14 @@ Original identifiers remain stable. The archived report preserves the historical
 | AC-028 | Out-of-sample validation | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
 | AC-029 | Walk-forward testing | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
 | AC-030 | Reproducible research experiments | PARTIAL | `services/research.py`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Synthetic code and data hashes verified. Holdout workflow pending. |
-| AC-031 | Automatic paper trading | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
-| AC-032 | Virtual cash integrity | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
-| AC-033 | Paper execution idempotency | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
-| AC-034 | Paper portfolio reporting | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
+| AC-031 | Automatic paper trading | PARTIAL | See P03 criterion or related service | See P03 execution inventory | docs/evidence/p03/COMMANDS.md | Virtual historical posting exists; prospective paper execution disabled. |
+| AC-032 | Virtual cash integrity | PARTIAL | See P03 criterion or related service | See P03 execution inventory | docs/evidence/p03/COMMANDS.md | Virtual historical cash and reservations reconcile atomically. |
+| AC-033 | Paper execution idempotency | PARTIAL | See P03 criterion or related service | See P03 execution inventory | docs/evidence/p03/COMMANDS.md | Historical batch idempotency verified with independent PostgreSQL transactions. |
+| AC-034 | Paper portfolio reporting | PARTIAL | See P03 criterion or related service | See P03 execution inventory | docs/evidence/p03/COMMANDS.md | Persisted virtual accounts and journal. Portfolio/equity reporting incomplete. |
 | AC-035 | Strategy performance tracking | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
 | AC-036 | Recommendation monitoring | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
-| AC-037 | Automatic research scheduling | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
-| AC-038 | Scheduler concurrency protection | NOT_STARTED | — | — | — | See criterion-specific verification in report §13. |
+| AC-037 | Automatic research scheduling | PARTIAL | See P03 criterion or related service | See P03 execution inventory | docs/evidence/p03/COMMANDS.md | Bounded historical Odoo queue and inactive cron; daily/market scheduler absent. |
+| AC-038 | Scheduler concurrency protection | PARTIAL | See P03 criterion or related service | See P03 execution inventory | docs/evidence/p03/COMMANDS.md | Skip-locked claim implemented; independent job claim testing pending. |
 | AC-039 | Premium dashboard operational | PARTIAL | `static/src/`, `views/lab.xml`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Native historical plot and company KPI additions. Full dashboards A–I incomplete. |
 | AC-040 | Dashboard KPI correctness | COMPLETE | `static/src/`, `views/lab.xml`, `models/lab.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Current overview KPI/fixture chart values verified in Edge. |
 | AC-041 | Real browser UI verified | PARTIAL | `scripts/verify_browser.py` | See P02 test inventory | `docs/evidence/p02/manifest.sha256` | Six focused real-browser checks. Full chart/filters/themes coverage incomplete. |
@@ -1253,7 +1253,7 @@ Original identifiers remain stable. The archived report preserves the historical
 | P02-AC-006 | Exchange calendar service implemented | PASSED | Explicit versioned NSE and BSE calendar records | services/calendar.py; unit/python.log |
 | P02-AC-007 | Session-aware candle validation | PASSED | Grid mismatch, closed days, cutoffs and missing observations | installation/fresh.log; unit/python.log |
 | P02-AC-008 | Point-in-time data contract | PASSED | Opening, closing, publication, ingestion and cutoff semantics | models/lab.py; installation/fresh.log |
-| P02-AC-009 | Instrument reference mapping integrity | PARTIAL | Independent reference resolver; ORM persistence and provider wiring pending | services/reference.py; unit/python.log |
+| P02-AC-009 | Instrument reference mapping integrity | PASSED | Effective-dated identity, P03 overlap race and company isolation verified. | docs/evidence/p03/COMMANDS.md |
 | P02-AC-010 | Data quality eligibility enforcement | PARTIAL | Temporal and quarantine guards; source verification and unified eligibility incomplete | models/lab.py; installation/fresh.log |
 | P02-AC-011 | Synthetic-data isolation | PASSED | Fixtures have explicit origin and calendar constraints | models/lab.py; unit/python.log |
 | P02-AC-012 | Read-only provider interface | PASSED | Fixed REST allowlist and disabled default transport | services/smartapi.py; unit/python.log |
@@ -1267,16 +1267,16 @@ Original identifiers remain stable. The archived report preserves the historical
 | P02-AC-020 | Effective-dated transaction costs | PASSED | Decimal, per-side and effective-dated tariffs with hypothetical inputs | services/simulation.py; unit/python.log |
 | P02-AC-021 | Fee-aware position sizing | PASSED | Fee-adjusted capital, risk and liquidity constraints | services/simulation.py; unit/python.log |
 | P02-AC-022 | Independent risk veto | PASSED | Independent net reward-to-risk veto | services/simulation.py; unit/python.log |
-| P02-AC-023 | Versioned strategy framework | PARTIAL | Code-hashed ST-01 specification. Persistent framework and approval workflow pending. | services/backtest.py; backtesting/synthetic.json |
-| P02-AC-024 | ST-01 research strategy implementation | PARTIAL | Research-only synthetic single-session candidate. Full historical strategy cycle pending. | services/backtest.py; backtesting/synthetic.json |
+| P02-AC-023 | Versioned strategy framework | PARTIAL | Persistent ST-01 synthetic strategy version added. Full version workflow and promotion pending. | docs/evidence/p03/COMMANDS.md |
+| P02-AC-024 | ST-01 research strategy implementation | PASSED | Single-instrument synthetic ST-01 runs in Odoo across regular sessions. | docs/evidence/p03/COMMANDS.md |
 | P02-AC-025 | Conservative historical simulation | PASSED | Later openings, stop-first ambiguity and conservative exits in one-session replay | services/backtest.py; unit/python.log |
 | P02-AC-026 | Backtest reproducibility | PASSED | Frozen parameters, code and dataset digests; deterministic replay | services/backtest.py; backtesting/synthetic.json |
 | P02-AC-027 | Holdout isolation | PARTIAL | Partition label exists; temporal split and one-time holdout enforcement are missing | docs/BACKTEST_EXECUTION_POLICY.md |
 | P02-AC-028 | Financial performance provenance | PASSED | Synthetic provenance is explicit; no validated-market sample or reported market performance | backtesting/synthetic.json |
 | P02-AC-029 | Structured NO TRADE enforcement | PARTIAL | Existing NO TRADE and individual reasons; fourteen-gate pipeline incomplete | models/lab.py; installation/fresh.log |
 | P02-AC-030 | No actionable real-market recommendation leakage | PASSED | Historical/fixture-only decisions, no executable path | unit/python.log; security/source-scan.log |
-| P02-AC-031 | Virtual ledger integrity | NOT_RUN | Virtual ledger deferred pending broader validation | docs/DEVELOPMENT_PLAN.md |
-| P02-AC-032 | Virtual execution idempotency | NOT_RUN | Virtual fill idempotency deferred with ledger | docs/DEVELOPMENT_PLAN.md |
+| P02-AC-031 | Virtual ledger integrity | PASSED | Scoped historical-only virtual ledger reconciles exactly. | docs/evidence/p03/COMMANDS.md |
+| P02-AC-032 | Virtual execution idempotency | PASSED | Posting idempotency verified under overlapping PostgreSQL transactions. | docs/evidence/p03/COMMANDS.md |
 | P02-AC-033 | Premium OWL dashboard improvements | PARTIAL | Overview, chart, quarantine and data provenance; remaining terminal areas incomplete | static/src; browser/edge.log |
 | P02-AC-034 | Actual database-backed chart values | PASSED | Actual bounded chart values tested through the browser and ORM | browser/edge.log; installation/fresh.log |
 | P02-AC-035 | Authorized dashboard drill-downs | PASSED | Company and permission checked chart and existing native drill-down | browser/edge.log; installation/fresh.log |
@@ -2086,3 +2086,1095 @@ Original identifiers remain stable. The archived report preserves the historical
 | P02-S35-004 | PAPER TRADING TEST READY. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
 | P02-S35-005 | VERIFIED RESEARCH BETA. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
 | P02-S35-006 | VALIDATED RESEARCH RELEASE READY. | TRACKED | See corresponding P02 acceptance and gap sections | — | — | Line-level status roll-up is documented by P02 acceptance. |
+
+## P03 acceptance
+
+| Criterion | Requirement | Software verification | Scope and remaining work | Evidence paths |
+| --- | --- | --- | --- | --- |
+| P03-AC-001 | P01 and P02 source preservation | PASSED | Verified P02 source ZIP; P01 source and evidence retained. | baseline/source.sha256 |
+| P03-AC-002 | Previous test regression executed | PASSED | Archived P02 standalone, ORM, contention and Edge suites executed; P02 suite includes P01 regressions. | baseline/p02-retest |
+| P03-AC-003 | Evidence manifests verified | PASSED | 10 P01 and 22 P02 evidence hashes, P02 source and final P03 evidence rechecked. | baseline/audit.log |
+| P03-AC-004 | Original traceability reconciled | PARTIAL | Selected implementation rows updated; unimplemented requirements and inherited IDs retained. | docs/REQUIREMENTS_TRACEABILITY.md |
+| P03-AC-005 | Execution counts independently reconciled | PARTIAL | P03 counts reconstructed per execution; P02 original totals retained as historical with a fresh baseline run. | COMMANDS.md |
+| P03-AC-006 | Persistent instrument mapping | PASSED | Versioned company mapping with native search and mapped datasets. | release/installation/fresh.log |
+| P03-AC-007 | Effective-date overlap prevention | PASSED | Database token, symbol and identity range guards; independently overlapping tokens rejected. | release/security/contention.log |
+| P03-AC-008 | Corporate action provenance | PASSED | Immutable effective date, publication time, source/revision and split ratio. | release/installation/fresh.log |
+| P03-AC-009 | Point-in-time universe integrity | BLOCKED | Historical membership and corporate adjustment source history unavailable. | docs/CORPORATE_ACTION_POLICY.md |
+| P03-AC-010 | Expanded exchange calendar | PASSED | Split windows, pre/post markers, truncated slots, UTC normalization and cross-segment rejection. | unit/python.log |
+| P03-AC-011 | Secure operational provider configuration | PASSED | Admin-only diagnostics, environment credentials and offline default. | release/installation/fresh.log |
+| P03-AC-012 | Real read-only transport implementation | PARTIAL | Fixed read-only REST transport exists; authenticated real transport not exercised. | baseline/unit.log; models/provider.py |
+| P03-AC-013 | Provider-to-ORM ingestion | NOT_RUN | An authorized provider-to-ORM market data pipeline remains unimplemented. | docs/MARKET_DATA_SOURCES.md |
+| P03-AC-014 | Shared provider rate limiting | PARTIAL | Database-shared diagnostic authentication pacing only; no unified limiter for all market requests. | models/provider.py |
+| P03-AC-015 | Historical integration verification | BLOCKED | No authorized historical SmartAPI request. | docs/PROVIDER_OPERATIONS.md |
+| P03-AC-016 | Live quote verification | BLOCKED | No authorized real quote. | docs/PROVIDER_OPERATIONS.md |
+| P03-AC-017 | Streaming integration verification | BLOCKED | No authorized WebSocket. | docs/PROVIDER_OPERATIONS.md |
+| P03-AC-018 | Provider failure recovery | PARTIAL | Existing sanitized timeouts and local pacing; automated credential or streaming recovery absent. | unit/python.log |
+| P03-AC-019 | Market data freshness enforcement | PARTIAL | Historical cutoff, session validation and NO TRADE; live market freshness contract absent. | release/installation/fresh.log |
+| P03-AC-020 | Complete indicator reference tests | PARTIAL | 19 existing series rerun; full independent per-indicator boundary matrix incomplete. | unit/python.log |
+| P03-AC-021 | Versioned research registry | PARTIAL | Versioned four-engine supplemental registry; complete 25-engine framework pending. | services/research_v3.py |
+| P03-AC-022 | OHLCV-supported research engines | PARTIAL | Four additional OHLCV engines exercised; broader requested engine set remains partial. | unit/python.log |
+| P03-AC-023 | Research evidence persistence | PASSED | Immutable supplemental outputs with original digest, cutoff and duration. | release/installation/fresh.log |
+| P03-AC-024 | Market regime classification | NOT_RUN | No market-wide regime classifier. | docs/RESEARCH_ENGINE_CATALOG.md |
+| P03-AC-025 | Persistent tariff configuration | PASSED | Risk Manager company-scoped immutable hypothetical tariff revisions. | release/installation/fresh.log |
+| P03-AC-026 | Verified tariff provenance | BLOCKED | Verified tariff sourcing and reconciled contract-note data unavailable. | docs/TRANSACTION_COST_MODEL.md |
+| P03-AC-027 | Fee-aware risk calculation | PASSED | Reuses existing Decimal sizing and risk veto in replay. | unit/python.log |
+| P03-AC-028 | Aggregate portfolio risk enforcement | NOT_RUN | Aggregate portfolio risk and concentration limits remain open. | docs/RISK_POLICY.md |
+| P03-AC-029 | Persistent strategy registry | PARTIAL | Persistent ST-01 research version; promotion/approval and lifecycle incomplete. | views/p03.xml |
+| P03-AC-030 | Multi-session ST-01 | PASSED | Two regular synthetic sessions replayed with sequential virtual cash. | backtesting/synthetic-replay-ledger.json |
+| P03-AC-031 | Odoo backtesting workflow | PASSED | Native experiment wizard, result form and dashboard link working in tested scope. | release/installation/fresh.log; release/browser/edge.log |
+| P03-AC-032 | Immutable experiment specification | PARTIAL | Data, strategy, tariff, risk and calendar fingerprints; universe, benchmarks and sealed splits pending. | models/experiments.py |
+| P03-AC-033 | Multi-instrument historical replay | NOT_RUN | Only a single instrument can be replayed. | docs/VALIDATION_PROTOCOL.md |
+| P03-AC-034 | Conservative execution verification | PASSED | Rejects unavailable opens and stops at unknown calendar; stop-first conservative fixture. | unit/python.log |
+| P03-AC-035 | Financial metrics correctness | PARTIAL | Trade counts, net, costs, turnover and closing-equity drawdown; excursion/risk ratios not verified. | backtesting/synthetic-replay-ledger.json |
+| P03-AC-036 | Holdout isolation | NOT_RUN | No sealed holdout consumption control. | docs/VALIDATION_PROTOCOL.md |
+| P03-AC-037 | Walk-forward infrastructure | NOT_RUN | No walk-forward experiment source. | docs/VALIDATION_PROTOCOL.md |
+| P03-AC-038 | Financial validation provenance | BLOCKED | No authorized dataset or verified tariff suitable for financial validation. | docs/VALIDATION_PROTOCOL.md |
+| P03-AC-039 | Master decision gate enforcement | PARTIAL | NO TRADE and synthetic mode enforced; fourteen-gate engine incomplete. | release/installation/fresh.log |
+| P03-AC-040 | Research scoring transparency | NOT_RUN | No ranking or calibrated score. | docs/RESEARCH_ENGINE_CATALOG.md |
+| P03-AC-041 | Atomic virtual cash ledger | PASSED | Historical virtual cash and events are atomic and balanced. | release/security/contention.log |
+| P03-AC-042 | Reservation reconciliation | PASSED | Independent cash, reservation and quantity reconciliation re-executed. | unit/python.log |
+| P03-AC-043 | Virtual position integrity | PARTIAL | Closed replay positions reconcile; persistent open and partial lifecycle absent. | docs/PAPER_LEDGER_INVARIANTS.md |
+| P03-AC-044 | Fill idempotency | PASSED | Database unique batch, event identity and retry verified. | release/security/contention.log |
+| P03-AC-045 | Paper lifecycle verification | PARTIAL | Reserve/buy/close workflow for complete historical replay; prospective lifecycle excluded. | release/installation/fresh.log |
+| P03-AC-046 | Virtual ledger concurrency | PASSED | Actual overlap and idempotent retry produced precisely one reconciled batch. | release/security/contention.log |
+| P03-AC-047 | Paper restart recovery | NOT_RUN | No live worker restart scenario. | docs/PAPER_LEDGER_INVARIANTS.md |
+| P03-AC-048 | Historical/prospective separation | PARTIAL | Historical isolation enforced; no prospective implementation to verify. | docs/PAPER_LEDGER_INVARIANTS.md |
+| P03-AC-049 | Persistent background jobs | PASSED | Persistent historical queue and requester identity with bounded worker verified. | release/installation/fresh.log |
+| P03-AC-050 | Scheduler concurrency protection | PARTIAL | Skip-locked scheduler with no separate cross-worker job test. | models/jobs.py |
+| P03-AC-051 | Daily research orchestration | NOT_RUN | No exchange-triggered daily coordination. | docs/BACKGROUND_JOBS.md |
+| P03-AC-052 | Functional stock scanner | PARTIAL | Searchable mapping directory and native lists; full stock scanner pending. | views/p03.xml |
+| P03-AC-053 | Advanced stock research terminal | PARTIAL | Chart and supplemental drill-down work; overlays and expanded terminal controls pending. | release/browser/edge.log |
+| P03-AC-054 | Strategy dashboard | PARTIAL | Native synthetic experiments and verified dashboard drill-down. Strategy metrics/dashboard incomplete. | release/browser/edge.log |
+| P03-AC-055 | Paper portfolio dashboard | PARTIAL | Native virtual accounts and replay journal, plus one overview tile. Prospective metrics absent. | release/browser/edge.log |
+| P03-AC-056 | Risk control dashboard | NOT_RUN | No dedicated portfolio risk dashboard. | docs/RISK_POLICY.md |
+| P03-AC-057 | Provider health dashboard | PARTIAL | Offline administrator diagnostics, no live health dashboard. | release/installation/fresh.log |
+| P03-AC-058 | Daily research report | NOT_RUN | No daily aggregation view. | docs/BACKGROUND_JOBS.md |
+| P03-AC-059 | Dashboard KPI reconciliation | PASSED | Company-scoped card and chart values reconciled in browser and ORM. | release/browser/edge.log |
+| P03-AC-060 | Real browser verification | PASSED | Eight real Edge assertions, including mobile and RPC recovery. | release/browser/edge.log |
+| P03-AC-061 | End-to-end performance | PASSED | 50 instruments, 3,750 candles, 361 SQL statements measured. | migration/performance/orm.json |
+| P03-AC-062 | Resource pressure handling | PARTIAL | Bounded reads and job batches; no operating system pressure/failure injection suite. | docs/PERFORMANCE_LIMITS.md |
+| P03-AC-063 | Security regression | PARTIAL | ACLs, forgery, company roles, endpoint scope and race tests; comprehensive plan incomplete. | release/installation/fresh.log |
+| P03-AC-064 | Company isolation | PASSED | Baseline isolation plus cross-company mapping and scoped RPC results verified. | release/installation/fresh.log |
+| P03-AC-065 | No real-order execution | PASSED | Read-only operation allowlist, no mutable real broker or accounting paths. | release/security/source-scan.log; unit/python.log |
+| P03-AC-066 | No actionable real-market leakage | PASSED | Synthetic experiments and historical NO TRADE only. | release/browser/edge.log; unit/python.log |
+| P03-AC-067 | Fresh installation | PASSED | Actual Odoo 20 clean install passed 10 tests. | release/installation/fresh.log |
+| P03-AC-068 | Populated P02 upgrade | PASSED | Independent populated clone preserved records, snapshot hashes and 180 XML IDs. | migration/upgrade/retention.log |
+| P03-AC-069 | Complete owner documentation | PASSED | Owner instructions cover delivered offline workflows and provider prerequisites. | docs/OWNER_QUICK_START.md |
+| P03-AC-070 | Evidence-backed development handoff | PASSED | Report, criteria, evidence, sanitized source and archive checksum verified. | manifest.sha256; P03_REVIEW_HANDOFF.zip.sha256 |
+
+## P03 additional tracking IDs
+
+| ID | Original wording | Status | Scope |
+| --- | --- | --- | --- |
+| P03-S01-001 | Principal Odoo 20 Community architecture. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S01-002 | Senior Python engineering. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S01-003 | Quantitative financial research. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S01-004 | Financial market data engineering. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S01-005 | Angel One SmartAPI integration. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S01-006 | Statistical strategy validation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S01-007 | Financial risk management. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S01-008 | PostgreSQL transaction integrity. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S01-009 | Native OWL 3 frontend development. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S01-010 | Premium financial terminal UX/UI design. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S01-011 | Cybersecurity. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S01-012 | Performance engineering. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S01-013 | Automated quality assurance. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S01-014 | Evidence integrity and technical documentation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S02-001 | `docs/MASTER_REQUIREMENTS.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S02-002 | `DEVELOPMENT_REPORT.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S02-003 | `docs/REQUIREMENTS_TRACEABILITY.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S02-004 | `docs/ARCHITECTURE.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S02-005 | `docs/DEVELOPMENT_PLAN.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S02-006 | `docs/DECISION_LOG.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S02-007 | `docs/RISK_REGISTER.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S02-008 | `docs/history/DEVELOPMENT_REPORT_P01.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S02-009 | `docs/SMARTAPI_SETUP.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S02-010 | `docs/MARKET_DATA_SOURCES.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S02-011 | `docs/EXCHANGE_CALENDAR.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S02-012 | `docs/INDICATOR_FORMULAS.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S02-013 | `docs/BACKTEST_EXECUTION_POLICY.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S02-014 | `docs/TRANSACTION_COST_MODEL.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S02-015 | `docs/RISK_POLICY.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S02-016 | `docs/DASHBOARD_KPI_DEFINITIONS.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S02-017 | `README.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S02-018 | RE-01 through RE-25. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S02-019 | ST-01 through ST-20. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S02-020 | INV-01 through INV-30. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S02-021 | AC-001 through AC-050. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S02-022 | P02-AC-001 through P02-AC-040. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S02-023 | Original S-series requirement identifiers. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S02-024 | All 796 detailed P02 tracking identifiers. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S04-001 | Windows NT 10.0.26300. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S04-002 | Intel Core i5-10210U. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S04-003 | Four physical CPU cores. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S04-004 | Eight logical processors. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S04-005 | Approximately 16 GB RAM. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S04-006 | Approximately 3.4 GiB available memory during initial inspection. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S04-007 | Intel UHD integrated graphics. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S04-008 | No dedicated GPU. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S04-009 | Python 3.14.6. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S04-010 | PostgreSQL 18.4. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S04-011 | Odoo 20 Community. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S04-012 | Edge browser with Playwright. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S04-013 | Paid AI APIs. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S04-014 | OpenAI API. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S04-015 | Claude API. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S04-016 | Gemini API. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S04-017 | Local LLMs. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S04-018 | Ollama. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S04-019 | GPU acceleration. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S04-020 | Mandatory cloud services. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S04-021 | Mandatory paid analytics subscriptions. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S05-001 | Real broker order placement. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S05-002 | Real broker order modification. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S05-003 | Real broker order cancellation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S05-004 | Real-money automatic buying or selling. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S05-005 | Automatic use of actual account balances. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S05-006 | Fund transfers. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S05-007 | Automatic allocation of 25% of real capital. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S05-008 | Dormant or hidden real-order execution. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S05-009 | Unauthorized accounting mutations. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S06-001 | `models/lab.py` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S06-002 | `wizard/lab.py` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S06-003 | `services/calendar.py` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S06-004 | `services/market_data.py` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S06-005 | `services/reference.py` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S06-006 | `services/smartapi.py` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S06-007 | `services/research.py` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S06-008 | `services/indicators.py` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S06-009 | `services/simulation.py` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S06-010 | `services/backtest.py` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S06-011 | `static/src/` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S06-012 | `security/ir.access.csv` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S06-013 | `security/groups.xml` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S06-014 | `views/lab.xml` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S06-015 | `tests/` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S06-016 | `scripts/` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S06-017 | Standalone Python tests. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S06-018 | Fresh Odoo installation tests. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S06-019 | Module upgrade tests. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S06-020 | Populated historical upgrade tests. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S06-021 | Independent PostgreSQL contention tests. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S06-022 | Real Edge browser tests. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S06-023 | Source security checks. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S06-024 | Synthetic backtest reproduction. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S06-025 | AUD-001: P01 regression verification. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S06-026 | AUD-002: Prohibited-operation traceability semantics. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S06-027 | AUD-003: Research authorization before idempotent return. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S06-028 | ENV-02: PowerShell subprocess handling and test-port isolation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S07-001 | P01 source archive. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S07-002 | P01 evidence. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S07-003 | P02 source checkpoint. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S07-004 | P02 evidence manifest. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S07-005 | P02 development report. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S07-006 | P02 traceability baseline. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S08-001 | Original EMA, RSI, MACD and VWAP requirement rows. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S08-002 | Research engine V2 contract requirements. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S08-003 | Calendar-related requirements. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S08-004 | SmartAPI authentication and adapter requirements. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S08-005 | Transaction cost requirements. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S08-006 | Position sizing requirements. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S08-007 | Historical replay requirements. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S08-008 | Original acceptance criteria. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S08-009 | Business invariant implementation paths. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S08-010 | Actual implementation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S08-011 | Current source path. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S08-012 | Scope of implementation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S08-013 | Test identity. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S08-014 | Executed evidence. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S08-015 | Missing functionality. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S08-016 | External dependencies. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S08-017 | Current acceptance status. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S08-018 | An implemented capability. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S08-019 | A verified mandatory prohibition. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S08-020 | A temporary scope guard. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S08-021 | An optional dependency. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S08-022 | A partially working implementation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S08-023 | A blocked external test. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S08-024 | A fully validated feature. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S09-001 | Instruments. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S09-002 | Exchanges. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S09-003 | Trading segments. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S09-004 | Trading symbols. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S09-005 | ISIN identifiers. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S09-006 | Provider tokens. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S09-007 | Token validity periods. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S09-008 | Symbol changes. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S09-009 | Listing dates. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S09-010 | Delisting dates. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S09-011 | Suspension periods. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S09-012 | Tick sizes. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S09-013 | Lot sizes. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S09-014 | Sector classifications. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S09-015 | Corporate actions. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S09-016 | Reference data sources. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S09-017 | Source verification. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S09-018 | Import revisions. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S09-019 | Effective dates. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S10-001 | Stock splits. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S10-002 | Bonus issues. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S10-003 | Symbol changes. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S10-004 | Listing and delisting. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S10-005 | Suspensions. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S10-006 | Other relevant price-adjustment events. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S11-001 | Regular sessions. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S11-002 | Market holidays. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S11-003 | Special sessions. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S11-004 | Multiple session segments. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S11-005 | Pre-open periods. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S11-006 | Closing periods. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S11-007 | Intraday entry cutoffs. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S11-008 | Intraday exit cutoffs. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S11-009 | Early closes. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S11-010 | Trading interruptions. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S11-011 | Source provenance. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S11-012 | Session boundaries. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S11-013 | Truncated interval bars. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S11-014 | Missing final candles. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S11-015 | Cross-session gaps. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S11-016 | Asia/Kolkata and UTC conversion. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S11-017 | Exchange-specific differences. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S11-018 | Partial or split sessions. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S12-001 | https://smartapi.angelone.in/ | TRACKED | See P03-AC outcome and governing text. |
+| P03-S12-002 | https://smartapi.angelone.in/docs | TRACKED | See P03-AC outcome and governing text. |
+| P03-S12-003 | https://github.com/angel-one/smartapi-python | TRACKED | See P03-AC outcome and governing text. |
+| P03-S12-004 | Authentication requirements. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S12-005 | Account-specific market data entitlement. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S12-006 | Static IP requirements. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S12-007 | Historical data limits. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S12-008 | REST request limits. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S12-009 | WebSocket restrictions. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S12-010 | Supported exchanges. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S12-011 | Supported instrument types. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S12-012 | Data storage permissions. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S12-013 | Redistribution restrictions. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S12-014 | Relevant provider charges. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S12-015 | Provider setup. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S12-016 | Credential availability checking. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S12-017 | Connection diagnostics. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S12-018 | Authentication status. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S12-019 | Instrument synchronization. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S12-020 | Historical data synchronization. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S12-021 | Latest quote retrieval. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S12-022 | Connection health. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S12-023 | Session expiry. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S12-024 | Error recovery. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S13-001 | Explicit HTTPS destinations. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S13-002 | Approved endpoint paths. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S13-003 | Approved HTTP methods. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S13-004 | TLS verification. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S13-005 | Request timeouts. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S13-006 | Response size limits. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S13-007 | Response schema checks. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S13-008 | Safe error sanitation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S13-009 | Bounded retry policies. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S13-010 | Exponential backoff. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S13-011 | Rate-limit handling. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S13-012 | Redirect restrictions. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S14-001 | Historical download jobs. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S14-002 | Bounded request windows. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S14-003 | Download checkpoints. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S14-004 | Retry and recovery. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S14-005 | Idempotent imports. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S14-006 | Duplicate response handling. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S14-007 | Partial response handling. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S14-008 | Conflicting price handling. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S14-009 | Provider error classification. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S14-010 | Dataset quarantine. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S14-011 | Synchronization history. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S14-012 | Per-instrument freshness. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S14-013 | Source authorization metadata. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S14-014 | Market event time. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S14-015 | Source publication time. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S14-016 | Provider receipt time. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S14-017 | Local ingestion time. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S14-018 | Candle opening time. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S14-019 | Candle closing time. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S14-020 | Synthetic data. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S14-021 | Imported unverified data. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S14-022 | Authorized historical data. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S14-023 | Delayed data. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S14-024 | Verified live observations. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S14-025 | Quarantined data. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S15-001 | Authentication. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S15-002 | Subscription registry. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S15-003 | Subscription limits. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S15-004 | Heartbeat monitoring. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S15-005 | Reconnection. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S15-006 | Backoff. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S15-007 | Sequence validation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S15-008 | Out-of-order tick handling. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S15-009 | Duplicate tick handling. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S15-010 | Per-instrument freshness. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S15-011 | Bounded queues. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S15-012 | Overflow handling. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S15-013 | Reconnection reconciliation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S15-014 | Mark affected observations stale. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S15-015 | Block new simulation entries requiring fresh data. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S15-016 | Invalidate affected research eligibility. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S15-017 | Do not generate simulated fills from stale prices. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S15-018 | Preserve existing positions and historical records. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S15-019 | Expose the failure prominently. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S16-001 | Setup instructions. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S16-002 | Provider capability summary. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S16-003 | Credentials configured indicator. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S16-004 | Static IP requirement information. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S16-005 | Authorization status. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S16-006 | Connection test action. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S16-007 | Session status. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S16-008 | Historical data test action. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S16-009 | Quote retrieval test action. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S16-010 | Last successful synchronization. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S16-011 | Sanitized error explanation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S16-012 | Next required action. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S16-013 | NOT CONFIGURED. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S16-014 | AUTHORIZATION REQUIRED. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S16-015 | OFFLINE. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S16-016 | CONNECTING. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S16-017 | CONNECTED. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S16-018 | DEGRADED. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S16-019 | RATE LIMITED. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S16-020 | STALE. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S16-021 | BLOCKED. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S16-022 | ERROR. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-001 | SMA. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-002 | EMA. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-003 | RSI. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-004 | MACD. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-005 | ATR. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-006 | VWAP. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-007 | ADX. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-008 | Bollinger Bands. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-009 | Stochastic Oscillator. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-010 | Relative Volume. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-011 | Rate of Change. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-012 | On-Balance Volume. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-013 | Historical Volatility. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-014 | Rolling Highs and Lows. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-015 | Opening Range. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-016 | Relative Strength. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-017 | Price Gaps. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-018 | Volume Spikes. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-019 | Trend Slopes. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-020 | Exact formula. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-021 | Initialization. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-022 | Smoothing convention. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-023 | Required warm-up. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-024 | Numerical tolerance. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-025 | Session behavior. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-026 | Missing-data behavior. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-027 | Input validity. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-028 | Benchmark dependency. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-029 | Algorithm version. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-030 | Constant price series. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-031 | Increasing and decreasing prices. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-032 | Price gaps. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-033 | Zero volume. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-034 | Missing observations. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-035 | Invalid numerical values. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-036 | Very short datasets. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-037 | Multiple sessions. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-038 | Different intervals. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-039 | Benchmark alignment. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-040 | Extreme values. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-041 | Prefix invariance. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S17-042 | Incremental versus full calculation consistency. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S18-001 | Engine ID and version. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S18-002 | Required inputs. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S18-003 | Optional inputs. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S18-004 | Applicable strategies. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S18-005 | Data eligibility requirements. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S18-006 | Minimum sample size. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S18-007 | Execution limits. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S18-008 | Output schema. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S18-009 | Evidence format. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S18-010 | Known limitations. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S18-011 | Company. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S18-012 | Instrument. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S18-013 | Dataset identity. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S18-014 | Dataset digest. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S18-015 | Research cutoff. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S18-016 | Calculation version. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S18-017 | Result state. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S18-018 | Supporting observations. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S18-019 | Contradictory observations. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S18-020 | Missing inputs. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S18-021 | Warnings. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S18-022 | Execution duration. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S18-023 | COMPLETED. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S18-024 | NOT_APPLICABLE. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S18-025 | INSUFFICIENT_DATA. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S18-026 | STALE_DATA. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S18-027 | ERROR. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S20-001 | RE-02 Fundamental Analysis. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S20-002 | RE-10 Sector Performance. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S20-003 | RE-11 Benchmark Index Analysis. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S20-004 | RE-12 Global Market Context. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S20-005 | RE-13 Financial News and Event Analysis. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S20-006 | RE-14 Institutional Activity Proxies. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S21-001 | Bullish trend. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S21-002 | Bearish trend. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S21-003 | Range-bound market. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S21-004 | High volatility. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S21-005 | Low volatility. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S21-006 | Strong momentum. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S21-007 | Weak momentum. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S21-008 | Abnormal stress. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S21-009 | Insufficient evidence. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S22-001 | Brokerage. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S22-002 | Securities Transaction Tax. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S22-003 | Exchange transaction charges. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S22-004 | SEBI charges. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S22-005 | GST. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S22-006 | Stamp duty. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S22-007 | Spread. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S22-008 | Slippage. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S22-009 | Other verified costs. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S22-010 | Source. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S22-011 | Verification date. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S22-012 | Effective date range. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S22-013 | Exchange. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S22-014 | Instrument segment. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S22-015 | Transaction side. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S22-016 | Charge basis. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S22-017 | Percentage or fixed amount. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S22-018 | Minimum and maximum charge. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S22-019 | Rounding policy. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S22-020 | Verification status. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S22-021 | Hypothetical tariffs. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S22-022 | Estimated tariffs. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S22-023 | Verified tariffs. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S23-001 | Planned per-trade risk: 0.5%. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S23-002 | Planned daily loss threshold: 1%. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S23-003 | Maximum daily paper entries: 3. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S23-004 | Pause after two consecutive losing trades. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S23-005 | Minimum planned net reward-to-risk ratio: 2:1. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S23-006 | Preferred ratio: 3:1. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S23-007 | No leverage. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S23-008 | No averaging losing positions. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S23-009 | No martingale. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S23-010 | Long-only simulation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S23-011 | No planned overnight intraday positions. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S23-012 | Fee-aware position sizing. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S23-013 | Capital reservation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S23-014 | Aggregate portfolio exposure. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S23-015 | Existing open-position risk. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S23-016 | Remaining daily risk budget. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S23-017 | Sector concentration. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S23-018 | Correlation risk where evidence is available. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S23-019 | Maximum concurrent exposure. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S23-020 | Liquidity restrictions. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S23-021 | Daily loss monitoring. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S23-022 | Consecutive-loss monitoring. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S23-023 | Risk suspension. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S23-024 | Paper trading kill switch. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S24-001 | Strategy definitions. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S24-002 | Strategy versions. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S24-003 | Immutable parameters. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S24-004 | Required research engines. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S24-005 | Required datasets. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S24-006 | Applicable market regimes. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S24-007 | Code digest. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S24-008 | Cost policy. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S24-009 | Risk policy. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S24-010 | Entry and exit rules. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S24-011 | Validation status. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S24-012 | Experiment history. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S24-013 | Suspension status. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S24-014 | Approval history. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S24-015 | DRAFT. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S24-016 | RESEARCH_ONLY. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S24-017 | BACKTESTED. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S24-018 | VALIDATION_FAILED. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S24-019 | VALIDATION_BLOCKED. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S24-020 | PAPER_EVALUATION. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S24-021 | SUSPENDED. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S25-001 | Multi-session input. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S25-002 | Opening range construction. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S25-003 | Volume confirmation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S25-004 | Entry validity. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S25-005 | Session-specific entry cutoff. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S25-006 | Stop methodology. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S25-007 | Target methodology. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S25-008 | Holding period constraints. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S25-009 | Fee-aware risk calculation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S25-010 | Entry deviation rejection. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S25-011 | Invalidation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S25-012 | Session-end handling. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S26-001 | ST-02: VWAP Pullback. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S26-002 | ST-03: VWAP Reclaim. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S26-003 | ST-04: Trend Following. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S26-004 | ST-05: Momentum Continuation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S26-005 | ST-06: Volume Confirmed Breakout. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S26-006 | ST-08: Mean Reversion. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S26-007 | Required data. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S26-008 | Applicable regime. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S26-009 | Entry conditions. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S26-010 | Exit conditions. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S26-011 | Stop policy. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S26-012 | Target policy. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S26-013 | Invalidation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S26-014 | Risk requirements. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S26-015 | Validation protocol. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S27-001 | Select an eligible dataset. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S27-002 | Select a strategy version. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S27-003 | Select a date range. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S27-004 | Select a virtual starting balance. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S27-005 | Select a cost model. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S27-006 | Select a risk policy. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S27-007 | Configure execution assumptions. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S27-008 | Run an experiment. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S27-009 | Inspect results. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S27-010 | Inspect simulated trades. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S27-011 | Reproduce the experiment. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S27-012 | Chronological event processing. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S27-013 | Multiple trading sessions. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S27-014 | Multiple instruments. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S27-015 | Persistent account state. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S27-016 | Capital constraints. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S27-017 | Simulated latency. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S27-018 | Conservative fills. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S27-019 | Gap handling. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S27-020 | Stop and target ambiguity. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S27-021 | Missing data handling. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S27-022 | Session-end rules. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S27-023 | Illiquid instruments. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S27-024 | Suspended instruments. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S27-025 | Partial fills where supported. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S27-026 | Unresolved execution states. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S28-001 | Experiment ID. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S28-002 | Company. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S28-003 | Dataset identifiers. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S28-004 | Dataset digest. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S28-005 | Universe selection method. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S28-006 | Calendar revision. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S28-007 | Corporate action revision. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S28-008 | Strategy version. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S28-009 | Code digest. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S28-010 | Parameter values. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S28-011 | Indicator version. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S28-012 | Cost schedule version. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S28-013 | Risk configuration. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S28-014 | Execution assumptions. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S28-015 | Training period. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S28-016 | Validation period. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S28-017 | Holdout period. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S28-018 | Benchmark. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S28-019 | Random seed where applicable. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S28-020 | Predeclared acceptance rules. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S29-001 | Chronological training windows. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S29-002 | Validation windows. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S29-003 | Final untouched holdout. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S29-004 | Walk-forward rolling or expanding windows. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S29-005 | Purging where overlapping outcome windows require it. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S29-006 | Embargo where appropriate. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S29-007 | Parameter selection restrictions. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S29-008 | Experiment lineage. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S29-009 | Dataset revision tracking. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S29-010 | Holdout consumption audit. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S29-011 | Future-fitted normalization. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S29-012 | Future universe membership. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S29-013 | Later corporate action information. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S29-014 | Future benchmark values. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S29-015 | Overlapping labels. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S29-016 | Post-hoc strategy selection. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S30-001 | Total considered candidates. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S30-002 | Rejected candidates. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S30-003 | Simulated trades. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S30-004 | Winning trades. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S30-005 | Losing trades. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S30-006 | Neutral trades. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S30-007 | Gross profit and loss. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S30-008 | Net profit and loss. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S30-009 | Total costs. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S30-010 | Average net trade. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S30-011 | Win rate. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S30-012 | Profit factor. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S30-013 | Net expectancy. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S30-014 | Maximum drawdown. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S30-015 | Equity curve. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S30-016 | Consecutive losses. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S30-017 | Turnover. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S30-018 | Maximum adverse excursion. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S30-019 | Maximum favorable excursion. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S30-020 | Sharpe ratio where meaningful. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S30-021 | Sortino ratio where meaningful. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S30-022 | Confidence intervals where justified. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S31-001 | Net expectancy after all material costs. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S31-002 | Drawdown. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S31-003 | Sample adequacy. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S31-004 | Outcome uncertainty. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S31-005 | Performance across market regimes. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S31-006 | Out-of-sample stability. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S31-007 | Parameter sensitivity. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S31-008 | Transaction cost sensitivity. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S31-009 | Execution latency sensitivity. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S31-010 | Liquidity sensitivity. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S31-011 | Performance relative to simple baselines. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S31-012 | SOFTWARE VERIFIED. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S31-013 | SYNTHETIC CORRECTNESS VERIFIED. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S31-014 | HISTORICAL EVIDENCE AVAILABLE. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S31-015 | OUT-OF-SAMPLE VALIDATED. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S31-016 | PROSPECTIVE PAPER EVIDENCE AVAILABLE. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S31-017 | FINANCIAL VALIDATION INSUFFICIENT. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-001 | G01: Source eligibility. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-002 | G02: Instrument eligibility. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-003 | G03: Trading session validity. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-004 | G04: Candle completeness. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-005 | G05: Market data freshness. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-006 | G06: Research input sufficiency. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-007 | G07: Strategy implementation status. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-008 | G08: Strategy validation status. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-009 | G09: Cost model availability. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-010 | G10: Position sizing. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-011 | G11: Independent risk veto. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-012 | G12: Decision expiry. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-013 | G13: Evidence integrity. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-014 | G14: Research-mode restrictions. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-015 | Portfolio risk. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-016 | Provider health. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-017 | Market regime compatibility. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-018 | Contradictory evidence. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-019 | Duplicate candidates. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-020 | Strategy suspension. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-021 | Unresolved data quality issues. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-022 | Gate results. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-023 | Gate reasons. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-024 | Required data. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-025 | Supporting evidence. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-026 | Contradictory evidence. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-027 | Strategy version. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-028 | Dataset identity. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-029 | Decision cutoff. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-030 | Expiry. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-031 | Allowed research mode. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-032 | WATCH. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-033 | RESEARCH CANDIDATE. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-034 | HISTORICAL CANDIDATE. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-035 | SIMULATION CANDIDATE. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-036 | NO TRADE. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-037 | INVALIDATED. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S32-038 | EXPIRED. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S33-001 | Data quality. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S33-002 | Research completeness. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S33-003 | Strategy validation strength. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S33-004 | Market compatibility. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S33-005 | Execution feasibility. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S33-006 | Estimated risk. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S33-007 | Statistical evidence. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S34-001 | Paper trading account. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S34-002 | Virtual cash balance. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S34-003 | Cash reservation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S34-004 | Simulated order. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S34-005 | Simulated fill. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S34-006 | Open position. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S34-007 | Closed position. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S34-008 | Virtual ledger event. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S34-009 | Trading journal. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S34-010 | Account equity snapshot. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S34-011 | Daily risk state. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S35-001 | Virtual cash cannot be spent twice. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S35-002 | Available cash cannot become negative. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S35-003 | Reserved cash cannot become negative. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S35-004 | Reservation release cannot be duplicated. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S35-005 | Filled quantity cannot exceed authorized quantity. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S35-006 | Closed quantity cannot exceed open quantity. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S35-007 | Duplicate fills cannot mutate balances twice. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S35-008 | Fees cannot be counted twice. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S35-009 | Every material balance change has an immutable ledger event. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S35-010 | Realized P&L reconciles with closed position records. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S35-011 | Equity reconciles with cash and marked position value. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S35-012 | Failed operations leave no partial committed state. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S36-001 | Candidate submission. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S36-002 | Risk validation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S36-003 | Capital reservation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S36-004 | Simulated pending order. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S36-005 | Simulated fill. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S36-006 | Partial fill. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S36-007 | Stop-loss monitoring. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S36-008 | Target monitoring. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S36-009 | Partial profit booking. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S36-010 | Trailing stop logic. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S36-011 | Order expiry. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S36-012 | Position closure. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S36-013 | Session-end square-off policy. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S36-014 | Virtual daily P&L. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S36-015 | Trading journal. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S36-016 | Stop creating new unsupported fills. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S36-017 | Preserve unresolved positions. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S36-018 | Reconcile subsequent data where available. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S36-019 | Record missed observations. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S36-020 | Do not invent stop-loss execution. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S36-021 | Do not invent square-off prices. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S37-001 | Persistent job identity. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S37-002 | Company scope. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S37-003 | Job type. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S37-004 | Requested time. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S37-005 | Scheduled time. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S37-006 | Job state. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S37-007 | Worker ownership. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S37-008 | Lease or heartbeat. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S37-009 | Retry count. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S37-010 | Cancellation state. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S37-011 | Checkpoint. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S37-012 | Execution duration. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S37-013 | Sanitized failure details. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S37-014 | Instrument synchronization. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S37-015 | Historical data synchronization. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S37-016 | Research execution. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S37-017 | Backtesting. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S37-018 | Paper monitoring. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S37-019 | Data quality maintenance. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S37-020 | Daily report generation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S38-001 | Check system resources. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S38-002 | Check provider authorization. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S38-003 | Check exchange session. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S38-004 | Resolve eligible instruments. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S38-005 | Synchronize required observations. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S38-006 | Validate data freshness and completeness. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S38-007 | Calculate required features. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S38-008 | Execute applicable research engines. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S38-009 | Evaluate market regime. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S38-010 | Evaluate strategy candidates. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S38-011 | Apply cost calculations. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S38-012 | Apply risk gates. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S38-013 | Record decision results. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S38-014 | Rank eligible research candidates. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S38-015 | Persist all accepted and rejected candidates. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S38-016 | Update the dashboard. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S38-017 | Generate a research report. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S39-001 | Professional financial terminal appearance. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S39-002 | Compact navigation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S39-003 | Clean typography. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S39-004 | Premium Golok Technology branding. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S39-005 | Consistent spacing. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S39-006 | Responsive layouts. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S39-007 | Accessible controls. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S39-008 | Clear data provenance. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S39-009 | Meaningful status colors. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S39-010 | Light and dark compatibility where supported. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S39-011 | Efficient local chart assets. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S39-012 | No mandatory external CDN. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S39-013 | No oversized decorative cards. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S39-014 | No fake prices or P&L. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S40-001 | Current exchange session. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S40-002 | Research mode. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S40-003 | Data provider state. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S40-004 | Last verified update. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S40-005 | Eligible instrument population. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S40-006 | Data quality status. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S40-007 | Research coverage. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S40-008 | Latest research run. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S40-009 | Available authorized benchmark observations. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S40-010 | Market breadth where available. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S40-011 | Sector performance where available. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S40-012 | Market regime where supported. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S41-001 | Search. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S41-002 | Exchange filter. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S41-003 | Sector filter where supported. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S41-004 | Instrument eligibility filter. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S41-005 | Data quality filter. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S41-006 | Timeframe filter. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S41-007 | Strategy filter. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S41-008 | Research status filter. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S41-009 | Candidate status filter. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S41-010 | Pagination. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S41-011 | Server-side sorting. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S41-012 | Instrument. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S41-013 | Last observed price and timestamp. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S41-014 | Data freshness. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S41-015 | Research status. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S41-016 | Applicable engines. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S41-017 | Market regime. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S41-018 | Candidate status. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S41-019 | Risk rejection reason. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S41-020 | Research duration. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S41-021 | Last scan time. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S42-001 | Instrument. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S42-002 | Strategy. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S42-003 | Candidate type. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S42-004 | Research score if justified. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S42-005 | Hypothetical entry. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S42-006 | Hypothetical stop. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S42-007 | Hypothetical target. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S42-008 | Virtual quantity. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S42-009 | Estimated transaction costs. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S42-010 | Estimated planned downside. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S42-011 | Estimated net reward. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S42-012 | Reward-to-risk. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S42-013 | Candidate validity. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S42-014 | Supporting evidence. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S42-015 | Contradictory evidence. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S42-016 | Gate outcomes. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S43-001 | Instrument selection. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S43-002 | Timeframe selection. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S43-003 | Date range selection. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S43-004 | Candlestick chart. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S43-005 | Volume chart. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S43-006 | SMA and EMA overlays. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S43-007 | VWAP overlay where valid. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S43-008 | Opening range visualization. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S43-009 | Support and resistance observations. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S43-010 | Indicator panel. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S43-011 | Research engine results. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S43-012 | Dataset provenance. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S43-013 | Historical cutoff. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S43-014 | Calendar revision. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S43-015 | Data quality warning. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S43-016 | Strategy analysis. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S44-001 | Initial virtual capital. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S44-002 | Available virtual cash. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S44-003 | Reserved cash. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S44-004 | Open positions. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S44-005 | Closed positions. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S44-006 | Realized virtual P&L. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S44-007 | Unrealized virtual P&L. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S44-008 | Virtual equity. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S44-009 | Daily virtual return. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S44-010 | Total trading costs. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S44-011 | Equity curve. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S44-012 | Drawdown curve. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S44-013 | Trading journal. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S45-001 | Strategy registry. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S45-002 | Version history. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S45-003 | Experiment launch workflow. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S45-004 | Experiment queue. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S45-005 | Backtest results. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S45-006 | Simulated trade drill-down. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S45-007 | Cost breakdown. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S45-008 | Net expectancy. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S45-009 | Sample size. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S45-010 | Drawdown. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S45-011 | Validation partition comparison. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S45-012 | Walk-forward results where available. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S45-013 | Benchmark comparison. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S45-014 | Validation state. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S45-015 | Rejected experiment history. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S46-001 | Virtual reference capital. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S46-002 | Per-trade planned risk budget. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S46-003 | Daily loss threshold. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S46-004 | Remaining planned risk budget. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S46-005 | Capital exposure. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S46-006 | Reserved cash. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S46-007 | Consecutive losses. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S46-008 | Open-position exposure. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S46-009 | Sector concentration where available. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S46-010 | Strategy suspensions. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S46-011 | Risk rejection history. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S46-012 | Paper trading kill switch state. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S47-001 | SmartAPI configuration state. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S47-002 | Authorization state. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S47-003 | REST health. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S47-004 | WebSocket state where implemented. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S47-005 | Session expiry. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S47-006 | Request budget. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S47-007 | Synchronization history. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S47-008 | Per-instrument data freshness. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S47-009 | Job queue. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S47-010 | Failed jobs. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S47-011 | CPU usage. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S47-012 | Memory usage. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S47-013 | Available system memory. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S47-014 | Research duration. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S47-015 | Database workload metrics where available. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S48-001 | Trading session date. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S48-002 | Market data coverage. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S48-003 | Instruments scanned. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S48-004 | Research engines executed. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S48-005 | Candidate count. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S48-006 | Rejected candidate count. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S48-007 | Rejection reasons. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S48-008 | Research limitations. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S48-009 | Market regime information. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S48-010 | Virtual trading performance where available. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S48-011 | Data provider issues. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S48-012 | Strategy warnings. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S48-013 | Risk suspensions. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S48-014 | Next eligible research cycle. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S49-001 | Market data foundation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S49-002 | Provider integration. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S49-003 | Live authorization. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S49-004 | Instrument mapping. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S49-005 | Data quality. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S49-006 | Research engines. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S49-007 | Indicator verification. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S49-008 | Strategy framework. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S49-009 | Cost verification. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S49-010 | Historical validation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S49-011 | Holdout isolation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S49-012 | Paper ledger. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S49-013 | Scheduler. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S49-014 | Security. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S49-015 | Browser verification. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S49-016 | Performance. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S50-001 | 50 instruments. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S50-002 | 75 candles per instrument. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S50-003 | 3,750 rows. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S50-004 | 361 SQL statements. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S50-005 | 5.247 seconds total wall time. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S50-006 | 2.451 seconds ingestion. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S50-007 | 1.354 seconds research. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S50-008 | 3.97 milliseconds active-company count query. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S50-009 | 138.4 MiB sampled Odoo shell peak RSS. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S50-010 | 50 instruments. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S50-011 | 100 instruments. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S50-012 | 250 instruments. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S50-013 | 500 instruments where safe. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S50-014 | Actual Odoo process memory. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S50-015 | PostgreSQL memory where practical. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S50-016 | Browser responsiveness. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S50-017 | Available system memory. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S50-018 | CPU usage. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S50-019 | Ingestion duration. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S50-020 | Research duration. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S50-021 | Query counts. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S50-022 | Job duration. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S50-023 | Provider request limits. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S50-024 | UI latency. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S51-001 | Trading Research Viewer. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S51-002 | Trading Research Analyst. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S51-003 | Trading Risk Manager. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S51-004 | Trading System Administrator. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S51-005 | Unauthorized provider setup. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S51-006 | Unauthorized credential access. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S51-007 | Forged RPC arguments. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S51-008 | Arbitrary endpoint attempts. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S51-009 | Cross-company dataset access. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S51-010 | Cross-company instrument references. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S51-011 | Cross-company paper account access. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S51-012 | Unauthorized risk changes. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S51-013 | Unauthorized strategy promotion. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S51-014 | Unauthorized experiment alteration. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S51-015 | Unauthorized ledger manipulation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S51-016 | Unauthorized job execution. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S51-017 | Immutable snapshot modification. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S51-018 | Secret leakage. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S51-019 | Invalid external redirects. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S51-020 | Malformed market data. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S51-021 | Excessive request sizes. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S55-001 | `docs/SMARTAPI_SETUP.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S55-002 | `docs/OWNER_QUICK_START.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S55-003 | `docs/MARKET_DATA_SOURCES.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S55-004 | `docs/PROVIDER_OPERATIONS.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S55-005 | `docs/REFERENCE_DATA_MODEL.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S55-006 | `docs/CORPORATE_ACTION_POLICY.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S55-007 | `docs/EXCHANGE_CALENDAR.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S55-008 | `docs/INDICATOR_FORMULAS.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S55-009 | `docs/RESEARCH_ENGINE_CATALOG.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S55-010 | `docs/STRATEGY_SPECIFICATIONS.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S55-011 | `docs/TRANSACTION_COST_MODEL.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S55-012 | `docs/RISK_POLICY.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S55-013 | `docs/BACKTEST_EXECUTION_POLICY.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S55-014 | `docs/VALIDATION_PROTOCOL.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S55-015 | `docs/PAPER_LEDGER_INVARIANTS.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S55-016 | `docs/BACKGROUND_JOBS.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S55-017 | `docs/DASHBOARD_KPI_DEFINITIONS.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S55-018 | `docs/SECURITY_MODEL.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S55-019 | `docs/PERFORMANCE_LIMITS.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-001 | baseline/ | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-002 | installation/ | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-003 | upgrade/ | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-004 | unit/ | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-005 | integration/ | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-006 | provider/ | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-007 | calendar/ | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-008 | reference/ | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-009 | quantitative/ | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-010 | financial/ | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-011 | backtesting/ | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-012 | validation/ | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-013 | paper/ | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-014 | scheduler/ | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-015 | browser/ | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-016 | screenshots/ | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-017 | concurrency/ | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-018 | performance/ | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-019 | security/ | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-020 | Exact test commands. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-021 | Exit codes. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-022 | Individual test results. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-023 | Execution counts. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-024 | Execution durations. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-025 | Sanitized logs. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-026 | Environment metadata. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-027 | Source revisions or hashes. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-028 | Dataset metadata. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-029 | Experiment fingerprints. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-030 | Ledger reconciliation results. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-031 | Browser screenshots. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-032 | Actual performance measurements. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S56-033 | Independent concurrency evidence. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S57-001 | `DEVELOPMENT_REPORT.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S57-002 | `docs/REQUIREMENTS_TRACEABILITY.md` | TRACKED | See P03-AC outcome and governing text. |
+| P03-S57-003 | P03 evidence manifest. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S57-004 | Exact test command inventory. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S57-005 | Sanitized execution logs. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S57-006 | Browser screenshots. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S57-007 | Acceptance criteria results. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S57-008 | Business invariant results. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S57-009 | Research engine inventory. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S57-010 | Strategy inventory. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S57-011 | Performance evidence. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S57-012 | Financial simulation evidence where redistribution is permitted. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S57-013 | Source file manifest. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S57-014 | Important implementation diffs or sanitized source files. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S57-015 | Outstanding blockers. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S57-016 | API keys. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S57-017 | Passwords. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S57-018 | TOTP secrets. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S57-019 | Broker tokens. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S57-020 | Private user account information. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S57-021 | Production database contents. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S57-022 | Virtual environments. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S57-023 | Unauthorized historical datasets. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S57-024 | Sensitive runtime files. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-001 | Requirement ID. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-002 | File path. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-003 | Previous behavior. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-004 | New behavior. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-005 | Implementation state. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-006 | Test result. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-007 | Evidence path. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-008 | Remaining limitation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-009 | Fixture verification. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-010 | Real transport implementation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-011 | Actual authorization. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-012 | Historical retrieval. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-013 | Live quotes. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-014 | WebSocket access. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-015 | Operational ingestion. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-016 | Remaining owner setup. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-017 | Synthetic correctness. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-018 | Actual historical experiments. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-019 | Out-of-sample validation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-020 | Walk-forward evaluation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-021 | Prospective paper evaluation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-022 | Virtual cash reconciliation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-023 | Reservation integrity. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-024 | Position integrity. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-025 | Fill idempotency. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-026 | Concurrent operations. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-027 | Restart recovery. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-028 | Remaining limitations. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-029 | AC-001 through AC-050. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-030 | P02-AC-001 through P02-AC-040. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-031 | Original requirement coverage. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-032 | Corrected functional coverage. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-033 | Constraint compliance. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-034 | P02 acceptance coverage. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-035 | P03 acceptance coverage. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-036 | Research engine implementation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-037 | Research engine verification. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-038 | Strategy implementation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-039 | Financial strategy validation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-040 | Dashboard implementation. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-041 | External integration. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-042 | Virtual accounting. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-043 | Scheduler. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S58-044 | Test execution. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S59-001 | DEVELOPMENT INCOMPLETE. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S59-002 | FOUNDATION VERIFIED. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S59-003 | HISTORICAL RESEARCH READY. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S59-004 | PAPER TRADING TEST READY. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S59-005 | VERIFIED RESEARCH BETA. | TRACKED | See P03-AC outcome and governing text. |
+| P03-S59-006 | VALIDATED RESEARCH RELEASE READY. | TRACKED | See P03-AC outcome and governing text. |

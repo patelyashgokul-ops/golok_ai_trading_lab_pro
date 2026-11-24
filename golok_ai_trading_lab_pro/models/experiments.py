@@ -130,7 +130,10 @@ class Experiment(models.Model):
         spec.update({"dataset": dataset.id, "calendar": dataset.calendar_id.id, "tariff": tariff.id,
                      "strategy_version": strategy.version, "company": company.id,
                      "calendar_digest": hashlib.sha256(dataset.calendar_id.schedule.encode()).hexdigest(),
-                     "code_digest": hashlib.sha256(Path(experiments.__file__).read_bytes()).hexdigest()})
+                     "code_digests": {
+                         module.__name__.rsplit(".", 1)[-1]: hashlib.sha256(Path(module.__file__).read_bytes()).hexdigest()
+                         for module in (experiments, backtest, calendar, simulation)
+                     }})
         fingerprint = hashlib.sha256(backtest.canonical(spec).encode()).hexdigest()
         prior = self.search([("company_id", "=", company.id), ("fingerprint", "=", fingerprint)], limit=1)
         if prior:
