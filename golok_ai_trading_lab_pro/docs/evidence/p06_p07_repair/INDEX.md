@@ -63,3 +63,14 @@ Real provider, genuine market and independent financial results are unavailable.
 | PostgreSQL and Edge | [Concurrency and recovery](gates-holdout/verified/security/contention.log) · [Browser](gates-holdout/verified/browser/edge.log) |
 | Populated upgrades | [Direct P09.1 retention](gates-holdout/migration-direct/upgrade/retention.log) · [Previous R01 retention](gates-holdout/migration-final/upgrade/retention.log) |
 | Initial concurrency evidence | [Harness transaction needed a fresh snapshot](gates-holdout/odoo/security/contention.log) |
+
+## Release 20.0.9.1.7
+
+| Evidence | Artifact |
+|---|---|
+| Wrong data, capability states and timing | [Standalone](operational-states/standalone.log) · [Source scan](operational-states/source.log) · [P09.1 stress parity](operational-states/stress-parity.log) |
+| Odoo registration and behavior | [Fresh installation](operational-states/verified-final/installation/fresh.log) · [Module update](operational-states/verified-final/installation/upgrade.log) · [Contention and recovery](operational-states/verified-final/security/contention.log) |
+| Edge workflows | [Browser log](operational-states/verified-final/browser/edge.log) · [Snapshot cutoff and indicators](operational-states/verified-final/screenshots/snapshot-indicators.png) · [Provider states](operational-states/verified-final/screenshots/provider-status.png) |
+| Populated upgrades | [Direct P09.1](operational-states/migration-direct/upgrade/retention.log) · [Previous R01](operational-states/migration-final/upgrade/retention.log) · [Synthetic ORM sample](operational-states/migration-final/performance/orm.json) |
+| Initial fixture correction | [Lineage-protected dataset copy rejected](operational-states/verified/installation/fresh.log) |
+| Initial chart navigation check | [Browser was still on supplemental findings when it looked for the snapshot button](operational-states/final/browser/edge.log) |

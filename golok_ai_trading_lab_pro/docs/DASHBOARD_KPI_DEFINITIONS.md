@@ -15,7 +15,7 @@ Release 20.0.9.1.5 uses a single server-side domain map for counts and list dril
 | A. Market Command Center | Research Overview, with persisted company counts and scoped drill-downs | Independently verified market session information, benchmark coverage and market regime. |
 | B. Stock Scanner | Historical Scanner, with native list search and source eligibility | Research-engine and strategy filters, momentum, relative volume and risk-decision columns. |
 | C. Research Opportunities | Fixture Candidate Research, with levels, strategy trials, gate results and timing evidence | Genuine inputs and financial results. |
-| D. Stock Research Detail | Research snapshot, bounded OHLC and volume chart, and supplemental findings | Instrument and date selection in one work area, plus chart overlays tied to stored indicators and levels. |
+| D. Stock Research Detail | Open Stock Chart from the selected snapshot for bounded OHLC, volume, EMA 20, SMA 20 and eligible session VWAP at the frozen cutoff. Supplemental findings remain on the snapshot. | Instrument and date selection in one work area, plus opening-range, support, resistance and candidate-level overlays. |
 | E. Paper Portfolio | Prospective Fixture Paper Accounts and Virtual Replay Accounts, with separate journals | Eligible position marks and equity and drawdown curves derived from persisted events. |
 | F. Strategy Intelligence | Synthetic Strategy Performance, Walk-forward Experiments and Sealed Holdouts | Independent financial evidence and trade drill-down across the experiment views. |
 | G. Risk Control Center | Fixture Risk Monitor, account form and journal | Expanded rejection history and one view that reconciles all limits and realized values. |

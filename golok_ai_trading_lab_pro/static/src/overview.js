@@ -45,6 +45,7 @@ class TradingOverview extends Component {
         this.state.chart = null;
         this.state.chartLoading = false;
         this.state.chartError = false;
+        this.state.overlay = null;
         try {
             this.state.data = await this.orm.call("golok.lab.run", "overview", []);
         } catch {

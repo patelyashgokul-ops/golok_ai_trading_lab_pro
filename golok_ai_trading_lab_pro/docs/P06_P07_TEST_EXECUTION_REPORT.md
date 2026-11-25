@@ -54,4 +54,13 @@ The early numerical fixture run failed two tests because the adopted historical 
 - The populated upgrade from 20.0.9.1.5 preserved 1,282 XML IDs and all compared record hashes, including the stored historical findings record.
 - The direct upgrade from the archived P09.1 schema preserved 1,243 XML IDs and all compared record hashes. An earlier development database with the same version string lacked the archived `last_entry_check_id` column. The initial row comparison detected the newly added column, and the direct verification used the populated database with the archived schema.
 
+## Release 20.0.9.1.7
+
+- All 66 standalone tests passed, including fresh, stale, late and missing observation timing. The provider capability test removes each prerequisite independently. Negative data cases cover wrong source identity, invalid OHLC, schemas, timing and explicit unit conflicts. The archived eleven stress scenarios matched.
+- Fresh installation and module update each passed 27 Odoo tests. The daily import fixture denies a wrong symbol and a wrong ISIN. The prospective fixture checks expiry, rejects a completed entry outside the plan's frozen range and verifies that reserved capital is returned.
+- The first new range test copied a lineage-protected model. Creating an authored fixture through the normal import path resolved the failure. The upgrade harness now uses a unique disposable benchmark company so a populated clone can include earlier benchmark data.
+- The 20.0.9.1.6 populated clone preserved 1,284 XML IDs and the compared historical record hashes. Independent PostgreSQL contention and interrupted-worker recovery passed.
+- The populated upgrade from the archived P09.1 schema kept its 1,243 XML IDs and compared record hashes.
+- Edge passed all 26 checks. The added chart case opens the selected snapshot, displays its frozen cutoff, toggles both moving averages, matches the independently known values and hides VWAP without a session calendar. The provider view identifies current connectivity as unverified. The first Edge attempt was still on the supplemental findings form when it looked for the snapshot's chart action. Returning to the snapshot fixed the test navigation.
+
 [Commands, raw logs and screenshots](evidence/p06_p07_repair/INDEX.md)

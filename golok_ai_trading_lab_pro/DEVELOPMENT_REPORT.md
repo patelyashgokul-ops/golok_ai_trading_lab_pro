@@ -2,7 +2,7 @@
 
 **P06–P07 REPAIR PARTIAL — TECHNICAL OR EXTERNAL BLOCKERS REMAIN**
 
-Release `20.0.9.1.6` continues P06P07-R01 from verified P09.1 release `20.0.9.1.0`. The P09.1 archive, requirement identifiers, source checkpoint and prior published outputs were retained.
+Release `20.0.9.1.7` continues P06P07-R01 from verified P09.1 release `20.0.9.1.0`. The P09.1 archive, requirement identifiers, source checkpoint and prior published outputs were retained.
 
 ## Implemented
 
@@ -17,11 +17,15 @@ Release `20.0.9.1.6` continues P06P07-R01 from verified P09.1 release `20.0.9.1.
 - The historical sync wizard can try one independently approved alternate broker mapping for the same instrument and session after a transient primary-provider failure. Each attempt has its own linked audit record.
 - G01–G14 decisions record typed evidence and SHA-256 fingerprints of the dataset and observations used. Malformed evidence and failed gates prevent allocation.
 - A sealed holdout protects the date window across source aliases, research jobs, comparison records and prospective observations. A pending job cannot release evidence after sealing. The risk reviewer can consume the holdout once.
+- Provider Diagnostics reports the seven separate historical acquisition capability states. A recorded historical receipt represents evidence for its own session. Current production connectivity and data quality remain unverified.
+- Fixture candidates keep the observation, availability, local receipt, cutoff and expiry together. A completed entry bar outside a frozen experimental range invalidates the pending candidate and releases virtual capital.
+- Historical and prospective competition records identify the shared ranking version and explicitly leave unmeasured financial inputs unknown.
+- The chart opens from the selected research snapshot and uses its verified input window for OHLC, EMA 20, SMA 20 and VWAP where available. The dashboard gap register covers all nine workspaces.
 - The handoff reconciles all 180 P06 and P07 criteria and reviews the 97 original unresolved entries and 18 original defects. The 45 focused repair criteria are appended to traceability.
 
 ## Verification
 
-65 standalone tests passed. The fresh Odoo installation and module-update stages each passed 27 tests. Edge passed 25 checks, including dashboard count and list reconciliation. Independent PostgreSQL contention, worker termination and recovery passed. The populated upgrade preserved 1,243 XML IDs from P09.1 and 1,282 from the previous R01 release, along with all compared historical record digests. All eleven archived P09.1 stress cases matched. Of the 45 focused repair criteria, 40 passed and five remain partial.
+66 standalone tests passed. Fresh Odoo installation and module update each passed 27 tests. Edge passed 26 checks, including the selected snapshot's cutoff and indicator values. Independent PostgreSQL contention, worker termination and recovery passed. The populated upgrades preserved 1,243 XML IDs from P09.1 and 1,284 from the previous R01 database, along with the compared historical record digests. All eleven archived P09.1 stress cases matched. Of the 45 focused repair criteria, 41 passed and four remain partial.
 
 ## Readiness
 
@@ -29,7 +33,7 @@ Release `20.0.9.1.6` continues P06P07-R01 from verified P09.1 release `20.0.9.1.
 |---|---|
 | Provider architecture | Upstox and SmartAPI historical fixture acquisition and one reviewed alternate verified. Unified operational and provider health scope partial. |
 | Authorized provider connectivity and genuine data | Blocked by verified entitlement and use rights. Zero genuine sessions. |
-| Data accuracy protection | Fixtures verify broker history, authorized raw daily file and attested CSV comparisons, possible split mismatches and corroborated replacement. Independent authorized observations remain outstanding. |
+| Data accuracy protection | The required negative fixture cases ran. Broker history, authorized raw daily file and attested CSV routes compare equivalent observations and require corroborated replacement. Independent authorized observations remain outstanding. |
 | Entry and stop optimization | Causal historical portfolio integration verified with frozen proposals and no-trade vetoes. Prospective coverage and training excursion evidence remain open. |
 | Target optimization | Optional historical ATR policy verified. Training calibration partial. |
 | Strategy competition | Historical and prospective fixture ranking share the cost-aware score. Genuine statistical ranking and broader strategy validation remain open. |
@@ -40,4 +44,4 @@ Release `20.0.9.1.6` continues P06P07-R01 from verified P09.1 release `20.0.9.1.
 
 P10 was not started.
 
-[Completion matrix](docs/P06_P07_COMPLETION_MATRIX.md) · [Issue register](docs/P06_P07_ISSUE_REGISTER.md) · [Test report](docs/P06_P07_TEST_EXECUTION_REPORT.md) · [Owner steps](docs/OWNER_ACTION_REQUIRED.md)
+[Completion matrix](docs/P06_P07_COMPLETION_MATRIX.md) · [Issue register](docs/P06_P07_ISSUE_REGISTER.md) · [Dashboard reconciliation](docs/DASHBOARD_KPI_DEFINITIONS.md) · [Test report](docs/P06_P07_TEST_EXECUTION_REPORT.md) · [Owner steps](docs/OWNER_ACTION_REQUIRED.md)

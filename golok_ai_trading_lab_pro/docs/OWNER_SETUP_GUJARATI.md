@@ -45,6 +45,8 @@ Publisher સુધારેલી દૈનિક ફાઇલ આપે ત્
 
 ## Prospective fixture competition
 
+**Fixture Candidate Research → Timing and Freshness**માં candleનો સમય, બનાવટી publication availability, સ્થાનિક receipt, cutoff અને entry expiry અલગ દેખાય છે. **Research History → Open Stock Chart** પસંદ કરેલા snapshotના cutoff પર EMA 20, SMA 20 અને ઉપલબ્ધ હોય ત્યારે session VWAP બતાવે છે.
+
 **Prospective Fixture Paper Accounts** માં અલગ instrumentsની synthetic schedules જોડો. Strategyમાં **Compete across all five strategies** પસંદ કરો. સમાન cutoffના jobs પૂરા થાય પછી યોગ્ય candidates સરખાવવામાં આવે છે અને accountમાંથી એક virtual reservation થાય છે. Expired candidate માટે reservation થતું નથી.
 
 **Fixture Candidate Research** માં instrument, observation, entry, stop, target, rank અને rejectionનું કારણ જુઓ. **Provider Diagnostics → Review Provider Status** માં companyની મંજૂરી, retention અને historical receipt જુદાં દેખાય છે.

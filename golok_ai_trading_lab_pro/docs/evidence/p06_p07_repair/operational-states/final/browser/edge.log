@@ -1,0 +1,48 @@
+Browser check database=golok_p09_fresh_r01r
+UI-01 authenticated OWL dashboard and empty state
+UI-02 CSV selected and imported through the Odoo wizard
+UI-06 database-backed OHLC and volume matched the uploaded fixture
+UI-03 historical research, accurate KPIs, refresh and snapshot drill-down
+UI-07 supplemental evidence generated and opened from the research snapshot
+Traceback (most recent call last):
+  File "C:\PycharmProjects\odoo20\custom_addons\golok_ai_trading_lab_pro\scripts\verify_browser.py", line 330, in <module>
+  File "C:\PycharmProjects\odoo20\custom_addons\golok_ai_trading_lab_pro\scripts\verify_browser.py", line 111, in verify
+    page.goto(f"{base_url}/odoo/action-{action_id}")
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PycharmProjects\odoo20\.venv\Lib\site-packages\playwright\sync_api\_generated.py", line 11045, in click
+    self._sync(
+    ~~~~~~~~~~^
+        self._impl_obj.click(
+        ^^^^^^^^^^^^^^^^^^^^^
+    ...<11 lines>...
+        )
+        ^
+    )
+    ^
+  File "C:\PycharmProjects\odoo20\.venv\Lib\site-packages\playwright\_impl\_sync_base.py", line 124, in _sync
+    return task.result()
+           ~~~~~~~~~~~^^
+  File "C:\PycharmProjects\odoo20\.venv\Lib\site-packages\playwright\_impl\locator.py", line 222, in click
+    return await self._frame.click(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<13 lines>...
+    )
+    ^
+  File "C:\PycharmProjects\odoo20\.venv\Lib\site-packages\playwright\_impl\frame.py", line 587, in click
+    return await self._channel.click(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<13 lines>...
+    )
+    ^
+  File "C:\PycharmProjects\odoo20\.venv\Lib\site-packages\playwright\_impl\channel_owner.py", line 387, in finish
+    raise e from None
+  File "C:\PycharmProjects\odoo20\.venv\Lib\site-packages\playwright\_impl\channel_owner.py", line 352, in finish
+    result = await zone.run_async(lambda: awaitable)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PycharmProjects\odoo20\.venv\Lib\site-packages\playwright\_impl\utils\zones.py", line 58, in run_async
+    return await func()
+           ^^^^^^^^^^^^
+playwright._impl._errors.TimeoutError: Locator.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for get_by_role("button", name="Open Stock Chart")
+
