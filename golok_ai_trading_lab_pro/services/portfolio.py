@@ -95,6 +95,7 @@ def _replay(series, starts, ends, seconds, codes, costs, *, capital, portfolio_p
     mode = {"fixture": "historical_contract_replay", "authorized": "authorized_historical_replay"}.get(
         historical, "synthetic_replay")
     assets = {asset.key: asset for asset in series}
+    dataset_digests = {asset.key: decision.observation_digest(asset.bars) for asset in series}
     cash = capital
     day = None
     daily_open = capital
@@ -103,6 +104,12 @@ def _replay(series, starts, ends, seconds, codes, costs, *, capital, portfolio_p
     suspended = False
     histories, pending, positions = {}, {}, {}
     trades, decisions, ledger, daily = [], [], [], []
+
+    def evidence_context(key, bar, when):
+        fingerprint = dataset_digests[key]
+        return {"evaluated_at": when, "strategy_version": strategies.VERSION, "dataset_version": fingerprint,
+                "decision_input_sha256": fingerprint, "observation_sha256": decision.observation_digest((bar,)),
+                "source_record": bar.close_time}
 
     def evaluate_candidate(key, when, bar, session, candidate, *, record):
         nonlocal cash, entries
@@ -171,9 +178,8 @@ def _replay(series, starts, ends, seconds, codes, costs, *, capital, portfolio_p
                     and observed in history),
             "G14": (source, "historical contract simulation only" if historical else "synthetic simulation only", eligible),
         }
-        outcome = decision.evaluate(checks, mode=mode, context={
-            "evaluated_at": when, "strategy_version": strategies.VERSION, "dataset_version": asset.key,
-            "source_record": observed.close_time})
+        outcome = decision.evaluate(checks, mode=mode, context=evidence_context(key, observed, when),
+                                    require_provenance=True)
         decisions.append({"asset": key, "strategy": code, "time": when, "sizing": sizing.reason,
                           "target_policy": target_policy, "target": target, "rank": rank,
                           **({"level_proposal": proposal, "observed_open": bar.open} if proposal is not None else {}),
@@ -212,10 +218,8 @@ def _replay(series, starts, ends, seconds, codes, costs, *, capital, portfolio_p
     def expire_candidates():
         for key, candidates in sorted(pending.items()):
             for code, bar, _stop, proposal in candidates:
-                outcome = decision.evaluate({"G12": ("no later open", "strictly later open", False)},
-                                            mode=mode, context={"evaluated_at": bar.available_at,
-                                            "dataset_version": key, "source_record": bar.close_time,
-                                            "strategy_version": strategies.VERSION})
+                outcome = decision.evaluate({"G12": ("no later open", "strictly later open", False)}, mode=mode,
+                                            context=evidence_context(key, bar, bar.available_at), require_provenance=True)
                 decisions.append({"asset": key, "strategy": code, "time": bar.available_at,
                                   "sizing": "NO_LATER_OPEN",
                                   **({"level_proposal": proposal} if proposal is not None else {}), **outcome})

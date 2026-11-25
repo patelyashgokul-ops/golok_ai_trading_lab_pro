@@ -157,19 +157,29 @@ class Portfolio(models.Model):
             raise ValidationError(_("This instrument and date window is reserved for sealed evaluation."))
         if training is not None:
             training.check_access("read")
-            previous_experiment = self.env["golok.lab.experiment"].search_count([
-                *overlap[:-1], ("dataset_id.instrument_id", "in", datasets.instrument_id.ids)])
+            previous_experiment = self.env["golok.lab.experiment"].sudo().search_count([
+                *overlap[:-1], ("dataset_id.instrument_id", "in", datasets.instrument_id.ids)], limit=1)
             left = datetime.combine(starts, time.min, calendar.IST).astimezone(timezone.utc).replace(tzinfo=None)
             right = datetime.combine(ends + timedelta(days=1), time.min, calendar.IST).astimezone(timezone.utc).replace(tzinfo=None)
             prior_snapshot = self.env["golok.lab.run"].sudo().search_count([
                 ("company_id", "=", company.id), ("dataset_id.instrument_id", "in", datasets.instrument_id.ids),
                 ("first_close", "<", right), ("last_close", ">=", left)], limit=1)
+            prior_comparison = self.env["golok.lab.source.comparison"].sudo().search_count([
+                ("company_id", "=", company.id), ("close_at", ">=", left), ("close_at", "<", right),
+                "|", ("left_id.instrument_id", "in", datasets.instrument_id.ids),
+                ("right_id.instrument_id", "in", datasets.instrument_id.ids),
+            ], limit=1)
+            prior_session = self.env["golok.lab.session.event"].sudo().search_count([
+                ("company_id", "=", company.id), ("day", ">=", starts), ("day", "<=", ends),
+                ("watch_id.dataset_id.instrument_id", "in", datasets.instrument_id.ids), ("observation_count", ">", 0),
+            ], limit=1)
             if (not training or training.company_id != company or training.tariff_id != tariff
                     or set(training.dataset_ids.ids) != set(datasets.ids) or training.strategy != vals["strategy"]
                     or training.strategy == "all" or training.ends + timedelta(days=1) >= starts
                     or (training.target_policy or "fixed_4r") != target_policy
                     or Decimal(training.capital) != capital or Decimal(training.tick) != tick
-                    or previous_experiment or prior_snapshot or self.search_count(overlap)):
+                    or previous_experiment or prior_snapshot or prior_comparison or prior_session
+                    or self.sudo().search_count(overlap, limit=1)):
                 raise ValidationError(_("Select a matching earlier single-strategy replay and a previously unused holdout after an embargo."))
         code = vals["strategy"]
         codes = tuple(sorted(strategies.REGISTRY)) if code == "all" else (code,)

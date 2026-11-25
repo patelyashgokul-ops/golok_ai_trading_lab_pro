@@ -65,10 +65,14 @@ class Holdout(models.Model):
 
     @api.model
     def _reject_days(self, instruments, days, company):
-        if any(day and self.sudo().search_count([
-            ("company_id", "=", company.id), ("starts", "<=", day), ("ends", ">=", day),
+        days = set(days)
+        if not days:
+            return
+        reservations = self.sudo().search([
+            ("company_id", "=", company.id), ("starts", "<=", max(days)), ("ends", ">=", min(days)),
             ("dataset_ids.instrument_id", "in", instruments.ids),
-        ], limit=1) for day in days):
+        ])
+        if any(holdout.starts <= day <= holdout.ends for holdout in reservations for day in days):
             raise ValidationError("This instrument and date window is reserved for sealed evaluation.")
 
     @api.model

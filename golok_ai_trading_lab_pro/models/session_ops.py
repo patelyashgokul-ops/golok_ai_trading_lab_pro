@@ -323,7 +323,7 @@ class ResearchCycle(models.Model):
             scope, reservation, reason = operator_account._assess_candidate(scoped, run, now)
             checks = scoped._candidate_checks(run, operator_account, scope, reservation, now)
             rank = (targets.rank_values(Decimal(scope["reward"]), Decimal(scope["loss"]), scope["volume"])
-                    if reservation and all(checks.values()) else None)
+                    if reservation and all(map(decision.evidence_passed, checks.values())) else None)
             profiles.append((scoped, run, operator_account, scope, reservation, checks, reason, rank))
         winner = max((item for item in profiles if item[-1] is not None), key=lambda item: item[-1], default=None)
         for profile in profiles:
@@ -339,40 +339,58 @@ class ResearchCycle(models.Model):
                 checks["G11"] = ("Other or finalized candidate", "One account reservation per cutoff", False)
                 reason = "COHORT_ALREADY_FINALIZED" if closed_cohort else "OUTRANKED_IN_COHORT"
             elif reservation and rank is None:
-                reason = "GATE_VETO: " + ", ".join(key for key, passed in checks.items() if passed is not True)
+                reason = "GATE_VETO: " + ", ".join(key for key, value in checks.items() if not decision.evidence_passed(value))
             cycle._save_candidate(run, operator_account, now, scope, reservation, checks, reason)
 
     def _candidate_checks(self, run, account, scope, reserved, generated):
         self.ensure_one()
+        dataset = run.dataset_id
+        seconds = market_data.INTERVALS[dataset.interval]
+        evidence_at = fields.Datetime.to_string(self.available_at)
         checks = {
-            "G01": run.dataset_id.origin == "synthetic",
-            "G02": bool(run.dataset_id.instrument_id),
-            "G03": run.dataset_id.calendar_id.verification == "fixture",
-            "G04": bool(run.bar_count and not run.gap_count),
-            "G05": self.available_at <= self.cutoff,
+            "G01": (dataset.origin, "Eligible synthetic fixture",
+                    dataset.origin == "synthetic" and not dataset.quarantined and not dataset.integrity_conflict),
+            "G02": (dataset.instrument_id.exchange, "Mapped NSE or BSE instrument", dataset.instrument_id.exchange in ("NSE", "BSE")),
+            "G03": (self.phase, "Open fixture candle window",
+                    dataset.calendar_id.verification == "fixture" and self.phase in ("market_opening", "intraday")),
+            "G04": ([run.bar_count, run.gap_count], "Completed observations without gaps", bool(run.bar_count and not run.gap_count)),
+            "G05": ([evidence_at, fields.Datetime.to_string(generated)], "Available by cutoff and within one interval",
+                    bool(seconds and self.available_at <= self.cutoff <= generated
+                         and self.observation_at <= generated <= self.observation_at + timedelta(seconds=seconds))),
         }
         if reserved:
             plan, settings = reserved
             checks.update({
-                "G06": Decimal(plan["stop_price"]) < Decimal(plan["limit_price"]) < Decimal(plan["target_price"]),
-                "G07": scope["strategy"] in strategies.REGISTRY,
-                "G08": account.mode == "fixture" and run.dataset_id.origin == "synthetic",
-                "G09": scope["tariff"] == account.tariff_id.id and plan["entry_fee"] >= 0,
-                "G10": plan["quantity"] > 0 and Decimal(scope["reward_to_risk"]) >= 2,
-                "G11": plan["reserved"] <= account.available and account.planned_risk == 0 and settings["entries"] < 3,
-                "G12": generated < plan["expires"],
-                "G13": scope["observation"] == self.observation_id.id and len(scope["signal_sha256"]) == 64,
-                "G14": self.watch_id in account.bound_watch_ids and account.company_id == self.company_id,
+                "G06": ([plan["stop_price"], plan["limit_price"], plan["target_price"]], "Stop < entry < target",
+                        Decimal(plan["stop_price"]) < Decimal(plan["limit_price"]) < Decimal(plan["target_price"])),
+                "G07": (scope["strategy"], "Registered strategy", scope["strategy"] in strategies.REGISTRY),
+                "G08": (account.mode, "Synthetic prospective research", account.mode == "fixture" and dataset.origin == "synthetic"),
+                "G09": ([scope["tariff"], plan["entry_fee"]], "Bound tariff and nonnegative fees",
+                        scope["tariff"] == account.tariff_id.id and plan["entry_fee"] >= 0),
+                "G10": ([plan["quantity"], scope["reward_to_risk"]], "Positive sizing and net ratio ≥ 2",
+                        plan["quantity"] > 0 and Decimal(scope["reward_to_risk"]) >= 2),
+                "G11": ([plan["reserved"], account.available, account.planned_risk, settings["entries"]],
+                        "Available virtual capital and no open risk",
+                        plan["reserved"] <= account.available and account.planned_risk == 0 and settings["entries"] < 3),
+                "G12": (fields.Datetime.to_string(plan["expires"]), "Decision before expiry", generated < plan["expires"]),
+                "G13": (scope["signal_sha256"], "Observed record and valid snapshot digest",
+                        scope["observation"] == self.observation_id.id and decision.valid_digest(scope["signal_sha256"])),
+                "G14": (self.watch_id.id, "Same-company authorized fixture schedule",
+                        self.watch_id in account.bound_watch_ids and account.company_id == self.company_id),
             })
         return checks
 
     def _save_candidate(self, run, account, generated, scope, reserved, checks, reason):
         if not checks:
             checks = self._candidate_checks(run, account, scope, reserved, generated)
-        permitted = bool(reserved) and all(value is True for value in checks.values())
-        evaluation = decision.evaluate(checks, mode="synthetic_replay" if permitted else "fixture_research",
-                                       context={"dataset_version": scope.get("signal_sha256", run.input_digest),
-                                                "execution_scope": "PROSPECTIVE_FIXTURE" if account else "DESCRIPTIVE_FIXTURE"})
+        evaluation = decision.evaluate(checks, mode="prospective_fixture" if account else "fixture_research", context={
+            "dataset_version": run.input_digest, "decision_input_sha256": scope.get("signal_sha256", run.input_digest),
+            "observation_sha256": decision.observation_digest((self.observation_id._to_bar(),)),
+            "evaluated_at": fields.Datetime.to_string(generated), "source_record": fields.Datetime.to_string(self.observation_at),
+            "strategy_version": strategies.VERSION if account else None,
+            "execution_scope": "PROSPECTIVE_FIXTURE" if account else "DESCRIPTIVE_FIXTURE",
+        }, require_provenance=True)
+        permitted = bool(reserved) and evaluation["state"] == "SIMULATION_CANDIDATE"
         state = "paper_eligible" if permitted else "no_trade"
         if not account:
             state = "experimental"

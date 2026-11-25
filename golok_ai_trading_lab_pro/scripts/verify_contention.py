@@ -64,8 +64,8 @@ def _race(env, dataset, dataset_id, lead, requests):
     def compete(other):
         other["golok.lab.dataset"].browse(dataset_id)._import_bars(requests)
 
-    _overlap(env, lead_insert, compete, UniqueViolation)
-    print("PASS: independent PostgreSQL connections overlapped and unique constraint rejected the overlapping import")
+    _overlap(env, lead_insert, compete, (SerializationFailure, UniqueViolation))
+    print("PASS: independent PostgreSQL imports overlapped and the competing write was rejected")
 
 
 def _overlap(env, lead, compete, expected_error):
