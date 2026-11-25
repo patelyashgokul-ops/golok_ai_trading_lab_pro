@@ -2,6 +2,7 @@
 
 from dataclasses import dataclass
 
+CONTRACT_VERSION = "provider-capabilities-1"
 
 @dataclass(frozen=True)
 class Source:
@@ -9,6 +10,17 @@ class Source:
     feed: str
     permissions: frozenset
     upstream: str
+
+
+@dataclass(frozen=True)
+class Capability:
+    documented: bool
+    implemented: bool
+    configured: bool | None
+    authorized: bool | None
+    connectivity_verified: bool | None
+    quality_verified: bool | None
+    eligible: bool
 
 
 PERMISSIONS = frozenset({"query", "display", "persist", "automatic", "backtest", "optimize",
@@ -38,6 +50,13 @@ SOURCES = {
     "smartapi": Source("Angel One historical", "historical", frozenset({"query", "display", "persist", "research"}), "exchange"),
     "upstox": Source("Upstox historical", "historical", frozenset({"query", "display", "persist", "research"}), "NSE"),
 }
+
+
+def capability(*, documented, implemented, configured=None, authorized=None,
+               connectivity_verified=None, quality_verified=None):
+    """Current operational eligibility needs affirmative evidence at every stage."""
+    required = (documented, implemented, configured, authorized, connectivity_verified, quality_verified)
+    return Capability(*required, all(value is True for value in required))
 
 
 def route(candidates, feed, required, grants):

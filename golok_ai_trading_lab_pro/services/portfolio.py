@@ -304,7 +304,7 @@ def _replay(series, starts, ends, seconds, codes, costs, *, capital, portfolio_p
     return {
         "scope": {"fixture": "HISTORICAL_CONTRACT_FIXTURE_ONLY", "authorized": "AUTHORIZED_HISTORICAL_SIMULATION"}.get(
             historical, "SYNTHETIC_SOFTWARE_ONLY"),
-        "initial_cash": capital, "ending_cash": cash,
+        "initial_cash": capital, "ending_cash": cash, "competition_evidence": targets.competition_evidence(),
         "policy": asdict(portfolio_policy), "trades": trades, "ledger": ledger, "decisions": decisions, "days": daily,
         "suspended": suspended, "net": net, "gross": sum((t["gross"] for t in trades), Decimal(0)),
         "fees": sum((t["fees"] for t in trades), Decimal(0)), "daily_closed_drawdown": drawdown,

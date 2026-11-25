@@ -43,3 +43,16 @@ def rank(sizing, volume):
 def rank_values(reward, loss, volume):
     ratio = reward / loss if loss and reward is not None else Decimal("-1")
     return ratio >= 3, ratio, reward or Decimal(0), volume
+
+
+def competition_evidence():
+    return {
+        "rank_version": "cost-aware-1",
+        "financial_validation": "UNAVAILABLE",
+        "net_expectancy": None,
+        "out_of_sample_trades": None,
+        "out_of_sample_drawdown": None,
+        "parameter_stability": None,
+        "cost_sensitivity": None,
+        "market_regime_compatibility": None,
+    }

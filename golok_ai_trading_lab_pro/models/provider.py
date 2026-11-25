@@ -165,7 +165,8 @@ class ProviderSetup(models.TransientModel):
         reviews = self.env["golok.lab.source.review"]
         sync = self.env["golok.lab.sync"]
         now = fields.Datetime.now()
-        lines = [_("Provider modes and current company grants. Live data and trading are unavailable.")]
+        lines = [_("Provider modes and current company grants. Live data and trading are unavailable."),
+                 _("Capability evidence contract: %s", providers.CONTRACT_VERSION)]
         for key, source in providers.SOURCES.items():
             rows = reviews.search(company + [("provider", "=", key), ("revoked_at", "=", False)], limit=20)
             active = rows.filtered(lambda row: row.lifecycle == "active")
@@ -190,8 +191,39 @@ class ProviderSetup(models.TransientModel):
                                receipt=succeeded.received_at or _("None"), failure=failed.reason or _("None")))
                 lines.append(_("Shared local historical quota: %s",
                                _("Cooling down") if budget and budget.next_at > now else _("Available")))
-                lines.append(_("Current connectivity and freshness require a permitted acquisition."))
+                lines.extend(self._history_capability(key, reviews))
         return self._finish("PROVIDER STATUS", "\n".join(lines))
+
+    def _history_capability(self, key, reviews):
+        if key == "upstox":
+            configured = (environ.get("GOLOK_UPSTOX_AUTHORIZED") == "1"
+                          and upstox.credential_present(environ.get("GOLOK_UPSTOX_ANALYTICS_TOKEN")))
+        else:
+            # The active session and availability of a fresh OTP are independent of configuration.
+            configured = False
+            if (environ.get("GOLOK_SMARTAPI_AUTHORIZED") == "1"
+                    and environ.get("GOLOK_SMARTAPI_HISTORY_OPEN_STAMPED") == "1"):
+                try:
+                    _session_identity()
+                except ProviderError:
+                    configured = False
+                else:
+                    configured = True
+        try:
+            reviews._authorize(key, "historical", "import")
+            authorized = True
+        except AccessError:
+            authorized = False
+        current = providers.capability(documented=True, implemented=True, configured=configured, authorized=authorized)
+        states = {True: _("Yes"), False: _("No"), None: _("Unverified")}
+        return [
+            _("Historical intraday capability. Documented: %(documented)s. Implemented: %(implemented)s. "
+              "Configured: %(configured)s. Authorized: %(authorized)s.", **{
+                  field: states[getattr(current, field)] for field in ("documented", "implemented", "configured", "authorized")}),
+            _("Current connectivity: %(connectivity)s. Current data quality: %(quality)s. Operationally eligible: %(eligible)s.",
+              connectivity=states[current.connectivity_verified], quality=states[current.quality_verified],
+              eligible=states[current.eligible]),
+        ]
 
     def _open_source_records(self, action_name):
         self._check_setup_rights()

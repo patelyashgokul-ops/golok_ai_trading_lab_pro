@@ -7,3 +7,17 @@ All counters use the active company and native Odoo model access. Active instrum
 The initial chart reads up to 60 bars after rechecking the snapshot hash against the original input window and filters out observations not published by the cutoff in a calendar-bound run. A backfill that changes the underlying window invalidates chart display for the older snapshot. The chart displays OHLC and relative volume bar heights from the same bounded source, with an origin label. Provider mode is offline here. This frontend does not query Angel One.
 
 Release 20.0.9.1.5 uses a single server-side domain map for counts and list drill-downs. Quarantined datasets include administrative quarantine and material source conflicts, counted once per dataset. Prospective fixture accounts, fixture candidate records, synthetic performance reports and daily research events are persisted, active-company records. The KPI counts include only records visible to the current role.
+
+## Dashboard A–I reconciliation
+
+| Workspace | Existing Odoo entry point | Outstanding scope |
+|---|---|---|
+| A. Market Command Center | Research Overview, with persisted company counts and scoped drill-downs | Independently verified market session information, benchmark coverage and market regime. |
+| B. Stock Scanner | Historical Scanner, with native list search and source eligibility | Research-engine and strategy filters, momentum, relative volume and risk-decision columns. |
+| C. Research Opportunities | Fixture Candidate Research, with levels, strategy trials, gate results and timing evidence | Genuine inputs and financial results. |
+| D. Stock Research Detail | Research snapshot, bounded OHLC and volume chart, and supplemental findings | Instrument and date selection in one work area, plus chart overlays tied to stored indicators and levels. |
+| E. Paper Portfolio | Prospective Fixture Paper Accounts and Virtual Replay Accounts, with separate journals | Eligible position marks and equity and drawdown curves derived from persisted events. |
+| F. Strategy Intelligence | Synthetic Strategy Performance, Walk-forward Experiments and Sealed Holdouts | Independent financial evidence and trade drill-down across the experiment views. |
+| G. Risk Control Center | Fixture Risk Monitor, account form and journal | Expanded rejection history and one view that reconciles all limits and realized values. |
+| H. Provider and System Health | Provider Diagnostics, Sync History, Historical Sync Plans and comparison records | Current authenticated health, verified feed freshness and workstation telemetry. |
+| I. Daily Research Report | Daily Research Operations, with persistent session events and rejection reasons | One consolidated report for the day's coverage, provider events, risk and performance. |

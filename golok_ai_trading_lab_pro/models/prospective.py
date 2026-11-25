@@ -257,7 +257,8 @@ class FixturePaperAccount(models.Model):
         dataset = cycle.dataset_id
         session = dataset.calendar_id._sessions().get(cycle.day)
         scope = {"strategy": self.strategy, "strategy_version": strategies.VERSION, "target_policy": self.target_policy,
-                 "tariff": self.tariff_id.id, "research_sha256": run.input_digest}
+                 "tariff": self.tariff_id.id, "research_sha256": run.input_digest,
+                 "competition_evidence": targets.competition_evidence()}
         at = now.replace(tzinfo=timezone.utc)
         seconds = market_data.INTERVALS[dataset.interval]
         if (self.state != "active" or not self.strategy or not self.target_policy or not session or not seconds
@@ -271,8 +272,10 @@ class FixturePaperAccount(models.Model):
             return scope, None, "INCOMPLETE_OR_UNAVAILABLE_CANDLES"
         scope["signal_sha256"] = _input_digest(bars, dataset.calendar_id)
         scope["observation"] = rows[-1].id
-        if at - bars[-1].close_time > timedelta(seconds=seconds):
-            return scope, None, "STALE_OBSERVATION"
+        freshness = cycle._observation_freshness(now)
+        if freshness != "WITHIN_INTERVAL":
+            reason = "STALE_OBSERVATION" if freshness == "STALE" else "INCOMPLETE_OR_UNAVAILABLE_CANDLES"
+            return scope, None, reason
         if self.order_ids.filtered(lambda row: row.state in ("pending", "open", "unresolved")):
             return scope, None, "EXPOSURE_EXISTS"
         if self.day and cycle.day < self.day:
@@ -390,11 +393,13 @@ class FixturePaperAccount(models.Model):
                 break
             next_open = row.close_time
             examined = row
-            value = fixture_execution.entry_price(row._to_bar(), Decimal(order.limit_price),
-                                                   Decimal(order.stop_price), order.quantity)
+            bar = row._to_bar()
+            ceiling = Decimal(order.limit_price)
             floor = order.candidate_id.evidence["fixture_plan"].get("entry_floor")
-            if value is not None and floor is not None and value < Decimal(floor):
-                value = None
+            if floor is not None and not Decimal(floor) <= bar.open <= ceiling:
+                self._cancel(order, "ENTRY_RANGE_EXCEEDED")
+                return
+            value = fixture_execution.entry_price(bar, ceiling, Decimal(order.stop_price), order.quantity)
             if value is None:
                 continue
             fee = paper.paise(sum(self.tariff_id._schedule().fees(

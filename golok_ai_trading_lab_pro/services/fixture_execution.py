@@ -1,16 +1,24 @@
 """Causal rules for paper execution on an explicitly synthetic candle stream."""
 
+from datetime import timedelta
+
 from . import targets
 
 
 def contiguous(bars, opening, seconds):
-    from datetime import timedelta
-
     for bar in bars:
         if bar.open_time != opening or bar.close_time != opening + timedelta(seconds=seconds):
             return False
         opening = bar.close_time
     return bool(bars)
+
+
+def observation_freshness(observed, available, received, cutoff, evaluated, seconds):
+    if not seconds or not all((observed, available, received, cutoff, evaluated)):
+        return "UNKNOWN"
+    if not observed <= available <= cutoff <= evaluated or not observed <= received <= cutoff:
+        return "NOT_AVAILABLE_AT_CUTOFF"
+    return "STALE" if evaluated - observed > timedelta(seconds=seconds) else "WITHIN_INTERVAL"
 
 
 def proposed_levels(strategy, bars, session, policy, observed_at):

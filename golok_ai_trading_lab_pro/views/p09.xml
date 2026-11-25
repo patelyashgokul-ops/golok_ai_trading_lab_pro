@@ -66,6 +66,7 @@
                 </group>
                 <notebook>
                     <page string="Levels and Competition"><field name="plan_text" nolabel="1"/></page>
+                    <page string="Timing and Freshness"><field name="timing_text" nolabel="1"/></page>
                     <page string="Decision Gates"><field name="gate_text" nolabel="1"/></page>
                     <page string="Research Evidence"><field name="research_text" nolabel="1"/></page>
                 </notebook>

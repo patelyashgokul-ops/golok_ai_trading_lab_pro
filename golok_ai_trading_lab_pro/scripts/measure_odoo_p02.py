@@ -3,6 +3,7 @@
 import json
 from datetime import datetime, timezone
 from time import perf_counter, process_time
+from uuid import uuid4
 
 import psutil
 
@@ -19,7 +20,7 @@ def run(env):
         raise RuntimeError("The benchmark needs at least 1 GiB immediately available RAM.")
     process = psutil.Process()
     initial_rss = peak_rss = process.memory_info().rss
-    company = env["res.company"].create({"name": "Synthetic P02 benchmark"})
+    company = env["res.company"].create({"name": f"Synthetic P02 benchmark {uuid4().hex[:12]}"})
     day = "2024-01-02"
     schedule = json.dumps([{"date": day, "kind": "regular", "open": "09:15", "close": "15:30",
                             "entry_cutoff": "14:30", "exit_cutoff": "15:25"}])

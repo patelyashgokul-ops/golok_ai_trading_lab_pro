@@ -91,6 +91,15 @@
 
     .o_golok_wick { left: 50%; width: 1px; min-height: 1px; }
     .o_golok_body { left: 20%; right: 20%; min-height: 2px; }
+    .o_golok_overlay_point {
+        position: absolute;
+        left: 50%;
+        width: 5px;
+        height: 5px;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        background: var(--bs-primary);
+    }
     .o_golok_volume_area {
         height: 20%;
         margin-top: 8px;

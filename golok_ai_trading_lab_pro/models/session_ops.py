@@ -6,7 +6,7 @@ from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.fields import Domain
 
-from ..services import calendar, decision, market_data, session_clock, strategies, targets
+from ..services import calendar, decision, fixture_execution, market_data, session_clock, strategies, targets
 
 
 PHASES = [(value, label) for value, label in (
@@ -342,11 +342,16 @@ class ResearchCycle(models.Model):
                 reason = "GATE_VETO: " + ", ".join(key for key, value in checks.items() if not decision.evidence_passed(value))
             cycle._save_candidate(run, operator_account, now, scope, reservation, checks, reason)
 
+    def _observation_freshness(self, evaluated):
+        self.ensure_one()
+        return fixture_execution.observation_freshness(
+            self.observation_at, self.available_at, self.observation_id.ingested_at, self.cutoff, evaluated,
+            market_data.INTERVALS[self.dataset_id.interval])
+
     def _candidate_checks(self, run, account, scope, reserved, generated):
         self.ensure_one()
         dataset = run.dataset_id
-        seconds = market_data.INTERVALS[dataset.interval]
-        evidence_at = fields.Datetime.to_string(self.available_at)
+        freshness = self._observation_freshness(generated)
         checks = {
             "G01": (dataset.origin, "Eligible synthetic fixture",
                     dataset.origin == "synthetic" and not dataset.quarantined and not dataset.integrity_conflict),
@@ -354,9 +359,8 @@ class ResearchCycle(models.Model):
             "G03": (self.phase, "Open fixture candle window",
                     dataset.calendar_id.verification == "fixture" and self.phase in ("market_opening", "intraday")),
             "G04": ([run.bar_count, run.gap_count], "Completed observations without gaps", bool(run.bar_count and not run.gap_count)),
-            "G05": ([evidence_at, fields.Datetime.to_string(generated)], "Available by cutoff and within one interval",
-                    bool(seconds and self.available_at <= self.cutoff <= generated
-                         and self.observation_at <= generated <= self.observation_at + timedelta(seconds=seconds))),
+            "G05": (freshness, "Available and received by cutoff, then evaluated within one interval",
+                    freshness == "WITHIN_INTERVAL"),
         }
         if reserved:
             plan, settings = reserved
@@ -401,10 +405,22 @@ class ResearchCycle(models.Model):
                 state = "expired"
             elif reason != "SUSPENDED_STALE_OR_OUTSIDE_SESSION":
                 state = "rejected"
+        timing = {
+            "mode": "synthetic",
+            "provider_state_required": "LOCAL_FIXTURE",
+            "publication_basis": "SIMULATED_OBSERVATION_AVAILABILITY",
+            "freshness": self._observation_freshness(generated),
+            "observed_at_utc": fields.Datetime.to_string(self.observation_at),
+            "available_at_utc": fields.Datetime.to_string(self.available_at),
+            "received_at_utc": fields.Datetime.to_string(self.observation_id.ingested_at),
+            "cutoff_utc": fields.Datetime.to_string(self.cutoff),
+            "evaluated_at_utc": fields.Datetime.to_string(generated),
+            "valid_until_utc": scope.get("expiry_utc"),
+        }
         candidate = self.env["golok.lab.research.candidate"].with_context({}).sudo().create({
             "cycle_id": self.id, "company_id": self.company_id.id, "input_digest": run.input_digest,
             "engine_version": run.engine_version,
-            "evidence": {"research": run.evidence, "decision": evaluation, "fixture_plan": scope},
+            "evidence": {"research": run.evidence, "decision": evaluation, "fixture_plan": scope, "timing": timing},
             "reason": reason, "generated_at": generated,
             "state": state,
         })
@@ -433,6 +449,7 @@ class ResearchCandidate(models.Model):
     generated_at = fields.Datetime()
     order_ids = fields.One2many("golok.lab.fixture.order", "candidate_id")
     plan_text = fields.Text(compute="_compute_explanation")
+    timing_text = fields.Text(compute="_compute_explanation")
     gate_text = fields.Text(compute="_compute_explanation")
     research_text = fields.Text(compute="_compute_explanation")
     lifecycle = fields.Selection([("no_trade", "NO TRADE"), ("experimental", "Experimental"),
@@ -447,8 +464,10 @@ class ResearchCandidate(models.Model):
     def _compute_lifecycle(self):
         for item in self:
             order = item.order_ids[:1]
-            if order.state == "cancelled" and order.exit_reason in ("DATA_INTEGRITY", "ENTRY_WINDOW_EXPIRED"):
-                item.lifecycle = "invalidated" if order.exit_reason == "DATA_INTEGRITY" else "expired"
+            if order.state == "cancelled" and order.exit_reason in ("DATA_INTEGRITY", "ENTRY_RANGE_EXCEEDED"):
+                item.lifecycle = "invalidated"
+            elif order.state == "cancelled" and order.exit_reason == "ENTRY_WINDOW_EXPIRED":
+                item.lifecycle = "expired"
             elif order.state == "pending" and order.last_entry_check_id:
                 item.lifecycle = "wait"
             else:
@@ -468,6 +487,8 @@ class ResearchCandidate(models.Model):
         for candidate in self:
             stored = candidate.evidence or {}
             candidate.plan_text = json.dumps(stored.get("fixture_plan") or {}, indent=2, sort_keys=True)
+            candidate.timing_text = json.dumps(stored["timing"], indent=2, sort_keys=True) if stored.get("timing") else _(
+                "Detailed timing evidence is unavailable for this earlier record.")
             candidate.gate_text = json.dumps(stored.get("decision") or {}, indent=2, sort_keys=True)
             candidate.research_text = json.dumps(stored.get("research") or {}, indent=2, sort_keys=True)
 

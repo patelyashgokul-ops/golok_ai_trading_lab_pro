@@ -65,6 +65,8 @@
         <field name="model">golok.lab.run</field>
         <field name="arch" type="xml">
             <form create="0" edit="0" delete="0">
+                <header><button name="action_snapshot_chart" type="object" string="Open Stock Chart"
+                                invisible="not bar_count"/></header>
                 <sheet>
                     <group><group>
                         <field name="dataset_id"/><field name="origin"/><field name="as_of"/>

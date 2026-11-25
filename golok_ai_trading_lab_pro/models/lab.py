@@ -633,10 +633,25 @@ class ResearchRun(models.Model):
         candles = run._checked_snapshot_candles()
         if not candles:
             return None
-        return {"origin": run.origin, "bars": [
-            [fields.Datetime.to_string(row.close_time), row.open_price, row.high_price,
-             row.low_price, row.close_price, row.volume] for row in reversed(candles[:60])
-        ]}
+        sessions = run.dataset_id.calendar_id._sessions() if run.dataset_id.calendar_id else None
+        series = indicators.calculate([row._to_bar() for row in reversed(candles)], sessions=sessions)
+        return {
+            "origin": run.origin, "cutoff": fields.Datetime.to_string(run.as_of),
+            "bars": [
+                [fields.Datetime.to_string(row.close_time), row.open_price, row.high_price,
+                 row.low_price, row.close_price, row.volume] for row in reversed(candles[:60])
+            ],
+            "overlays": {key: [str(value) if value is not None else None for value in series[key][-60:]]
+                         for key in ("ema20", "sma20", "vwap")},
+        }
+
+    def action_snapshot_chart(self):
+        self.ensure_one()
+        self.check_access("read")
+        if self.company_id != self.env.company:
+            raise AccessError(_("Select a research snapshot in your active company."))
+        return {"type": "ir.actions.client", "tag": "golok_lab.overview",
+                "name": _("Stock Research Chart"), "params": {"run_id": self.id}}
 
     def _checked_snapshot_candles(self):
         self.ensure_one()

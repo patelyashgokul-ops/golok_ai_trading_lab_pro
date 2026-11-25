@@ -279,6 +279,8 @@ def verify(base_url, database, edge):
         page.get_by_role("button", name="Review Provider Status").click()
         expect(page.locator(".o_form_view [name=details]")).to_contain_text("Upstox historical | historical")
         expect(page.locator(".o_form_view [name=details]")).to_contain_text("Yahoo Finance | unverified")
+        expect(page.locator(".o_form_view [name=details]")).to_contain_text("provider-capabilities-1")
+        expect(page.locator(".o_form_view [name=details]")).to_contain_text("Current connectivity: Unverified")
         page.screenshot(path=EVIDENCE / "screenshots/provider-status.png")
         print("UI-23 provider status shows source ceilings and current company grants", flush=True)
         page.goto(f"{base_url}/odoo/action-{xml_id('action_research_candidates')}")

@@ -362,6 +362,11 @@ class TestLab(TransactionCase):
         dataset = accepted.normalized_dataset_ids
         self.assertEqual((len(dataset), dataset.interval), (1, "1d"))
         self.assertEqual(self.env["golok.lab.candle"].search_count([("dataset_id", "=", dataset.id)]), 1)
+        for wrong in (payload.replace("DEMO,EQ", "WRONG,EQ"), payload.replace("IN0000000001", "IN0000000002")):
+            rejected = imports.create({**vals, "upload": base64.b64encode(wrong.encode()).decode()})
+            with self.assertRaises(ValidationError), self.env.cr.savepoint():
+                rejected.action_normalize()
+            self.assertFalse(rejected.normalized_dataset_ids)
         cutoff = self.env["golok.lab.candle"].search([("dataset_id", "=", dataset.id)]).available_at
         from unittest.mock import patch
         from odoo import fields
@@ -630,6 +635,11 @@ class TestLab(TransactionCase):
         self.assertEqual(gate["dataset_version"], order.candidate_id.input_digest)
         self.assertEqual(len(gate["observation_sha256"]), 64)
         self.assertEqual(gate["mode"], "prospective_fixture")
+        timing = order.candidate_id.evidence["timing"]
+        self.assertEqual(timing["freshness"], "WITHIN_INTERVAL")
+        self.assertEqual(timing["publication_basis"], "SIMULATED_OBSERVATION_AVAILABILITY")
+        self.assertEqual(timing["valid_until_utc"], fields.Datetime.to_string(order.expires))
+        self.assertIn('"received_at_utc"', order.candidate_id.timing_text)
         self.assertGreater(account.reserved, 0)
         self.assertEqual(len(order.candidate_id.evidence["fixture_plan"]["signal_sha256"]), 64)
         check(20, rows[:4], work=True, selected_watch=second_watch)
@@ -684,6 +694,35 @@ class TestLab(TransactionCase):
         self.assertEqual((expired.state, expired.candidate_id.lifecycle), ("cancelled", "expired"))
         self.assertEqual((expiry_account.available, expiry_account.reserved), (expiry_account.opening, 0))
 
+        from decimal import Decimal
+        from ..services import level_research, targets
+
+        range_data = admin["golok.lab.dataset"].create({
+            "name": "Entry range fixture", "source": "Independent range fixture", "origin": "synthetic",
+            "interval": "5m", "calendar_id": calendar.id, "instrument_id": self.instrument.id,
+        })
+        range_watch = admin["golok.lab.session.watch"].create({"dataset_id": range_data.id})
+        range_account = admin["golok.lab.fixture.account"].create({
+            "name": "Entry range account", "watch_ids": [(6, 0, range_watch.ids)], "tariff_id": tariff.id,
+            "target_policy": targets.JOINT_POLICY,
+        })
+        proposal = {
+            "selected": {"limit": Decimal(order.limit_price), "stop": Decimal(order.stop_price),
+                         "target": Decimal(order.target_price), "entry_method": "fixture", "stop_method": "fixture"},
+            "range": (Decimal(order.stop_price) + Decimal(".05"), Decimal(order.limit_price)),
+            "version": "authored-range-test",
+        }
+        with patch.object(level_research, "evaluate", return_value=proposal):
+            check(20, rows[:4], work=True, selected_watch=range_watch)
+        ranged = range_account.order_ids
+        self.assertEqual(ranged.state, "pending")
+        outside = rows[5].replace(b",102,120,100,101,4000,", b",103,120,100,101,4000,")
+        self.assertNotEqual(outside, rows[5])
+        check(30, [rows[4], outside], selected_watch=range_watch)
+        self.assertEqual((ranged.state, ranged.exit_reason, ranged.candidate_id.lifecycle),
+                         ("cancelled", "ENTRY_RANGE_EXCEEDED", "invalidated"))
+        self.assertEqual((range_account.available, range_account.reserved), (range_account.opening, 0))
+
         competitors = admin["golok.lab.session.watch"]
         for instrument in (self.instrument, second_instrument):
             competing_data = admin["golok.lab.dataset"].create({
@@ -713,6 +752,7 @@ class TestLab(TransactionCase):
         self.assertEqual(better_result.evidence["fixture_plan"]["competition"]["winning_cycle_id"],
                          better_result.cycle_id.id)
         self.assertEqual(len(better_result.evidence["fixture_plan"]["strategy_trials"]), 5)
+        self.assertIsNone(better_result.evidence["fixture_plan"]["competition_evidence"]["out_of_sample_drawdown"])
         self.assertEqual(competing_account.journal_ids.mapped("kind"), ["reserved"])
         self.assertEqual(better_result.instrument_id, second_instrument)
         self.assertEqual(better_result.observation_at, at)

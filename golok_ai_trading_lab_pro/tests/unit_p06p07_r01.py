@@ -6,7 +6,7 @@ from decimal import Decimal
 from urllib.error import HTTPError, URLError
 
 from scripts.reproduce_p05 import fixture
-from services import (calendar, decision, indicators, ingestion, level_research, market_data, performance, portfolio, price_integrity,
+from services import (calendar, decision, fixture_execution, indicators, ingestion, level_research, market_data, performance, portfolio, price_integrity,
                       providers, research_contract, research_v3, rights_lifecycle, simulation, targets, upstox)
 from services.smartapi import ProviderError
 
@@ -48,6 +48,21 @@ class DecisionAuditTest(unittest.TestCase):
             bar = next(bar for bar in asset.bars if bar.close_time == item["source_record"])
             self.assertEqual(item["dataset_version"], decision.observation_digest(asset.bars))
             self.assertEqual(item["observation_sha256"], decision.observation_digest((bar,)))
+        competition = report["competition_evidence"]
+        self.assertEqual(competition["rank_version"], "cost-aware-1")
+        self.assertEqual(competition["financial_validation"], "UNAVAILABLE")
+        self.assertIsNone(competition["net_expectancy"])
+        self.assertIsNone(competition["out_of_sample_trades"])
+
+    def test_fixture_freshness_requires_both_publication_and_receipt(self):
+        stamp = datetime(2024, 1, 2, 4, tzinfo=timezone.utc)
+        deadline = stamp + timedelta(minutes=5)
+        assess = fixture_execution.observation_freshness
+        self.assertEqual(assess(stamp, stamp, stamp, stamp, deadline, 300), "WITHIN_INTERVAL")
+        self.assertEqual(assess(stamp, stamp, stamp, stamp, deadline + timedelta(seconds=1), 300), "STALE")
+        self.assertEqual(assess(stamp, stamp, deadline, stamp, deadline, 300), "NOT_AVAILABLE_AT_CUTOFF")
+        self.assertEqual(assess(stamp, deadline, stamp, stamp, deadline, 300), "NOT_AVAILABLE_AT_CUTOFF")
+        self.assertEqual(assess(stamp, stamp, None, stamp, deadline, 300), "UNKNOWN")
 
 
 class ResearchEvidenceTest(unittest.TestCase):
@@ -189,6 +204,12 @@ class UpstoxTest(unittest.TestCase):
         self.assertEqual(providers.route(["upstox"], "historical", providers.PURPOSES["import"], grants), "upstox")
         for purpose in ("historical_replay", "optimization", "automatic_sync", "export"):
             self.assertIsNone(providers.route(["upstox"], "historical", providers.PURPOSES[purpose], grants))
+        states = dict(documented=True, implemented=True, configured=True, authorized=True,
+                      connectivity_verified=True, quality_verified=True)
+        self.assertTrue(providers.capability(**states).eligible)
+        for key in states:
+            with self.subTest(missing=key):
+                self.assertFalse(providers.capability(**{**states, key: None}).eligible)
 
     def test_wrong_data_matrix_rejects_identity_values_and_equivalence(self):
         rows, receipt = self.read(lambda *_: self.payload(self.rows))
@@ -208,9 +229,10 @@ class UpstoxTest(unittest.TestCase):
         for changes in ({"key": "NSE_EQ|IN0000000002"}, {"key": "BSE_EQ|" + self.isin}):
             with self.subTest(changes=changes), self.assertRaisesRegex(ProviderError, "^DEGRADED$"):
                 self.read(lambda *_: self.fail("conflicting identity must not reach transport"), **changes)
-        for stamp, price in (("2099-01-02T09:15:00+05:30", 100), (self.rows[1][0], -100)):
-            wrong = [stamp, price, *self.rows[1][2:]]
-            with self.subTest(stamp=stamp, price=price), self.assertRaisesRegex(ProviderError, "^DEGRADED$"):
+        for index, value in ((0, "2099-01-02T09:15:00+05:30"), (1, -100), (2, 98), (3, 102), (3, 0)):
+            wrong = self.rows[1].copy()
+            wrong[index] = value
+            with self.subTest(index=index, value=value), self.assertRaisesRegex(ProviderError, "^DEGRADED$"):
                 self.read(lambda *_: self.payload([self.rows[0], wrong]))
 
 
