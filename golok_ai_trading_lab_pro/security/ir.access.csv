@@ -72,6 +72,7 @@ session_event_company,Session report company,golok.lab.session.event,,crud,"[('c
 source_comparison_admin,Compare upstream observations,golok.lab.source.comparison,golok_ai_trading_lab_pro.group_admin,cr,
 source_comparison_company,Source comparison company,golok.lab.source.comparison,,crud,"[('company_id','in',company_ids)]"
 source_comparison_rights,Comparison source display rights,golok.lab.source.comparison,,r,"[('left_id.protected_read','=',True),('right_id.protected_read','=',True)]"
+source_resolution_admin,Source conflict resolution administrator,golok.lab.source.resolution,golok_ai_trading_lab_pro.group_admin,crud,
 research_cycle_viewer,Recurring research cycle reader,golok.lab.research.cycle,golok_ai_trading_lab_pro.group_viewer,r,
 research_cycle_company,Recurring research cycle company,golok.lab.research.cycle,,crud,"[('company_id','in',company_ids)]"
 research_candidate_viewer,Research candidate reader,golok.lab.research.candidate,golok_ai_trading_lab_pro.group_viewer,r,

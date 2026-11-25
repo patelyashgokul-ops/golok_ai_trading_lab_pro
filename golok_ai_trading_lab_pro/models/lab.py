@@ -159,6 +159,8 @@ class Dataset(models.Model):
                                         groups="golok_ai_trading_lab_pro.group_admin")
     comparison_digest = fields.Char(readonly=True)
     comparison_reference = fields.Char(readonly=True, groups="golok_ai_trading_lab_pro.group_admin")
+    comparison_reviewed_by = fields.Many2one("res.users", readonly=True, ondelete="restrict",
+                                            groups="golok_ai_trading_lab_pro.group_admin")
 
     _identity = models.Constraint(
         "UNIQUE(company_id, instrument_id, source, origin, interval)", "This source and interval are already registered."
@@ -177,7 +179,7 @@ class Dataset(models.Model):
             if not self.env.su and {"source_review_id", "publication_basis", "fixture_version",
                                     "fixture_seed", "fixture_digest", "daily_revision_id", "daily_revision_digest",
                                     "replay_publication_digest", "replay_publication_evidence", "replay_reviewed_by",
-                                    "comparison_digest", "comparison_reference"} & vals.keys():
+                                    "comparison_digest", "comparison_reference", "comparison_reviewed_by"} & vals.keys():
                 raise AccessError(_("Lineage is assigned by the server."))
             if (vals.get("source") or "").startswith("P08 correction ") and not vals.get("daily_revision_id"):
                 raise AccessError(_("The source label is reserved for audited corrections."))
@@ -192,7 +194,7 @@ class Dataset(models.Model):
                 vals.setdefault("replay_reviewed_by", False)
         context = {key: value for key, value in self.env.context.items()
                    if key not in ("default_replay_publication_evidence", "default_replay_reviewed_by",
-                                  "default_comparison_reference", "default_comparison_digest")}
+                                  "default_comparison_reference", "default_comparison_digest", "default_comparison_reviewed_by")}
         return super(Dataset, self.with_context(context, default_quarantined=False, default_integrity_conflict=False, default_source_review_id=False,
                                                 default_publication_basis=False, default_fixture_version=False,
                                                 default_fixture_seed=0, default_fixture_digest=False,
@@ -300,8 +302,7 @@ class Dataset(models.Model):
                 return
             raise ValidationError(_("This attestation is immutable. Register a separate dataset for corrections."))
         vals = {digest_field: fingerprint, reference_field: reference}
-        if not comparison_only:
-            vals["replay_reviewed_by"] = self.env.user.id
+        vals["comparison_reviewed_by" if comparison_only else "replay_reviewed_by"] = self.env.uid
         self.sudo().write(vals)
         self.env["golok.lab.source.comparison"]._after_intake(self, stored)
 
@@ -317,7 +318,7 @@ class Dataset(models.Model):
         allowed = {"name", "quarantined"}
         if self.env.su:
             allowed |= {"integrity_conflict", "replay_publication_digest", "replay_publication_evidence", "replay_reviewed_by",
-                        "comparison_digest", "comparison_reference"}
+                        "comparison_digest", "comparison_reference", "comparison_reviewed_by"}
         if set(vals) - allowed:
             raise UserError(_("Dataset provenance is immutable. Register a new dataset for a new source."))
         if "quarantined" in vals and not self.env.user.has_group("golok_ai_trading_lab_pro.group_admin"):

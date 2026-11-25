@@ -1,6 +1,7 @@
 import json
 from datetime import timedelta, timezone
 from decimal import Decimal
+from urllib.parse import urlsplit
 
 from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, ValidationError
@@ -26,6 +27,10 @@ class SourceComparison(models.Model):
     differences = fields.Text(readonly=True)
     upstreams = fields.Text(readonly=True)
     tolerance = fields.Char(readonly=True)
+    replacement_id = fields.Many2one("golok.lab.dataset", readonly=True, ondelete="restrict", check_company=True)
+    resolution_reference = fields.Char(readonly=True)
+    resolved_by = fields.Many2one("res.users", readonly=True, ondelete="restrict")
+    resolved_at = fields.Datetime(readonly=True)
 
     _identity = models.Constraint("UNIQUE(left_id,right_id,close_at)", "This source pair and observation were already compared.")
 
@@ -178,6 +183,59 @@ class SourceComparison(models.Model):
             "tolerance": str(tolerance),
         }
 
+    def action_review_replacement(self):
+        self.ensure_one()
+        self._check_resolver()
+        return {"type": "ir.actions.act_window", "res_model": "golok.lab.source.resolution",
+                "target": "new", "views": [(False, "form")], "context": {"default_comparison_id": self.id}}
+
+    def _check_resolver(self):
+        self.check_access("read")
+        if (self.company_id != self.env.company or not self.env.user.has_group("golok_ai_trading_lab_pro.group_admin")):
+            raise AccessError(_("An active-company source administrator is required."))
+        if self.outcome != "CONFLICT" or self.replacement_id:
+            raise ValidationError(_("Select an unresolved material conflict."))
+
+    def _resolve(self, replacement, reference):
+        self.ensure_one()
+        self._check_resolver()
+        replacement.check_access("read")
+        self.env["golok.lab.replay.guard"]._lock(self.left_id.instrument_id)
+        self.invalidate_recordset(["replacement_id"])
+        self._check_resolver()
+        try:
+            parsed = urlsplit(reference or "")
+            valid = (len(reference) <= 512 and parsed.scheme == "https" and parsed.hostname
+                     and not parsed.username and not parsed.password and not parsed.query and not parsed.fragment)
+        except (TypeError, ValueError):
+            valid = False
+        if not valid:
+            raise ValidationError(_("Use an HTTPS correction reference without credentials or private query parameters."))
+        originals = self.left_id | self.right_id
+        if (not replacement or replacement in originals or replacement.company_id != self.company_id
+                or replacement.instrument_id != self.left_id.instrument_id or replacement.interval != self.left_id.interval
+                or replacement.mapping_id.isin != self.left_id.mapping_id.isin
+                or (replacement.origin == "synthetic") != (self.left_id.origin == "synthetic")
+                or not self._source_key(replacement)):
+            raise ValidationError(_("Select a separate qualified replacement for the same instrument and interval."))
+        replacement._permit("research")
+        corroboration = self.search([
+            ("company_id", "=", self.company_id.id), ("close_at", "=", self.close_at), ("outcome", "=", "MATCH"),
+            "|", "&", ("left_id", "=", replacement.id), ("right_id", "not in", originals.ids),
+            "&", ("right_id", "=", replacement.id), ("left_id", "not in", originals.ids),
+        ])
+        for support in corroboration:
+            peer = (support.left_id | support.right_id) - replacement
+            try:
+                peer._permit("research")
+            except AccessError:
+                continue
+            if self._source_key(peer):
+                self.sudo().write({"replacement_id": replacement.id, "resolution_reference": reference,
+                                   "resolved_by": self.env.uid, "resolved_at": fields.Datetime.now()})
+                return
+        raise ValidationError(_("The replacement needs a current independent match for this observation."))
+
     def _compare_inputs(self, left, right, close_at, now, *, observations=None, schedules=None):
         if ((left.origin == "synthetic") != (right.origin == "synthetic") or left.instrument_id != right.instrument_id
                 or left.interval != right.interval or not left.calendar_id or not right.calendar_id):
@@ -230,3 +288,18 @@ class SourceComparison(models.Model):
                     differences["possible_adjustment_action_id"] = item.id
                     break
         return outcome, differences, [observation.upstream for observation, _ in pairs], tolerance
+
+
+class SourceResolution(models.TransientModel):
+    _name = "golok.lab.source.resolution"
+    _description = "Review a corroborated replacement"
+
+    comparison_id = fields.Many2one("golok.lab.source.comparison", required=True, readonly=True)
+    replacement_id = fields.Many2one("golok.lab.dataset", required=True)
+    reference = fields.Char(required=True)
+
+    def action_confirm(self):
+        self.ensure_one()
+        self.check_access("read")
+        self.comparison_id._resolve(self.replacement_id, self.reference)
+        return {"type": "ir.actions.act_window_close"}

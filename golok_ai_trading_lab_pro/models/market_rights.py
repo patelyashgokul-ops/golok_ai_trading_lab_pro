@@ -208,6 +208,8 @@ class DailyImport(models.Model):
             "|", ("ends", "=", False), ("ends", ">", self.day)], limit=65)
         if not 1 <= len(mappings) <= 64:
             raise ValidationError(_("Register 1–64 effective NSE mappings for authorized securities."))
+        if origin == "imported" and review.raw_share_ohlcv:
+            self.env["golok.lab.replay.guard"]._lock(mappings.instrument_id)
         datasets = self.env["golok.lab.dataset"]
         for mapping in mappings:
             row = rows[mapping.symbol]
