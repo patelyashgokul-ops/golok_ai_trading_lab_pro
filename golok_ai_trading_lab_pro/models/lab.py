@@ -157,6 +157,8 @@ class Dataset(models.Model):
     replay_publication_evidence = fields.Char(readonly=True, groups="golok_ai_trading_lab_pro.group_admin")
     replay_reviewed_by = fields.Many2one("res.users", readonly=True, ondelete="restrict",
                                         groups="golok_ai_trading_lab_pro.group_admin")
+    comparison_digest = fields.Char(readonly=True)
+    comparison_reference = fields.Char(readonly=True, groups="golok_ai_trading_lab_pro.group_admin")
 
     _identity = models.Constraint(
         "UNIQUE(company_id, instrument_id, source, origin, interval)", "This source and interval are already registered."
@@ -174,7 +176,8 @@ class Dataset(models.Model):
                 vals.setdefault(key, value)
             if not self.env.su and {"source_review_id", "publication_basis", "fixture_version",
                                     "fixture_seed", "fixture_digest", "daily_revision_id", "daily_revision_digest",
-                                    "replay_publication_digest", "replay_publication_evidence", "replay_reviewed_by"} & vals.keys():
+                                    "replay_publication_digest", "replay_publication_evidence", "replay_reviewed_by",
+                                    "comparison_digest", "comparison_reference"} & vals.keys():
                 raise AccessError(_("Lineage is assigned by the server."))
             if (vals.get("source") or "").startswith("P08 correction ") and not vals.get("daily_revision_id"):
                 raise AccessError(_("The source label is reserved for audited corrections."))
@@ -188,7 +191,8 @@ class Dataset(models.Model):
                 vals.setdefault("replay_publication_evidence", False)
                 vals.setdefault("replay_reviewed_by", False)
         context = {key: value for key, value in self.env.context.items()
-                   if key not in ("default_replay_publication_evidence", "default_replay_reviewed_by")}
+                   if key not in ("default_replay_publication_evidence", "default_replay_reviewed_by",
+                                  "default_comparison_reference", "default_comparison_digest")}
         return super(Dataset, self.with_context(context, default_quarantined=False, default_integrity_conflict=False, default_source_review_id=False,
                                                 default_publication_basis=False, default_fixture_version=False,
                                                 default_fixture_seed=0, default_fixture_digest=False,
@@ -261,7 +265,7 @@ class Dataset(models.Model):
             raise ValidationError(_("The review requires 1–4,000 visible candles and no hidden observations."))
         return tuple(row._to_bar() for row in rows)
 
-    def _attest_publication(self, reference, bars):
+    def _attest_publication(self, reference, bars, *, comparison_only=False):
         self.ensure_one()
         self.check_access("write")
         if not self.env.user.has_group("golok_ai_trading_lab_pro.group_admin"):
@@ -277,17 +281,29 @@ class Dataset(models.Model):
         self.env["golok.lab.replay.guard"]._lock(self.instrument_id)
         self.env.cr.execute("SELECT id FROM golok_lab_dataset WHERE id=%s FOR UPDATE", (self.id,))
         self.invalidate_recordset()
-        self._historical_replay_review()
+        if comparison_only:
+            review = self._permit("research")
+            if (self.origin != "imported" or review.provider != "manual" or not review.raw_share_ohlcv
+                    or self.mapping_id.provider != "manual" or not self.mapping_id.isin
+                    or self.mapping_id.verification != "reviewed" or self.calendar_id.verification != "reviewed"):
+                raise AccessError(_("Comparison verification requires independently reviewed raw share OHLCV."))
+        else:
+            self._historical_replay_review()
         stored = self._historical_replay_bars()
         if stored != tuple(bars):
             raise ValidationError(_("The evidence CSV must match the complete stored dataset."))
         fingerprint = _input_digest(stored, self.calendar_id)
-        if self.replay_publication_digest:
-            if self.replay_publication_digest == fingerprint and self.replay_publication_evidence == reference:
+        digest_field = "comparison_digest" if comparison_only else "replay_publication_digest"
+        reference_field = "comparison_reference" if comparison_only else "replay_publication_evidence"
+        if self[digest_field]:
+            if self[digest_field] == fingerprint and self[reference_field] == reference:
                 return
             raise ValidationError(_("This attestation is immutable. Register a separate dataset for corrections."))
-        self.sudo().write({"replay_publication_digest": fingerprint, "replay_publication_evidence": reference,
-                           "replay_reviewed_by": self.env.user.id})
+        vals = {digest_field: fingerprint, reference_field: reference}
+        if not comparison_only:
+            vals["replay_reviewed_by"] = self.env.user.id
+        self.sudo().write(vals)
+        self.env["golok.lab.source.comparison"]._after_intake(self, stored)
 
     @api.constrains("calendar_id", "instrument_id", "origin")
     def _check_calendar(self):
@@ -300,7 +316,8 @@ class Dataset(models.Model):
     def write(self, vals):
         allowed = {"name", "quarantined"}
         if self.env.su:
-            allowed |= {"integrity_conflict", "replay_publication_digest", "replay_publication_evidence", "replay_reviewed_by"}
+            allowed |= {"integrity_conflict", "replay_publication_digest", "replay_publication_evidence", "replay_reviewed_by",
+                        "comparison_digest", "comparison_reference"}
         if set(vals) - allowed:
             raise UserError(_("Dataset provenance is immutable. Register a new dataset for a new source."))
         if "quarantined" in vals and not self.env.user.has_group("golok_ai_trading_lab_pro.group_admin"):
@@ -317,8 +334,8 @@ class Dataset(models.Model):
         self.check_access("write")
         if self.origin == "imported":
             self.env.cr.execute("SELECT id FROM golok_lab_dataset WHERE id=%s FOR UPDATE", (self.id,))
-            self.invalidate_recordset(["replay_publication_digest"])
-            if self.replay_publication_digest:
+            self.invalidate_recordset(["replay_publication_digest", "comparison_digest"])
+            if self.replay_publication_digest or self.comparison_digest:
                 raise AccessError(_("Reviewed historical publication inputs are frozen."))
         if (self.fixture_version or self.daily_revision_id) and not self.env.su:
             raise AccessError(_("Generated and corrected observations are immutable."))

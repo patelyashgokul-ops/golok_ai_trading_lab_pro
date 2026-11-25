@@ -19,7 +19,8 @@ class ImportCandles(models.TransientModel):
         self.ensure_one()
         self.check_access("read")
         self.dataset_id.check_access("write")
-        if self.dataset_id.origin == "provider" or self.dataset_id.source.startswith("SmartAPI fixture mapping "):
+        if self.dataset_id.origin == "provider" or self.dataset_id.source.startswith(
+                ("SmartAPI fixture mapping ", "Upstox fixture mapping ")):
             raise ValidationError(_("Provider data can only be added by the synchronization service."))
         bars = self._uploaded_bars()
         count = self.dataset_id._import_bars(bars)
@@ -37,6 +38,12 @@ class ImportCandles(models.TransientModel):
         self.ensure_one()
         self.check_access("read")
         self.dataset_id._attest_publication(self.publication_evidence, self._uploaded_bars())
+        return {"type": "ir.actions.act_window_close"}
+
+    def action_attest_comparison(self):
+        self.ensure_one()
+        self.check_access("read")
+        self.dataset_id._attest_publication(self.publication_evidence, self._uploaded_bars(), comparison_only=True)
         return {"type": "ir.actions.act_window_close"}
 
     def _uploaded_bars(self):

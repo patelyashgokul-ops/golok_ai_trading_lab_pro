@@ -146,7 +146,7 @@ class Synchronization(models.Model):
                 first_availability = {bar.close_time: bar.available_at for bar in stored}
                 bars = [replace(bar, available_at=first_availability.get(bar.close_time, bar.available_at)) for bar in bars]
                 inserted = dataset._import_bars(bars)
-                conflict = (mapping.isin and self.env["golok.lab.source.comparison"]._after_sync(dataset, bars))
+                conflict = dataset.integrity_conflict
                 report.update(state="complete", dataset_id=dataset.id, received_at=receipt.replace(tzinfo=None),
                               first_close=bars[0].close_time.replace(tzinfo=None), last_close=bars[-1].close_time.replace(tzinfo=None),
                               inserted=inserted, count=len(bars),

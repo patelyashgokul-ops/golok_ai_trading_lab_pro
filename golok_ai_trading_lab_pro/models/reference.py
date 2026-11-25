@@ -137,4 +137,11 @@ class MappedDataset(models.Model):
                     raise ValidationError(_("A candle is outside the mapping's effective dates."))
                 if any(price % tick for price in (bar.open, bar.high, bar.low, bar.close)):
                     raise ValidationError(_("A candle price is outside the instrument's tick grid."))
-        return super()._import_bars(bars)
+        comparisons = self.env["golok.lab.source.comparison"]
+        eligible = comparisons._source_key(self)
+        if eligible:
+            self.env["golok.lab.replay.guard"]._lock(self.instrument_id)
+        count = super()._import_bars(bars)
+        if eligible:
+            comparisons._after_intake(self, bars)
+        return count
