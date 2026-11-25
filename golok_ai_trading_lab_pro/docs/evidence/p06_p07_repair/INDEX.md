@@ -113,3 +113,13 @@ Real provider, genuine market and independent financial results are unavailable.
 | Odoo worker, capture persistence and regression | [Fresh install](stream-equity/verified/installation/fresh.log) · [Module update](stream-equity/verified/installation/upgrade.log) · [PostgreSQL](stream-equity/verified/security/contention.log) · [Worker lease](stream-equity/worker-lease.log) |
 | Native dated equity and drawdown | [Edge](stream-equity/verified/browser/edge.log) · [Daily curves](stream-equity/verified/screenshots/daily-equity.png) |
 | Populated upgrades | [Previous R01](stream-equity/migration/upgrade/retention.log) · [Direct P09.1](stream-equity/migration-direct/upgrade/retention.log) |
+
+## Release 20.0.9.1.12
+
+| Evidence | Artifact |
+|---|---|
+| Unit, source and retained baseline | [Standalone](upstox-archive/standalone.log) · [Source](upstox-archive/source.log) · [Stress parity](upstox-archive/stress-parity.log) |
+| Archive rights, exact digest, completeness, replay and revocation | [Fresh Odoo](upstox-archive/final/installation/fresh.log) · [Module update](upstox-archive/final/installation/upgrade.log) · [PostgreSQL contention](upstox-archive/final/security/contention.log) |
+| Native archive intake | [Edge](upstox-archive/final/browser/edge.log) · [Archive form](upstox-archive/final/screenshots/upstox-archive-intake.png) |
+| Populated upgrades | [Previous R01](upstox-archive/migration/upgrade/retention.log) · [Direct P09.1](upstox-archive/migration-direct/upgrade/retention.log) |
+| Initial browser interaction | [Odoo showed the archive modal footer outside the form node](upstox-archive/verified/browser/edge.log) |

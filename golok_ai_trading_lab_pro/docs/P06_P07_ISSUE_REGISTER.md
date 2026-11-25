@@ -12,7 +12,7 @@
 | Holdout data for independent evaluation | External blocker | The Odoo date-window guard covers locally tested roles and intake paths. A genuine independent evaluation requires a separately authorized sample. |
 | Workspaces | Technical partial | Scanner timeframe, sector and quality filters, stored indicator columns, chart overlays, candidate timing, provider states, the consolidated session report and risk balances are available. Remaining scope includes strategy-trial filters, additional chart overlays, portfolio curves and production telemetry. |
 | Scheduled operational validation | Technical partial | Exercise long-running recovery with actual authorized inputs, including disconnect and stale-source recovery. |
-| Upstox Analytics addendum | Technical partial | The dedicated worker records eligible observations under the current authorization. Direct point-in-time strategy replay and prospective paper ingestion remain open. They require a validated source with complete executable observations. [Addendum coverage](UPSTOX_ANALYTICS_CONFIGURATION.md) |
+| Upstox Analytics addendum | Technical partial | The dedicated worker records eligible LTPC observations. Direct historical strategy replay supports separately reviewed publication archives. Prospective paper ingestion and genuine session and financial evidence remain open. [Addendum coverage](UPSTOX_ANALYTICS_CONFIGURATION.md) |
 
 The four partial R67 criteria are provider capability states (007), genuine-source freshness and candidate expiry (021), financial evidence in multi-strategy competition (027), and the original dashboard workflow depth (038). The traceability table records the verified portion of each.
 

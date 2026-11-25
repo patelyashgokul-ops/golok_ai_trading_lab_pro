@@ -19,6 +19,8 @@ class ImportCandles(models.TransientModel):
         self.ensure_one()
         self.check_access("read")
         self.dataset_id.check_access("write")
+        if self.dataset_id.publication_basis == "archive_verified":
+            raise ValidationError(_("Reviewed Upstox archives are frozen. Use the archive form for a separate revision."))
         if self.dataset_id.origin == "provider" or self.dataset_id.source.startswith(
                 ("SmartAPI fixture mapping ", "Upstox fixture mapping ")):
             raise ValidationError(_("Provider data can only be added by the synchronization service."))

@@ -5254,7 +5254,8 @@ Original identifiers remain stable. The archived report preserves the historical
 | Instrument master synchronization | VERIFIED WITH FIXTURES | Approved bulk NSE cash-equity catalogs are saved, searchable and deduplicated per source review. Mapping mismatches are reported and reviewed mappings stay authoritative. Genuine source access is separately blocked. |
 | Authorized automatic backfill and descriptive research | VERIFIED WITH FIXTURES | Existing checkpoint plan and research job queue with current permissions. |
 | V3 WebSocket feed, reconnect, quota and expiry protection | VERIFIED WITH FIXTURES | The dedicated local worker retains a single company lease, processes multiple eligible LTPC updates per connection, renews its connection and commits deduplicated private observations. Acquisition stops on disabled capture or invalid rights. Production continuity and complete executable bars remain unverified. |
-| Direct strategy, backtest and prospective paper integration | PARTIAL | Existing descriptive pipeline receives permitted historical data. Point-in-time and complete executable observation coverage for the direct Upstox pipelines remains open. |
+| Direct historical strategy and backtest integration | VERIFIED WITH FIXTURES | A separate reviewed Upstox publication archive enters the authorized historical replay engine with complete session coverage, exact hash and backtest grant. API receipt time does not qualify as publication. |
+| Direct prospective paper integration | PARTIAL | Existing fixture paper workflows remain available. Upstox LTPC capture lacks complete executable OHLCV, and no direct prospective paper handoff has been verified. |
 | Actual connectivity, genuine historical validation and independent prospective financial validation | BLOCKED | No genuine credential or validated production samples were used during development. |
 
 [Upstox configuration and evidence scope](UPSTOX_ANALYTICS_CONFIGURATION.md)

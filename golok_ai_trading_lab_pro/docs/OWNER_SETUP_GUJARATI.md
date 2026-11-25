@@ -43,6 +43,8 @@ Publisher સુધારેલી દૈનિક ફાઇલ આપે ત્
 
 સતત capture માટે **Collect timestamped V3 samples** અને **Use continuous local V3 worker** બંને પસંદ કરો. Windowsમાં Odoo ચલાવતા એ જ user હેઠળ Odoo configuration, database અને company ID સાથે worker ચલાવો. Launcherનો દાખલો સેટઅપમાં છે. [Upstox worker સેટઅપ](UPSTOX_ANALYTICS_CONFIGURATION.md)
 
+Historical strategy replay માટે મૂળ publication timestamps ધરાવતી, અલગથી મંજૂર CSV હોય ત્યારે **Import Upstox Publication Archive** ખોલો. Reviewed SHA-256, HTTPS પુરાવો, NSE mapping અને calendar આપો. પછી datasetમાંથી **Open Archive Replay** ખોલો અને hypothetical tariff તથા strategy પસંદ કરો. Analytics APIમાં ફાઇલ download થયાનો સમય publicationનો પુરાવો આપતો નથી. [Upstox archive સેટઅપ](UPSTOX_ANALYTICS_CONFIGURATION.md)
+
 1. Offline ચકાસણી માટે Trading System Administrator તરીકે Odooમાં NSE fixture calendar અને Upstox mapping બનાવો. Mappingની key `NSE_EQ|ISIN` સ્વરૂપમાં હોવી જોઈએ.
 2. **Synchronize Historical** ખોલીને **Synthetic fixture** પસંદ કરો. Upstox V3નું synthetic JSON અને પૂર્ણ fixture session આપો. **Historical Sync Plans** માં `mapping_id/YYYY-MM-DD` key હેઠળ એ જ V3 response object આપી **Process Next Session** દબાવી શકો. **Sync History** માં count અને status જુઓ.
 3. અસલી data માટે Upstox accountમાંથી Analytics Tokenની ઉપલબ્ધતા અને query, display, local storage તથા internal researchની લેખિત મંજૂરી ચકાસો. **Market Data Authorization** માં મંજૂરીની નોંધ કરો.

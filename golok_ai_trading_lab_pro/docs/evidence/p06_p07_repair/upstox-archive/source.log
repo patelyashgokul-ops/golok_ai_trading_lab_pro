@@ -1,0 +1,4 @@
+PASS: inspected 80 runtime source files
+PASS: Python AST and XML basic parsing
+PASS: no matches for broker order methods, versioned order paths or credential literal patterns
+PASS: Odoo web is the only manifest dependency

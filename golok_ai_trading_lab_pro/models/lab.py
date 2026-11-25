@@ -140,6 +140,7 @@ class Dataset(models.Model):
     integrity_conflict = fields.Boolean(readonly=True, help="An equivalent source observation materially disagreed.")
     source_review_id = fields.Many2one("golok.lab.source.review", readonly=True, check_company=True, ondelete="restrict")
     publication_basis = fields.Selection([("fixture", "Simulation input"), ("operator", "Operator timestamps"),
+                                         ("archive_verified", "Reviewed Upstox archive timestamps"),
                                           ("receipt", "First observed receipt")], readonly=True)
     lineage_status = fields.Selection([
         ("generated_fixture", "Server-generated fixture"), ("simulation", "Simulation input"),
@@ -183,6 +184,8 @@ class Dataset(models.Model):
                 raise AccessError(_("Lineage is assigned by the server."))
             if (vals.get("source") or "").startswith("P08 correction ") and not vals.get("daily_revision_id"):
                 raise AccessError(_("The source label is reserved for audited corrections."))
+            if not self.env.su and (vals.get("source") or "").startswith("Upstox point-in-time "):
+                raise AccessError(_("Use the reviewed Upstox archive import."))
             if vals.get("origin") == "imported" and not vals.get("source_review_id"):
                 review = self.env["golok.lab.source.review"]._authorize(
                     "manual", "historical", "import", upstream=vals.get("source"))
@@ -219,14 +222,14 @@ class Dataset(models.Model):
         if operator != "in" or tuple(value) != (True,):
             return NotImplemented
         return (Domain("origin", "=", "synthetic")
-                | (Domain("publication_basis", "in", ["operator", "receipt"])
+                | (Domain("publication_basis", "in", ["operator", "receipt", "archive_verified"])
                    & Domain("source_review_id", "any!", Domain("readable_now", "=", True))))
 
     @api.depends("origin", "publication_basis", "source_review_id.readable_now")
     def _compute_protected_read(self):
         for dataset in self:
             dataset.protected_read = dataset.origin == "synthetic" or (
-                dataset.publication_basis in ("operator", "receipt") and dataset.sudo().source_review_id.readable_now)
+                dataset.publication_basis in ("operator", "receipt", "archive_verified") and dataset.sudo().source_review_id.readable_now)
 
     def _permit(self, purpose):
         self.ensure_one()
@@ -235,10 +238,12 @@ class Dataset(models.Model):
         if self.origin == "synthetic" and purpose in ("import", "research"):
             return
         review = self.sudo().source_review_id
-        if not review or self.publication_basis not in ("operator", "receipt"):
+        if not review or self.publication_basis not in ("operator", "receipt", "archive_verified"):
             raise AccessError(_("The historical dataset has no effective authorization lineage."))
         if review.provider not in ("smartapi", "upstox", "bhavcopy", "manual"):
             raise AccessError(_("The data is ineligible for this operation."))
+        if self.publication_basis == "archive_verified" and purpose in ("import", "historical_replay"):
+            purpose = "analytics_archive" if purpose == "import" else "analytics_replay"
         return self.env["golok.lab.source.review"]._authorize(
             review.provider, "daily" if review.provider == "bhavcopy" else "historical", purpose,
             upstream=self.source, bound=review)
@@ -252,10 +257,12 @@ class Dataset(models.Model):
     def _historical_replay_review(self):
         self.ensure_one()
         review = self._permit("historical_replay")
-        if (self.origin != "imported" or review.provider != "manual" or self.publication_basis != "operator"
+        eligible = ((review.provider, self.publication_basis) in (("manual", "operator"), ("upstox", "archive_verified"))
+                    and self.mapping_id.provider == review.provider)
+        if (self.origin != "imported" or not eligible
                 or not review.raw_share_ohlcv or self.interval not in ("1m", "3m", "5m", "15m")
                 or self.calendar_id.verification != "reviewed" or self.mapping_id.verification != "reviewed"
-                or self.mapping_id.provider != "manual" or not self.mapping_id.isin):
+                or not self.mapping_id.isin):
             raise AccessError(_("Use reviewed unadjusted intraday CSV data with an exchange calendar and an ISIN mapping."))
         return review
 
@@ -266,6 +273,22 @@ class Dataset(models.Model):
         if not rows or len(rows) > market_data.MAX_ROWS or len(rows) != candles.sudo().search_count(domain):
             raise ValidationError(_("The review requires 1–4,000 visible candles and no hidden observations."))
         return tuple(row._to_bar() for row in rows)
+
+    def action_open_archive_replay(self):
+        self.ensure_one()
+        self.check_access("read")
+        if (not self.env.user.has_group("golok_ai_trading_lab_pro.group_analyst")
+                or self.publication_basis != "archive_verified" or not self.replay_publication_digest):
+            raise AccessError(_("Select a reviewed Upstox archive."))
+        self._historical_replay_review()
+        bars = self._historical_replay_bars()
+        if self.replay_publication_digest != _input_digest(bars, self.calendar_id):
+            raise AccessError(_("The archive does not match its reviewed publication evidence."))
+        day = bars[0].close_time.astimezone(calendar.IST).date()
+        action = self.env["ir.actions.actions"]._for_xml_id("golok_ai_trading_lab_pro.action_portfolio_wizard")
+        action["context"] = {"default_dataset_ids": self.ids, "default_starts": day.isoformat(),
+                             "default_ends": day.isoformat()}
+        return action
 
     def _attest_publication(self, reference, bars, *, comparison_only=False):
         self.ensure_one()

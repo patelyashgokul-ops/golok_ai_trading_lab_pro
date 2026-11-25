@@ -93,4 +93,11 @@ The early numerical fixture run failed two tests because the adopted historical 
 - All 29 Edge flows passed. The portfolio report displays the two end-of-day curves and their dated values. PostgreSQL contention, interruption and recovery passed. An independent worker lock check confirmed that a second worker is refused and graceful shutdown releases the lock.
 - Populated upgrades from P09.1 and the preceding R01 release retained 1,243 and 1,388 XML IDs respectively and the compared historical record hashes. All eleven P09.1 stress scenarios matched.
 
+## Release 20.0.9.1.12
+
+- The authored nine-candle Upstox archive intake rejected a wrong hash, incomplete coverage and missing backtest rights. It imported an exact reviewed file once, preserved original publication separately from local receipt, provided an authorized strategy replay and blocked replay after the original grant was revoked.
+- A rejected evidence URL rolls back the new archive and candles. Dataset replay navigation is analyst-only. The generic importer cannot append observations to a sealed archive.
+- Populated upgrades from P09.1 and the preceding R01 test clone retained 1,243 and 1,401 XML IDs and the compared record hashes. All 72 standalone tests and eleven archived stress cases passed.
+- Fresh Odoo install and module update passed 29 tests each. PostgreSQL contention and interrupted-worker recovery passed. Edge passed 30 checks, including the native archive form and its separate checksum and evidence inputs.
+
 [Commands, raw logs and screenshots](evidence/p06_p07_repair/INDEX.md)

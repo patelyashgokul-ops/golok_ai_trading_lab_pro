@@ -25,6 +25,18 @@ Run the PowerShell launcher with the Odoo configuration file, database and compa
 
 One worker holds an exclusive PostgreSQL session lock for the company. It takes multiple updates on each socket, renews the provider connection in bounded windows and retries transport failures through the local cooldown. Before accepting a new private observation it rechecks the configuration, current authorization, calendar and holdout scope. The worker stops accepting data when those conditions fail. Ctrl+C stops the launcher. Connection renewals and disconnects can leave gaps. The persisted LTPC observations provide price and timing evidence with no generic access or export. They do not contain independently verified complete OHLCV.
 
+## Reviewed point-in-time archive replay
+
+Use **Import Upstox Publication Archive** with a reviewed NSE Upstox mapping and calendar. Obtain a separately permitted archive for one completed regular session with raw share OHLCV and independently documented publication timestamps. The active Upstox source review must permit query, display, persistence and backtest and confirm raw share OHLCV.
+
+The CSV uses the chronological header below. Time values include an explicit UTC offset and zero seconds. Availability must be the original documented publication time.
+
+```text
+close_time,open,high,low,close,volume,open_time,available_at
+```
+
+The administrator supplies the separately reviewed SHA-256 of the exact CSV bytes and the direct HTTPS evidence reference. The intake rejects a different file, incomplete session grid, out-of-order publication, an incompatible mapping or missing authorization. The accepted dataset freezes the stored candle digest and keeps the local import timestamp separately. Choose **Open Archive Replay** from the dataset, then a hypothetical tariff and strategy, and run **Authorized Historical Replay**. The archive must remain covered by its original source review. Revocation disables new replay and hides existing authorized outputs.
+
 ## Verification scope
 
 | Operation | Technical status |
@@ -33,7 +45,8 @@ One worker holds an exclusive PostgreSQL session lock for the company. It takes 
 | REST LTP, single-session history, bulk NSE cash-equity catalog and bounded WebSocket LTPC sampling | Read-only adapters and fixture coverage. The catalog keeps versioned snapshots and preserves reviewed mappings. |
 | Automatic permitted sync and descriptive research | Uses existing authorized history checkpoints and job queue. |
 | Continuous intraday collection | The optional dedicated worker accepts repeated LTPC updates for one configured security and renews bounded connections. Production-feed continuity and complete bar coverage remain unverified. |
-| Strategy replay and prospective paper | Earlier point-in-time replay and fixture paper workflows remain available. Receipt-time history does not establish historical publication. LTPC lacks complete executable OHLCV. Direct Upstox promotion into these workflows remains incomplete. |
+| Historical strategy replay | Direct Upstox archive intake and authorized replay are fixture-tested. Receipt-time API history requires independent publication evidence in a separate archive before it can support this mode. |
+| Prospective paper | Existing fixture-only workflows remain available. Direct Upstox prospective paper ingestion remains incomplete. LTPC samples lack complete executable OHLCV. |
 | Genuine account access, historical coverage, timestamp semantics and prospective financial evidence | Blocked pending entitlement and genuine validation. |
 
 The stream uses the websocket-client package already present on the tested Windows host. Missing transport support disables stream collection. [Analytics Token](https://upstox.com/developer/api-documentation/analytics-token/) · [LTP V3](https://upstox.com/developer/api-documentation/ltp-v3/) · [Market Data Feed V3](https://upstox.com/developer/api-documentation/v3/get-market-data-feed/) · [Instruments](https://upstox.com/developer/api-documentation/instruments/)

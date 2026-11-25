@@ -369,6 +369,13 @@ def verify(base_url, database, edge):
         expect(page.get_by_role("status")).to_contain_text("Credential saved in the local Windows vault.")
         expect(page.get_by_text("DISABLED", exact=True)).to_be_visible()
         print("UI-28 masked local credential writes without echo and provider remains disabled", flush=True)
+        page.goto(f"{base_url}/odoo/action-{xml_id('action_upstox_archive_import')}")
+        archive = page.get_by_role("dialog").last
+        expect(archive.get_by_role("button", name="Import Reviewed Archive")).to_be_visible()
+        expect(archive.get_by_text("Reviewed Archive SHA-256")).to_be_visible()
+        expect(archive.get_by_text("Independent Publication Evidence")).to_be_visible()
+        page.screenshot(path=EVIDENCE / "screenshots/upstox-archive-intake.png")
+        print("UI-30 Upstox archive intake requires separate publication evidence and digest", flush=True)
         browser.close()
 
 

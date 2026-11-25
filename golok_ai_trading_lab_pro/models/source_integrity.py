@@ -87,6 +87,9 @@ class SourceComparison(models.Model):
             return None
         if dataset.origin == "provider" and review.provider in BROKER_SOURCES:
             return "provider", review.provider
+        if (dataset.publication_basis == "archive_verified" and dataset.replay_publication_digest
+                and review.provider == "upstox"):
+            return "provider", review.provider
         if review.provider == "bhavcopy":
             return "daily_file", "NSE"
         if review.provider == "manual" and (dataset.replay_publication_digest or dataset.comparison_digest):

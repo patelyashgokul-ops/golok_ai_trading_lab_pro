@@ -83,7 +83,7 @@ select md5(string_agg(row(id, to_jsonb(d)->>'source_review_id', to_jsonb(d)->>'p
                 $p08RecordDigests[$table] = @{ Sql = $digestSql; Before = (Query $digestSql) }
             }
         }
-        if ($SourceVersion -in @('20.0.9.0.0','20.0.9.1.0','20.0.9.1.1','20.0.9.1.2','20.0.9.1.3','20.0.9.1.4','20.0.9.1.5','20.0.9.1.6','20.0.9.1.7','20.0.9.1.8','20.0.9.1.9','20.0.9.1.10')) {
+        if ($SourceVersion -in @('20.0.9.0.0','20.0.9.1.0','20.0.9.1.1','20.0.9.1.2','20.0.9.1.3','20.0.9.1.4','20.0.9.1.5','20.0.9.1.6','20.0.9.1.7','20.0.9.1.8','20.0.9.1.9','20.0.9.1.10','20.0.9.1.11')) {
             $p09Tables = @{
                 session_watch = @('paper_account_id')
                 session_event = @()
@@ -115,10 +115,10 @@ select md5(string_agg(row(id, to_jsonb(d)->>'source_review_id', to_jsonb(d)->>'p
                     $p09Tables['source_comparison'] = @('replacement_id','resolution_reference','resolved_by','resolved_at')
                 }
             }
-            if ($SourceVersion -in @('20.0.9.1.5','20.0.9.1.6','20.0.9.1.7','20.0.9.1.8','20.0.9.1.9','20.0.9.1.10')) {
+            if ($SourceVersion -in @('20.0.9.1.5','20.0.9.1.6','20.0.9.1.7','20.0.9.1.8','20.0.9.1.9','20.0.9.1.10','20.0.9.1.11')) {
                 $p09Tables['findings'] = @()
             }
-            if ($TargetVersion -in @('20.0.9.1.6','20.0.9.1.7','20.0.9.1.8','20.0.9.1.9','20.0.9.1.10','20.0.9.1.11') -and $SourceVersion -notin @('20.0.9.1.6','20.0.9.1.7','20.0.9.1.8','20.0.9.1.9','20.0.9.1.10')) {
+            if ($TargetVersion -in @('20.0.9.1.6','20.0.9.1.7','20.0.9.1.8','20.0.9.1.9','20.0.9.1.10','20.0.9.1.11','20.0.9.1.12') -and $SourceVersion -notin @('20.0.9.1.6','20.0.9.1.7','20.0.9.1.8','20.0.9.1.9','20.0.9.1.10','20.0.9.1.11')) {
                 $p09Tables['sync'] = @('fallback_for_id')
                 if ($SourceVersion -ne '20.0.9.1.5') {
                     $p09Tables['findings'] = @('evidence_contract')

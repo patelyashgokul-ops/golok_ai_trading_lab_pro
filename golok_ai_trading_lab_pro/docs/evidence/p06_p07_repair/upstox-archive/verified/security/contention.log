@@ -1,0 +1,14 @@
+PASS: independent PostgreSQL imports overlapped and the competing write was rejected
+PASS: a new transaction replayed the identical import with one total stored candle
+PASS: independent PostgreSQL imports overlapped and the competing write was rejected
+PASS: conflicting overlap rolled back a nonconflicting row from the same batch and retry succeeded
+PASS: independent transactions contended on the instrument range exclusion
+PASS: independent virtual-account postings overlapped; retry found exactly one reconciled batch
+PASS: independent holdout evaluations overlapped and a fresh retry rejected repeated consumption
+PASS: independent worker skipped a locked job, forced worker kill rolled back and retry produced exactly one result
+PASS: a committed lease was recovered once after expiry and stale worker token was denied
+PASS: a concurrent scheduler skipped the locked watch and only one observation cycle was queued
+PASS: independent fixture reservation and closure races left one order, one fill per side and a reconciled journal
+PASS: actual fixture closing worker was terminated after uncommitted writes and one retry reconciled the exit
+PASS: actual observation-driven closing worker was terminated after uncommitted writes and one retry reconciled the exit
+PASS: overlapping cohort jobs recovered with one reservation for the stronger instrument

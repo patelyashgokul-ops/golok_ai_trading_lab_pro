@@ -12,6 +12,79 @@ MODULE = "golok_ai_trading_lab_pro"
 
 @tagged("at_install", "-post_install")
 class TestLab(TransactionCase):
+    def test_upstox_point_in_time_archive_requires_hash_coverage_and_backtest_grant(self):
+        from hashlib import sha256
+
+        files = Path(__file__).parent / "fixtures/p02"
+        spec = json.loads((files / "spec.json").read_text())
+        raw = (files / "candles.csv").read_bytes()
+        reference = "https://example.test/reviewed-upstox-publication"
+        admin = self.env(user=self.admin.id)
+        grants = {
+            "provider": "upstox", "terms_url": "https://example.test/terms", "documentation": reference,
+            "evidence": "Authored archive fixture", "purpose": "Test the authorization and replay contract",
+            "restrictions": "Synthetic verification only", "expires": "2099-01-01", "storage_policy": "archive",
+            "query": True, "display": True, "persist": True, "research": True, "raw_share_ohlcv": True,
+        }
+        admin["golok.lab.source.review"].create(grants)
+        revision = admin["golok.lab.calendar"].create({
+            "name": "Upstox archive reviewed fixture", "exchange": "NSE", "verification": "reviewed",
+            "source": "https://www.nseindia.com/market-data", "verified_on": "2024-01-01",
+            "schedule": json.dumps(spec["schedule"]),
+        })
+        mapping = admin["golok.lab.mapping"].create({
+            "instrument_id": self.instrument.id, "symbol": self.instrument.symbol, "provider": "upstox",
+            "token": "NSE_EQ|IN0000000001", "isin": "IN0000000001", "starts": "2024-01-01", "tick": "0.05",
+            "listing_status": "listed", "source": reference, "revision": "authored-archive", "verification": "reviewed",
+        })
+        values = {"mapping_id": mapping.id, "calendar_id": revision.id, "day": spec["date"],
+                  "upload": BinaryBytes(raw), "evidence_url": reference, "expected_sha256": sha256(raw).hexdigest()}
+        archives = admin["golok.lab.upstox.archive"]
+        with self.assertRaises(AccessError):
+            archives.with_user(self.analyst).create(values)
+        with self.assertRaises(AccessError):
+            archives.create(values).action_import_archive()
+        review = admin["golok.lab.source.review"].create({**grants, "backtest": True})
+        with self.assertRaisesRegex(ValidationError, "SHA-256"):
+            archives.create({**values, "expected_sha256": "0" * 64}).action_import_archive()
+        incomplete = b"\n".join(raw.splitlines()[:-1]) + b"\n"
+        with self.assertRaisesRegex(ValidationError, "every candle"):
+            archives.create({**values, "upload": BinaryBytes(incomplete),
+                             "expected_sha256": sha256(incomplete).hexdigest()}).action_import_archive()
+        with self.assertRaisesRegex(ValidationError, "HTTPS"):
+            archives.create({**values, "evidence_url": "http://example.test/published"}).action_import_archive()
+        self.assertFalse(admin["golok.lab.dataset"].search([("publication_basis", "=", "archive_verified")]))
+        archive = archives.create(values)
+        result = archive.action_import_archive()
+        dataset = admin[result["res_model"]].browse(result["res_id"])
+        self.assertEqual(dataset, admin[result["res_model"]].browse(archive.action_import_archive()["res_id"]))
+        self.assertEqual(dataset.publication_basis, "archive_verified")
+        self.assertTrue(dataset.replay_publication_digest)
+        stored = dataset._historical_replay_bars()
+        self.assertEqual(len(stored), 9)
+        self.assertEqual(stored[0].available_at, stored[0].close_time)
+        receipt = admin["golok.lab.candle"].search([("dataset_id", "=", dataset.id)], limit=1)
+        self.assertGreater(receipt.ingested_at, receipt.available_at)
+        with self.assertRaises(AccessError):
+            dataset._import_bars(stored)
+        with self.assertRaises(AccessError):
+            dataset.with_user(self.viewer).action_open_archive_replay()
+        self.assertEqual(dataset.action_open_archive_replay()["context"]["default_dataset_ids"], dataset.ids)
+        tariff = admin["golok.lab.tariff"].create({"name": "Upstox archive costs", "lines": json.dumps(spec["tariffs"])})
+        replay = self.env["golok.lab.portfolio.wizard"].with_user(self.analyst).create({
+            "dataset_ids": [(6, 0, dataset.ids)], "tariff_id": tariff.id, "starts": spec["date"], "ends": spec["date"],
+            "strategy": "ST-01", "target_policy": "fixed_4r",
+        })
+        action = replay.action_run_authorized_history()
+        portfolio = self.env[action["res_model"]].with_user(self.analyst).browse(action["res_id"])
+        self.assertEqual(json.loads(portfolio.result)["scope"], "AUTHORIZED_HISTORICAL_SIMULATION")
+        self.assertEqual(json.loads(portfolio.specification)["inputs"][0]["verified_dataset_digest"],
+                         dataset.replay_publication_digest)
+        review.action_revoke()
+        self.assertFalse(portfolio.search([("id", "=", portfolio.id)]))
+        with self.assertRaises(AccessError):
+            replay.action_run_authorized_history()
+
     def test_p08_authorized_replay_requires_verified_publication_and_current_rights(self):
         files = Path(__file__).parent / "fixtures/p02"
         spec = json.loads((files / "spec.json").read_text())
