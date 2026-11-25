@@ -67,6 +67,7 @@ class P06Tests(unittest.TestCase):
         a = price_integrity.Observation("fixture", "NSE", "INR", "1d", "raw", now, now, Decimal(100), "NSE")
         compare = lambda b: price_integrity.compare(a, b, now, Decimal(".05"))
         self.assertEqual(compare(a), "SHARED_UPSTREAM")
+        self.assertEqual(compare(replace(a, upstream=" nse ")), "SHARED_UPSTREAM")
         self.assertEqual(compare(replace(a, upstream="unknown")), "UNKNOWN_LINEAGE")
         self.assertEqual(compare(replace(a, price=Decimal(101))), "CONFLICT")
         self.assertEqual(compare(replace(a, interval="5m")), "NON_EQUIVALENT")

@@ -40,7 +40,7 @@ Real provider, genuine market and independent financial results are unavailable.
 | Evidence | Artifact |
 |---|---|
 | Standalone and prior stress parity | [Unit suite](source-closure/standalone.log) · [Source scan](source-closure/source.log) · [P09.1 parity](source-closure/stress-parity.log) |
-| Automatic comparison, adjustment and resolution | [Fresh install](source-closure/release/installation/fresh.log) · [Update](source-closure/release/installation/upgrade.log) · [Focused rerun](source-closure/focused.log) |
-| PostgreSQL and Edge | [Concurrency](source-closure/release/security/contention.log) · [Browser](source-closure/release/browser/edge.log) · [Comparison verification screenshot](source-closure/release/screenshots/comparison-source-review.png) |
+| Automatic comparison, adjustment and resolution | [Fresh install](source-closure/verified/installation/fresh.log) · [Update](source-closure/verified/installation/upgrade.log) · [Focused rerun](source-closure/last-focused-final.log) |
+| PostgreSQL and Edge | [Concurrency](source-closure/verified/security/contention.log) · [Browser](source-closure/verified/browser/edge.log) · [Comparison verification screenshot](source-closure/verified/screenshots/comparison-source-review.png) |
 | Populated upgrades | [Direct P09.1](source-closure/migration-from-p091/upgrade/retention.log) · [Previous R01](source-closure/migration/upgrade/retention.log) |
-| Initial failure kept | [Calendar source validation](source-closure/odoo/installation/fresh.log) |
+| Initial failures kept | [Calendar source validation](source-closure/odoo/installation/fresh.log) · [Uncommitted browser input](source-closure/release/browser/edge.log) |

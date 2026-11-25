@@ -34,9 +34,10 @@ def compare(left, right, as_of, tolerance):
         return "NON_EQUIVALENT"
     if abs(left.price - right.price) > tolerance:
         return "CONFLICT"
-    if not left.upstream or not right.upstream or "unknown" in (left.upstream, right.upstream):
+    upstreams = tuple(value.strip().casefold() if isinstance(value, str) else "" for value in (left.upstream, right.upstream))
+    if any(value in ("", "unknown") for value in upstreams):
         return "UNKNOWN_LINEAGE"
-    return "SHARED_UPSTREAM" if left.upstream == right.upstream else "MATCH"
+    return "SHARED_UPSTREAM" if upstreams[0] == upstreams[1] else "MATCH"
 
 
 def compare_bars(left, right, left_bar, right_bar, as_of, tolerance):

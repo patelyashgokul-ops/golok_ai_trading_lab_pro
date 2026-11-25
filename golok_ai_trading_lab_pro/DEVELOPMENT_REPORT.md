@@ -16,7 +16,7 @@ Release `20.0.9.1.4` continues P06P07-R01 from verified P09.1 release `20.0.9.1.
 
 ## Verification
 
-60 standalone tests passed. The fresh Odoo installation and module-update stages each passed 25 tests. Edge passed 23 checks, including Upstox readiness, provider status and the fixture candidate list. Independent PostgreSQL contention, worker termination and recovery passed. The populated upgrades from P09.1 and the previous R01 build retained existing XML IDs and record-level digests. All eleven archived P09.1 stress cases matched. Of the focused repair criteria, 30 passed and 15 remain partial.
+61 standalone tests passed. The fresh Odoo installation and module-update stages each passed 26 tests. Edge passed 24 checks, including separate comparison and replay-publication verification controls. Independent PostgreSQL contention, worker termination and recovery passed. Populated upgrades from P09.1 and the previous R01 build retained existing XML IDs and record-level digests. All eleven archived P09.1 stress cases matched. Of the focused repair criteria, 33 passed and 12 remain partial.
 
 ## Readiness
 

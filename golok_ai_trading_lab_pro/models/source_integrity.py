@@ -230,9 +230,11 @@ class SourceComparison(models.Model):
                 peer._permit("research")
             except AccessError:
                 continue
-            if self._source_key(peer):
+            now = fields.Datetime.now()
+            if (self._source_key(peer)
+                    and self._compare_inputs(replacement, peer, self.close_at, now.replace(tzinfo=timezone.utc))[0] == "MATCH"):
                 self.sudo().write({"replacement_id": replacement.id, "resolution_reference": reference,
-                                   "resolved_by": self.env.uid, "resolved_at": fields.Datetime.now()})
+                                   "resolved_by": self.env.uid, "resolved_at": now})
                 return
         raise ValidationError(_("The replacement needs a current independent match for this observation."))
 
@@ -284,7 +286,7 @@ class SourceComparison(models.Model):
             for item in actions:
                 low, high = sorted((pairs[0][1].close, pairs[1][1].close))
                 larger, smaller = sorted((item.numerator, item.denominator), reverse=True)
-                if abs(low * larger - high * smaller) <= tolerance * smaller:
+                if larger > smaller and abs(low * larger - high * smaller) <= tolerance * smaller:
                     differences["possible_adjustment_action_id"] = item.id
                     break
         return outcome, differences, [observation.upstream for observation, _ in pairs], tolerance
