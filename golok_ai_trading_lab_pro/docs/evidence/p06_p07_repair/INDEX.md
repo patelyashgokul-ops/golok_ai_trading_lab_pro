@@ -52,4 +52,4 @@ Real provider, genuine market and independent financial results are unavailable.
 | Training excursion, causal pattern counts and evidence statuses | [Standalone](calibration/standalone.log) · [Source scan](calibration/source.log) · [P09.1 parity](calibration/stress-parity.log) |
 | Frozen walk-forward versus validation and evaluation | [Fresh installation](calibration/verified/installation/fresh.log) · [Update](calibration/verified/installation/upgrade.log) |
 | KPI drill-down and queue recovery | [Edge](calibration/verified/browser/edge.log) · [Daily research screenshot](calibration/verified/screenshots/reconciled-research-events.png) · [Concurrent worker log](calibration/verified/security/contention.log) |
-| Populated upgrades | [Previous R01 retention](calibration/migration/upgrade/retention.log) · [Final evidence schema retention](calibration/migration-final/upgrade/retention.log) |
+| Populated upgrades | [Previous R01 retention](calibration/migration/upgrade/retention.log) · [Final evidence schema retention](calibration/migration-final/upgrade/retention.log) · [Direct P09.1 retention](calibration/migration-from-p091/upgrade/retention.log) |

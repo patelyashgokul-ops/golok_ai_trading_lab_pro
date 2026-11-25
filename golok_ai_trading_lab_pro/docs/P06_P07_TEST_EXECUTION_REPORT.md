@@ -44,6 +44,6 @@ The early numerical fixture run failed two tests because the adopted historical 
 - All 63 standalone tests and all 26 Odoo fresh-install and update tests passed. The calibration test verifies exclusion of exit-bar and future marks, insufficient-sample handling, and a target constrained by the training cap and minimum net reward-to-risk.
 - The Odoo fixture exercises four walk-forward folds and checks the trading dates used for the fit and the cap persisted in the replay specification. The snapshot evidence test verifies all 25 identifiers and distinguishes completed, unavailable and separate-workflow results.
 - Edge passed 25 checks. The new browser case checks that fixture account and daily research event cards open lists with matching counts. Existing PostgreSQL contention and process interruption checks passed.
-- Upgrades from 20.0.9.1.3 and 20.0.9.1.4 retained their earlier record hashes and 1,261 and 1,280 XML IDs respectively. The final schema check includes an existing findings record. A separate PostgreSQL log path per test port resolves a parallel harness log-file lock.
+- Direct upgrades from 20.0.9.1.0, 20.0.9.1.3 and 20.0.9.1.4 retained earlier record hashes and 1,243, 1,261 and 1,280 XML IDs respectively. The final schema checks include an existing findings record. A separate PostgreSQL log path per test port resolves a parallel harness log-file lock.
 
 [Commands, raw logs and screenshots](evidence/p06_p07_repair/INDEX.md)

@@ -21,3 +21,25 @@
 2026-11-25 03:56:33,984 4592 INFO golok_p09_migration_r01l odoo.addons.base.models.ir_module: ALLOW access to module.button_install on [] to user __system__ #1 via n/a
 2026-11-25 03:56:34,041 4592 INFO golok_p09_migration_r01l odoo.modules.loading: loading 17 modules...
 2026-11-25 03:56:34,211 4592 INFO golok_p09_migration_r01l odoo.modules.loading: Loading module golok_ai_trading_lab_pro (11/17)
+2026-11-25 03:56:34,511 4592 INFO golok_p09_migration_r01l odoo.registry: module golok_ai_trading_lab_pro: creating or updating database tables
+2026-11-25 03:56:35,130 4592 INFO golok_p09_migration_r01l odoo.modules.loading: loading golok_ai_trading_lab_pro/security/groups.xml
+2026-11-25 03:56:35,353 4592 INFO golok_p09_migration_r01l odoo.modules.loading: loading golok_ai_trading_lab_pro/security/ir.access.csv
+2026-11-25 03:56:35,812 4592 INFO golok_p09_migration_r01l odoo.modules.loading: loading golok_ai_trading_lab_pro/views/lab.xml
+2026-11-25 03:56:35,967 4592 INFO golok_p09_migration_r01l odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p03.xml
+2026-11-25 03:56:36,227 4592 INFO golok_p09_migration_r01l odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p04.xml
+2026-11-25 03:56:36,349 4592 INFO golok_p09_migration_r01l odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p05.xml
+2026-11-25 03:56:36,437 4592 INFO golok_p09_migration_r01l odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p06.xml
+2026-11-25 03:56:36,577 4592 INFO golok_p09_migration_r01l odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p08.xml
+2026-11-25 03:56:36,895 4592 INFO golok_p09_migration_r01l odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p09.xml
+2026-11-25 03:56:37,172 4592 INFO golok_p09_migration_r01l odoo.registry: Registry changed, signaling through the database
+2026-11-25 03:56:37,175 4592 INFO golok_p09_migration_r01l odoo.modules.loading: Module golok_ai_trading_lab_pro loaded in 2.96s, 2062 queries (+2062 other)
+2026-11-25 03:56:37,638 4592 WARNING golok_p09_migration_r01l odoo.addons.mail.controllers.attachment: markdown2 is not installed, markdown will not be rendered
+2026-11-25 03:56:37,695 4592 INFO golok_p09_migration_r01l odoo.modules.loading: 17 modules loaded in 3.65s, 2062 queries (+2062 extra)
+2026-11-25 03:56:37,937 4592 INFO golok_p09_migration_r01l odoo.registry: verifying fields for every extended model
+2026-11-25 03:56:38,511 4592 INFO golok_p09_migration_r01l odoo.modules.loading: Modules loaded.
+2026-11-25 03:56:38,518 4592 INFO golok_p09_migration_r01l odoo.registry: Registry changed, signaling through the database
+2026-11-25 03:56:38,527 4592 INFO golok_p09_migration_r01l odoo.registry: Registry loaded in 7.369s
+2026-11-25 03:56:38,527 4592 INFO golok_p09_migration_r01l odoo.service.server.ThreadedServer: Initiating shutdown
+2026-11-25 03:56:38,527 4592 INFO golok_p09_migration_r01l odoo.service.server.ThreadedServer: Hit CTRL-C again or send a second signal to force the shutdown.
+2026-11-25 03:56:38,528 4592 INFO golok_p09_migration_r01l odoo.addons.bus.websocket: Disconnecting 0 websockets
+2026-11-25 03:56:38,639 4592 INFO golok_p09_migration_r01l odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 1 connections 
