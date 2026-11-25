@@ -3,7 +3,7 @@ import re
 from pathlib import Path
 from xml.etree import ElementTree
 
-roots = (Path("models"), Path("services"), Path("wizard"), Path("views"), Path("security"), Path("static"))
+roots = (Path("models"), Path("services"), Path("wizard"), Path("controllers"), Path("views"), Path("security"), Path("static"))
 sources = sorted(path for root in roots for path in root.rglob("*") if path.suffix in {".py", ".xml", ".js", ".csv", ".scss"})
 sources.extend(Path(name) for name in ("__manifest__.py", "__init__.py"))
 order_api = re.compile(r"placeOrder|modifyOrder|cancelOrder|(?:^|/)order/v\d|transferFunds", re.I)

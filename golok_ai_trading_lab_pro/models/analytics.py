@@ -6,7 +6,7 @@ from os import environ
 from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, ValidationError
 
-from ..services import calendar, local_secrets, upstox, upstox_analytics
+from ..services import calendar, ingestion, local_secrets, upstox, upstox_analytics
 from ..services.smartapi import ProviderError
 from .sync import _ADMIN
 
@@ -28,12 +28,16 @@ class AnalyticsConfig(models.Model):
     connection = fields.Char(default="UNVERIFIED")
     historical = fields.Char(default="UNVERIFIED")
     instrument_master = fields.Char(default="UNVERIFIED")
+    reference_checked_at = fields.Datetime()
+    reference_symbol = fields.Char()
+    reference_isin = fields.Char()
     stream = fields.Char(default="UNVERIFIED")
     checked_at = fields.Datetime()
     observed_at = fields.Datetime()
     published_at = fields.Datetime()
     received_at = fields.Datetime()
     last_quote = fields.Char()
+    sample_review_id = fields.Many2one("golok.lab.source.review", ondelete="set null")
     next_collection = fields.Datetime()
     failures = fields.Integer()
 
@@ -115,15 +119,42 @@ class AnalyticsConfig(models.Model):
         if record.enabled:
             try:
                 token = record._credential()
-                self.env["golok.lab.source.review"]._authorize("upstox", "historical", "query")
-                mapping = self._mapping(record, calendar_day())
-                upstox_analytics.quote_snapshot(token, mapping.token, mapping.isin, self.env["golok.lab.provider.budget"]._reserve)
-                state = "READ_ONLY_QUOTE_VERIFIED"
+                reviews = self.env["golok.lab.source.review"]
+                reserve = self.env["golok.lab.provider.budget"]._reserve
+                try:
+                    reviews._authorize("upstox", "historical", "analytics_quote")
+                except AccessError:
+                    reviews._authorize("upstox", "historical", "query")
+                    self._probe_history(record, token, reserve)
+                    state = "READ_ONLY_HISTORY_VERIFIED"
+                else:
+                    mapping = self._mapping(record, calendar_day())
+                    upstox_analytics.quote_snapshot(token, mapping.token, mapping.isin, reserve)
+                    state = "READ_ONLY_QUOTE_VERIFIED"
             except AccessError:
                 state = "PERMISSION_REQUIRED"
             except ProviderError as exc:
                 state = str(exc)
         record.write({"connection": state, "checked_at": fields.Datetime.now()})
+
+    def _probe_history(self, record, token, reserve):
+        revision = record.calendar_id
+        if revision.verification != "reviewed" or revision.company_id != self.env.company or revision.exchange != "NSE":
+            raise ProviderError("REVIEWED_CALENDAR_REQUIRED")
+        now = fields.Datetime.now().replace(tzinfo=timezone.utc)
+        eligible = [session for session in revision._sessions().values()
+                    if session.kind == "regular" and session.closing <= now and record.mapping_id._covers(session.day, "provider")]
+        if not eligible:
+            raise ProviderError("CLOSED_SESSION_REQUIRED")
+        session = max(eligible, key=lambda item: item.day)
+        mapping = self._mapping(record, session.day)
+        self.env["golok.lab.holdout"]._reject_days(mapping.instrument_id, [session.day], self.env.company)
+        rows, received = upstox.history(token, mapping.token, mapping.isin, "5m", session, reserve)
+        try:
+            ingestion.normalize(rows, session, 300, received)
+        except ValueError:
+            raise ProviderError("DEGRADED") from None
+        record.write({"historical": "CLOSED_SESSION_GRID_VERIFIED"})
 
     @api.model
     def _cron_collect(self):
@@ -148,7 +179,7 @@ class AnalyticsConfig(models.Model):
     def _collect(self, record, now):
         try:
             token = record._credential()
-            self.env["golok.lab.source.review"]._authorize("upstox", "historical", "analytics_collect")
+            review = self.env["golok.lab.source.review"]._authorize("upstox", "historical", "analytics_collect")
             day = calendar_day(now)
             mapping = self._mapping(record, day)
             revision = record.calendar_id
@@ -161,6 +192,8 @@ class AnalyticsConfig(models.Model):
                                                      self.env["golok.lab.provider.budget"]._reserve)
             if not sample or not session.opening <= sample["event"] <= sample["published"] < session.closing:
                 raise ProviderError("STALE_OR_UNAVAILABLE")
+            self.env["golok.lab.replay.guard"]._lock(mapping.instrument_id)
+            self.env["golok.lab.holdout"]._reject_days(mapping.instrument_id, [day], self.env.company)
         except (AccessError, ValidationError):
             self._stream_failure(record, now, "PERMISSION_OR_HOLDOUT_BLOCKED")
         except ProviderError as exc:
@@ -169,6 +202,7 @@ class AnalyticsConfig(models.Model):
             times = {f"{name}_at": sample[key].replace(tzinfo=None) for name, key in
                      (("observed", "event"), ("published", "published"), ("received", "receipt"))}
             record.write({**times, "last_quote": sample["price"], "stream": "FRESH_SAMPLE",
+                          "sample_review_id": review.id,
                           "failures": 0, "next_collection": now + timedelta(seconds=60)})
 
     def _stream_failure(self, record, now, status):
@@ -230,6 +264,34 @@ class AnalyticsWorkspace(models.TransientModel):
     historical = fields.Char(readonly=True)
     stream = fields.Char(readonly=True)
     instrument_master = fields.Char(readonly=True)
+    reference_symbol = fields.Char(readonly=True)
+    reference_isin = fields.Char(readonly=True)
+    reference_checked_at = fields.Datetime(readonly=True)
+    last_quote = fields.Char(compute="_compute_quote", string="Latest Fresh V3 Price")
+    last_observed_at = fields.Datetime(compute="_compute_quote", string="Exchange Observation Time")
+
+    @api.depends_context("company", "uid")
+    def _compute_quote(self):
+        service = self.env["golok.lab.analytics.config"]
+        service._admin()
+        config = service._current()
+        fresh = self._fresh_quote(config)
+        for view in self:
+            view.last_quote = config.last_quote if fresh else False
+            view.last_observed_at = config.observed_at if fresh else False
+
+    def _fresh_quote(self, config):
+        now = fields.Datetime.now()
+        if not (config.enabled and config.expires_at and config.expires_at > now and config.observed_at
+                and config.sample_review_id and timedelta(0) <= now - config.observed_at <= upstox_analytics.MAX_AGE):
+            return False
+        try:
+            self.env["golok.lab.source.review"]._authorize("upstox", "historical", "analytics_collect",
+                                                           bound=config.sample_review_id)
+            self.env["golok.lab.holdout"]._reject_days(config.mapping_id.instrument_id, [calendar_day(now)], self.env.company)
+        except (AccessError, ValidationError):
+            return False
+        return True
 
     @api.model
     def default_get(self, names):
@@ -237,13 +299,18 @@ class AnalyticsWorkspace(models.TransientModel):
         service = self.env["golok.lab.analytics.config"]
         service._admin()
         config = service._current()
+        fresh = self._fresh_quote(config)
         values.update({field: value for field, value in {
             "provider": "upstox" if config.enabled else "offline",
             "mapping_id": config.mapping_id.id, "calendar_id": config.calendar_id.id,
             "backfill": config.backfill, "collect": config.collect, "schedule_research": config.schedule_research,
             "connection": config.connection or "UNVERIFIED", "historical": config.historical or "UNVERIFIED",
-            "stream": config.stream or "UNVERIFIED", "instrument_master": config.instrument_master or "UNVERIFIED",
-            "credential_state": fields.Datetime.to_string(config.expires_at) if config.envelope else "NOT STORED",
+            "stream": ("STALE_OR_UNAVAILABLE" if config.stream == "FRESH_SAMPLE" and not fresh else config.stream or "UNVERIFIED"),
+            "instrument_master": config.instrument_master or "UNVERIFIED",
+            "credential_state": (("EXPIRED · " if config.expires_at <= fields.Datetime.now() else "")
+                                 + fields.Datetime.to_string(config.expires_at)) if config.envelope else "NOT STORED",
+            "reference_symbol": config.reference_symbol, "reference_isin": config.reference_isin,
+            "reference_checked_at": config.reference_checked_at,
         }.items() if field in names})
         return values
 
@@ -272,6 +339,9 @@ class AnalyticsWorkspace(models.TransientModel):
                       "calendar_id": self.calendar_id.id if enabled else False, "collect": enabled and self.collect,
                       "backfill": enabled and self.backfill, "schedule_research": enabled and self.schedule_research,
                       "next_collection": False, "failures": 0, "stream": "UNVERIFIED", "last_quote": False,
+                      "connection": "UNVERIFIED" if enabled else "DISABLED", "historical": "UNVERIFIED",
+                      "instrument_master": "UNVERIFIED", "reference_symbol": False, "reference_isin": False,
+                      "reference_checked_at": False,
                       "observed_at": False, "published_at": False, "received_at": False})
         return self._reload()
 
@@ -283,9 +353,10 @@ class AnalyticsWorkspace(models.TransientModel):
     def action_check_master(self):
         service = self._service()
         record = service._ensure_current()
+        instrument = None
         try:
             record._credential()
-            self.env["golok.lab.source.review"]._authorize("upstox", "historical", "query")
+            self.env["golok.lab.source.review"]._authorize("upstox", "historical", "import")
             mapping = service._mapping(record, calendar_day())
             instrument = upstox_analytics.instrument_master(self.env["golok.lab.provider.budget"]._reserve).get(mapping.token)
             status = ("MASTER_MATCH" if instrument and instrument["isin"] == mapping.isin
@@ -294,7 +365,9 @@ class AnalyticsWorkspace(models.TransientModel):
             status = "PERMISSION_REQUIRED"
         except ProviderError as exc:
             status = str(exc)
-        record.write({"instrument_master": status})
+        record.write({"instrument_master": status, "reference_checked_at": fields.Datetime.now(),
+                      "reference_symbol": instrument["symbol"] if status == "MASTER_MATCH" else False,
+                      "reference_isin": instrument["isin"] if status == "MASTER_MATCH" else False})
         return self._reload()
 
     def action_manage_token(self):

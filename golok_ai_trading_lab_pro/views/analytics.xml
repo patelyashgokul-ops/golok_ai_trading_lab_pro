@@ -1,0 +1,61 @@
+<odoo>
+    <record id="view_analytics_workspace" model="ir.ui.view">
+        <field name="name">golok.lab.analytics.workspace.form</field>
+        <field name="model">golok.lab.analytics.workspace</field>
+        <field name="arch" type="xml"><form>
+            <header>
+                <button name="action_apply" type="object" string="Apply Settings" class="btn-primary"/>
+                <button name="action_manage_token" type="object" string="Set or Replace Analytics Token"/>
+                <button name="action_test_connection" type="object" string="Test Connection"/>
+                <button name="action_check_master" type="object" string="Synchronize Instrument Reference"/>
+            </header>
+            <sheet>
+                <h2>Market Data API Configuration</h2>
+                <group>
+                    <group string="Provider and authorization">
+                        <field name="provider"/>
+                        <field name="mapping_id" domain="[('provider','=','upstox'),('verification','=','reviewed')]"
+                               options="{'no_create': True}" invisible="provider == 'offline'"/>
+                        <field name="calendar_id" domain="[('exchange','=','NSE'),('verification','=','reviewed')]"
+                               options="{'no_create': True}" invisible="provider == 'offline'"/>
+                        <field name="backfill" invisible="provider == 'offline'"/>
+                        <field name="schedule_research" invisible="provider == 'offline' or not backfill"/>
+                        <field name="collect" invisible="provider == 'offline'"/>
+                    </group>
+                    <group string="Verification">
+                        <field name="credential_state" string="Stored Token Expiry (UTC)"/>
+                        <field name="connection"/>
+                        <field name="historical"/>
+                        <field name="stream"/>
+                        <field name="instrument_master"/>
+                        <field name="reference_symbol" invisible="not reference_symbol"/>
+                        <field name="reference_isin" invisible="not reference_isin"/>
+                        <field name="reference_checked_at" invisible="not reference_checked_at"/>
+                        <field name="last_quote"/>
+                        <field name="last_observed_at"/>
+                    </group>
+                </group>
+                <div class="alert alert-info" role="status">
+                    Live financial validation and actionable recommendations remain blocked. Source authorizations and
+                    reviewed mappings govern acquisition. A REST quote cannot establish exchange-event freshness.
+                </div>
+            </sheet>
+        </form></field>
+    </record>
+    <record id="action_analytics_workspace" model="ir.actions.act_window">
+        <field name="name">Market Data API Configuration</field>
+        <field name="res_model">golok.lab.analytics.workspace</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+    </record>
+    <menuitem id="menu_analytics_workspace" name="Market Data API Configuration" parent="menu_lab"
+              action="action_analytics_workspace" groups="group_admin" sequence="95"/>
+    <record id="cron_analytics_collection" model="ir.cron">
+        <field name="name">Golok: permitted Upstox collection</field>
+        <field name="model_id" search="[('model','=','golok.lab.analytics.config')]"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_collect()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">minutes</field>
+    </record>
+</odoo>

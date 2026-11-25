@@ -461,6 +461,79 @@ class TestLab(TransactionCase):
         })
         cls.start = datetime(2024, 1, 2, 3, 50)
 
+    def test_analytics_vault_permission_and_quote_health(self):
+        from datetime import timezone
+        from unittest.mock import patch
+
+        from odoo import fields
+
+        from ..services import upstox_analytics
+        from ..services.smartapi import ProviderError
+
+        service = self.env["golok.lab.analytics.config"].with_user(self.admin)
+        authored = "analytics-authored-integration"
+        expires = fields.Datetime.now() + timedelta(days=10)
+        with self.assertRaises(AccessError):
+            service.with_user(self.viewer)._store(authored, expires)
+        with patch.object(upstox_analytics, "quote_snapshot") as probe:
+            self.assertEqual(service._store(authored, expires)["connection"], "DISABLED")
+            probe.assert_not_called()
+        config = service._current()
+        self.assertNotIn(authored, config.envelope)
+        with self.assertRaises(AccessError):
+            service.browse(config.id).read(["envelope"])
+        with self.assertRaisesRegex(ProviderError, "LOCAL_AUTHORIZATION_REQUIRED"):
+            service._history_credential()
+        admin = self.env(user=self.admin.id)
+        mapping = admin["golok.lab.mapping"].create({
+            "instrument_id": self.instrument.id, "symbol": "FIXTURE", "provider": "upstox",
+            "token": "NSE_EQ|IN0000000001", "isin": "IN0000000001", "starts": "2024-01-01",
+            "tick": "0.05", "lot": 1, "listing_status": "listed", "source": "Reviewed authored input",
+            "revision": "analytics-fixture", "verification": "reviewed",
+        })
+        revision = admin["golok.lab.calendar"].create({
+            "name": "Analytics fixture dates", "source": "NSE", "exchange": "NSE", "verification": "reviewed",
+            "verified_on": "2024-01-01", "schedule": json.dumps([{
+                "date": "2024-01-02", "kind": "regular", "open": "09:15", "close": "15:30",
+                "entry_cutoff": "14:30", "exit_cutoff": "15:20",
+            }]),
+        })
+        workspace = admin["golok.lab.analytics.workspace"].create({
+            "provider": "upstox", "mapping_id": mapping.id, "calendar_id": revision.id, "collect": True,
+        })
+        workspace.action_apply()
+        self.assertEqual(service._history_credential(), authored)
+        with patch.object(upstox_analytics, "quote_snapshot") as probe:
+            workspace.action_test_connection()
+            self.assertEqual(config.connection, "PERMISSION_REQUIRED")
+            probe.assert_not_called()
+        review = admin["golok.lab.source.review"].create({
+            "provider": "upstox", "terms_url": "https://example.test/terms",
+            "documentation": "https://example.test/data", "purpose": "Authored adapter tests",
+            "evidence": "Authored fixture only", "restrictions": "Local mock",
+            "expires": "2099-01-01", "storage_policy": "archive",
+            "query": True, "display": True, "persist": True, "automatic": True, "live": True,
+        })
+        with patch.object(upstox_analytics, "quote_snapshot", return_value={"freshness": "UNKNOWN"}) as probe:
+            workspace.action_test_connection()
+            self.assertEqual(config.connection, "READ_ONLY_QUOTE_VERIFIED")
+            self.assertEqual(probe.call_args.args[:3], (authored, mapping.token, mapping.isin))
+        now = datetime(2024, 1, 2, 4, tzinfo=timezone.utc)
+        with patch.object(upstox_analytics, "stream_sample", return_value={
+            "event": now - timedelta(seconds=1), "published": now, "receipt": now, "price": "100",
+        }) as stream:
+            service._collect(config, now.replace(tzinfo=None))
+            self.assertEqual((config.stream, config.sample_review_id), ("FRESH_SAMPLE", review.sudo()))
+            stream.assert_called_once()
+        with patch.object(fields.Datetime, "now", return_value=now.replace(tzinfo=None)):
+            self.assertEqual(workspace.last_quote, "100")
+        review.action_revoke()
+        workspace.invalidate_recordset(["last_quote", "last_observed_at"])
+        self.assertFalse(workspace.last_quote)
+        config.write({"expires_at": fields.Datetime.now() - timedelta(seconds=1)})
+        with self.assertRaisesRegex(ProviderError, "LOCAL_CREDENTIALS_REQUIRED"):
+            service._history_credential()
+
     def test_p08_fixture_session_scheduler_records_idempotent_phases(self):
         from datetime import timezone
         files = Path(__file__).parent / "fixtures/p02"

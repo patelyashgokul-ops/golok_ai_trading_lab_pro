@@ -334,6 +334,24 @@ def verify(base_url, database, edge):
         page.screenshot(path=EVIDENCE / "screenshots/reconciled-research-events.png")
         assert not errors, errors
         print("UI-25 prospective account and daily event counts reconcile with scoped lists", flush=True)
+        page.goto(f"{base_url}/odoo/action-{xml_id('action_analytics_workspace')}")
+        expect(page.get_by_role("heading", name="Market Data API Configuration")).to_be_visible()
+        expect(page.locator(".o_form_view [name=provider]")).to_contain_text("Offline")
+        page.get_by_role("button", name="Set or Replace Analytics Token").click()
+        secret = page.locator("input[type=password]")
+        expect(secret).to_be_visible()
+        page.screenshot(path=EVIDENCE / "screenshots/analytics-vault.png")
+        authored = "authored-browser-credential"
+        secret.fill(authored)
+        page.get_by_placeholder("YYYY-MM-DDThh:mm:ss+05:30").fill(
+            (datetime.now().astimezone() + timedelta(days=10)).isoformat(timespec="seconds"))
+        with page.expect_response(lambda response: response.url.endswith("/golok/analytics/credential")
+                                  and response.request.method == "POST") as result:
+            page.get_by_role("button", name="Save and Test Connection").click()
+        assert result.value.ok and authored not in result.value.text()
+        expect(secret).to_have_value("")
+        expect(page.get_by_text("Connection check DISABLED")).to_be_visible()
+        print("UI-28 masked local credential writes without echo and provider remains disabled", flush=True)
         browser.close()
 
 
