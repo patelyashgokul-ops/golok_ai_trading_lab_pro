@@ -334,6 +334,9 @@ class Dataset(models.Model):
     def _import_bars(self, bars):
         self.ensure_one()
         self.check_access("write")
+        self.env["golok.lab.replay.guard"]._lock(self.instrument_id)
+        dates = {bar.close_time.astimezone(calendar.IST).date() for bar in bars}
+        self.env["golok.lab.holdout"]._reject_days(self.instrument_id, dates, self.company_id)
         if self.origin == "imported":
             self.env.cr.execute("SELECT id FROM golok_lab_dataset WHERE id=%s FOR UPDATE", (self.id,))
             self.invalidate_recordset(["replay_publication_digest", "comparison_digest"])
@@ -500,6 +503,7 @@ class ResearchRun(models.Model):
             raise ValidationError(_("The dataset is quarantined."))
         dataset._permit("research")
         self.env["golok.lab.replay.guard"]._lock(dataset.instrument_id)
+        self.env["golok.lab.holdout"]._reject_cutoff(dataset.instrument_id, cutoff, dataset.company_id)
         domain = [("dataset_id", "=", dataset.id), ("close_time", "<=", cutoff)]
         if dataset.calendar_id:
             domain.append(("available_at", "<=", cutoff))

@@ -40,6 +40,15 @@ class SourceComparison(models.Model):
             raise AccessError(_("Historical market comparison exports are disabled."))
         return super()._export_rows(fields, _is_toplevel_call=_is_toplevel_call)
 
+    @api.model
+    def _access_domain(self, operation):
+        domain = super()._access_domain(operation)
+        if operation == "read" and not self.env.su:
+            holds = self.env["golok.lab.holdout"]
+            for side in ("left_id", "right_id"):
+                domain &= holds._observation_domain("close_at", "close_at", f"{side}.instrument_id")
+        return domain
+
     @api.model_create_multi
     def create(self, vals_list):
         self.check_access("create")
@@ -59,6 +68,7 @@ class SourceComparison(models.Model):
         if not close_at or close_at.tzinfo or close_at > now.replace(tzinfo=None):
             raise ValidationError(_("Use a historical UTC observation closing time."))
         self.env["golok.lab.replay.guard"]._lock(datasets.instrument_id)
+        self.env["golok.lab.holdout"]._reject_cutoff(datasets.instrument_id, close_at, company)
         return self._record_pair(left, right, close_at, now)
 
     @api.model

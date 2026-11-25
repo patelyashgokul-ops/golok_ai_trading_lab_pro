@@ -54,6 +54,8 @@ class ResearchJob(models.Model):
         if not dataset:
             raise AccessError(_("Dataset unavailable."))
         dataset._permit("research")
+        self.env["golok.lab.replay.guard"]._lock(dataset.instrument_id)
+        self.env["golok.lab.holdout"]._reject_cutoff(dataset.instrument_id, cutoff, company)
         data = {"company_id": company.id, "dataset_id": dataset.id, "cutoff": cutoff, "requested_by": self.env.uid}
         prior = self.search([(key, "=", value) for key, value in data.items()], limit=1)
         if prior:

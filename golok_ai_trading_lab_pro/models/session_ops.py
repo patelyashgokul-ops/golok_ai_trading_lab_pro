@@ -225,6 +225,13 @@ class SessionEvent(models.Model):
 
     _phase_once = models.Constraint("UNIQUE(watch_id,day,phase)", "This phase has already been recorded.")
 
+    @api.model
+    def _access_domain(self, operation):
+        domain = super()._access_domain(operation)
+        if operation == "read" and not self.env.su:
+            domain &= self.env["golok.lab.holdout"]._day_domain("day", "watch_id.dataset_id.instrument_id")
+        return domain
+
 
 class ResearchCycle(models.Model):
     _name = "golok.lab.research.cycle"
@@ -253,6 +260,13 @@ class ResearchCycle(models.Model):
 
     _observation_once = models.Constraint("UNIQUE(watch_id,observation_id)", "This observation was already scheduled.")
     _job_once = models.Constraint("UNIQUE(job_id)", "A job already belongs to a research cycle.")
+
+    @api.model
+    def _access_domain(self, operation):
+        domain = super()._access_domain(operation)
+        if operation == "read" and not self.env.su:
+            domain &= self.env["golok.lab.holdout"]._day_domain("day", "dataset_id.instrument_id")
+        return domain
 
     def _validate_execution(self, requester):
         self.ensure_one()
@@ -423,6 +437,13 @@ class ResearchCandidate(models.Model):
                 item.lifecycle = order.state or item.state
 
     _cycle_once = models.Constraint("UNIQUE(cycle_id)", "Research outcome already published.")
+
+    @api.model
+    def _access_domain(self, operation):
+        domain = super()._access_domain(operation)
+        if operation == "read" and not self.env.su:
+            domain &= self.env["golok.lab.holdout"]._day_domain("cycle_id.day", "cycle_id.dataset_id.instrument_id")
+        return domain
 
     @api.depends("evidence")
     def _compute_explanation(self):

@@ -44,14 +44,37 @@ class Holdout(models.Model):
 
     @api.model
     def _observation_domain(self, first, last, instrument):
-        """Keep reserved observations hidden through native search, read and export."""
+        return self._visibility_domain(first, last, instrument, date_only=False)
+
+    @api.model
+    def _day_domain(self, day, instrument):
+        return self._visibility_domain(day, day, instrument, date_only=True)
+
+    @api.model
+    def _visibility_domain(self, first, last, instrument, *, date_only):
+        """Keep reserved input and derived observations outside native read domains."""
         terms = []
         for holdout in self.sudo().search([("company_id", "in", self.env.companies.ids)]):
-            left = datetime.combine(holdout.starts, time.min, IST).astimezone(timezone.utc).replace(tzinfo=None)
-            right = datetime.combine(holdout.ends + timedelta(days=1), time.min, IST).astimezone(timezone.utc).replace(tzinfo=None)
+            left, right = holdout.starts, holdout.ends + timedelta(days=1)
+            if not date_only:
+                left = datetime.combine(left, time.min, IST).astimezone(timezone.utc).replace(tzinfo=None)
+                right = datetime.combine(right, time.min, IST).astimezone(timezone.utc).replace(tzinfo=None)
             terms.append(Domain(instrument, "in", holdout.dataset_ids.instrument_id.ids)
                          & Domain(first, "<", right) & Domain(last, ">=", left))
         return ~Domain.OR(terms)
+
+    @api.model
+    def _reject_days(self, instruments, days, company):
+        if any(day and self.sudo().search_count([
+            ("company_id", "=", company.id), ("starts", "<=", day), ("ends", ">=", day),
+            ("dataset_ids.instrument_id", "in", instruments.ids),
+        ], limit=1) for day in days):
+            raise ValidationError("This instrument and date window is reserved for sealed evaluation.")
+
+    @api.model
+    def _reject_cutoff(self, instruments, cutoff, company):
+        day = cutoff.replace(tzinfo=timezone.utc).astimezone(IST).date()
+        self._reject_days(instruments, [day], company)
 
     def action_consume(self):
         self.ensure_one()
