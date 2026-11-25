@@ -5,6 +5,7 @@ import io
 import json
 import re
 import struct
+from contextlib import closing
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 from time import monotonic
@@ -180,8 +181,8 @@ def _connect(uri):
         raise ProviderError("DISCONNECTED") from None
 
 
-def stream_sample(token, key, isin, reserve, *, transport=upstox._https, connect=_connect,
-                  clock=lambda: datetime.now(timezone.utc)):
+def stream_updates(token, key, isin, reserve, *, active=lambda: True, duration=180, max_frames=120_000,
+                   transport=upstox._https, connect=_connect, clock=lambda: datetime.now(timezone.utc)):
     if not upstox.identity("NSE", key, isin):
         raise ProviderError("DEGRADED")
     result = _get(token, "upstox_stream", "/v3/feed/market-data-feed/authorize", reserve, transport)
@@ -198,14 +199,21 @@ def stream_sample(token, key, isin, reserve, *, transport=upstox._https, connect
     try:
         stream.send_binary(json.dumps({"guid": str(uuid4()), "method": "sub",
                                        "data": {"mode": "ltpc", "instrumentKeys": [key]}}).encode())
-        opened, deadline = False, monotonic() + 8
-        for _ in range(12):
-            if monotonic() >= deadline:
+        opened, deadline = False, monotonic() + duration
+        for _ in range(max_frames):
+            if monotonic() >= deadline or not active():
                 break
-            opened, sample = decode_ltpc(stream.recv(), key, clock(), opened)
+            try:
+                frame = stream.recv()
+            except Exception as exc:
+                if isinstance(exc, TimeoutError) or type(exc).__name__ == "WebSocketTimeoutException":
+                    continue
+                raise
+            if frame in ("", b""):
+                raise ProviderError("DISCONNECTED")
+            opened, sample = decode_ltpc(frame, key, clock(), opened)
             if sample:
-                return sample
-        return None
+                yield sample
     except ProviderError:
         raise
     except Exception:
@@ -216,3 +224,11 @@ def stream_sample(token, key, isin, reserve, *, transport=upstox._https, connect
             stream.close(timeout=0)
         except Exception:
             pass
+
+
+def stream_sample(token, key, isin, reserve, *, transport=upstox._https, connect=_connect,
+                  clock=lambda: datetime.now(timezone.utc)):
+    updates = stream_updates(token, key, isin, reserve, duration=8, max_frames=12,
+                             transport=transport, connect=connect, clock=clock)
+    with closing(updates):
+        return next(updates, None)

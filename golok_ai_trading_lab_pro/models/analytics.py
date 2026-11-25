@@ -22,6 +22,7 @@ class AnalyticsConfig(models.Model):
     operator_id = fields.Many2one("res.users", ondelete="set null")
     enabled = fields.Boolean()
     collect = fields.Boolean()
+    worker_capture = fields.Boolean()
     backfill = fields.Boolean()
     schedule_research = fields.Boolean()
     mapping_id = fields.Many2one("golok.lab.mapping", ondelete="restrict")
@@ -176,37 +177,55 @@ class AnalyticsConfig(models.Model):
                 service = self.with_user(operator).with_context(allowed_company_ids=[record.company_id.id])
                 if record.backfill:
                     service._backfill(record)
-                if record.collect and (not record.next_collection or record.next_collection <= now):
+                if record.collect and not record.worker_capture and (not record.next_collection or record.next_collection <= now):
                     service._collect(record, now)
+
+    def _stream_scope(self, record, now):
+        review = self.env["golok.lab.source.review"]._authorize("upstox", "historical", "analytics_collect")
+        day = calendar_day(now)
+        mapping = self._mapping(record, day)
+        revision = record.calendar_id
+        session = revision._sessions().get(day) if revision.verification == "reviewed" else None
+        at = now.replace(tzinfo=timezone.utc)
+        if not session or session.kind != "regular" or not session.opening <= at < session.closing:
+            raise ProviderError("OUTSIDE_REVIEWED_SESSION")
+        self.env["golok.lab.holdout"]._reject_days(mapping.instrument_id, [day], self.env.company)
+        return review, mapping, session
 
     def _collect(self, record, now):
         try:
             token = record._credential()
-            review = self.env["golok.lab.source.review"]._authorize("upstox", "historical", "analytics_collect")
-            day = calendar_day(now)
-            mapping = self._mapping(record, day)
-            revision = record.calendar_id
-            session = revision._sessions().get(day) if revision.verification == "reviewed" else None
-            at = now.replace(tzinfo=timezone.utc)
-            if not session or session.kind != "regular" or not session.opening <= at < session.closing:
-                raise ProviderError("OUTSIDE_REVIEWED_SESSION")
-            self.env["golok.lab.holdout"]._reject_days(mapping.instrument_id, [day], self.env.company)
+            review, mapping, session = self._stream_scope(record, now)
             sample = upstox_analytics.stream_sample(token, mapping.token, mapping.isin,
                                                      self.env["golok.lab.provider.budget"]._reserve)
             if not sample or not session.opening <= sample["event"] <= sample["published"] < session.closing:
                 raise ProviderError("STALE_OR_UNAVAILABLE")
             self.env["golok.lab.replay.guard"]._lock(mapping.instrument_id)
-            self.env["golok.lab.holdout"]._reject_days(mapping.instrument_id, [day], self.env.company)
+            self.env["golok.lab.holdout"]._reject_days(mapping.instrument_id, [session.day], self.env.company)
         except (AccessError, ValidationError):
             self._stream_failure(record, now, "PERMISSION_OR_HOLDOUT_BLOCKED")
         except ProviderError as exc:
             self._stream_failure(record, now, str(exc))
         else:
-            times = {f"{name}_at": sample[key].replace(tzinfo=None) for name, key in
-                     (("observed", "event"), ("published", "published"), ("received", "receipt"))}
-            record.write({**times, "last_quote": sample["price"], "stream": "FRESH_SAMPLE",
-                          "sample_review_id": review.id,
-                          "failures": 0, "next_collection": now + timedelta(seconds=60)})
+            self._update_latest(record, review, sample, now + timedelta(seconds=60))
+
+    def _update_latest(self, record, review, sample, next_collection=False):
+        times = {f"{name}_at": sample[key].replace(tzinfo=None) for name, key in
+                 (("observed", "event"), ("published", "published"), ("received", "receipt"))}
+        record.write({**times, "last_quote": sample["price"], "stream": "FRESH_SAMPLE",
+                      "sample_review_id": review.id, "failures": 0, "next_collection": next_collection})
+
+    def _store_worker_sample(self, record, review, mapping, session, sample):
+        now = fields.Datetime.now().replace(tzinfo=timezone.utc)
+        if (not session.opening <= sample["event"] <= sample["published"] < session.closing
+                or not sample["published"] <= sample["receipt"] <= now + timedelta(seconds=1)
+                or now - sample["event"] > upstox_analytics.MAX_AGE):
+            return
+        self.env["golok.lab.replay.guard"]._lock(mapping.instrument_id)
+        self.env["golok.lab.holdout"]._reject_days(mapping.instrument_id, [session.day], self.env.company)
+        self.env["golok.lab.analytics.tick"]._append(mapping, review, sample)
+        if not record.observed_at or record.observed_at <= sample["event"].replace(tzinfo=None):
+            self._update_latest(record, review, sample)
 
     def _stream_failure(self, record, now, status):
         failures = min(6, record.failures + 1)
@@ -245,6 +264,33 @@ class AnalyticsConfig(models.Model):
                         })
                 except (AccessError, ValidationError):
                     record.write({"historical": "GRID_VERIFIED_RESEARCH_BLOCKED"})
+
+
+class AnalyticsTick(models.Model):
+    _name = "golok.lab.analytics.tick"
+    _description = "Private timestamped Upstox LTPC observation"
+    _log_access = False
+
+    company_id = fields.Many2one("res.company", required=True, index=True, ondelete="cascade")
+    mapping_id = fields.Many2one("golok.lab.mapping", required=True, index=True, ondelete="restrict")
+    review_id = fields.Many2one("golok.lab.source.review", required=True, ondelete="restrict")
+    event_ms = fields.Char(required=True)
+    publication_ms = fields.Char(required=True)
+    received_at = fields.Datetime(required=True)
+    price = fields.Char(required=True)
+
+    _once = models.Constraint("UNIQUE(mapping_id, review_id, event_ms, price)", "This LTPC observation already exists.")
+
+    @api.model
+    def _append(self, mapping, review, sample):
+        utc_times = {key: str(int(sample[key].timestamp() * 1000)) for key in ("event", "published")}
+        self.env.cr.execute("""
+            INSERT INTO golok_lab_analytics_tick
+                (company_id, mapping_id, review_id, event_ms, publication_ms, received_at, price)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (mapping_id, review_id, event_ms, price) DO NOTHING
+            """, [mapping.company_id.id, mapping.id, review.id, utc_times["event"], utc_times["published"],
+                  sample["receipt"].replace(tzinfo=None), sample["price"]])
 
 
 class AnalyticsCatalog(models.Model):
@@ -328,6 +374,7 @@ class AnalyticsWorkspace(models.TransientModel):
     mapping_id = fields.Many2one("golok.lab.mapping")
     calendar_id = fields.Many2one("golok.lab.calendar")
     collect = fields.Boolean(string="Collect timestamped V3 samples")
+    worker_capture = fields.Boolean(string="Use continuous local V3 worker")
     backfill = fields.Boolean(string="Automatically advance permitted historical plans")
     schedule_research = fields.Boolean(string="Queue descriptive research after backfill")
     credential_state = fields.Char(readonly=True)
@@ -374,7 +421,8 @@ class AnalyticsWorkspace(models.TransientModel):
         values.update({field: value for field, value in {
             "provider": "upstox" if config.enabled else "offline",
             "mapping_id": config.mapping_id.id, "calendar_id": config.calendar_id.id,
-            "backfill": config.backfill, "collect": config.collect, "schedule_research": config.schedule_research,
+            "backfill": config.backfill, "collect": config.collect, "worker_capture": config.worker_capture,
+            "schedule_research": config.schedule_research,
             "connection": config.connection or "UNVERIFIED", "historical": config.historical or "UNVERIFIED",
             "stream": ("STALE_OR_UNAVAILABLE" if config.stream == "FRESH_SAMPLE" and not fresh else config.stream or "UNVERIFIED"),
             "instrument_master": config.instrument_master or "UNVERIFIED",
@@ -408,6 +456,7 @@ class AnalyticsWorkspace(models.TransientModel):
         record = service._ensure_current()
         record.write({"enabled": enabled, "operator_id": self.env.uid, "mapping_id": self.mapping_id.id if enabled else False,
                       "calendar_id": self.calendar_id.id if enabled else False, "collect": enabled and self.collect,
+                      "worker_capture": enabled and self.collect and self.worker_capture,
                       "backfill": enabled and self.backfill, "schedule_research": enabled and self.schedule_research,
                       "next_collection": False, "failures": 0, "stream": "UNVERIFIED", "last_quote": False,
                       "connection": "UNVERIFIED" if enabled else "DISABLED", "historical": "UNVERIFIED",
