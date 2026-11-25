@@ -1,10 +1,13 @@
 """Company-scoped Upstox configuration and bounded read-only collection."""
 
 from datetime import timedelta, timezone
+from hashlib import sha256
+import json
 from os import environ
 
 from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, ValidationError
+from odoo.fields import Domain
 
 from ..services import calendar, ingestion, local_secrets, upstox, upstox_analytics
 from ..services.smartapi import ProviderError
@@ -244,6 +247,74 @@ class AnalyticsConfig(models.Model):
                     record.write({"historical": "GRID_VERIFIED_RESEARCH_BLOCKED"})
 
 
+class AnalyticsCatalog(models.Model):
+    _name = "golok.lab.analytics.catalog"
+    _description = "Upstox NSE cash-equity reference snapshot"
+    _rec_name = "digest"
+    _order = "id desc"
+
+    company_id = fields.Many2one("res.company", required=True, index=True, ondelete="cascade")
+    review_id = fields.Many2one("golok.lab.source.review", required=True, ondelete="restrict")
+    digest = fields.Char(required=True)
+    fetched_at = fields.Datetime(required=True)
+    size = fields.Integer(required=True)
+
+    _revision_once = models.Constraint("UNIQUE(company_id, review_id, digest)", "This reference revision already exists.")
+
+    @api.model
+    def _record_revision(self, entries, review):
+        self.env["golok.lab.analytics.config"]._admin()
+        review = self.env["golok.lab.source.review"]._authorize("upstox", "historical", "import", bound=review)
+        if not 0 < len(entries) <= 20_000:
+            raise ValidationError(_("The instrument snapshot is empty or exceeds 20,000 equities."))
+        company = self.env.company.id
+        digest = sha256(json.dumps(entries, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+        self.env.cr.execute("SELECT id FROM res_company WHERE id = %s FOR UPDATE", [company])
+        history = self.sudo().with_context({})
+        existing = history.search([("company_id", "=", company), ("review_id", "=", review.id), ("digest", "=", digest)], limit=1)
+        if existing:
+            return existing.id
+        snapshot = history.create({"company_id": company, "review_id": review.id, "digest": digest,
+                                   "fetched_at": fields.Datetime.now(), "size": len(entries)})
+        values = [
+            {"catalog_id": snapshot.id, "instrument_key": key, "symbol": details["symbol"],
+             "isin": details["isin"], "lot": details["lot"]}
+            for key, details in sorted(entries.items())
+        ]
+        instruments = self.env["golok.lab.analytics.instrument"].sudo().with_context({})
+        for offset in range(0, len(values), 500):
+            instruments.create(values[offset:offset + 500])
+        return snapshot.id
+
+
+class AnalyticsInstrument(models.Model):
+    _name = "golok.lab.analytics.instrument"
+    _description = "Imported Upstox instrument reference"
+    _rec_name = "symbol"
+    _order = "symbol, id"
+
+    catalog_id = fields.Many2one("golok.lab.analytics.catalog", required=True, index=True, ondelete="cascade")
+    company_id = fields.Many2one(related="catalog_id.company_id", store=True, index=True)
+    fetched_at = fields.Datetime(related="catalog_id.fetched_at")
+    instrument_key = fields.Char(required=True)
+    symbol = fields.Char(required=True, index=True)
+    isin = fields.Char(required=True, index=True)
+    lot = fields.Integer(required=True)
+
+    _key_once = models.Constraint("UNIQUE(catalog_id, instrument_key)", "Duplicate instrument key in reference snapshot.")
+
+    @api.model
+    def _access_domain(self, operation):
+        domain = super()._access_domain(operation)
+        if operation == "read" and not self.env.su:
+            domain &= Domain("company_id", "=", self.env.company.id)
+            domain &= Domain("catalog_id.review_id.readable_now", "=", True)
+        return domain
+
+    def _export_rows(self, fields, *, _is_toplevel_call=True):
+        raise AccessError(_("The imported instrument reference is for internal display."))
+
+
 def calendar_day(now=None):
     now = now or fields.Datetime.now()
     return now.replace(tzinfo=timezone.utc).astimezone(calendar.IST).date()
@@ -356,19 +427,39 @@ class AnalyticsWorkspace(models.TransientModel):
         instrument = None
         try:
             record._credential()
-            self.env["golok.lab.source.review"]._authorize("upstox", "historical", "import")
+            review = self.env["golok.lab.source.review"]._authorize("upstox", "historical", "import")
             mapping = service._mapping(record, calendar_day())
-            instrument = upstox_analytics.instrument_master(self.env["golok.lab.provider.budget"]._reserve).get(mapping.token)
+            entries = upstox_analytics.instrument_master(self.env["golok.lab.provider.budget"]._reserve)
+            with self.env.cr.savepoint():
+                self.env["golok.lab.analytics.catalog"]._record_revision(entries, review)
+            instrument = entries.get(mapping.token)
             status = ("MASTER_MATCH" if instrument and instrument["isin"] == mapping.isin
                       and instrument["symbol"] == mapping.symbol and instrument["lot"] == mapping.lot else "REVIEW_MAPPING_MISMATCH")
         except AccessError:
             status = "PERMISSION_REQUIRED"
+        except ValidationError:
+            status = "CATALOG_REJECTED"
         except ProviderError as exc:
             status = str(exc)
         record.write({"instrument_master": status, "reference_checked_at": fields.Datetime.now(),
                       "reference_symbol": instrument["symbol"] if status == "MASTER_MATCH" else False,
                       "reference_isin": instrument["isin"] if status == "MASTER_MATCH" else False})
         return self._reload()
+
+    def action_open_reference(self):
+        self._service()
+        action = self.env["ir.actions.actions"]._for_xml_id("golok_ai_trading_lab_pro.action_analytics_reference")
+        current = self.env["golok.lab.analytics.catalog"]
+        try:
+            review = self.env["golok.lab.source.review"]._authorize("upstox", "historical", "import")
+        except AccessError:
+            pass
+        else:
+            current = current.sudo().search([
+                ("company_id", "=", self.env.company.id), ("review_id", "=", review.id),
+            ], order="id desc", limit=1)
+        action["domain"] = [("catalog_id", "=", current.id)]
+        return action
 
     def action_manage_token(self):
         self._service()

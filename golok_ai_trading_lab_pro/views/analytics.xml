@@ -8,6 +8,7 @@
                 <button name="action_manage_token" type="object" string="Set or Replace Analytics Token"/>
                 <button name="action_test_connection" type="object" string="Test Connection"/>
                 <button name="action_check_master" type="object" string="Synchronize Instrument Reference"/>
+                <button name="action_open_reference" type="object" string="Instrument Catalog"/>
             </header>
             <sheet>
                 <h2>Market Data API Configuration</h2>
@@ -50,6 +51,28 @@
     </record>
     <menuitem id="menu_analytics_workspace" name="Market Data API Configuration" parent="menu_lab"
               action="action_analytics_workspace" groups="group_admin" sequence="95"/>
+    <record id="view_analytics_reference" model="ir.ui.view">
+        <field name="name">golok.lab.analytics.instrument.list</field>
+        <field name="model">golok.lab.analytics.instrument</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0" delete="0" export_xlsx="0" limit="60">
+                <field name="symbol"/><field name="isin"/><field name="instrument_key"/>
+                <field name="lot"/><field name="fetched_at"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_analytics_reference_search" model="ir.ui.view">
+        <field name="name">golok.lab.analytics.instrument.search</field>
+        <field name="model">golok.lab.analytics.instrument</field>
+        <field name="arch" type="xml"><search><field name="symbol"/><field name="isin"/></search></field>
+    </record>
+    <record id="action_analytics_reference" model="ir.actions.act_window">
+        <field name="name">Upstox Instrument Catalog</field>
+        <field name="res_model">golok.lab.analytics.instrument</field>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="view_analytics_reference"/>
+        <field name="search_view_id" ref="view_analytics_reference_search"/>
+    </record>
     <record id="cron_analytics_collection" model="ir.cron">
         <field name="name">Golok: permitted Upstox collection</field>
         <field name="model_id" search="[('model','=','golok.lab.analytics.config')]"/>

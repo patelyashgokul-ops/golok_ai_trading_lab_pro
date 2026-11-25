@@ -79,4 +79,11 @@ The early numerical fixture run failed two tests because the adopted historical 
 - Edge passed 28 workflows. It checked the provider default, opened the masked credential form, submitted an authored credential, verified that the response did not echo it and confirmed that saving left the offline provider disabled. The corrected test reads the Odoo selection input value. The credential form uses the native submit event supported by this OWL version.
 - Populated upgrades from P09.1 and the preceding R01 release retained 1,243 and 1,287 XML IDs respectively and the compared historical record hashes. PostgreSQL contention, interruption and recovery passed.
 
+## Release 20.0.9.1.10
+
+- All 70 standalone tests passed and the eleven archived stress cases matched.
+- The catalog fixture imports two authored equities, reuses the identical digest, verifies the selected mapping, denies viewer access and verifies that revocation hides the rows. The export check tests the catalog rule directly because the initial public export call was already denied by Odoo's generic export permission.
+- The direct P09.1 clone retained 1,243 prior XML IDs and the preceding release clone retained 1,351. Compared historical record digests were retained.
+- Fresh install and module update each passed 28 tests. PostgreSQL contention and interrupted-worker recovery passed. All 28 Edge checks passed, including the reference catalog view and the independently calculated relative-volume value in the scanner.
+
 [Commands, raw logs and screenshots](evidence/p06_p07_repair/INDEX.md)

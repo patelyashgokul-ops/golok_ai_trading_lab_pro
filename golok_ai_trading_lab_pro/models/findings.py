@@ -1,4 +1,5 @@
 import json
+from decimal import Decimal
 from time import perf_counter
 
 from odoo import _, api, fields, models
@@ -86,6 +87,23 @@ class ResearchRun(models.Model):
     scanner_exchange = fields.Selection(related="dataset_id.instrument_id.exchange", store=True)
     scanner_interval = fields.Selection(related="dataset_id.interval", store=True)
     scanner_quarantined = fields.Boolean(related="dataset_id.quarantined")
+    scanner_conflict = fields.Boolean(related="dataset_id.integrity_conflict")
+    scanner_sector = fields.Char(related="dataset_id.mapping_id.sector")
+    scanner_momentum = fields.Char(compute="_compute_scanner_metrics", string="ROC 10 (%)")
+    scanner_relative_volume = fields.Char(compute="_compute_scanner_metrics", string="Relative Volume (20)")
+    scanner_trend = fields.Char(compute="_compute_scanner_metrics", string="Trend Slope (20)")
+
+    @api.depends("evidence")
+    def _compute_scanner_metrics(self):
+        for run in self:
+            evidence = run.evidence or {}
+            technical = evidence.get("RE-01") or {}
+            volume = evidence.get("RE-05") or {}
+            indicators = technical.get("indicators") or {}
+            momentum = indicators.get("roc10")
+            run.scanner_momentum = f"{Decimal(momentum) * 100:.4f}" if momentum is not None else False
+            run.scanner_trend = indicators.get("trend_slope20")
+            run.scanner_relative_volume = volume.get("finding") if volume.get("method") == "relative_volume20" else False
 
     @api.model
     def scanner_action(self):

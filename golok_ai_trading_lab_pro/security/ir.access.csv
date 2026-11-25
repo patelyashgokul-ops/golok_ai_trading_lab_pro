@@ -94,3 +94,4 @@ session_watch_viewer,Fixture research schedule reader,golok.lab.session.watch,go
 promotion_review_viewer,Strategy promotion evidence reader,golok.lab.promotion.review,golok_ai_trading_lab_pro.group_viewer,r,
 promotion_review_company,Strategy promotion review company,golok.lab.promotion.review,,crud,"[('company_id','in',company_ids)]"
 analytics_workspace_admin,Market Data API configuration administrator,golok.lab.analytics.workspace,golok_ai_trading_lab_pro.group_admin,crud,
+analytics_instrument_admin,Upstox instrument catalog administrator,golok.lab.analytics.instrument,golok_ai_trading_lab_pro.group_admin,r,

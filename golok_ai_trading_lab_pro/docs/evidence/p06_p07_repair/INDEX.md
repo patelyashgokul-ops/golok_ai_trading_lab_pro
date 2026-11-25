@@ -94,3 +94,13 @@ Real provider, genuine market and independent financial results are unavailable.
 | Populated upgrades | [Previous R01](upstox-analytics/migration/upgrade/retention.log) · [Direct P09.1](upstox-analytics/migration-direct/upgrade/retention.log) |
 | Earlier fixture error | [Missing HTTPS reference for the reviewed calendar](upstox-analytics/verified/installation/fresh.log) |
 | Earlier browser check | [Initial locator read text instead of the selection value](upstox-analytics/final/browser/edge.log) |
+
+## Release 20.0.9.1.10
+
+| Evidence | Artifact |
+|---|---|
+| Standalone regression and preserved results | [Tests](catalog-scanner/standalone.log) · [Source scan](catalog-scanner/source.log) · [Stress parity](catalog-scanner/stress-parity.log) |
+| Catalog ingestion, visibility, expiry and export restrictions | [Fresh Odoo](catalog-scanner/final/installation/fresh.log) · [Update](catalog-scanner/final/installation/upgrade.log) · [Contention](catalog-scanner/final/security/contention.log) |
+| Native scanner and catalog | [Edge](catalog-scanner/final/browser/edge.log) · [Catalog workspace](catalog-scanner/final/screenshots/analytics-instrument-catalog.png) |
+| Populated upgrades | [Prior R01](catalog-scanner/migration/upgrade/retention.log) · [Direct P09.1](catalog-scanner/migration-direct/upgrade/retention.log) |
+| Initial export test | [The generic Odoo export permission blocked the call before the catalog rule](catalog-scanner/verified/installation/fresh.log) |

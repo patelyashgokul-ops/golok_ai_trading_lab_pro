@@ -519,6 +519,22 @@ class TestLab(TransactionCase):
             workspace.action_test_connection()
             self.assertEqual(config.connection, "READ_ONLY_QUOTE_VERIFIED")
             self.assertEqual(probe.call_args.args[:3], (authored, mapping.token, mapping.isin))
+        entries = {
+            mapping.token: {"symbol": "FIXTURE", "isin": mapping.isin, "lot": 1},
+            "NSE_EQ|IN0000000002": {"symbol": "SECOND", "isin": "IN0000000002", "lot": 1},
+        }
+        catalog = admin["golok.lab.analytics.instrument"]
+        with patch.object(upstox_analytics, "instrument_master", return_value=entries):
+            workspace.action_check_master()
+            workspace.action_check_master()
+        instruments = catalog.search([])
+        self.assertEqual(instruments.mapped("symbol"), ["FIXTURE", "SECOND"])
+        self.assertEqual(config.instrument_master, "MASTER_MATCH")
+        self.assertEqual(len(instruments.sudo().catalog_id), 1)
+        with self.assertRaises(AccessError):
+            catalog.with_user(self.viewer).search([])
+        with self.assertRaises(AccessError):
+            instruments._export_rows(["symbol"])
         now = datetime(2024, 1, 2, 3, 48, tzinfo=timezone.utc)
         with patch.object(upstox_analytics, "stream_sample", return_value={
             "event": now - timedelta(seconds=1), "published": now, "receipt": now, "price": "100",
@@ -548,6 +564,7 @@ class TestLab(TransactionCase):
         with self.assertRaises(AccessError):
             dataset._historical_replay_review()
         review.action_revoke()
+        self.assertFalse(catalog.search([]))
         workspace.invalidate_recordset(["last_quote", "last_observed_at"])
         self.assertFalse(workspace.last_quote)
         config.write({"expires_at": fields.Datetime.now() - timedelta(seconds=1)})

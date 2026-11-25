@@ -52,6 +52,11 @@
             <field name="scanner_instrument_id" string="Instrument"/><field name="scanner_exchange" string="Exchange"/>
             <field name="scanner_interval" string="Interval"/><field name="origin"/><field name="as_of"/>
             <field name="gap_count"/><field name="scanner_quarantined" string="Quarantined"/>
+            <field name="scanner_conflict" string="Source Conflict" optional="hide"/>
+            <field name="scanner_sector" string="Sector" optional="hide"/>
+            <field name="scanner_momentum" optional="show"/>
+            <field name="scanner_relative_volume" optional="show"/>
+            <field name="scanner_trend" optional="hide"/>
             <field name="decision"/><field name="dataset_id"/>
         </list></field>
     </record>
@@ -59,9 +64,12 @@
         <field name="name">golok.lab.run.scanner.search</field><field name="model">golok.lab.run</field>
         <field name="arch" type="xml"><search>
             <field name="scanner_instrument_id" string="Instrument"/><field name="dataset_id"/>
+            <field name="scanner_interval" string="Interval"/><field name="scanner_sector" string="Sector"/>
             <filter name="nse" string="NSE" domain="[('scanner_exchange','=','NSE')]"/>
             <filter name="bse" string="BSE" domain="[('scanner_exchange','=','BSE')]"/>
             <separator/><filter name="gaps" string="Has gaps" domain="[('gap_count','&gt;',0)]"/>
+            <filter name="quality_issue" string="Quarantined or conflicting"
+                    domain="['|',('scanner_quarantined','=',True),('scanner_conflict','=',True)]"/>
             <filter name="synthetic" string="Synthetic only" domain="[('origin','=','synthetic')]"/>
         </search></field>
     </record>
