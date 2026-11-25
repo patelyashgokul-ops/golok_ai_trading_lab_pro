@@ -1335,6 +1335,66 @@ class TestLab(TransactionCase):
                 dataset._permit("research")
         self.assertEqual(submit(upstox, data).state, "rejected")
 
+    def test_r01_authorized_history_fallback(self):
+        from datetime import timezone
+        from unittest.mock import patch
+
+        from ..services.smartapi import ProviderError
+
+        admin = self.env(user=self.admin.id)
+        day = "2024-01-02"
+        reference = "https://example.test/documentation"
+        calendar = admin["golok.lab.calendar"].create({
+            "name": "Fallback fixture calendar", "exchange": "NSE", "verification": "reviewed",
+            "source": "https://www.nseindia.com/market-data", "verified_on": "2024-01-01", "schedule": json.dumps([{
+                "date": day, "kind": "regular", "open": "09:15", "close": "09:25",
+                "entry_cutoff": "09:20", "exit_cutoff": "09:25",
+            }]),
+        })
+        common = {"instrument_id": self.instrument.id, "symbol": self.instrument.symbol, "starts": day,
+                  "tick": ".05", "listing_status": "listed", "source": reference, "revision": "approved test",
+                  "verification": "reviewed", "isin": "IN0000000001"}
+        mappings = admin["golok.lab.mapping"]
+        primary = mappings.create({**common, "provider": "smartapi", "token": "314"})
+        alternate = mappings.create({**common, "provider": "upstox", "token": "NSE_EQ|IN0000000001"})
+        grant = {"terms_url": reference, "documentation": reference, "evidence": "Authored entitlement fixture",
+                 "purpose": "Fixture history request", "restrictions": "Synthetic only", "expires": "2099-01-01",
+                 "storage_policy": "archive", "query": True, "display": True, "persist": True, "raw_share_ohlcv": True}
+        rights = admin["golok.lab.source.review"]
+        rights.create({**grant, "provider": "smartapi"})
+        request = admin["golok.lab.sync.wizard"].create({
+            "mapping_id": primary.id, "alternate_mapping_id": alternate.id, "calendar_id": calendar.id,
+            "day": day, "interval": "5m", "mode": "live",
+        })
+        with patch.object(type(admin["golok.lab.sync"]), "_fetch") as transport:
+            with self.assertRaises(AccessError):
+                request.action_sync()
+            transport.assert_not_called()
+        rights.create({**grant, "provider": "upstox"})
+        attempts = []
+
+        def fetch(_client, wizard, session, mapping):
+            attempts.append(mapping.id)
+            if mapping == primary:
+                raise ProviderError(primary_error)
+            values = tuple(map(Decimal, ("100", "102", "99", "101")))
+            return tuple((start, *values, 100) for start, _end in session.slots(300)), datetime.now(timezone.utc)
+
+        with patch.object(type(admin["golok.lab.sync"]), "_fetch", fetch):
+            for primary_error in ("AUTH_REQUIRED", "DEGRADED"):
+                attempts.clear()
+                result = admin["golok.lab.sync"].browse(request.action_sync()["res_id"])
+                self.assertEqual(attempts, [primary.id])
+                self.assertEqual(result.reason, primary_error)
+            primary_error = "DISCONNECTED"
+            attempts.clear()
+            result = admin["golok.lab.sync"].browse(request.action_sync()["res_id"])
+            self.assertEqual(attempts, [primary.id, alternate.id])
+            self.assertEqual(result.state, "complete")
+            self.assertEqual(result.fallback_for_id.reason, "DISCONNECTED")
+            self.assertEqual(result.dataset_id.mapping_id, alternate)
+            self.assertEqual(result.count, 2)
+
     def test_p05_portfolio_fixture_and_role_boundaries(self):
         files = Path(__file__).parent / "fixtures/p02"
         spec = json.loads((files / "spec.json").read_text())

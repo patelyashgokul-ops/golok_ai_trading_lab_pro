@@ -118,6 +118,15 @@ select md5(string_agg(row(id, to_jsonb(d)->>'source_review_id', to_jsonb(d)->>'p
             if ($SourceVersion -eq '20.0.9.1.5') {
                 $p09Tables['findings'] = @()
             }
+            if ($TargetVersion -eq '20.0.9.1.6') {
+                $p09Tables['sync'] = @('fallback_for_id')
+                if ($SourceVersion -ne '20.0.9.1.5') {
+                    $p09Tables['findings'] = @('evidence_contract')
+                    if ($SourceVersion -ne '20.0.9.1.4') {
+                        $p09Tables['source_comparison'] = @('replacement_id','resolution_reference','resolved_by','resolved_at')
+                    }
+                }
+            }
             foreach ($table in $p09Tables.Keys) {
                 $exclude = if ($p09Tables[$table].Count) { "-array['" + ($p09Tables[$table] -join "','") + "']" } else { "" }
                 $digestSql = "select count(*) || ':' || coalesce(md5(string_agg((to_jsonb(t)$exclude)::text,';' order by id)), 'empty') from golok_lab_$table t"

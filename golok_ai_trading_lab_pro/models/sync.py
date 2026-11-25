@@ -12,6 +12,7 @@ from . import provider
 
 _ADMIN = "golok_ai_trading_lab_pro.group_admin"
 HISTORY_PROVIDERS = {"smartapi": "SmartAPI", "upstox": "Upstox"}
+TRANSIENT_HISTORY_ERRORS = frozenset({"DISCONNECTED", "PROVIDER_BUSY", "RATE_LIMITED"})
 
 
 class ProviderDataset(models.Model):
@@ -39,6 +40,7 @@ class Synchronization(models.Model):
     company_id = fields.Many2one("res.company", required=True, index=True)
     mapping_id = fields.Many2one("golok.lab.mapping", required=True, check_company=True, ondelete="restrict")
     dataset_id = fields.Many2one("golok.lab.dataset", check_company=True, ondelete="restrict")
+    fallback_for_id = fields.Many2one("golok.lab.sync", check_company=True, ondelete="restrict", readonly=True)
     mode = fields.Selection([("fixture", "Synthetic provider fixture"), ("live", "Authorized historical request")], required=True)
     day = fields.Date(required=True)
     interval = fields.Selection([(key, key) for key in market_data.INTERVALS if key != "1d"], required=True)
@@ -60,8 +62,7 @@ class Synchronization(models.Model):
         return provider.cached_client(self.env.cr.dbname)
 
     @api.model
-    def _fetch(self, wizard, session):
-        mapping = wizard.mapping_id
+    def _fetch(self, wizard, session, mapping):
         if mapping.provider == "upstox":
             reserve = self.env["golok.lab.provider.budget"]._reserve
             if wizard.mode == "fixture":
@@ -76,7 +77,7 @@ class Synchronization(models.Model):
             client = SmartAPI(lambda *_: {"status": True, "data": raw})
             # Only the injected fixture transport sees this non-credential value.
             client._token = "fixture"
-            return client.history(wizard.mapping_id.exchange, wizard.mapping_id.token, wizard.interval,
+            return client.history(mapping.exchange, mapping.token, wizard.interval,
                                   session.opening, session.closing), client.last_success
         if not provider._SESSION_LOCK.acquire(blocking=False):
             raise ProviderError("PROVIDER_BUSY")
@@ -87,7 +88,7 @@ class Synchronization(models.Model):
             try:
                 if client._clock() < client._next_request:
                     raise ProviderError("RATE_LIMITED")
-                return client.history(wizard.mapping_id.exchange, wizard.mapping_id.token, wizard.interval,
+                return client.history(mapping.exchange, mapping.token, wizard.interval,
                                       session.opening, session.closing), client.last_success
             except ProviderError:
                 if client.state == "AUTH_REQUIRED":
@@ -99,13 +100,15 @@ class Synchronization(models.Model):
             provider._SESSION_LOCK.release()
 
     @api.model
-    def _run(self, wizard):
+    def _run(self, wizard, *, mapping=None, fallback_for=None):
         company = self.env.company
-        mapping, revision = wizard.mapping_id, wizard.calendar_id
+        mapping, revision = mapping or wizard.mapping_id, wizard.calendar_id
         if mapping.company_id != company or revision.company_id != company:
             raise AccessError(_("Select available records in your active company."))
         base = {"company_id": company.id, "mapping_id": mapping.id, "mode": wizard.mode,
                 "day": wizard.day, "interval": wizard.interval}
+        if fallback_for:
+            base["fallback_for_id"] = fallback_for.id
         report = {**base, "state": "rejected"}
         try:
             with self.env.cr.savepoint():
@@ -122,7 +125,8 @@ class Synchronization(models.Model):
                     raise ValidationError(_("Supply bounded synthetic fixture rows."))
                 review = self.env["golok.lab.source.review"]._authorize(
                     mapping.provider, "historical", "import") if origin == "provider" else None
-                rows, receipt = self._fetch(wizard, session)
+                self.env["golok.lab.holdout"]._reject_days(mapping.instrument_id, [wizard.day], company)
+                rows, receipt = self._fetch(wizard, session, mapping)
                 bars = ingestion.normalize(rows, session, seconds, receipt)
                 self.env["golok.lab.replay.guard"]._lock(mapping.instrument_id)
                 source = f"{HISTORY_PROVIDERS[mapping.provider]} {wizard.mode} mapping {mapping.id} calendar {revision.id}"
@@ -170,6 +174,7 @@ class SyncWizard(models.TransientModel):
     interval = fields.Selection([(key, key) for key in market_data.INTERVALS if key != "1d"], required=True, default="5m")
     mode = fields.Selection([("fixture", "Synthetic fixture"), ("live", "Authorized provider history")], required=True, default="fixture")
     fixture_rows = fields.Text()
+    alternate_mapping_id = fields.Many2one("golok.lab.mapping", string="Authorized Alternate")
 
     def action_sync(self):
         self.ensure_one()
@@ -178,6 +183,26 @@ class SyncWizard(models.TransientModel):
             raise AccessError(_("Only a Trading System Administrator may synchronize data."))
         self.mapping_id.check_access("read")
         self.calendar_id.check_access("read")
-        result = self.env["golok.lab.sync"]._run(self)
+        alternate = self.alternate_mapping_id
+        if alternate:
+            self._validate_alternate(alternate)
+        service = self.env["golok.lab.sync"]
+        result = service._run(self)
+        if alternate and result.state == "rejected" and result.reason in TRANSIENT_HISTORY_ERRORS:
+            result = service._run(self, mapping=alternate, fallback_for=result)
         return {"type": "ir.actions.act_window", "res_model": result._name, "res_id": result.id,
                 "views": [(False, "form")], "target": "current"}
+
+    def _validate_alternate(self, alternate):
+        alternate.check_access("read")
+        primary = self.mapping_id
+        if (self.mode != "live" or alternate.company_id != self.env.company or primary.company_id != self.env.company
+                or alternate.instrument_id != primary.instrument_id or not primary.isin or alternate.isin != primary.isin
+                or alternate.provider == primary.provider or {alternate.provider, primary.provider} != set(HISTORY_PROVIDERS)
+                or self.interval not in upstox.INTERVALS
+                or not all(item._covers(self.day, "provider") for item in (primary, alternate))):
+            raise ValidationError(_("Use two reviewed brokers for the same NSE security, session and historical interval."))
+        reviews = self.env["golok.lab.source.review"]
+        for mapping in (primary, alternate):
+            if not reviews._authorize(mapping.provider, "historical", "import").raw_share_ohlcv:
+                raise AccessError(_("Both brokers require current authorization and reviewed raw share OHLCV."))
