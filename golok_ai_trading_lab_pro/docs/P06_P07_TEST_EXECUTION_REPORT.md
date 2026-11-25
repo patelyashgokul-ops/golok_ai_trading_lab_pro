@@ -46,4 +46,12 @@ The early numerical fixture run failed two tests because the adopted historical 
 - Edge passed 25 checks. The new browser case checks that fixture account and daily research event cards open lists with matching counts. Existing PostgreSQL contention and process interruption checks passed.
 - Direct upgrades from 20.0.9.1.0, 20.0.9.1.3 and 20.0.9.1.4 retained earlier record hashes and 1,243, 1,261 and 1,280 XML IDs respectively. The final schema checks include an existing findings record. A separate PostgreSQL log path per test port resolves a parallel harness log-file lock.
 
+## Release 20.0.9.1.6
+
+- All 65 standalone tests passed. Each of G01–G14 was failed independently. The suite covers missing and malformed gate evidence, unapproved modes and reproducible hashes of the exact inputs. All eleven archived stress scenarios matched.
+- Fresh Odoo installation and module update each passed 27 tests. The fixture verifies equivalent historical sources, both grants, approved failure categories and linked audit attempts. The expanded holdout test covers denied output and raw input across four Odoo roles, an alternate source label, a queued job and one risk-authorized evaluation.
+- Edge passed 25 checks. Independent PostgreSQL contention, worker interruption and lease recovery passed after refreshing the verification session's transaction snapshot following the recovery worker's commit.
+- The populated upgrade from 20.0.9.1.5 preserved 1,282 XML IDs and all compared record hashes, including the stored historical findings record.
+- The direct upgrade from the archived P09.1 schema preserved 1,243 XML IDs and all compared record hashes. An earlier development database with the same version string lacked the archived `last_entry_check_id` column. The initial row comparison detected the newly added column, and the direct verification used the populated database with the archived schema.
+
 [Commands, raw logs and screenshots](evidence/p06_p07_repair/INDEX.md)

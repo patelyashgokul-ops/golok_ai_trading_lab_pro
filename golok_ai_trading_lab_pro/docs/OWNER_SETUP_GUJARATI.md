@@ -41,6 +41,7 @@ Publisher સુધારેલી દૈનિક ફાઇલ આપે ત્
 4. મંજૂરી મળ્યા પછી reviewed mapping અને calendar વાપરો. સ્થાનિક Odoo workerના environmentમાં token masked promptથી દાખલ કરો અને explicit authorization setting સક્રિય કરો. પ્રક્રિયા પછી token સ્થાનિક જ રાખો.
 5. **Provider Diagnostics → Check Upstox Readiness** માં local setup, company authorization અને છેલ્લું સફળ અસલી receipt જુઓ.
 6. Historical portfolio wizardમાં **Experimental causal entry, stop and target** પસંદ કરીને synthetic replay ચલાવો. પરિણામમાં signal સમયે નક્કી થયેલી entry range, stop, target અને veto જુઓ. એ જ policy સાથે **Run Walk-forward Experiment** દબાવો તો દરેક training foldમાં 20 strategy–policy જોડીઓ ચકાસાશે. અસલી market data અને નફાકારકતાની ચકાસણી બાકી છે.
+7. બંને brokers માટે એ જ ISIN અને સત્રની reviewed mappings તથા raw OHLCV આયાત કરવાની સક્રિય મંજૂરી હોય તો **Synchronize Historical → Authorized Alternate**માં બીજું mapping પસંદ કરી શકો. મુખ્ય provider પર કામચલાઉ ભૂલ આવે ત્યારે એક વાર alternate અજમાવાશે. બંને પ્રયાસો **Sync History**માં જોડાયેલા રહેશે.
 
 ## Prospective fixture competition
 

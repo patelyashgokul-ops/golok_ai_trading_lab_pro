@@ -2,7 +2,7 @@
 
 **P06–P07 REPAIR PARTIAL — TECHNICAL OR EXTERNAL BLOCKERS REMAIN**
 
-Release `20.0.9.1.5` continues P06P07-R01 from verified P09.1 release `20.0.9.1.0`. The P09.1 archive, requirement identifiers, source checkpoint and prior published outputs were retained.
+Release `20.0.9.1.6` continues P06P07-R01 from verified P09.1 release `20.0.9.1.0`. The P09.1 archive, requirement identifiers, source checkpoint and prior published outputs were retained.
 
 ## Implemented
 
@@ -14,17 +14,20 @@ Release `20.0.9.1.5` continues P06P07-R01 from verified P09.1 release `20.0.9.1.
 - **Fixture Candidate Research** exposes levels, expiry, ranking and gate outcomes. **Review Provider Status** exposes current company source rights, retention, quotas, historical receipts and links to source records.
 - A walk-forward run can fit a conservative target cap from completed training trades. The versioned snapshot evidence contract covers the original 25 identifiers and adds a descriptive historical-pattern outcome counter.
 - Overview counters and drill-down lists share a server-side company and access scope. New cards expose fixture accounts and candidates, strategy performance records and daily research events.
+- The historical sync wizard can try one independently approved alternate broker mapping for the same instrument and session after a transient primary-provider failure. Each attempt has its own linked audit record.
+- G01–G14 decisions record typed evidence and SHA-256 fingerprints of the dataset and observations used. Malformed evidence and failed gates prevent allocation.
+- A sealed holdout protects the date window across source aliases, research jobs, comparison records and prospective observations. A pending job cannot release evidence after sealing. The risk reviewer can consume the holdout once.
 - The handoff reconciles all 180 P06 and P07 criteria and reviews the 97 original unresolved entries and 18 original defects. The 45 focused repair criteria are appended to traceability.
 
 ## Verification
 
-63 standalone tests passed. The fresh Odoo installation and module-update stages each passed 26 tests. Edge passed 25 checks, including dashboard count and list reconciliation. Independent PostgreSQL contention, worker termination and recovery passed. Populated R01 upgrades preserved existing XML IDs and record-level digests, including a stored historical findings record. All eleven archived P09.1 stress cases matched. Of the focused repair criteria, 36 passed and nine remain partial.
+65 standalone tests passed. The fresh Odoo installation and module-update stages each passed 27 tests. Edge passed 25 checks, including dashboard count and list reconciliation. Independent PostgreSQL contention, worker termination and recovery passed. The populated upgrade preserved 1,243 XML IDs from P09.1 and 1,282 from the previous R01 release, along with all compared historical record digests. All eleven archived P09.1 stress cases matched. Of the 45 focused repair criteria, 40 passed and five remain partial.
 
 ## Readiness
 
 | Area | Disposition |
 |---|---|
-| Provider architecture | Upstox and SmartAPI historical fixture scope verified. Unified operational and provider health scope partial. |
+| Provider architecture | Upstox and SmartAPI historical fixture acquisition and one reviewed alternate verified. Unified operational and provider health scope partial. |
 | Authorized provider connectivity and genuine data | Blocked by verified entitlement and use rights. Zero genuine sessions. |
 | Data accuracy protection | Fixtures verify broker history, authorized raw daily file and attested CSV comparisons, possible split mismatches and corroborated replacement. Independent authorized observations remain outstanding. |
 | Entry and stop optimization | Causal historical portfolio integration verified with frozen proposals and no-trade vetoes. Prospective coverage and training excursion evidence remain open. |

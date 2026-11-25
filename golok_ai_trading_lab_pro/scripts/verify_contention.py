@@ -416,6 +416,7 @@ def _interrupt_job(env, runner, dataset):
         assert fresh["golok.lab.run"].search_count([("dataset_id", "=", dataset.id),
                                                    ("as_of", "=", "2024-01-02 04:20:00")]) == 1
     print("PASS: independent worker skipped a locked job, forced worker kill rolled back and retry produced exactly one result")
+    env.cr.commit()
     _recover_committed_lease(env, runner, dataset)
 
 

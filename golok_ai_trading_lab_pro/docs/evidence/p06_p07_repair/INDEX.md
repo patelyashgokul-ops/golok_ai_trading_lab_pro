@@ -53,3 +53,13 @@ Real provider, genuine market and independent financial results are unavailable.
 | Frozen walk-forward versus validation and evaluation | [Fresh installation](calibration/verified/installation/fresh.log) · [Update](calibration/verified/installation/upgrade.log) |
 | KPI drill-down and queue recovery | [Edge](calibration/verified/browser/edge.log) · [Daily research screenshot](calibration/verified/screenshots/reconciled-research-events.png) · [Concurrent worker log](calibration/verified/security/contention.log) |
 | Populated upgrades | [Previous R01 retention](calibration/migration/upgrade/retention.log) · [Final evidence schema retention](calibration/migration-final/upgrade/retention.log) · [Direct P09.1 retention](calibration/migration-from-p091/upgrade/retention.log) |
+
+## Release 20.0.9.1.6
+
+| Evidence | Artifact |
+|---|---|
+| Gate vetoes, immutable input hashes and regression | [Standalone](gates-holdout/standalone.log) · [Source scan](gates-holdout/source.log) · [P09.1 stress parity](gates-holdout/stress-parity.log) |
+| ORM release checks, sealed data, and alternate broker fixture | [Fresh installation](gates-holdout/verified/installation/fresh.log) · [Module update](gates-holdout/verified/installation/upgrade.log) |
+| PostgreSQL and Edge | [Concurrency and recovery](gates-holdout/verified/security/contention.log) · [Browser](gates-holdout/verified/browser/edge.log) |
+| Populated upgrades | [Direct P09.1 retention](gates-holdout/migration-direct/upgrade/retention.log) · [Previous R01 retention](gates-holdout/migration-final/upgrade/retention.log) |
+| Initial concurrency evidence | [Harness transaction needed a fresh snapshot](gates-holdout/odoo/security/contention.log) |
