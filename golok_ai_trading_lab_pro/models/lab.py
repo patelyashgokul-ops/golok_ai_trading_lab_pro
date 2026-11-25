@@ -580,15 +580,43 @@ class ResearchRun(models.Model):
         return {
             "company_id": self.env.company.id,
             "company_name": self.env.company.display_name,
-            "instruments": self.env["golok.lab.instrument"].search_count([*domain, ("active", "=", True)]),
-            "datasets": self.env["golok.lab.dataset"].search_count(domain),
-            "candles": candle_model.search_count(domain),
+            **{key: self.env[model].search_count([*domain, *extra])
+               for key, (model, extra) in self._overview_cards().items()},
             "last_ingestion": fields.Datetime.to_string(current_ingest.ingested_at) if current_ingest else False,
-            "quarantined": self.env["golok.lab.dataset"].search_count([*domain, ("quarantined", "=", True)]),
-            "runs": self.search_count(domain),
             "last": last.read(["dataset_id", "as_of", "last_close", "bar_count", "gap_count", "reason", "origin"])[0]
             if last else None,
         }
+
+    @api.model
+    def _overview_cards(self):
+        return {
+            "instruments": ("golok.lab.instrument", [("active", "=", True)]),
+            "datasets": ("golok.lab.dataset", []),
+            "candles": ("golok.lab.candle", []),
+            "runs": ("golok.lab.run", []),
+            "quarantined": ("golok.lab.dataset", ["|", ("quarantined", "=", True), ("integrity_conflict", "=", True)]),
+            "experiments": ("golok.lab.experiment", []),
+            "paper_accounts": ("golok.lab.paper.account", []),
+            "successful_syncs": ("golok.lab.sync", [("state", "=", "complete")]),
+            "portfolios": ("golok.lab.portfolio", [("historical_authorized", "=", False)]),
+            "holdouts": ("golok.lab.holdout", []),
+            "candidate_records": ("golok.lab.research.candidate", []),
+            "performance_reports": ("golok.lab.performance.report", []),
+            "fixture_accounts": ("golok.lab.fixture.account", []),
+            "daily_events": ("golok.lab.session.event", []),
+        }
+
+    @api.model
+    def overview_card_action(self, key):
+        self.check_access("read")
+        scope = self._overview_cards().get(key) if isinstance(key, str) else None
+        if not scope:
+            raise ValidationError(_("Unknown research overview card."))
+        model, filters = scope
+        self.env[model].check_access("read")
+        views = [(False, "list")] + ([(False, "form")] if key != "candles" else [])
+        return {"type": "ir.actions.act_window", "res_model": model, "views": views,
+                "domain": [("company_id", "=", self.env.company.id), *filters]}
 
     @api.model
     def chart_data(self, run_id):

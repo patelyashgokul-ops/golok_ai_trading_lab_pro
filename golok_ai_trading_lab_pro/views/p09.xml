@@ -179,6 +179,7 @@
             <xpath expr="//form/group" position="after"><group string="Walk-forward Session Windows">
                 <field name="training_sessions"/><field name="validation_sessions"/><field name="evaluation_sessions"/>
                 <field name="embargo_sessions"/><field name="expanding_window"/>
+                <field name="calibrate_target" invisible="target_policy != 'causal_levels'"/>
             </group></xpath>
             <xpath expr="//footer/button[@name='action_run']" position="after">
                 <button name="action_experiment" type="object" string="Run Walk-forward Experiment"/>

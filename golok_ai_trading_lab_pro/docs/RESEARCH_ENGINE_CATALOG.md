@@ -10,3 +10,5 @@ The Odoo research snapshot can create an immutable version 1 supplemental record
 | RE-19 | Positive, negative and flat close transitions and net return over ten transitions |
 
 The existing three P02 outputs remain. Findings are descriptive and snapshot-bound. They establish neither market-wide regimes nor predictive performance.
+
+Release 20.0.9.1.5 preserves historical findings and adds a versioned evidence envelope for RE-01–RE-25. The current supplemental computations comprise ten capabilities. RE-15 counts realized up, flat and down moves in non-overlapping historical samples following a matching three-move pattern. The inventory separates the 13 implemented snapshot paths, five specialized strategy and portfolio paths and seven external-input paths.

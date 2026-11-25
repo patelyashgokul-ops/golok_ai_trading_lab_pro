@@ -135,6 +135,7 @@
             <group><field name="run_id"/><field name="dataset_id"/><field name="instrument_id"/>
                 <field name="cutoff"/><field name="input_digest"/><field name="calculation_version"/><field name="elapsed_ms"/></group>
             <field name="findings" nolabel="1"/>
+            <field name="evidence_contract" string="Research Evidence Contract" invisible="not evidence_contract"/>
         </sheet></form></field>
     </record>
     <record id="view_run_findings" model="ir.ui.view">

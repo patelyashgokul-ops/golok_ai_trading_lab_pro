@@ -1,14 +1,51 @@
 import json
 import unittest
 from dataclasses import replace
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta, timezone
 from decimal import Decimal
 from urllib.error import HTTPError, URLError
 
 from scripts.reproduce_p05 import fixture
-from services import (calendar, indicators, ingestion, level_research, market_data, portfolio, price_integrity,
-                      providers, rights_lifecycle, simulation, targets, upstox)
+from services import (calendar, indicators, ingestion, level_research, market_data, performance, portfolio, price_integrity,
+                      providers, research_contract, research_v3, rights_lifecycle, simulation, targets, upstox)
 from services.smartapi import ProviderError
+
+
+class ResearchEvidenceTest(unittest.TestCase):
+    def test_pattern_reference_uses_only_completed_nonoverlapping_samples(self):
+        prices = [100, 101, 102, 103, 102] * 5 + [100, 101, 102, 103]
+        start = datetime(2024, 1, 2, 4, tzinfo=timezone.utc)
+        bars = [market_data.Candle(start + timedelta(minutes=i), price, price, price, price, 10)
+                for i, price in enumerate(map(Decimal, prices))]
+        result = research_v3.analyze(bars)["RE-15"]
+        self.assertEqual(result["finding"], {
+            "pattern": [1, 1, 1], "matches": 5, "next_down": 5, "next_flat": 0, "next_up": 0,
+        })
+        self.assertEqual(research_v3.analyze(bars[:28])["RE-15"]["status"], "INSUFFICIENT_DATA")
+        self.assertIsNone(research_v3.analyze(bars, quality_warning=True)["RE-15"]["finding"])
+        contract = research_contract.snapshot({"ohlcv_count": len(bars)}, {}, {"RE-15": result}, {"RE-15": 0.01})
+        self.assertEqual(len(contract["engines"]), 25)
+        self.assertEqual(contract["engines"]["RE-02"]["status"], "INPUT_UNAVAILABLE")
+        self.assertEqual(contract["engines"]["RE-24"]["status"], "WORKFLOW_REQUIRED")
+        self.assertEqual(contract["engines"]["RE-15"]["execution_duration_ms"], 0.01)
+
+
+class TrainingTargetReferenceTest(unittest.TestCase):
+    def test_fitted_fraction_excludes_exit_bar_and_future(self):
+        trades, bars = [], []
+        for day, price in ((2, 103), (3, 105)):
+            start = datetime(2024, 1, day, 4, tzinfo=timezone.utc)
+            end = start + timedelta(minutes=10)
+            trades.append({"asset": "fixture", "time": start.isoformat(), "exit_time": end.isoformat(),
+                           "entry": "100", "exit": "99"})
+            for index, mark in ((1, price), (2, 180), (3, 200)):
+                value = Decimal(mark)
+                bars.append(market_data.Candle(start + timedelta(minutes=5 * index), value, value, value, value, 10))
+        result = performance.train_target_cap({"trades": trades}, {"fixture": bars})
+        self.assertEqual(result, {"status": "FITTED", "observations": 2, "sessions": 2, "fraction": Decimal(".04")})
+        repeat = performance.train_target_cap({"trades": [trades[0], trades[0]]}, {"fixture": bars})
+        self.assertEqual(repeat["status"], "INSUFFICIENT_TRAINING")
+        self.assertEqual(performance.train_target_cap({"trades": trades}, {})["status"], "INPUT_UNAVAILABLE")
 
 
 class IndicatorReferenceTest(unittest.TestCase):
@@ -221,3 +258,7 @@ class LevelsTest(unittest.TestCase):
         missed = experiment(replace(asset, bars=tuple(altered)))
         self.assertEqual(missed["decisions"][0]["level_proposal"], first["level_proposal"])
         self.assertFalse(missed["decisions"][0]["gates"]["G06"]["passed"])
+        calibrated = portfolio.replay((asset,), session.day, session.day, 300, ("ST-06",), self.costs,
+                                      target_policy="atr_barrier", target_cap=Decimal(".005"))
+        self.assertEqual(calibrated["decisions"][0]["target"], Decimal("100.70"))
+        self.assertEqual(calibrated["decisions"][0]["sizing"], "MINIMUM_NET_REWARD_TO_RISK")

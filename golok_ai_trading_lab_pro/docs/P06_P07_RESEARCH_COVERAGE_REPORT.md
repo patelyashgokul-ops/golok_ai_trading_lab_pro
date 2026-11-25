@@ -2,11 +2,13 @@
 
 The immutable Odoo findings route continues to bind the reviewed snapshot, source eligibility, calculation version and warnings. Its nine version-3 supplemental engines are RE-03, RE-04, RE-06, RE-07, RE-08, RE-09, RE-17, RE-19 and RE-20. The original P02 findings remain available. The version-1 indicator library covers ordered Decimal price and volume reference calculations. R01 adds independent fixed-series checks for ATR and RSI warm-up and arithmetic as part of the entry and target fixtures.
 
-RE-21 and RE-22 are causal research services available together as an optional historical and prospective fixture policy. RE-23 includes the ATR-capped policy. A bounded walk-forward grid runs 20 strategy–policy pairs on training dates only. A uniform RE-01–RE-30 runtime contract remains open.
+RE-21 and RE-22 are causal research services available together as an optional historical and prospective fixture policy. RE-23 includes the ATR-capped policy and an optional training-only favorable-excursion fit. The bounded walk-forward grid uses training dates to choose among 20 baseline strategy–policy pairs and eligible fitted variants.
 
 The **Fixture Candidate Research** workspace displays instrument, dataset, observation, levels, strategy trials, gate outcomes and an explicit financial-validation status. Remaining work includes standardized per-engine data contracts, additional independent numerical vectors and use-case coverage across all gates. No genuine statistical validation or market-wide performance conclusion was available.
 
 Independent indicator vectors now cover the 19 implemented outputs across the standalone suites. The follow-up checks known volatility, band widths, volume threshold, VWAP weighting, and benchmark publication alignment. Prefix comparisons ensure observations after the cutoff do not alter earlier output.
+
+The supplemental research form carries a versioned evidence contract listing RE-01–RE-25. It identifies 13 snapshot paths with implemented OHLCV computations, including the new RE-15 pattern outcome counter. Five strategy and portfolio capabilities have separate workflows. Seven depend on other evidence. The contract makes missing inputs and required workflows visible. RE-15 reports observed counts from disjoint completed historical windows.
 
 ## Nine-workspace audit
 

@@ -4,6 +4,7 @@ from collections import Counter
 from dataclasses import dataclass
 from decimal import Decimal
 from statistics import median
+from time import perf_counter
 
 VERSION = "3"
 
@@ -102,6 +103,22 @@ def abnormal_activity(bars):
             "range_expansion": spread > 3 * width if width else None}
 
 
+def pattern_history(bars):
+    """Count completed historical outcomes after matching three-move patterns."""
+    def signs(window):
+        return tuple((right.close > left.close) - (right.close < left.close) for left, right in zip(window, window[1:]))
+
+    pattern = signs(bars[-4:])
+    reference = bars[-44:-4]
+    histogram = Counter()
+    for start in range(0, len(reference) - 4, 5):
+        sample = reference[start:start + 5]
+        if signs(sample[:4]) == pattern:
+            histogram[signs(sample[-2:])[0]] += 1
+    return {"pattern": list(pattern), "matches": sum(histogram.values()),
+            "next_up": histogram[1], "next_flat": histogram[0], "next_down": histogram[-1]}
+
+
 REGISTRY = {
     "RE-03": Engine("Price structure", 6, price_structure),
     "RE-04": Engine("Candle shape", 1, candle_shape),
@@ -109,18 +126,20 @@ REGISTRY = {
     "RE-07": Engine("Close outside a preceding ten-bar range", 11, breakout),
     "RE-08": Engine("Close back inside the pre-breakout range", 12, failed_breakout),
     "RE-09": Engine("Instrument regime", 21, instrument_regime),
+    "RE-15": Engine("Historical pattern outcomes", 29, pattern_history),
     "RE-17": Engine("Median turnover proxy", 20, turnover_proxy),
     "RE-20": Engine("Volume and range anomalies versus a prior twenty-bar baseline", 21, abnormal_activity),
     "RE-19": Engine("Directional momentum", 11, momentum),
 }
 
 
-def analyze(bars, quality_warning=False):
+def analyze(bars, quality_warning=False, *, durations=None):
     if len(bars) > 250:
         raise ValueError("Use a verified snapshot of at most 250 bars.")
     results = {}
     for key, engine in REGISTRY.items():
         eligible = len(bars) >= engine.minimum and not quality_warning
+        clock = perf_counter() if durations is not None else None
         results[key] = {
             "engine": key, "version": VERSION, "name": engine.name, "minimum": engine.minimum,
             "status": "COMPLETED" if eligible else "INSUFFICIENT_DATA",
@@ -128,4 +147,6 @@ def analyze(bars, quality_warning=False):
             "warning": "Snapshot has missing or unverifiable observations." if quality_warning else None,
             "finding": engine.evaluate(bars) if eligible else None,
         }
+        if clock is not None:
+            durations[key] = round((perf_counter() - clock) * 1000, 3)
     return results

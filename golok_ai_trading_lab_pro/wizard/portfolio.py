@@ -27,6 +27,7 @@ class PortfolioWizard(models.TransientModel):
     evaluation_sessions = fields.Integer(default=1)
     embargo_sessions = fields.Integer(default=1)
     expanding_window = fields.Boolean()
+    calibrate_target = fields.Boolean(string="Fit a target cap on training observations")
 
     def action_seal(self):
         self.ensure_one()
@@ -150,32 +151,53 @@ class PortfolioWizard(models.TransientModel):
         portfolios = self.env["golok.lab.portfolio"]
         codes = sorted(code for code, _label in STRATEGIES if code != "all")
         grid = self.target_policy == targets.JOINT_POLICY
+        calibration = self.calibrate_target
+        if calibration and not grid:
+            raise ValidationError("Select the experimental causal policy to fit a target cap.")
         trial_policies = targets.POLICIES if grid else (self.target_policy,)
-        version = walk_forward.GRID_VERSION if grid else walk_forward.VERSION
+        version = (walk_forward.CALIBRATION_VERSION if calibration else
+                   walk_forward.GRID_VERSION if grid else walk_forward.VERSION)
         results = []
 
-        def replay(window, code, policy):
-            portfolio = portfolios.create({**request, "starts": window[0], "ends": window[-1],
-                                           "strategy": code, "target_policy": policy})
+        def replay(window, code, policy, cap=None):
+            vals = {**request, "starts": window[0], "ends": window[-1], "strategy": code, "target_policy": policy}
+            portfolio = portfolios._run_request([vals], target_cap=cap) if cap is not None else portfolios.create(vals)
             metrics = performance.summarize(json.loads(portfolio.result))
             result = {"strategy": code, "fingerprint": portfolio.fingerprint, "portfolio": portfolio.id, "metrics": metrics}
             if grid:
                 result["target_policy"] = policy
+            if cap is not None:
+                result["target_cap"] = cap
             return result
 
         for windows in partitions:
             trials = [replay(windows["training"], code, policy) for code in codes for policy in trial_policies]
+            fitted = []
+            if calibration:
+                for baseline in [trial for trial in trials if trial["target_policy"] == "fixed_4r"]:
+                    baseline_run = portfolios.browse(baseline["portfolio"])
+                    fit = performance.train_target_cap(json.loads(baseline_run.result), baseline_run._frozen_mark_series())
+                    fit.update(strategy=baseline["strategy"], baseline_fingerprint=baseline["fingerprint"])
+                    if fit["fraction"] is not None:
+                        fit["trial"] = replay(windows["training"], fit["strategy"], "atr_barrier", fit["fraction"])
+                    fitted.append(fit)
+            eligible = trials + [fit["trial"] for fit in fitted if "trial" in fit]
             selected = walk_forward.choose_training_trial(
-                [{**trial, "target_policy": trial.get("target_policy", self.target_policy)} for trial in trials])
+                [{**trial, "target_policy": trial.get("target_policy", self.target_policy)} for trial in eligible])
             fold = {"windows": windows, "training_trials": trials, "status": "INSUFFICIENT_TRAINING"}
+            if calibration:
+                fold["target_calibration"] = fitted
             if selected:
                 code, policy = selected["strategy"], selected["target_policy"]
-                validation = replay(windows["validation"], code, policy)
+                cap = selected.get("target_cap")
+                validation = replay(windows["validation"], code, policy, cap)
                 fold.update(selected=code, validation=validation, status="VALIDATION_VETO")
                 if grid:
                     fold["selected_target_policy"] = policy
+                if cap is not None:
+                    fold["selected_target_cap"] = cap
                 if walk_forward.rank_summary(validation["metrics"]) is not None:
-                    fold.update(evaluation=replay(windows["evaluation"], code, policy), status="EVALUATED")
+                    fold.update(evaluation=replay(windows["evaluation"], code, policy, cap), status="EVALUATED")
             results.append(fold)
         report = {"version": version, "scope": "SYNTHETIC_SOFTWARE_ONLY", "folds": results,
                   "selection": "Positive net expectancy with at least two trades, then lower closed-trade drawdown, trade count and fees",

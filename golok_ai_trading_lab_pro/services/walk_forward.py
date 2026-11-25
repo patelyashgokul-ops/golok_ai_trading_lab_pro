@@ -2,6 +2,7 @@
 
 VERSION = "p09-walk-forward-1"
 GRID_VERSION = "r01-policy-grid-1"
+CALIBRATION_VERSION = "r01-target-calibration-1"
 
 
 def folds(days, *, training, validation, evaluation, embargo, expanding):
@@ -32,5 +33,5 @@ def choose_training_trial(trials):
     """Use only already-produced training trials, with explicit deterministic ties."""
     scored = [(rank_summary(trial["metrics"]), trial) for trial in trials]
     eligible = sorted((row for row in scored if row[0] is not None),
-                      key=lambda row: (row[1]["strategy"], row[1]["target_policy"]))
+                      key=lambda row: (row[1]["strategy"], row[1]["target_policy"], row[1].get("target_cap") is not None))
     return max(eligible, key=lambda row: row[0])[1] if eligible else None

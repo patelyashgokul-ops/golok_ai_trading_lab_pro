@@ -4,7 +4,7 @@ from time import perf_counter
 from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, ValidationError
 
-from ..services import eligibility, research_v3
+from ..services import eligibility, research_contract, research_v3
 
 
 class ResearchFindings(models.Model):
@@ -23,6 +23,7 @@ class ResearchFindings(models.Model):
     calculation_version = fields.Char(required=True)
     findings = fields.Text(required=True)
     elapsed_ms = fields.Float()
+    evidence_contract = fields.Text(readonly=True)
 
     _identity = models.Constraint("UNIQUE(run_id, calculation_version)", "Supplemental findings already exist.")
 
@@ -56,16 +57,24 @@ class ResearchFindings(models.Model):
         candles = run._checked_snapshot_candles()
         if not candles:
             raise ValidationError(_("No intact inputs for this snapshot."))
-        identity = [("run_id", "=", run.id), ("calculation_version", "=", research_v3.VERSION)]
+        version = f"{research_v3.VERSION}/{research_contract.VERSION}"
+        identity = [("run_id", "=", run.id), ("calculation_version", "=", version)]
         prior = self.search(identity, limit=1)
         if prior:
             return prior
         source_allowed = eligibility.evaluate(run.origin, "descriptive", quarantined=run.dataset_id.quarantined)[1]
         warning = not source_allowed or run.gap_count or any(item.get("quality_warning") for item in (run.evidence or {}).values())
-        results = research_v3.analyze([row._to_bar() for row in reversed(candles)], warning)
+        durations = {}
+        results = research_v3.analyze([row._to_bar() for row in reversed(candles)], warning, durations=durations)
+        contract = research_contract.snapshot({
+            "instrument": run.dataset_id.instrument_id.id, "timeframe": run.dataset_id.interval,
+            "research_timestamp": fields.Datetime.to_string(run.as_of), "dataset_fingerprint": run.input_digest,
+            "input_freshness": "HISTORICAL_ONLY", "ohlcv_count": len(candles),
+        }, run.evidence or {}, results, durations)
         return super(ResearchFindings, self.with_context({})).create([{
             "company_id": company.id, "run_id": run.id, "input_digest": run.input_digest,
-            "calculation_version": research_v3.VERSION, "findings": json.dumps(results, indent=2),
+            "calculation_version": version, "findings": json.dumps(results, indent=2),
+            "evidence_contract": json.dumps(contract, indent=2),
             "elapsed_ms": (perf_counter() - started) * 1000,
         }])
 
@@ -89,11 +98,7 @@ class ResearchRun(models.Model):
     def overview(self):
         data = super().overview()
         domain = [("company_id", "=", data["company_id"])]
-        data["experiments"] = self.env["golok.lab.experiment"].search_count(domain)
-        data["paper_accounts"] = self.env["golok.lab.paper.account"].search_count(domain)
-        data["successful_syncs"] = self.env["golok.lab.sync"].search_count([*domain, ("state", "=", "complete")])
-        portfolio_domain = [*domain, ("historical_authorized", "=", False)]
-        data["portfolios"] = self.env["golok.lab.portfolio"].search_count(portfolio_domain)
+        portfolio_domain = [*domain, *self._overview_cards()["portfolios"][1]]
         latest = self.env["golok.lab.portfolio"].search(portfolio_domain, limit=1)
         data["last_portfolio"] = False
         if latest:
@@ -104,7 +109,6 @@ class ResearchRun(models.Model):
                 "gross": result["gross"], "fees": result["fees"], "net": result["net"],
                 "suspended": latest.suspended, "trade_count": latest.trade_count,
             }
-        data["holdouts"] = self.env["golok.lab.holdout"].search_count(domain)
         return data
 
     def action_supplemental_findings(self):

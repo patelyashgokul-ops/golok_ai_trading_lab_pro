@@ -14,16 +14,20 @@ class TradingOverview extends Component {
         this.action = useService("action");
         this.state = proxy({ loading: true, error: false, data: null, chart: null, chartLoading: false, chartError: false });
         this.cards = [
-            { key: "instruments", label: _t("Active instruments"), model: "golok.lab.instrument" },
-            { key: "datasets", label: _t("Historical datasets"), model: "golok.lab.dataset" },
-            { key: "candles", label: _t("Stored candles"), model: "golok.lab.candle" },
-            { key: "runs", label: _t("Research snapshots"), model: "golok.lab.run" },
-            { key: "quarantined", label: _t("Quarantined datasets"), model: "golok.lab.dataset" },
-            { key: "experiments", label: _t("Synthetic experiments"), model: "golok.lab.experiment" },
-            { key: "paper_accounts", label: _t("Virtual replay accounts"), model: "golok.lab.paper.account" },
-            { key: "successful_syncs", label: _t("Successful historical syncs"), model: "golok.lab.sync" },
-            { key: "portfolios", label: _t("Synthetic portfolios"), model: "golok.lab.portfolio" },
-            { key: "holdouts", label: _t("Sealed evaluations"), model: "golok.lab.holdout" },
+            { key: "instruments", label: _t("Active instruments") },
+            { key: "datasets", label: _t("Historical datasets") },
+            { key: "candles", label: _t("Stored candles") },
+            { key: "runs", label: _t("Research snapshots") },
+            { key: "quarantined", label: _t("Quarantined datasets") },
+            { key: "experiments", label: _t("Synthetic experiments") },
+            { key: "paper_accounts", label: _t("Virtual replay accounts") },
+            { key: "successful_syncs", label: _t("Successful historical syncs") },
+            { key: "portfolios", label: _t("Synthetic portfolios") },
+            { key: "holdouts", label: _t("Sealed evaluations") },
+            { key: "candidate_records", label: _t("Fixture candidate records") },
+            { key: "performance_reports", label: _t("Synthetic performance reports") },
+            { key: "fixture_accounts", label: _t("Prospective fixture accounts") },
+            { key: "daily_events", label: _t("Daily research events") },
         ];
         onMounted(() => this.refresh());
     }
@@ -82,20 +86,9 @@ class TradingOverview extends Component {
         }
     }
 
-    openList(card) {
-        return this.action.doAction({
-            type: "ir.actions.act_window",
-            name: card.label,
-            res_model: card.model,
-            views: card.key === "candles" ? [[false, "list"]] : [[false, "list"], [false, "form"]],
-            domain: [
-                ["company_id", "=", this.state.data.company_id],
-                ...(card.key === "instruments" ? [["active", "=", true]] : []),
-                ...(card.key === "quarantined" ? [["quarantined", "=", true]] : []),
-                ...(card.key === "successful_syncs" ? [["state", "=", "complete"]] : []),
-                ...(card.key === "portfolios" ? [["historical_authorized", "=", false]] : []),
-            ],
-        });
+    async openList(card) {
+        const action = await this.orm.call("golok.lab.run", "overview_card_action", [card.key]);
+        return this.action.doAction({ ...action, name: card.label });
     }
 
     openRun() {

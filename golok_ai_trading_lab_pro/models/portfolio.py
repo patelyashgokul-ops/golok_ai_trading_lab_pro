@@ -115,7 +115,8 @@ class Portfolio(models.Model):
             series[item["asset"]] = bars
         return series
 
-    def _run_request(self, vals_list, *, training=None, seal=None, contract_fixture=False, historical=False):
+    def _run_request(self, vals_list, *, training=None, seal=None, contract_fixture=False, historical=False,
+                     target_cap=None):
         self.check_access("create")
         allowed = {"dataset_ids", "tariff_id", "starts", "ends", "capital", "tick", "strategy"}
         if len(vals_list) != 1 or not allowed <= set(vals_list[0]) <= allowed | {"target_policy"}:
@@ -236,6 +237,12 @@ class Portfolio(models.Model):
             "code_digests": {module.__name__.rsplit(".", 1)[-1]: hashlib.sha256(Path(module.__file__).read_bytes()).hexdigest()
                              for module in (portfolio, strategies, decision, eligibility, simulation, calendar, targets)},
         }
+        if target_cap is not None:
+            if training or seal or contract_fixture or historical:
+                raise ValidationError(_("Training target caps are isolated to synthetic walk-forward experiments."))
+            specification["training_target_cap"] = target_cap
+        if training and json.loads(training.specification).get("training_target_cap") is not None:
+            raise ValidationError(_("Seal a standalone replay for the final holdout."))
         if contract_fixture or historical:
             specification["code_digests"]["replay_contract"] = hashlib.sha256(Path(replay_contract.__file__).read_bytes()).hexdigest()
             specification["provenance"] = {key: asdict(value) for key, value in provenance.items()}
@@ -271,7 +278,7 @@ class Portfolio(models.Model):
                                                         capital=capital, target_policy=target_policy)
             else:
                 output = portfolio.replay(assets, starts, ends, seconds, codes, costs, capital=capital,
-                                          target_policy=target_policy)
+                                          target_policy=target_policy, target_cap=target_cap)
         except (ValueError, ArithmeticError) as exc:
             raise ValidationError(str(exc)) from None
         if "decision_context_version" in specification:

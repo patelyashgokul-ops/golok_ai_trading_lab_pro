@@ -105,6 +105,8 @@ def verify(base_url, database, edge):
         print("UI-03 historical research, accurate KPIs, refresh and snapshot drill-down", flush=True)
         page.get_by_role("button", name="Run Supplemental Findings").click()
         expect(page.locator(".o_form_view [name=findings]")).to_contain_text("RE-06")
+        expect(page.locator(".o_form_view [name=evidence_contract]")).to_contain_text("r01-research-evidence-1")
+        expect(page.locator(".o_form_view [name=evidence_contract]")).to_contain_text("INPUT_UNAVAILABLE")
         print("UI-07 supplemental evidence generated and opened from the research snapshot", flush=True)
 
         page.goto(f"{base_url}/odoo/action-{action_id}")
@@ -295,6 +297,18 @@ def verify(base_url, database, edge):
         page.screenshot(path=EVIDENCE / "screenshots/comparison-source-review.png")
         assert not errors, errors
         print("UI-24 comparison verification and replay publication are exposed as separate controls", flush=True)
+        proof_dialog.get_by_role("button", name="Cancel").click()
+        page.goto(f"{base_url}/odoo/action-{action_id}")
+        page.get_by_role("button", name="Prospective fixture accounts 1").click()
+        expect(page.locator(".o_list_view .o_data_row")).to_have_count(1)
+        expect(page.locator(".o_list_view")).to_contain_text("Browser prospective fixture")
+        page.goto(f"{base_url}/odoo/action-{action_id}")
+        page.get_by_role("button", name="Daily research events 1").click()
+        expect(page.locator(".o_list_view .o_data_row")).to_have_count(1)
+        expect(page.locator(".o_list_view")).to_contain_text("Fixture-only research")
+        page.screenshot(path=EVIDENCE / "screenshots/reconciled-research-events.png")
+        assert not errors, errors
+        print("UI-25 prospective account and daily event counts reconcile with scoped lists", flush=True)
         browser.close()
 
 

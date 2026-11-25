@@ -2,6 +2,8 @@
 
 from datetime import datetime
 from decimal import Decimal
+from bisect import bisect_left, bisect_right
+from statistics import median
 
 
 VERSION = "p09-performance-2"
@@ -77,6 +79,32 @@ def mark_portfolio(result, series):
         "mfe": max((values[1] for values in excursions), default=None),
         "mark_samples": len(equity_samples),
     }
+
+
+def train_target_cap(result, series):
+    """Fit a conservative price fraction from completed training trades."""
+    marks = {asset: ([bar.close_time for bar in bars], bars) for asset, bars in series.items()}
+    fractions = []
+    sessions = set()
+    for trade in result["trades"]:
+        if trade["asset"] not in marks:
+            return {"status": "INPUT_UNAVAILABLE", "observations": 0, "sessions": 0, "fraction": None}
+        times, bars = marks[trade["asset"]]
+        start = datetime.fromisoformat(trade["time"])
+        end = datetime.fromisoformat(trade["exit_time"])
+        entry, exit_price = amount(trade["entry"]), amount(trade["exit"])
+        # The modeled exit is known. Highs from its candle may occur after the exit.
+        interior = bars[bisect_right(times, start):bisect_left(times, end)]
+        high_mark = max(entry, exit_price, *(bar.close for bar in interior))
+        fractions.append(high_mark / entry - 1)
+        sessions.add(start.date())
+    result = {"status": "INSUFFICIENT_TRAINING", "observations": len(fractions),
+              "sessions": len(sessions), "fraction": None}
+    if len(fractions) >= 2 and len(sessions) >= 2:
+        cap = min(median(fractions), Decimal(".10"))
+        if cap > 0:
+            result.update(status="FITTED", fraction=cap)
+    return result
 
 
 def summarize(result, *, marks=None):

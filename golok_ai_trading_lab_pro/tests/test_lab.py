@@ -867,6 +867,21 @@ class TestLab(TransactionCase):
                 self.assertEqual(result["target_policy"], current["selected_target_policy"])
                 saved = analyst["golok.lab.portfolio"].browse(result["portfolio"])
                 self.assertEqual(saved.starts.isoformat(), current["windows"][stage][0])
+        wizard.calibrate_target = True
+        calibrated_action = wizard.action_experiment()
+        calibrated = analyst[calibrated_action["res_model"]].browse(calibrated_action["res_id"])
+        self.assertEqual(calibrated.version, "r01-target-calibration-1")
+        for fold in json.loads(calibrated.report)["folds"]:
+            self.assertEqual(len(fold["target_calibration"]), 5)
+            fitted = next(item for item in fold["target_calibration"] if item["strategy"] == "ST-01")
+            self.assertEqual(fitted["status"], "FITTED")
+            result = analyst["golok.lab.portfolio"].browse(fitted["trial"]["portfolio"])
+            self.assertEqual(result.starts.isoformat(), fold["windows"]["training"][0])
+            self.assertEqual(result.ends.isoformat(), fold["windows"]["training"][-1])
+            self.assertEqual(json.loads(result.specification)["training_target_cap"], fitted["fraction"])
+            for stage in ("validation", "evaluation"):
+                if stage in fold:
+                    self.assertEqual(fold[stage].get("target_cap"), fold.get("selected_target_cap"))
 
     def test_p08_source_conflict_blocks_research_and_is_idempotent(self):
         files = Path(__file__).parent / "fixtures/p02"
@@ -898,6 +913,12 @@ class TestLab(TransactionCase):
         self.assertEqual(json.loads(audit.differences)["volume"], 1)
         self.assertEqual(comparisons.create({**params, "left_id": sources[1].id, "right_id": sources[0].id}), audit)
         self.assertTrue(all(sources.mapped("integrity_conflict")))
+        overview = self.env["golok.lab.run"].with_user(self.viewer)
+        card = overview.overview_card_action("quarantined")
+        self.assertEqual(overview.overview()["quarantined"], 2)
+        self.assertEqual(overview.env[card["res_model"]].search_count(card["domain"]), 2)
+        with self.assertRaises(ValidationError):
+            overview.overview_card_action("res.users")
         with self.assertRaises(AccessError):
             self.env["golok.lab.run"].with_user(self.analyst).create({"dataset_id": sources[0].id, "as_of": self.start})
 
@@ -1129,6 +1150,12 @@ class TestLab(TransactionCase):
         finding = self.env[action["res_model"]].with_user(self.viewer).browse(action["res_id"])
         self.assertEqual(finding.input_digest, run.input_digest)
         self.assertEqual(json.loads(finding.findings)["RE-06"]["finding"]["rolling_support"], "99")
+        contract = json.loads(finding.evidence_contract)
+        self.assertEqual(len(contract["engines"]), 25)
+        self.assertEqual(contract["engines"]["RE-06"]["dataset_fingerprint"], run.input_digest)
+        self.assertEqual(contract["engines"]["RE-06"]["status"], "COMPLETED")
+        self.assertEqual(contract["engines"]["RE-13"]["status"], "INPUT_UNAVAILABLE")
+        self.assertFalse(contract["engines"]["RE-23"]["finding"])
         with self.assertRaises(AccessError):
             run.with_user(self.viewer).action_supplemental_findings()
         setup = self.env["golok.lab.provider.setup"].with_user(self.admin).create({})

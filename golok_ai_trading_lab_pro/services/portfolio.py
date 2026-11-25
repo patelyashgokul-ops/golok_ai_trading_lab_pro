@@ -71,18 +71,22 @@ def _events(series, starts, ends, seconds, *, historical=False):
 
 
 def replay(series, starts, ends, seconds, codes, costs, *, capital=Decimal("50000"),
-           portfolio_policy=PortfolioPolicy(), target_policy="structure"):
+           portfolio_policy=PortfolioPolicy(), target_policy="structure", target_cap=None):
     return _replay(series, starts, ends, seconds, codes, costs, capital=capital,
-                   portfolio_policy=portfolio_policy, target_policy=target_policy, historical=False)
+                   portfolio_policy=portfolio_policy, target_policy=target_policy, historical=False, target_cap=target_cap)
 
 
-def _replay(series, starts, ends, seconds, codes, costs, *, capital, portfolio_policy, target_policy, historical):
+def _replay(series, starts, ends, seconds, codes, costs, *, capital, portfolio_policy, target_policy, historical,
+            target_cap=None):
     if (not 1 <= len(series) <= MAX_INSTRUMENTS or len({asset.key for asset in series}) != len(series)
             or sum(len(asset.bars) for asset in series) > MAX_BARS
             or not starts <= ends < starts + timedelta(days=31) or seconds not in (60, 180, 300, 900)
             or not codes or len(set(codes)) != len(codes) or not set(codes) <= strategies.REGISTRY.keys()
             or target_policy not in targets.POLICIES or not simulation.finite(capital) or capital <= 0):
         raise ValueError("Use bounded, distinct synthetic instruments, known strategies and positive virtual capital.")
+    if target_cap is not None and (historical or target_policy != "atr_barrier"
+                                   or not simulation.finite(target_cap) or not 0 < target_cap <= Decimal(".10")):
+        raise ValueError("A fitted target cap requires the synthetic ATR policy and a fraction within 10%.")
     if (not simulation.finite(portfolio_policy.daily_loss) or not 0 < portfolio_policy.daily_loss <= 1
             or any(type(value) is not int or value <= 0 for value in (
                 portfolio_policy.daily_entries, portfolio_policy.consecutive_losses, portfolio_policy.max_positions))):
@@ -120,6 +124,9 @@ def _replay(series, starts, ends, seconds, codes, costs, *, capital, portfolio_p
             levels, target_reason = targets.levels(histories[key], bar.open, stop, target_policy, when, session.exit_cutoff)
             target = levels[0] if levels else None
         if target is not None and target_policy == "atr_barrier":
+            if target_cap is not None:
+                target = min(target, bar.open * (1 + target_cap))
+                target_reason = "NEAREST_RESISTANCE_WITH_ATR_AND_TRAINING_CAP"
             target = target // asset.tick * asset.tick
         risk_capital = min(cash, daily_open)
         risk = replace(simulation.RiskPolicy(), capital=risk_capital)
