@@ -86,4 +86,11 @@ The early numerical fixture run failed two tests because the adopted historical 
 - The direct P09.1 clone retained 1,243 prior XML IDs and the preceding release clone retained 1,351. Compared historical record digests were retained.
 - Fresh install and module update each passed 28 tests. PostgreSQL contention and interrupted-worker recovery passed. All 28 Edge checks passed, including the reference catalog view and the independently calculated relative-volume value in the scanner.
 
+## Release 20.0.9.1.11
+
+- All 72 standalone tests passed. One authored connection carries multiple LTPC updates across an idle timeout and closes when the active condition fails. The numerical equity case verifies drawdown against the opening balance, recovery and rejection of non-reconciling data.
+- Odoo fresh installation and module update each passed 28 tests. Mocked worker acquisition persists approved ticks, skips duplicates and refuses a later sample after capture is disabled. Generic ORM access to private tick records is denied.
+- All 29 Edge flows passed. The portfolio report displays the two end-of-day curves and their dated values. PostgreSQL contention, interruption and recovery passed. An independent worker lock check confirmed that a second worker is refused and graceful shutdown releases the lock.
+- Populated upgrades from P09.1 and the preceding R01 release retained 1,243 and 1,388 XML IDs respectively and the compared historical record hashes. All eleven P09.1 stress scenarios matched.
+
 [Commands, raw logs and screenshots](evidence/p06_p07_repair/INDEX.md)

@@ -544,6 +544,29 @@ class TestLab(TransactionCase):
             stream.assert_called_once()
         with patch.object(fields.Datetime, "now", return_value=now.replace(tzinfo=None)):
             self.assertEqual(workspace.last_quote, "100")
+            session = revision._sessions()[now.date()]
+            point = {"event": now - timedelta(milliseconds=1001), "published": now, "receipt": now, "price": "100"}
+            service._store_worker_sample(config, review.sudo(), mapping, session, point)
+            service._store_worker_sample(config, review.sudo(), mapping, session, point)
+            ticks = self.env["golok.lab.analytics.tick"].sudo().search([("mapping_id", "=", mapping.id)])
+            self.assertEqual((len(ticks), ticks.event_ms), (1, "1704167278999"))
+            with self.assertRaises(AccessError):
+                admin["golok.lab.analytics.tick"].search([])
+            from ..scripts.run_analytics_stream import _window
+
+            config.write({"worker_capture": True, "next_collection": False})
+
+            def mocked_updates(token, key, isin, _reserve, *, active):
+                self.assertEqual((token, key, isin), (authored, mapping.token, mapping.isin))
+                self.assertTrue(active())
+                yield {**point, "price": "101"}
+                config.write({"worker_capture": False})
+                yield {**point, "price": "102"}
+
+            status = _window(self.env.registry, self.company.id, updates=mocked_updates,
+                             transaction=lambda callback, write=False: callback(self.env))
+            self.assertEqual(status, "WORKER_DISABLED")
+            self.assertEqual(self.env["golok.lab.analytics.tick"].sudo().search_count([("mapping_id", "=", mapping.id)]), 2)
         plan = admin["golok.lab.sync.plan"].create({
             "name": "Analytics backfill fixture", "starts": "2024-01-02", "ends": "2024-01-02",
             "mode": "live", "interval": "5m", "mapping_ids": [(6, 0, mapping.ids)],

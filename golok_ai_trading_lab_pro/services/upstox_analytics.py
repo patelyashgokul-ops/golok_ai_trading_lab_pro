@@ -197,8 +197,11 @@ def stream_updates(token, key, isin, reserve, *, active=lambda: True, duration=1
         raise ProviderError("DEGRADED") from None
     stream = connect(uri)
     try:
-        stream.send_binary(json.dumps({"guid": str(uuid4()), "method": "sub",
-                                       "data": {"mode": "ltpc", "instrumentKeys": [key]}}).encode())
+        try:
+            stream.send_binary(json.dumps({"guid": str(uuid4()), "method": "sub",
+                                           "data": {"mode": "ltpc", "instrumentKeys": [key]}}).encode())
+        except Exception:
+            raise ProviderError("DISCONNECTED") from None
         opened, deadline = False, monotonic() + duration
         for _ in range(max_frames):
             if monotonic() >= deadline or not active():
@@ -208,17 +211,12 @@ def stream_updates(token, key, isin, reserve, *, active=lambda: True, duration=1
             except Exception as exc:
                 if isinstance(exc, TimeoutError) or type(exc).__name__ == "WebSocketTimeoutException":
                     continue
-                raise
+                raise ProviderError("DISCONNECTED") from None
             if frame in ("", b""):
                 raise ProviderError("DISCONNECTED")
             opened, sample = decode_ltpc(frame, key, clock(), opened)
             if sample:
                 yield sample
-    except ProviderError:
-        raise
-    except Exception:
-        # Client-library errors can contain the single-use authorized URI.
-        raise ProviderError("DISCONNECTED") from None
     finally:
         try:
             stream.close(timeout=0)

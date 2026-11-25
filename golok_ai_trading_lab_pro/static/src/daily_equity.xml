@@ -1,0 +1,31 @@
+<templates xml:space="preserve">
+    <t t-name="golok_ai_trading_lab_pro.DailyEquity">
+        <div class="o_action overflow-auto p-4">
+            <h1>Daily Equity and Drawdown</h1>
+            <p>Synthetic replay · End-of-day balance observations</p>
+            <t t-if="this.points.length">
+                <div class="row g-3">
+                    <figure class="col-md-6">
+                        <figcaption class="fw-semibold mb-2">Equity (INR)</figcaption>
+                        <canvas id="golok-daily-equity" class="w-100 border rounded text-primary" width="720" height="180"
+                                role="img" aria-label="End-of-day equity curve"/>
+                    </figure>
+                    <figure class="col-md-6">
+                        <figcaption class="fw-semibold mb-2">Drawdown (%)</figcaption>
+                        <canvas id="golok-daily-drawdown" class="w-100 border rounded text-danger" width="720" height="180"
+                                role="img" aria-label="End-of-day drawdown curve"/>
+                    </figure>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead><tr><th>Date</th><th>Equity (INR)</th><th>Drawdown (INR)</th><th>Drawdown (%)</th></tr></thead>
+                        <tbody><tr t-foreach="this.points" t-as="point" t-key="point.day">
+                            <td t-esc="point.day"/><td t-esc="point.cash"/><td t-esc="point.drawdown"/><td t-esc="point.drawdown_percent"/>
+                        </tr></tbody>
+                    </table>
+                </div>
+            </t>
+            <p t-else="" role="status">No stored end-of-day observations are available for this replay.</p>
+        </div>
+    </t>
+</templates>

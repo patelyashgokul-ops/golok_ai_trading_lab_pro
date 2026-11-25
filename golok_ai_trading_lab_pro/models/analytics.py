@@ -1,6 +1,6 @@
 """Company-scoped Upstox configuration and bounded read-only collection."""
 
-from datetime import timedelta, timezone
+from datetime import datetime, timedelta, timezone
 from hashlib import sha256
 import json
 from os import environ
@@ -185,7 +185,8 @@ class AnalyticsConfig(models.Model):
         day = calendar_day(now)
         mapping = self._mapping(record, day)
         revision = record.calendar_id
-        session = revision._sessions().get(day) if revision.verification == "reviewed" else None
+        session = (revision._sessions().get(day)
+                   if revision.verification == "reviewed" and revision.company_id == self.env.company else None)
         at = now.replace(tzinfo=timezone.utc)
         if not session or session.kind != "regular" or not session.opening <= at < session.closing:
             raise ProviderError("OUTSIDE_REVIEWED_SESSION")
@@ -283,7 +284,8 @@ class AnalyticsTick(models.Model):
 
     @api.model
     def _append(self, mapping, review, sample):
-        utc_times = {key: str(int(sample[key].timestamp() * 1000)) for key in ("event", "published")}
+        epoch = datetime(1970, 1, 1, tzinfo=timezone.utc)
+        utc_times = {key: str((sample[key] - epoch) // timedelta(milliseconds=1)) for key in ("event", "published")}
         self.env.cr.execute("""
             INSERT INTO golok_lab_analytics_tick
                 (company_id, mapping_id, review_id, event_ms, publication_ms, received_at, price)

@@ -85,6 +85,27 @@ class AnalyticsAdapterTests(unittest.TestCase):
         with self.assertRaisesRegex(ProviderError, "DEGRADED"):
             upstox_analytics.instrument_master(lambda _op: True, transport=lambda: data([item, item]))
 
+    def test_continuous_window_keeps_socket_across_idle_timeout_and_stops_on_gate(self):
+        now = datetime(2024, 1, 2, 4, tzinfo=timezone.utc)
+        stamp = int(now.timestamp() * 1000)
+        market = number(1, 2) + chunk(4, chunk(1, chunk(1, b"NSE_EQ") + number(2, 2)))
+
+        def tick(value):
+            ltpc = b"\x09" + struct.pack("<d", value) + number(2, stamp - 1000)
+            return number(1, 1) + chunk(2, chunk(1, KEY.encode()) + chunk(2, chunk(1, ltpc))) + number(3, stamp)
+
+        socket = Mock()
+        socket.recv.side_effect = [market, tick(100), TimeoutError(), tick(101)]
+        connect = Mock(return_value=socket)
+        uri = "wss://feed.upstox.com/market-data-feeder/v3/upstox-developer-api/feeds?code=authored"
+        transport = Mock(return_value=json.dumps({"status": "success", "data": {"authorized_redirect_uri": uri}}).encode())
+        active = Mock(side_effect=[True, True, True, True, False])
+        samples = list(upstox_analytics.stream_updates(
+            AUTHORED, KEY, ISIN, lambda _op: True, transport=transport, connect=connect, clock=lambda: now, active=active))
+        self.assertEqual([item["price"] for item in samples], ["100.0", "101.0"])
+        connect.assert_called_once_with(uri)
+        socket.close.assert_called_once()
+
     @unittest.skipUnless(sys.platform == "win32", "Windows-local vault")
     def test_windows_vault_binds_the_ciphertext(self):
         envelope = local_secrets.seal(AUTHORED, b"company:fixture")

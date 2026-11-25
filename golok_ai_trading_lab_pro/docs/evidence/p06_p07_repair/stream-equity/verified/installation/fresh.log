@@ -1,0 +1,296 @@
+2026-11-25 06:45:21,807 19220 WARNING ? odoo.tools.config: option --without-demo: since 19.0, invalid boolean value: 'all', assume True
+2026-11-25 06:45:21,808 19220 INFO ? odoo: Odoo version 20.0
+2026-11-25 06:45:21,809 19220 INFO ? odoo: Using configuration file at c:\pycharmprojects\odoo20\odoo-20.0\odoo.conf
+2026-11-25 06:45:21,809 19220 INFO ? odoo: addons paths: _NamespacePath(['C:\\PycharmProjects\\odoo20\\odoo-20.0\\odoo\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons\\golok_ai_trading_lab_pro\\.local-test\\odoo-data\\addons\\20.0', 'c:\\pycharmprojects\\odoo20\\odoo-20.0\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons'])
+2026-11-25 06:45:21,810 19220 INFO ? odoo: database: golok_test@127.0.0.1:55497
+2026-11-25 06:45:26,011 19220 INFO ? odoo.service.server: HTTP service running on 127.0.0.1:18097
+2026-11-25 06:45:26,069 19220 INFO golok_p09_fresh_r01aa odoo.tests.common: Importing test framework
+2026-11-25 06:45:26,207 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Initializing database golok_p09_fresh_r01aa
+2026-11-25 06:45:29,763 19220 WARNING golok_p09_fresh_r01aa odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-25 06:45:29,770 19220 WARNING golok_p09_fresh_r01aa odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-25 06:45:29,950 19220 WARNING golok_p09_fresh_r01aa odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-25 06:45:29,950 19220 WARNING golok_p09_fresh_r01aa odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-25 06:45:29,951 19220 WARNING golok_p09_fresh_r01aa odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-25 06:45:29,952 19220 WARNING golok_p09_fresh_r01aa odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-25 06:45:30,286 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading 1 modules...
+2026-11-25 06:45:30,287 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Loading module base (1/1)
+2026-11-25 06:45:30,393 19220 INFO golok_p09_fresh_r01aa odoo.tools.version_tag_reset: Detected tp_versions_used at offset 410, reset enabled
+2026-11-25 06:45:30,394 19220 INFO golok_p09_fresh_r01aa odoo.registry: module base: creating or updating database tables
+2026-11-25 06:45:31,493 19220 INFO golok_p09_fresh_r01aa odoo.fields: Prepare computation of ir.module.module.menus_by_module in 664 records
+2026-11-25 06:45:31,499 19220 INFO golok_p09_fresh_r01aa odoo.fields: Prepare computation of ir.module.module.reports_by_module in 664 records
+2026-11-25 06:45:31,504 19220 INFO golok_p09_fresh_r01aa odoo.fields: Prepare computation of ir.module.module.views_by_module in 664 records
+2026-11-25 06:45:31,798 19220 INFO golok_p09_fresh_r01aa odoo.fields: Prepare computation of res.partner.user_id in 1 records
+2026-11-25 06:45:31,804 19220 INFO golok_p09_fresh_r01aa odoo.fields: Prepare computation of res.partner.commercial_partner_id in 1 records
+2026-11-25 06:45:31,807 19220 INFO golok_p09_fresh_r01aa odoo.fields: Prepare computation of res.partner.complete_name in 1 records
+2026-11-25 06:45:31,809 19220 INFO golok_p09_fresh_r01aa odoo.fields: Prepare computation of res.partner.lang in 1 records
+2026-11-25 06:45:31,822 19220 INFO golok_p09_fresh_r01aa odoo.fields: Prepare computation of res.partner.commercial_company_name in 1 records
+2026-11-25 06:45:31,825 19220 INFO golok_p09_fresh_r01aa odoo.fields: Prepare computation of res.partner.properties in 1 records
+2026-11-25 06:45:31,838 19220 INFO golok_p09_fresh_r01aa odoo.fields: Prepare computation of res.partner.partner_share in 1 records
+2026-11-25 06:45:31,916 19220 INFO golok_p09_fresh_r01aa odoo.fields: Prepare computation of res.currency.decimal_places in 1 records
+2026-11-25 06:45:32,029 19220 INFO golok_p09_fresh_r01aa odoo.fields: Prepare computation of res.company.company_details in 1 records
+2026-11-25 06:45:32,035 19220 INFO golok_p09_fresh_r01aa odoo.fields: Prepare computation of res.company.uses_default_logo in 1 records
+2026-11-25 06:45:32,043 19220 INFO golok_p09_fresh_r01aa odoo.models: Computing parent_path for table res_company...
+2026-11-25 06:45:32,124 19220 INFO golok_p09_fresh_r01aa odoo.fields: Prepare computation of res.users.signature in 1 records
+2026-11-25 06:45:32,126 19220 INFO golok_p09_fresh_r01aa odoo.fields: Prepare computation of res.users.share in 1 records
+2026-11-25 06:45:36,974 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/data/res.lang.csv
+2026-11-25 06:45:37,140 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/data/res_lang_data.xml
+2026-11-25 06:45:37,289 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/data/res_partner_data.xml
+2026-11-25 06:45:37,573 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/data/res_currency_data.xml
+2026-11-25 06:45:38,666 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/data/res_company_data.xml
+2026-11-25 06:45:38,709 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/data/res_users_data.xml
+2026-11-25 06:45:40,239 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/data/report_paperformat_data.xml
+2026-11-25 06:45:40,262 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/data/res_country_data.xml
+2026-11-25 06:45:41,670 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/data/clearing_label_data.xml
+2026-11-25 06:45:41,709 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/data/ir_demo_data.xml
+2026-11-25 06:45:41,734 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/security/base_groups.xml
+2026-11-25 06:45:42,349 19220 INFO golok_p09_fresh_r01aa odoo.addons.base.models.res_users: Group change: user 1 with IP n/a changed groups of user 3 who belonged to [] with changes [(<Command.LINK: 4>, 12, 0)]
+2026-11-25 06:45:42,476 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/wizard/wizard_ir_model_menu_create_views.xml
+2026-11-25 06:45:42,498 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/decimal_precision_views.xml
+2026-11-25 06:45:42,526 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/res_config_views.xml
+2026-11-25 06:45:42,539 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/data/res.country.state.csv
+2026-11-25 06:45:43,499 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/ir_actions_views.xml
+2026-11-25 06:45:43,838 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/ir_asset_views.xml
+2026-11-25 06:45:43,882 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/ir_config_parameter_views.xml
+2026-11-25 06:45:43,929 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/ir_cron_views.xml
+2026-11-25 06:45:44,022 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/ir_cron_trigger_views.xml
+2026-11-25 06:45:44,065 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/ir_filters_views.xml
+2026-11-25 06:45:44,127 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/ir_mail_server_views.xml
+2026-11-25 06:45:44,167 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/ir_model_views.xml
+2026-11-25 06:45:44,397 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/ir_attachment_views.xml
+2026-11-25 06:45:44,440 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/ir_access_views.xml
+2026-11-25 06:45:44,495 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/ir_sequence_views.xml
+2026-11-25 06:45:44,533 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/ir_ui_menu_views.xml
+2026-11-25 06:45:44,574 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/ir_ui_view_views.xml
+2026-11-25 06:45:44,657 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/ir_default_views.xml
+2026-11-25 06:45:44,693 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/data/ir_config_parameter_data.xml
+2026-11-25 06:45:44,700 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/data/ir_cron_data.xml
+2026-11-25 06:45:44,737 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/report/ir_model_report.xml
+2026-11-25 06:45:44,747 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/report/ir_model_templates.xml
+2026-11-25 06:45:44,771 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/ir_logging_views.xml
+2026-11-25 06:45:44,809 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/ir_qweb_widget_templates.xml
+2026-11-25 06:45:44,843 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/ir_module_views.xml
+2026-11-25 06:45:44,947 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/data/ir_module_category_data.xml
+2026-11-25 06:45:45,055 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/data/ir_module_module.xml
+2026-11-25 06:45:45,222 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/report/ir_module_reports.xml
+2026-11-25 06:45:45,233 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/report/ir_module_report_templates.xml
+2026-11-25 06:45:45,252 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/wizard/base_module_update_views.xml
+2026-11-25 06:45:45,276 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/wizard/base_language_install_views.xml
+2026-11-25 06:45:45,318 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/wizard/base_import_language_views.xml
+2026-11-25 06:45:45,349 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/wizard/base_module_upgrade_views.xml
+2026-11-25 06:45:45,400 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/wizard/base_module_uninstall_views.xml
+2026-11-25 06:45:45,421 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/wizard/base_export_language_views.xml
+2026-11-25 06:45:45,449 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/wizard/base_partner_merge_views.xml
+2026-11-25 06:45:45,485 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/data/ir_demo_failure_data.xml
+2026-11-25 06:45:45,529 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/ir_profile_views.xml
+2026-11-25 06:45:45,597 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/res_company_views.xml
+2026-11-25 06:45:45,632 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/res_lang_views.xml
+2026-11-25 06:45:45,673 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/res_partner_views.xml
+2026-11-25 06:45:45,847 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/clearing_label_views.xml
+2026-11-25 06:45:45,858 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/res_partner_bank_views.xml
+2026-11-25 06:45:45,937 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/res_country_views.xml
+2026-11-25 06:45:46,083 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/res_country_group_views.xml
+2026-11-25 06:45:46,142 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/res_country_state_views.xml
+2026-11-25 06:45:46,207 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/res_currency_views.xml
+2026-11-25 06:45:46,331 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/res_groups_views.xml
+2026-11-25 06:45:46,472 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/res_users_views.xml
+2026-11-25 06:45:46,767 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/res_users_apikeys_views.xml
+2026-11-25 06:45:46,797 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/res_device_views.xml
+2026-11-25 06:45:46,894 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/res_users_identitycheck_views.xml
+2026-11-25 06:45:46,909 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/res_config_settings_views.xml
+2026-11-25 06:45:46,933 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/report_paperformat_views.xml
+2026-11-25 06:45:46,982 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/data/ir_action_data.xml
+2026-11-25 06:45:47,005 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/data/website.xml
+2026-11-25 06:45:47,023 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/views/base_menus.xml
+2026-11-25 06:45:47,635 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base/security/ir.access.csv
+2026-11-25 06:45:48,665 19220 INFO golok_p09_fresh_r01aa odoo.registry: Registry changed, signaling through the database
+2026-11-25 06:45:49,237 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Module base loaded in 18.95s, 8630 queries (+8630 other)
+2026-11-25 06:45:49,238 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: 1 modules loaded in 18.95s, 8630 queries (+8630 extra)
+2026-11-25 06:45:49,257 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: updating modules list
+2026-11-25 06:45:49,269 19220 INFO golok_p09_fresh_r01aa odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via n/a
+2026-11-25 06:45:51,685 19220 WARNING golok_p09_fresh_r01aa odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-25 06:45:51,766 19220 WARNING golok_p09_fresh_r01aa odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-25 06:45:51,766 19220 WARNING golok_p09_fresh_r01aa odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-25 06:45:51,874 19220 INFO golok_p09_fresh_r01aa odoo.addons.base.models.ir_module: ALLOW access to module.button_install on ['Golok AI Trading Lab Pro'] to user __system__ #1 via n/a
+2026-11-25 06:45:52,100 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading 17 modules...
+2026-11-25 06:45:52,100 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Loading module base_report_wkhtmltox (2/17)
+2026-11-25 06:45:52,145 19220 INFO golok_p09_fresh_r01aa odoo.registry: module base_report_wkhtmltox: creating or updating database tables
+2026-11-25 06:45:52,348 19220 INFO golok_p09_fresh_r01aa odoo.registry: Registry changed, signaling through the database
+2026-11-25 06:45:52,356 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Module base_report_wkhtmltox loaded in 0.26s, 44 queries (+44 other)
+2026-11-25 06:45:52,356 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Loading module rpc (3/17)
+2026-11-25 06:45:52,397 19220 INFO golok_p09_fresh_r01aa odoo.registry: Caches invalidated, signaling through the database: ['default', 'stable']
+2026-11-25 06:45:52,410 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Module rpc loaded in 0.05s, 12 queries (+12 other)
+2026-11-25 06:45:52,411 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Loading module web (4/17)
+2026-11-25 06:45:52,491 19220 INFO golok_p09_fresh_r01aa odoo.registry: module web: creating or updating database tables
+2026-11-25 06:45:53,879 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading web/views/webclient_templates.xml
+2026-11-25 06:45:54,121 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading web/views/report_templates.xml
+2026-11-25 06:45:54,406 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading web/views/base_document_layout_views.xml
+2026-11-25 06:45:54,450 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading web/views/partner_view.xml
+2026-11-25 06:45:54,481 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading web/views/speedscope_template.xml
+2026-11-25 06:45:54,493 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading web/views/memory_template.xml
+2026-11-25 06:45:54,504 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading web/views/speedscope_config_wizard.xml
+2026-11-25 06:45:54,521 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading web/views/neutralize_views.xml
+2026-11-25 06:45:54,541 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading web/views/ir_ui_view_views.xml
+2026-11-25 06:45:54,559 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading web/data/ir_attachment.xml
+2026-11-25 06:45:54,571 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading web/data/report_layout.xml
+2026-11-25 06:45:54,661 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading web/security/ir.access.csv
+2026-11-25 06:45:54,954 19220 INFO golok_p09_fresh_r01aa odoo.registry: Registry changed, signaling through the database
+2026-11-25 06:45:55,068 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Module web loaded in 2.66s, 1384 queries (+1384 other)
+2026-11-25 06:45:55,069 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Loading module api_doc (5/17)
+2026-11-25 06:45:55,094 19220 INFO golok_p09_fresh_r01aa odoo.registry: module api_doc: creating or updating database tables
+2026-11-25 06:45:55,147 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading api_doc/security/res_groups.xml
+2026-11-25 06:45:55,256 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading api_doc/views/docclient.xml
+2026-11-25 06:45:55,291 19220 INFO golok_p09_fresh_r01aa odoo.registry: Registry changed, signaling through the database
+2026-11-25 06:45:55,307 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Module api_doc loaded in 0.24s, 88 queries (+88 other)
+2026-11-25 06:45:55,308 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Loading module auth_totp (6/17)
+2026-11-25 06:45:55,417 19220 INFO golok_p09_fresh_r01aa odoo.registry: module auth_totp: creating or updating database tables
+2026-11-25 06:45:55,605 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading auth_totp/data/ir_action_data.xml
+2026-11-25 06:45:55,639 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading auth_totp/views/res_users_views.xml
+2026-11-25 06:45:55,721 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading auth_totp/views/templates.xml
+2026-11-25 06:45:55,735 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading auth_totp/wizard/auth_totp_wizard_views.xml
+2026-11-25 06:45:55,748 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading auth_totp/security/ir.access.csv
+2026-11-25 06:45:55,835 19220 INFO golok_p09_fresh_r01aa odoo.registry: Registry changed, signaling through the database
+2026-11-25 06:45:55,851 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Module auth_totp loaded in 0.54s, 208 queries (+208 other)
+2026-11-25 06:45:55,851 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Loading module base_import (7/17)
+2026-11-25 06:45:55,959 19220 INFO golok_p09_fresh_r01aa odoo.registry: module base_import: creating or updating database tables
+2026-11-25 06:45:57,073 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base_import/security/ir.access.csv
+2026-11-25 06:45:57,271 19220 INFO golok_p09_fresh_r01aa odoo.registry: Registry changed, signaling through the database
+2026-11-25 06:45:57,275 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Module base_import loaded in 1.42s, 1123 queries (+1123 other)
+2026-11-25 06:45:57,276 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Loading module base_import_module (8/17)
+2026-11-25 06:45:57,309 19220 INFO golok_p09_fresh_r01aa odoo.registry: module base_import_module: creating or updating database tables
+2026-11-25 06:45:57,452 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base_import_module/views/base_import_module_view.xml
+2026-11-25 06:45:57,506 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base_import_module/views/ir_module_views.xml
+2026-11-25 06:45:57,602 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base_import_module/security/ir.access.csv
+2026-11-25 06:45:57,673 19220 INFO golok_p09_fresh_r01aa odoo.registry: Registry changed, signaling through the database
+2026-11-25 06:45:57,681 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Module base_import_module loaded in 0.41s, 172 queries (+172 other)
+2026-11-25 06:45:57,681 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Loading module base_setup (9/17)
+2026-11-25 06:45:57,722 19220 INFO golok_p09_fresh_r01aa odoo.registry: module base_setup: creating or updating database tables
+2026-11-25 06:45:57,868 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base_setup/data/base_setup_data.xml
+2026-11-25 06:45:57,881 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base_setup/views/res_config_settings_views.xml
+2026-11-25 06:45:57,990 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading base_setup/views/res_partner_views.xml
+2026-11-25 06:45:58,053 19220 INFO golok_p09_fresh_r01aa odoo.registry: Registry changed, signaling through the database
+2026-11-25 06:45:58,069 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Module base_setup loaded in 0.39s, 154 queries (+154 other)
+2026-11-25 06:45:58,069 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Loading module bus (10/17)
+2026-11-25 06:45:58,169 19220 INFO golok_p09_fresh_r01aa odoo.registry: module bus: creating or updating database tables
+2026-11-25 06:45:58,407 19220 INFO golok_p09_fresh_r01aa odoo.registry: Registry changed, signaling through the database
+2026-11-25 06:45:58,451 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Module bus loaded in 0.38s, 128 queries (+128 other)
+2026-11-25 06:45:58,451 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Loading module golok_ai_trading_lab_pro (11/17)
+2026-11-25 06:45:59,099 19220 INFO golok_p09_fresh_r01aa odoo.registry: module golok_ai_trading_lab_pro: creating or updating database tables
+2026-11-25 06:46:03,511 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading golok_ai_trading_lab_pro/security/groups.xml
+2026-11-25 06:46:03,772 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading golok_ai_trading_lab_pro/security/ir.access.csv
+2026-11-25 06:46:04,207 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading golok_ai_trading_lab_pro/views/lab.xml
+2026-11-25 06:46:04,518 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p03.xml
+2026-11-25 06:46:04,917 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p04.xml
+2026-11-25 06:46:05,031 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p05.xml
+2026-11-25 06:46:05,122 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p06.xml
+2026-11-25 06:46:05,227 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p08.xml
+2026-11-25 06:46:05,471 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p09.xml
+2026-11-25 06:46:05,728 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading golok_ai_trading_lab_pro/views/analytics.xml
+2026-11-25 06:46:05,951 19220 INFO golok_p09_fresh_r01aa odoo.registry: Registry changed, signaling through the database
+2026-11-25 06:46:06,431 19220 INFO golok_p09_fresh_r01aa odoo.addons.base.models.res_users: Group change: user 1 with IP n/a changed groups of user 1 who belonged to [10, 9, 5, 15] with changes [(<Command.LINK: 4>, 6, 0)]
+2026-11-25 06:46:06,727 19220 INFO golok_p09_fresh_r01aa odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_analytics_vault_permission_and_quote_health ...
+2026-11-25 06:46:07,434 19220 INFO golok_p09_fresh_r01aa odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_database_duplicate_constraint ...
+2026-11-25 06:46:07,480 19220 ERROR golok_p09_fresh_r01aa odoo.sql_db: bad query: b'INSERT INTO "golok_lab_candle" ("available_at", "close_price", "close_time", "create_date", "create_uid", "dataset_id", "high_price", "ingested_at", "low_price", "open_price", "open_time", "processing_version", "quality", "volume", "write_date", "write_uid") VALUES (NULL, \'101\', \'2024-01-02T03:50:00\'::timestamp, \'2026-11-25T06:46:06.215140\'::timestamp, 1, 1, \'103\', \'2026-11-25T06:46:07\'::timestamp, \'99\', \'100\', NULL, \'1\', \'validated\', 100, \'2026-11-25T06:46:06.215140\'::timestamp, 1) RETURNING "id"'
+ERROR: duplicate key value violates unique constraint "golok_lab_candle_unique_bar"
+DETAIL:  Key (dataset_id, close_time)=(1, 2024-01-02 03:50:00) already exists.
+
+2026-11-25 06:46:07,484 19220 INFO golok_p09_fresh_r01aa odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_gap_disables_findings ...
+2026-11-25 06:46:07,575 19220 INFO golok_p09_fresh_r01aa odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_import_retry_and_atomic_conflict ...
+2026-11-25 06:46:07,679 19220 INFO golok_p09_fresh_r01aa odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_p03_job_worker_and_immutable_corporate_source ...
+2026-11-25 06:46:07,804 19220 INFO golok_p09_fresh_r01aa odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_p03_mapping_date_scope_and_database_exclusions ...
+2026-11-25 06:46:07,821 19220 ERROR golok_p09_fresh_r01aa odoo.sql_db: bad query: b'INSERT INTO "golok_lab_mapping" ("company_id", "create_date", "create_uid", "ends", "exchange", "instrument_id", "listing_status", "lot", "provider", "revision", "segment", "source", "starts", "symbol", "tick", "token", "verification", "write_date", "write_uid") VALUES (1, \'2026-11-25T06:46:06.215140\'::timestamp, 5, \'2024-01-04\'::date, \'NSE\', 1, \'listed\', 1, \'manual\', \'v1\', \'equity\', \'Synthetic reference\', \'2024-01-02\'::date, \'CHANGED\', \'0.05\', \'100\', \'fixture\', \'2026-11-25T06:46:06.215140\'::timestamp, 5) RETURNING "id"'
+ERROR: conflicting key value violates exclusion constraint "golok_lab_mapping_token_overlap"
+DETAIL:  Key (company_id, exchange, provider, token, daterange(starts, ends, '[)'::text))=(1, NSE, manual, 100, [2024-01-02,2024-01-04)) conflicts with existing key (company_id, exchange, provider, token, daterange(starts, ends, '[)'::text))=(1, NSE, manual, 100, [2024-01-01,2024-01-03)).
+
+2026-11-25 06:46:07,880 19220 INFO golok_p09_fresh_r01aa odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_p03_supplemental_findings_and_offline_provider_setup ...
+2026-11-25 06:46:08,131 19220 INFO golok_p09_fresh_r01aa odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_p03_synthetic_workflow_and_reproducible_immutable_results ...
+2026-11-25 06:46:08,401 19220 INFO golok_p09_fresh_r01aa odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_p04_fixture_sync_atomic_viewable_and_idempotent ...
+2026-11-25 06:46:09,172 19220 INFO golok_p09_fresh_r01aa odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_p05_portfolio_fixture_and_role_boundaries ...
+2026-11-25 06:46:10,691 19220 INFO golok_p09_fresh_r01aa odoo.addons.base.models.ir_access: Access Denied for operation: read on record ids: [144], uid: 7, model: golok.lab.candle
+2026-11-25 06:46:10,728 19220 INFO golok_p09_fresh_r01aa odoo.addons.base.models.ir_access: Access Denied for operation: read on record ids: [144], uid: 6, model: golok.lab.candle
+2026-11-25 06:46:10,767 19220 INFO golok_p09_fresh_r01aa odoo.addons.base.models.ir_access: Access Denied for operation: read on record ids: [144], uid: 8, model: golok.lab.candle
+2026-11-25 06:46:10,812 19220 INFO golok_p09_fresh_r01aa odoo.addons.base.models.ir_access: Access Denied for operation: read on record ids: [144], uid: 5, model: golok.lab.candle
+2026-11-25 06:46:11,037 19220 INFO golok_p09_fresh_r01aa odoo.addons.base.models.res_users: Group change: user 1 with IP n/a changed groups of user 7 who belonged to [16] with changes [(4, 9)]
+2026-11-25 06:46:11,069 19220 INFO golok_p09_fresh_r01aa odoo.addons.base.models.ir_access: Access Denied for operation: read on record ids: [144], uid: 7, model: golok.lab.candle
+2026-11-25 06:46:11,341 19220 INFO golok_p09_fresh_r01aa odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_p05_provider_diagnostics_reuse_session_and_do_not_auto_login ...
+2026-11-25 06:46:11,388 19220 INFO golok_p09_fresh_r01aa odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_p06_review_and_daily_fixture ...
+2026-11-25 06:46:12,020 19220 INFO golok_p09_fresh_r01aa odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_p06p07_r01_upstox_fixture_and_automatic_comparison ...
+2026-11-25 06:46:12,348 19220 INFO golok_p09_fresh_r01aa odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_p07_manual_market_csv_requires_active_company_grant ...
+2026-11-25 06:46:12,593 19220 INFO golok_p09_fresh_r01aa odoo.addons.base.models.res_users: Group change: user 1 with IP n/a changed groups of user 6 who belonged to [17] with changes [(4, 9)]
+2026-11-25 06:46:12,719 19220 INFO golok_p09_fresh_r01aa odoo.addons.base.models.ir_access: Access Denied for operation: read on record ids: [7], uid: 6, model: golok.lab.run
+2026-11-25 06:46:12,756 19220 INFO golok_p09_fresh_r01aa odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_p08_authorized_replay_requires_verified_publication_and_current_rights ...
+2026-11-25 06:46:12,855 19220 INFO golok_p09_fresh_r01aa odoo.models: Access Denied by ACLs for operation: read, uid: 6, model: golok.lab.import, field: publication_evidence
+2026-11-25 06:46:13,103 19220 INFO golok_p09_fresh_r01aa odoo.addons.base.models.ir_access: Access Denied for operation: read on record ids: [13], uid: 6, model: golok.lab.portfolio
+2026-11-25 06:46:13,122 19220 INFO golok_p09_fresh_r01aa odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_p08_fixture_session_scheduler_records_idempotent_phases ...
+2026-11-25 06:46:13,319 19220 INFO golok_p09_fresh_r01aa odoo.models.unlink: User #1 deleted golok.lab.session.event records with IDs: [3]
+2026-11-25 06:46:13,467 19220 INFO golok_p09_fresh_r01aa odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_p08_generated_fixture_lineage_is_immutable_and_idempotent ...
+2026-11-25 06:46:13,650 19220 INFO golok_p09_fresh_r01aa odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_p08_revocation_retention_and_nested_exports ...
+2026-11-25 06:46:13,782 19220 INFO golok_p09_fresh_r01aa odoo.addons.base.models.ir_access: Access Denied for operation: read on record ids: [11], uid: 6, model: golok.lab.run
+2026-11-25 06:46:13,809 19220 INFO golok_p09_fresh_r01aa odoo.addons.base.models.ir_access: Access Denied for operation: read on record ids: [10], uid: 6, model: golok.lab.run
+2026-11-25 06:46:13,889 19220 INFO golok_p09_fresh_r01aa odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_p08_source_conflict_blocks_research_and_is_idempotent ...
+2026-11-25 06:46:14,117 19220 INFO golok_p09_fresh_r01aa odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_p09_candidate_drives_observation_based_fixture_position ...
+2026-11-25 06:46:16,491 19220 INFO golok_p09_fresh_r01aa odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_p09_fixture_account_reservation_risk_and_journal ...
+2026-11-25 06:46:16,855 19220 INFO golok_p09_fresh_r01aa odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_p09_recurring_cycles_follow_new_completed_observations ...
+2026-11-25 06:46:17,142 19220 INFO golok_p09_fresh_r01aa odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_p09_walk_forward_persists_reproducible_separated_folds ...
+2026-11-25 06:46:25,762 19220 INFO golok_p09_fresh_r01aa odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_permissions_and_company_scope ...
+2026-11-25 06:46:25,879 19220 INFO golok_p09_fresh_r01aa odoo.addons.base.models.ir_access: Access Denied for operation: read on record ids: [2], uid: 7, model: golok.lab.dataset
+2026-11-25 06:46:25,914 19220 INFO golok_p09_fresh_r01aa odoo.addons.base.models.ir_access: Access Denied for operation: write on record ids: [2], uid: 6, model: golok.lab.dataset
+2026-11-25 06:46:25,921 19220 INFO golok_p09_fresh_r01aa odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_point_in_time_calendar_quarantine_and_chart ...
+2026-11-25 06:46:26,014 19220 INFO golok_p09_fresh_r01aa odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_r01_authorized_history_fallback ...
+2026-11-25 06:46:26,128 19220 INFO golok_p09_fresh_r01aa odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_r01_daily_cross_source_and_corroborated_replacement ...
+2026-11-25 06:46:26,236 19220 INFO golok_p09_fresh_r01aa odoo.models: Access Denied by ACLs for operation: read, uid: 6, model: golok.lab.import, field: publication_evidence
+2026-11-25 06:46:26,529 19220 INFO golok_p09_fresh_r01aa odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_research_cutoff_evidence_and_no_trade ...
+2026-11-25 06:46:26,640 19220 INFO golok_p09_fresh_r01aa odoo.addons.base.models.ir_attachment: filestore gc 15 checked, 4 removed
+2026-11-25 06:46:26,649 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Module golok_ai_trading_lab_pro loaded in 28.20s (incl. 20.53s test), 3010 queries (+8335 test, +3010 other)
+2026-11-25 06:46:26,649 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Loading module mysubscription (12/17)
+2026-11-25 06:46:26,669 19220 INFO golok_p09_fresh_r01aa odoo.registry: module mysubscription: creating or updating database tables
+2026-11-25 06:46:26,697 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading mysubscription/views/menus.xml
+2026-11-25 06:46:26,734 19220 INFO golok_p09_fresh_r01aa odoo.registry: Registry changed, signaling through the database
+2026-11-25 06:46:26,738 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Module mysubscription loaded in 0.09s, 30 queries (+30 other)
+2026-11-25 06:46:26,738 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Loading module web_tour (13/17)
+2026-11-25 06:46:26,752 19220 INFO golok_p09_fresh_r01aa odoo.registry: module web_tour: creating or updating database tables
+2026-11-25 06:46:26,765 19220 INFO golok_p09_fresh_r01aa odoo.fields: Prepare computation of res.users.tour_enabled in 4 records
+2026-11-25 06:46:26,921 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading web_tour/views/tour_views.xml
+2026-11-25 06:46:27,012 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading web_tour/security/ir.access.csv
+2026-11-25 06:46:27,068 19220 INFO golok_p09_fresh_r01aa odoo.registry: Registry changed, signaling through the database
+2026-11-25 06:46:27,077 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Module web_tour loaded in 0.34s, 206 queries (+206 other)
+2026-11-25 06:46:27,077 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Loading module auth_passkey (14/17)
+2026-11-25 06:46:27,194 19220 INFO golok_p09_fresh_r01aa odoo.registry: module auth_passkey: creating or updating database tables
+2026-11-25 06:46:27,289 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading auth_passkey/views/auth_passkey_key_views.xml
+2026-11-25 06:46:27,338 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading auth_passkey/views/auth_passkey_login_templates.xml
+2026-11-25 06:46:27,360 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading auth_passkey/views/res_users_identitycheck_views.xml
+2026-11-25 06:46:27,372 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading auth_passkey/views/res_users_views.xml
+2026-11-25 06:46:27,395 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading auth_passkey/security/ir.access.csv
+2026-11-25 06:46:27,441 19220 INFO golok_p09_fresh_r01aa odoo.registry: Registry changed, signaling through the database
+2026-11-25 06:46:27,446 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Module auth_passkey loaded in 0.37s, 214 queries (+214 other)
+2026-11-25 06:46:27,446 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Loading module html_editor (15/17)
+2026-11-25 06:46:27,700 19220 WARNING golok_p09_fresh_r01aa odoo.addons.mail.controllers.attachment: markdown2 is not installed, markdown will not be rendered
+2026-11-25 06:46:27,811 19220 INFO golok_p09_fresh_r01aa odoo.registry: module html_editor: creating or updating database tables
+2026-11-25 06:46:28,660 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading html_editor/security/ir.access.csv
+2026-11-25 06:46:28,816 19220 INFO golok_p09_fresh_r01aa odoo.registry: Registry changed, signaling through the database
+2026-11-25 06:46:28,827 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Module html_editor loaded in 1.38s, 1670 queries (+1670 other)
+2026-11-25 06:46:28,827 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Loading module iap (16/17)
+2026-11-25 06:46:28,835 19220 INFO golok_p09_fresh_r01aa odoo.registry: module iap: creating or updating database tables
+2026-11-25 06:46:28,982 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading iap/data/services.xml
+2026-11-25 06:46:28,992 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading iap/views/iap_views.xml
+2026-11-25 06:46:29,079 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading iap/views/res_config_settings.xml
+2026-11-25 06:46:29,097 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading iap/views/res_users_views.xml
+2026-11-25 06:46:29,107 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading iap/security/ir.access.csv
+2026-11-25 06:46:29,157 19220 INFO golok_p09_fresh_r01aa odoo.registry: Registry changed, signaling through the database
+2026-11-25 06:46:29,164 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Module iap loaded in 0.34s, 238 queries (+238 other)
+2026-11-25 06:46:29,164 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Loading module web_unsplash (17/17)
+2026-11-25 06:46:29,192 19220 INFO golok_p09_fresh_r01aa odoo.registry: module web_unsplash: creating or updating database tables
+2026-11-25 06:46:29,246 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: loading web_unsplash/views/res_config_settings_view.xml
+2026-11-25 06:46:29,295 19220 INFO golok_p09_fresh_r01aa odoo.registry: Registry changed, signaling through the database
+2026-11-25 06:46:29,299 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Module web_unsplash loaded in 0.13s, 100 queries (+100 other)
+2026-11-25 06:46:29,299 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: 17 modules loaded in 37.20s, 8781 queries (+17116 extra)
+2026-11-25 06:46:29,761 19220 INFO golok_p09_fresh_r01aa odoo.modules.loading: Modules loaded.
+2026-11-25 06:46:29,766 19220 INFO golok_p09_fresh_r01aa odoo.registry: Registry changed, signaling through the database
+2026-11-25 06:46:29,777 19220 INFO golok_p09_fresh_r01aa odoo.registry: Registry loaded in 63.759s
+2026-11-25 06:46:29,777 19220 INFO golok_p09_fresh_r01aa odoo.service.server: Starting post tests
+2026-11-25 06:46:29,808 19220 INFO golok_p09_fresh_r01aa odoo.service.server: 0 post-tests in 0.03s, 0 queries
+2026-11-25 06:46:29,808 19220 INFO golok_p09_fresh_r01aa odoo.tests.stats: golok_ai_trading_lab_pro: 30 tests 20.52s 8335 queries
+2026-11-25 06:46:29,808 19220 INFO golok_p09_fresh_r01aa odoo.tests.result: 0 failed, 0 error(s) of 28 tests when loading database 'golok_p09_fresh_r01aa'
+2026-11-25 06:46:29,808 19220 INFO golok_p09_fresh_r01aa odoo.service.server.ThreadedServer: Initiating shutdown
+2026-11-25 06:46:29,808 19220 INFO golok_p09_fresh_r01aa odoo.service.server.ThreadedServer: Hit CTRL-C again or send a second signal to force the shutdown.
+2026-11-25 06:46:29,809 19220 INFO golok_p09_fresh_r01aa odoo.addons.bus.websocket: Disconnecting 0 websockets
+2026-11-25 06:46:29,916 19220 INFO golok_p09_fresh_r01aa odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 2 connections 

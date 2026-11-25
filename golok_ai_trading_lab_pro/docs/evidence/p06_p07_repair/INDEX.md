@@ -104,3 +104,12 @@ Real provider, genuine market and independent financial results are unavailable.
 | Native scanner and catalog | [Edge](catalog-scanner/final/browser/edge.log) · [Catalog workspace](catalog-scanner/final/screenshots/analytics-instrument-catalog.png) |
 | Populated upgrades | [Prior R01](catalog-scanner/migration/upgrade/retention.log) · [Direct P09.1](catalog-scanner/migration-direct/upgrade/retention.log) |
 | Initial export test | [The generic Odoo export permission blocked the call before the catalog rule](catalog-scanner/verified/installation/fresh.log) |
+
+## Release 20.0.9.1.11
+
+| Evidence | Artifact |
+|---|---|
+| Multiple V3 updates, eligibility and daily math | [Standalone](stream-equity/standalone.log) · [Source](stream-equity/source.log) · [Stress parity](stream-equity/stress-parity.log) |
+| Odoo worker, capture persistence and regression | [Fresh install](stream-equity/verified/installation/fresh.log) · [Module update](stream-equity/verified/installation/upgrade.log) · [PostgreSQL](stream-equity/verified/security/contention.log) · [Worker lease](stream-equity/worker-lease.log) |
+| Native dated equity and drawdown | [Edge](stream-equity/verified/browser/edge.log) · [Daily curves](stream-equity/verified/screenshots/daily-equity.png) |
+| Populated upgrades | [Previous R01](stream-equity/migration/upgrade/retention.log) · [Direct P09.1](stream-equity/migration-direct/upgrade/retention.log) |

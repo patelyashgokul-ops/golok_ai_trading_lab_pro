@@ -1,6 +1,7 @@
 """Dedicated Odoo-shell worker for authorized Upstox V3 LTPC capture."""
 
 from contextlib import closing
+from functools import partial
 from os import environ
 from time import monotonic, sleep
 
@@ -30,13 +31,16 @@ def _signature(record, review, session):
             record.mapping_id.id, record.calendar_id.id, review.id, session.day)
 
 
-def _window(registry, company, *, updates=upstox_analytics.stream_updates):
-    def transaction(callback, *, write=False):
-        with registry.cursor() as cursor:
-            result = callback(api.Environment(cursor, SUPERUSER_ID, {}))
-            if write:
-                cursor.commit()
-            return result
+def _transaction(registry, callback, *, write=False):
+    with registry.cursor() as cursor:
+        result = callback(api.Environment(cursor, SUPERUSER_ID, {}))
+        if write:
+            cursor.commit()
+        return result
+
+
+def _window(registry, company, *, updates=upstox_analytics.stream_updates, transaction=None):
+    transaction = transaction or partial(_transaction, registry)
 
     def begin(env):
         service, record = _state(env, company)
@@ -98,6 +102,7 @@ def _window(registry, company, *, updates=upstox_analytics.stream_updates):
                     return
                 service._stream_failure(record, fields.Datetime.now(), status)
             transaction(failure, write=True)
+    return status
 
 
 def run(env):
@@ -115,10 +120,11 @@ def run(env):
             print("Upstox capture worker started for the configured company.", flush=True)
             while True:
                 try:
-                    _window(registry, company)
+                    status = _window(registry, company)
                 except (SerializationFailure, DeadlockDetected):
-                    pass
-                sleep(3)
+                    status = "RETRY"
+                if status:
+                    sleep(3)
         except KeyboardInterrupt:
             print("Upstox capture worker stopped.", flush=True)
         finally:

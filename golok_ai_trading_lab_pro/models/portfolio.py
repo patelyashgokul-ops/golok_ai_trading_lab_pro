@@ -344,6 +344,21 @@ class PerformanceReport(models.Model):
 
     _unique_version = models.Constraint("UNIQUE(portfolio_id,version)", "This metric version already exists for the replay.")
 
+    def action_open_daily_curve(self):
+        self.ensure_one()
+        self.check_access("read")
+        portfolio = self.portfolio_id
+        portfolio.check_access("read")
+        if (self.company_id != self.env.company or portfolio.company_id != self.env.company
+                or portfolio.historical_authorized or portfolio.contract_fixture):
+            raise AccessError(_("Select an accessible synthetic replay from the active company."))
+        try:
+            points = performance.daily_curve(json.loads(portfolio.result))
+        except (KeyError, TypeError, ValueError, ArithmeticError):
+            raise ValidationError(_("The stored daily balances could not be reconciled.")) from None
+        return {"type": "ir.actions.client", "tag": "golok_lab.daily_equity",
+                "name": _("Daily Equity and Drawdown"), "params": {"points": points}}
+
 
 class WalkForwardExperiment(models.Model):
     _name = "golok.lab.walk.experiment"

@@ -100,6 +100,7 @@
         <field name="name">golok.lab.performance.report.form</field>
         <field name="model">golok.lab.performance.report</field>
         <field name="arch" type="xml"><form create="0" edit="0" delete="0">
+            <header><button name="action_open_daily_curve" type="object" string="Daily Equity and Drawdown"/></header>
             <sheet><group><field name="portfolio_id"/><field name="version"/><field name="status"/>
                 <field name="trades"/><field name="expectancy"/></group><field name="report" nolabel="1"/></sheet>
         </form></field>

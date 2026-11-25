@@ -1,0 +1,3 @@
+Upstox capture worker started for the configured company.
+Upstox capture worker stopped.
+PASS: company lease excludes a second worker and releases on graceful stop.

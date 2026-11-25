@@ -1,6 +1,6 @@
 """Reconcile completed virtual trades and report explicitly sampled drawdowns."""
 
-from datetime import datetime
+from datetime import date, datetime
 from decimal import Decimal
 from bisect import bisect_left, bisect_right
 from statistics import median
@@ -36,6 +36,25 @@ def drawdown(opening, observations):
             result = {"amount": peak - equity, "fraction": (peak - equity) / peak,
                       "peak": peak_time, "trough": timestamp, "duration_samples": duration}
     return result
+
+
+def daily_curve(result):
+    """Report end-of-day equity observations from the persisted replay."""
+    opening = amount(result["initial_cash"])
+    ending = amount(result["ending_cash"])
+    if opening <= 0 or not isinstance(result["days"], list) or len(result["days"]) > 31:
+        raise ValueError("Invalid daily replay window.")
+    peak, previous, rows = opening, None, []
+    for point in result["days"]:
+        day, balance = date.fromisoformat(point["date"]), amount(point["cash"])
+        if (previous and day <= previous) or balance < 0:
+            raise ValueError("Invalid daily replay balance.")
+        peak, previous = max(peak, balance), day
+        rows.append({"day": day.isoformat(), "cash": str(balance), "drawdown": str(peak - balance),
+                     "drawdown_percent": str((peak - balance) * 100 / peak)})
+    if rows and amount(rows[-1]["cash"]) != ending:
+        raise ValueError("The final observation does not match the replay balance.")
+    return rows
 
 
 def mark_portfolio(result, series):

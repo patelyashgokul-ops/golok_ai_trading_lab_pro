@@ -276,6 +276,14 @@ def verify(base_url, database, edge):
         page.get_by_role("button", name="Calculate Performance").click()
         expect(page.locator(".o_form_view [name=report]")).to_contain_text("p09-performance-2")
         print("UI-18 synthetic performance report persisted with its calculation version", flush=True)
+        page.get_by_role("button", name="Daily Equity and Drawdown").click()
+        expect(page.get_by_role("heading", name="Daily Equity and Drawdown")).to_be_visible()
+        expect(page.get_by_role("img", name="End-of-day equity curve")).to_be_visible()
+        expect(page.get_by_role("img", name="End-of-day drawdown curve")).to_be_visible()
+        expect(page.locator("table tbody tr").first).to_be_visible()
+        page.screenshot(path=EVIDENCE / "screenshots/daily-equity.png")
+        assert not errors, errors
+        print("UI-29 persisted balances open with equity and drawdown curves", flush=True)
         call("golok.lab.fixture.account", "create", {
             "name": "Browser prospective fixture", "scenario": "target", "tariff_id": tariff})
         page.goto(f"{base_url}/odoo/action-{xml_id('action_fixture_accounts')}")

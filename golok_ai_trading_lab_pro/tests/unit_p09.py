@@ -8,6 +8,17 @@ from services import fixture_execution, performance, simulation, walk_forward
 
 
 class PerformanceTests(unittest.TestCase):
+    def test_daily_curve_uses_opening_and_recovers_after_drawdown(self):
+        result = {"initial_cash": "100", "ending_cash": "120", "days": [
+            {"date": "2024-01-02", "cash": "90"}, {"date": "2024-01-03", "cash": "120"},
+        ]}
+        points = performance.daily_curve(result)
+        self.assertEqual([point["drawdown_percent"] for point in points], ["10", "0"])
+        with self.assertRaises(ValueError):
+            performance.daily_curve({**result, "ending_cash": "121"})
+        with self.assertRaises(ValueError):
+            performance.daily_curve({**result, "days": list(reversed(result["days"]))})
+
     def test_fixture_execution_uses_conservative_limits_and_ambiguous_stops(self):
         series, day, _costs = fixture()
         asset = series[0]
