@@ -73,7 +73,7 @@ class SourceComparison(models.Model):
         if dataset.origin == "provider" and review.provider in BROKER_SOURCES:
             return "provider", review.provider
         if review.provider == "bhavcopy":
-            return "publisher", "NSE"
+            return "daily_file", "NSE"
         if review.provider == "manual" and (dataset.replay_publication_digest or dataset.comparison_digest):
             return "publisher", review.upstream
         return None
@@ -123,42 +123,62 @@ class SourceComparison(models.Model):
         # This descriptive comparison uses already-stored rows. Daily receipt
         # metadata rounds upward by at most one minute for its CSV contract.
         now = fields.Datetime.now().replace(tzinfo=timezone.utc) + timedelta(seconds=60 if dataset.interval == "1d" else 1)
-        conflict = False
         closes = [bar.close_time.replace(tzinfo=None) for bar in bars]
+        datasets = dataset | peers
         candles = self.env["golok.lab.candle"]
         observations = {(row.dataset_id.id, row.close_time): row._to_bar() for row in candles.search([
-            ("dataset_id", "in", (dataset | peers).ids), ("close_time", "in", closes),
+            ("dataset_id", "in", datasets.ids), ("close_time", "in", closes),
         ])}
+        prior = self.sudo().search([
+            ("company_id", "=", dataset.company_id.id), ("close_at", "in", closes),
+            "|", "&", ("left_id", "=", dataset.id), ("right_id", "in", peers.ids),
+            "&", ("left_id", "in", peers.ids), ("right_id", "=", dataset.id),
+        ])
+        compared = {(row.left_id.id, row.right_id.id, row.close_at) for row in prior}
+        schedules = {revision.id: revision._sessions() for revision in datasets.calendar_id}
+        new_audits = []
+        conflicts = self.env["golok.lab.dataset"]
         for peer in peers:
             left, right = sorted((dataset, peer), key=lambda record: record.id)
             for close_at in closes:
-                if (left.id, close_at) not in observations or (right.id, close_at) not in observations:
+                if ((left.id, close_at) not in observations or (right.id, close_at) not in observations
+                        or (left.id, right.id, close_at) in compared):
                     continue
-                audit = self.sudo()._record_pair(left, right, close_at, now, rights_checked=True, observations=observations)
-                if audit.outcome == "CONFLICT":
-                    conflict = True
-        return conflict
+                values = self._comparison_values(left, right, close_at, now, observations=observations, schedules=schedules)
+                new_audits.append(values)
+                if values["outcome"] == "CONFLICT":
+                    conflicts |= left | right
+        if new_audits:
+            super(SourceComparison, self.sudo().with_context({})).create(new_audits)
+        if conflicts:
+            conflicts.sudo().write({"integrity_conflict": True})
+        return bool(conflicts)
 
     @api.model
-    def _record_pair(self, left, right, close_at, now, *, rights_checked=False, observations=None):
+    def _record_pair(self, left, right, close_at, now):
         identity = {"left_id": left.id, "right_id": right.id, "close_at": close_at}
         prior = self.search([(name, "=", value) for name, value in identity.items()], limit=1)
         if prior:
             return prior
         datasets = left | right
-        if not rights_checked:
-            for dataset in datasets:
-                dataset._permit("research")
-        outcome, differences, upstreams, tolerance = self._compare_inputs(left, right, close_at, now, observations=observations)
-        if outcome == "CONFLICT":
+        for dataset in datasets:
+            dataset._permit("research")
+        values = self._comparison_values(left, right, close_at, now)
+        if values["outcome"] == "CONFLICT":
             datasets.sudo().write({"integrity_conflict": True})
-        return super(SourceComparison, self.with_context({})).create([{
-            **identity, "company_id": left.company_id.id, "outcome": outcome,
+        return super(SourceComparison, self.with_context({})).create([values])
+
+    def _comparison_values(self, left, right, close_at, now, *, observations=None, schedules=None):
+        outcome, differences, upstreams, tolerance = self._compare_inputs(
+            left, right, close_at, now, observations=observations, schedules=schedules)
+        return {
+            "left_id": left.id, "right_id": right.id, "close_at": close_at,
+            "company_id": left.company_id.id, "outcome": outcome,
             "differences": json.dumps(differences, default=str), "upstreams": json.dumps(upstreams),
             "tolerance": str(tolerance),
-        }])
+        }
 
-    def _compare_inputs(self, left, right, close_at, now, *, observations=None):
+    def _compare_inputs(self, left, right, close_at, now, *, observations=None, schedules=None):
         if ((left.origin == "synthetic") != (right.origin == "synthetic") or left.instrument_id != right.instrument_id
                 or left.interval != right.interval or not left.calendar_id or not right.calendar_id):
             return "NON_EQUIVALENT", {}, [], 0
@@ -181,7 +201,8 @@ class SourceComparison(models.Model):
             if not bar or not bar.available_at:
                 return "INSUFFICIENT_EVIDENCE", {}, [], 0
             try:
-                sessions.append(calendar.validate_bar(bar, data.calendar_id._sessions(), market_data.INTERVALS[data.interval]))
+                schedule = schedules[data.calendar_id.id] if schedules is not None else data.calendar_id._sessions()
+                sessions.append(calendar.validate_bar(bar, schedule, market_data.INTERVALS[data.interval]))
             except ValueError:
                 return "NON_EQUIVALENT", {}, [], 0
             upstream = ("unknown" if data.origin == "synthetic" else
@@ -197,7 +218,7 @@ class SourceComparison(models.Model):
         tolerance = max(Decimal(data.mapping_id.tick) for data in (left, right))
         outcome, differences = price_integrity.compare_bars(pairs[0][0], pairs[1][0], pairs[0][1], pairs[1][1], now, tolerance)
         if outcome == "CONFLICT":
-            actions = self.env["golok.lab.corporate.action"].search([
+            actions = self.env["golok.lab.corporate.action"].sudo().search([
                 ("company_id", "=", left.company_id.id), ("instrument_id", "=", left.instrument_id.id),
                 ("kind", "in", ("split", "bonus")), ("effective", ">=", day),
                 ("effective", "<=", day + timedelta(days=30)), ("published_at", "<=", now.replace(tzinfo=None)),
