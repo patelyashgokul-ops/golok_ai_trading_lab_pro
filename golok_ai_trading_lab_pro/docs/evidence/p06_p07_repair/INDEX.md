@@ -44,3 +44,12 @@ Real provider, genuine market and independent financial results are unavailable.
 | PostgreSQL and Edge | [Concurrency](source-closure/verified/security/contention.log) · [Browser](source-closure/verified/browser/edge.log) · [Comparison verification screenshot](source-closure/verified/screenshots/comparison-source-review.png) |
 | Populated upgrades | [Direct P09.1](source-closure/migration-from-p091/upgrade/retention.log) · [Previous R01](source-closure/migration/upgrade/retention.log) |
 | Initial failures kept | [Calendar source validation](source-closure/odoo/installation/fresh.log) · [Uncommitted browser input](source-closure/release/browser/edge.log) |
+
+## Release 20.0.9.1.5
+
+| Evidence | Artifact |
+|---|---|
+| Training excursion, causal pattern counts and evidence statuses | [Standalone](calibration/standalone.log) · [Source scan](calibration/source.log) · [P09.1 parity](calibration/stress-parity.log) |
+| Frozen walk-forward versus validation and evaluation | [Fresh installation](calibration/verified/installation/fresh.log) · [Update](calibration/verified/installation/upgrade.log) |
+| KPI drill-down and queue recovery | [Edge](calibration/verified/browser/edge.log) · [Daily research screenshot](calibration/verified/screenshots/reconciled-research-events.png) · [Concurrent worker log](calibration/verified/security/contention.log) |
+| Populated upgrades | [Previous R01 retention](calibration/migration/upgrade/retention.log) · [Final evidence schema retention](calibration/migration-final/upgrade/retention.log) |

@@ -54,3 +54,5 @@ Publisher સુધારેલી દૈનિક ફાઇલ આપે ત્
 
 **Compare Sources** માં મતભેદનું કારણ જુઓ. સુધારેલો dataset અને એ જ candle માટે સ્વતંત્ર sourceની પુષ્ટિ હોય ત્યારે **Record Corroborated Replacement** વાપરો. જૂના datasets અને audit નોંધ જળવાય છે.
 
+**Run Walk-forward Experiment** માં experimental causal policy પસંદ કરીને **Fit a target cap on training observations** ચાલુ કરી શકો. Reportમાં training તારીખો, sample count અને લાગુ target cap દેખાય છે. Research snapshotમાં **Research Evidence Contract** દરેક capabilityનું પરિણામ અથવા ખૂટતો input બતાવે છે.
+

@@ -1,0 +1,23 @@
+2026-11-25 03:56:29,513 4592 INFO ? odoo: Odoo version 20.0
+2026-11-25 03:56:29,514 4592 INFO ? odoo: Using configuration file at c:\pycharmprojects\odoo20\odoo-20.0\odoo.conf
+2026-11-25 03:56:29,514 4592 INFO ? odoo: addons paths: _NamespacePath(['C:\\PycharmProjects\\odoo20\\odoo-20.0\\odoo\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons\\golok_ai_trading_lab_pro\\.local-test\\odoo-data\\addons\\20.0', 'c:\\pycharmprojects\\odoo20\\odoo-20.0\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons'])
+2026-11-25 03:56:29,514 4592 INFO ? odoo: database: golok_test@127.0.0.1:55498
+2026-11-25 03:56:31,272 4592 INFO golok_p09_migration_r01l odoo.modules.loading: loading 1 modules...
+2026-11-25 03:56:31,287 4592 INFO golok_p09_migration_r01l odoo.modules.loading: 1 modules loaded in 0.01s, 0 queries (+0 extra)
+2026-11-25 03:56:31,357 4592 INFO golok_p09_migration_r01l odoo.tools.version_tag_reset: Detected tp_versions_used at offset 410, reset enabled
+2026-11-25 03:56:31,357 4592 INFO golok_p09_migration_r01l odoo.modules.loading: updating modules list
+2026-11-25 03:56:31,365 4592 INFO golok_p09_migration_r01l odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via n/a
+2026-11-25 03:56:32,790 4592 WARNING golok_p09_migration_r01l odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-25 03:56:32,791 4592 WARNING golok_p09_migration_r01l odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-25 03:56:32,856 4592 WARNING golok_p09_migration_r01l odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-25 03:56:32,856 4592 WARNING golok_p09_migration_r01l odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-25 03:56:32,857 4592 WARNING golok_p09_migration_r01l odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-25 03:56:32,857 4592 WARNING golok_p09_migration_r01l odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-25 03:56:32,973 4592 INFO golok_p09_migration_r01l odoo.addons.base.models.ir_module: ALLOW access to module.button_upgrade on ['Golok AI Trading Lab Pro'] to user __system__ #1 via n/a
+2026-11-25 03:56:32,973 4592 INFO golok_p09_migration_r01l odoo.addons.base.models.ir_module: ALLOW access to module.update_list on ['Golok AI Trading Lab Pro'] to user __system__ #1 via n/a
+2026-11-25 03:56:33,906 4592 WARNING golok_p09_migration_r01l odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-25 03:56:33,940 4592 WARNING golok_p09_migration_r01l odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-25 03:56:33,940 4592 WARNING golok_p09_migration_r01l odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-25 03:56:33,984 4592 INFO golok_p09_migration_r01l odoo.addons.base.models.ir_module: ALLOW access to module.button_install on [] to user __system__ #1 via n/a
+2026-11-25 03:56:34,041 4592 INFO golok_p09_migration_r01l odoo.modules.loading: loading 17 modules...
+2026-11-25 03:56:34,211 4592 INFO golok_p09_migration_r01l odoo.modules.loading: Loading module golok_ai_trading_lab_pro (11/17)

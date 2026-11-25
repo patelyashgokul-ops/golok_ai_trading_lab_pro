@@ -2,7 +2,7 @@
 
 **P06–P07 REPAIR PARTIAL — TECHNICAL OR EXTERNAL BLOCKERS REMAIN**
 
-Release `20.0.9.1.4` continues P06P07-R01 from verified P09.1 release `20.0.9.1.0`. The P09.1 archive, requirement identifiers, source checkpoint and prior published outputs were retained.
+Release `20.0.9.1.5` continues P06P07-R01 from verified P09.1 release `20.0.9.1.0`. The P09.1 archive, requirement identifiers, source checkpoint and prior published outputs were retained.
 
 ## Implemented
 
@@ -12,11 +12,13 @@ Release `20.0.9.1.4` continues P06P07-R01 from verified P09.1 release `20.0.9.1.
 - **Provider Diagnostics** includes a local Upstox readiness check that reports setup, review status and genuine historical receipts separately.
 - Prospective fixture competition compares due instruments at an exact cutoff using the historical portfolio's cost-aware rank. A bound account can evaluate all five strategy definitions. A job cannot allocate capital after the cohort deadline, and one eligible winner can reserve the account's virtual capital.
 - **Fixture Candidate Research** exposes levels, expiry, ranking and gate outcomes. **Review Provider Status** exposes current company source rights, retention, quotas, historical receipts and links to source records.
+- A walk-forward run can fit a conservative target cap from completed training trades. The versioned snapshot evidence contract covers the original 25 identifiers and adds a descriptive historical-pattern outcome counter.
+- Overview counters and drill-down lists share a server-side company and access scope. New cards expose fixture accounts and candidates, strategy performance records and daily research events.
 - The handoff reconciles all 180 P06 and P07 criteria and reviews the 97 original unresolved entries and 18 original defects. The 45 focused repair criteria are appended to traceability.
 
 ## Verification
 
-61 standalone tests passed. The fresh Odoo installation and module-update stages each passed 26 tests. Edge passed 24 checks, including separate comparison and replay-publication verification controls. Independent PostgreSQL contention, worker termination and recovery passed. Populated upgrades from P09.1 and the previous R01 build retained existing XML IDs and record-level digests. All eleven archived P09.1 stress cases matched. Of the focused repair criteria, 33 passed and 12 remain partial.
+63 standalone tests passed. The fresh Odoo installation and module-update stages each passed 26 tests. Edge passed 25 checks, including dashboard count and list reconciliation. Independent PostgreSQL contention, worker termination and recovery passed. Populated R01 upgrades preserved existing XML IDs and record-level digests, including a stored historical findings record. All eleven archived P09.1 stress cases matched. Of the focused repair criteria, 36 passed and nine remain partial.
 
 ## Readiness
 
@@ -28,7 +30,7 @@ Release `20.0.9.1.4` continues P06P07-R01 from verified P09.1 release `20.0.9.1.
 | Entry and stop optimization | Causal historical portfolio integration verified with frozen proposals and no-trade vetoes. Prospective coverage and training excursion evidence remain open. |
 | Target optimization | Optional historical ATR policy verified. Training calibration partial. |
 | Strategy competition | Historical and prospective fixture ranking share the cost-aware score. Genuine statistical ranking and broader strategy validation remain open. |
-| Research and parameter optimization | Existing snapshot findings and separated walk-forward workflow retained. The historical train-only grid covers 20 pairs per fold. Broader parameter and standardized RE coverage remain open. |
+| Research and parameter optimization | Twenty baseline configurations and optional fitted target variants use separate training, validation and evaluation. Versioned snapshot results identify implemented computations and missing or specialized inputs. |
 | Automatic research and fixture paper | Local scheduler, candidates, capital and journal regressions passed. |
 | Genuine prospective paper and independent financial validation | Blocked by genuine data/use rights, independent evaluation and real cost evidence. |
 | Verified live feed and actionable live support | Disabled pending separately authorized and validated evidence. |

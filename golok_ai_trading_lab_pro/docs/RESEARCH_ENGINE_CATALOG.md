@@ -1,6 +1,6 @@
 # Supplemental historical research
 
-The Odoo research snapshot can create an immutable version 1 supplemental record tied to its digest. A missing or changed input window blocks recalculation. Incomplete input produces no synthetic finding. Four engines currently have that path.
+Version 1 introduced immutable supplemental records tied to the Odoo snapshot digest. A missing or changed input window blocks recalculation. Incomplete input leaves the finding unavailable. The first release covered four computations.
 
 | Engine | Computation |
 |---|---|

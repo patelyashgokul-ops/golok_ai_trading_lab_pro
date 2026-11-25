@@ -21,7 +21,7 @@ try {
         New-Item -ItemType Directory -Force $directory | Out-Null
     }
     $cluster = Join-Path $moduleRoot $ClusterDir
-    $serverLog = Join-Path $moduleRoot '.local-test/postgres.log'
+    $serverLog = Join-Path $moduleRoot ".local-test/postgres-$PostgresPort.log"
     if (!(Test-Path (Join-Path $cluster 'PG_VERSION'))) {
         & "$PostgresBin/initdb.exe" -D $cluster -U golok_test -A trust -E UTF8 --locale=C
         if ($LASTEXITCODE) { throw "initdb exited $LASTEXITCODE" }
