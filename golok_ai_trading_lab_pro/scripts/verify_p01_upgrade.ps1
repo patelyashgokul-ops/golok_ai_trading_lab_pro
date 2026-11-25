@@ -83,7 +83,7 @@ select md5(string_agg(row(id, to_jsonb(d)->>'source_review_id', to_jsonb(d)->>'p
                 $p08RecordDigests[$table] = @{ Sql = $digestSql; Before = (Query $digestSql) }
             }
         }
-        if ($SourceVersion -in @('20.0.9.0.0','20.0.9.1.0','20.0.9.1.1','20.0.9.1.2','20.0.9.1.3','20.0.9.1.4')) {
+        if ($SourceVersion -in @('20.0.9.0.0','20.0.9.1.0','20.0.9.1.1','20.0.9.1.2','20.0.9.1.3','20.0.9.1.4','20.0.9.1.5')) {
             $p09Tables = @{
                 session_watch = @('paper_account_id')
                 session_event = @()
@@ -100,7 +100,7 @@ select md5(string_agg(row(id, to_jsonb(d)->>'source_review_id', to_jsonb(d)->>'p
                 holdout = @()
                 source_review = @()
             }
-            if ($SourceVersion -in @('20.0.9.1.0','20.0.9.1.1','20.0.9.1.2','20.0.9.1.3','20.0.9.1.4')) {
+            if ($SourceVersion -ne '20.0.9.0.0') {
                 foreach ($table in @('calendar','mapping','sync','sync_plan','sync_task','source_comparison','provider_budget')) {
                     $p09Tables[$table] = @()
                 }
@@ -114,6 +114,9 @@ select md5(string_agg(row(id, to_jsonb(d)->>'source_review_id', to_jsonb(d)->>'p
                 if ($SourceVersion -ne '20.0.9.1.4') {
                     $p09Tables['source_comparison'] = @('replacement_id','resolution_reference','resolved_by','resolved_at')
                 }
+            }
+            if ($SourceVersion -eq '20.0.9.1.5') {
+                $p09Tables['findings'] = @()
             }
             foreach ($table in $p09Tables.Keys) {
                 $exclude = if ($p09Tables[$table].Count) { "-array['" + ($p09Tables[$table] -join "','") + "']" } else { "" }

@@ -6,9 +6,48 @@ from decimal import Decimal
 from urllib.error import HTTPError, URLError
 
 from scripts.reproduce_p05 import fixture
-from services import (calendar, indicators, ingestion, level_research, market_data, performance, portfolio, price_integrity,
+from services import (calendar, decision, indicators, ingestion, level_research, market_data, performance, portfolio, price_integrity,
                       providers, research_contract, research_v3, rights_lifecycle, simulation, targets, upstox)
 from services.smartapi import ProviderError
+
+
+class DecisionAuditTest(unittest.TestCase):
+    def test_each_gate_retains_its_own_veto_and_metadata(self):
+        context = {"dataset_version": "a" * 64, "observation_sha256": "b" * 64, "passed": True,
+                   "status": "FORGED", "live_actionability": "ALLOWED"}
+        checks = {key: (f"Observed {key}", "Synthetic fixture threshold", True) for key in decision.GATES}
+
+        def evaluate(values, mode="prospective_fixture", evidence=context):
+            return decision.evaluate(values, mode=mode, context=evidence, require_provenance=True)
+
+        self.assertEqual(evaluate(checks)["state"], "SIMULATION_CANDIDATE")
+        for key in checks:
+            with self.subTest(gate=key):
+                failed = evaluate({**checks, key: ("Veto evidence", "Synthetic fixture threshold", False)})
+                self.assertEqual(failed["state"], "NO_TRADE")
+                self.assertEqual([gate for gate, row in failed["gates"].items() if not row["passed"]], [key])
+                veto = failed["gates"][key]
+                self.assertEqual((veto["observed"], veto["reason"]), ("Veto evidence", "EVIDENCE_VETO"))
+                self.assertEqual(failed["live_actionability"], "BLOCKED")
+                self.assertNotIn("live_actionability", veto)
+        missing = evaluate({key: value for key, value in checks.items() if key != "G09"})
+        self.assertEqual(missing["gates"]["G09"]["reason"], "MISSING_EVIDENCE")
+        self.assertFalse(evaluate({**checks, "G02": (True,)})["gates"]["G02"]["passed"])
+        invalid = evaluate(checks, evidence={**context, "dataset_version": "symbol"})
+        self.assertEqual(invalid["gates"]["G13"]["reason"], "INVALID_PROVENANCE")
+        self.assertEqual(evaluate(checks, mode="live")["gates"]["G14"]["reason"], "UNSUPPORTED_MODE")
+
+    def test_standalone_replay_emits_input_and_observation_hashes(self):
+        assets, day, cost = fixture()
+        report = portfolio.replay(assets, day, day, 300, ("ST-01",), cost, target_policy="fixed_4r")
+        self.assertTrue(report["decisions"])
+        by_asset = {asset.key: asset for asset in assets}
+        for entry in report["decisions"]:
+            item = entry["gates"]["G13"]
+            asset = by_asset[entry["asset"]]
+            bar = next(bar for bar in asset.bars if bar.close_time == item["source_record"])
+            self.assertEqual(item["dataset_version"], decision.observation_digest(asset.bars))
+            self.assertEqual(item["observation_sha256"], decision.observation_digest((bar,)))
 
 
 class ResearchEvidenceTest(unittest.TestCase):

@@ -626,6 +626,10 @@ class TestLab(TransactionCase):
         self.assertEqual(order.state, "pending", watch.cycle_ids.mapped("candidate_ids.reason"))
         self.assertEqual(order.candidate_id.lifecycle, "pending")
         self.assertEqual(order.candidate_id.evidence["decision"]["state"], "SIMULATION_CANDIDATE")
+        gate = order.candidate_id.evidence["decision"]["gates"]["G13"]
+        self.assertEqual(gate["dataset_version"], order.candidate_id.input_digest)
+        self.assertEqual(len(gate["observation_sha256"]), 64)
+        self.assertEqual(gate["mode"], "prospective_fixture")
         self.assertGreater(account.reserved, 0)
         self.assertEqual(len(order.candidate_id.evidence["fixture_plan"]["signal_sha256"]), 64)
         check(20, rows[:4], work=True, selected_watch=second_watch)
@@ -1383,6 +1387,11 @@ class TestLab(TransactionCase):
         self.assertEqual(str(validation.starts), "2024-01-05")
         self.assertEqual(validation.starts, validation.ends)
         wizard.write({"starts": "2024-01-04", "ends": "2024-01-04", "training_id": record.id})
+        jobs = self.env["golok.lab.research.job"].with_user(self.analyst)
+        held_at = "2024-01-04 04:05:00"
+        pending = jobs.create({"dataset_id": datasets[0].id, "cutoff": held_at})
+        overview = self.env["golok.lab.run"].with_user(self.viewer)
+        visible_before = overview.overview()["candles"]
         seal_action = wizard.action_seal()
         seal = self.env["golok.lab.holdout"].with_user(self.admin).browse(seal_action["res_id"])
         self.assertFalse(seal.result_id)
@@ -1392,8 +1401,24 @@ class TestLab(TransactionCase):
         raw = candles.sudo().search(restricted, limit=1)
         self.assertTrue(raw)
         self.assertFalse(candles.search(restricted))
-        with self.assertRaises(AccessError):
-            candles.browse(raw.id).read(["close_price"])
+        risk = new_test_user(self.env, login="sealed-input-risk", groups=f"{MODULE}.group_risk")
+        for role in (self.viewer, self.analyst, risk, self.admin):
+            with self.subTest(role=role.login), self.assertRaises(AccessError):
+                candles.with_user(role).browse(raw.id).read(["close_price"])
+        self.assertEqual(overview.overview()["candles"], visible_before - candles.sudo().search_count(restricted))
+        with self.assertRaises(ValidationError):
+            self.env["golok.lab.run"].with_user(self.analyst).create({"dataset_id": datasets[0].id, "as_of": held_at})
+        with self.assertRaises(ValidationError):
+            jobs.create({"dataset_id": datasets[0].id, "cutoff": held_at})
+        pending.sudo()._complete_claim()
+        self.assertEqual(pending.state, "failed")
+        self.assertFalse(pending.run_id)
+        alias = self.env["golok.lab.dataset"].with_user(self.analyst).create({
+            "name": "Alternate sealed input label", "source": "Alternate fixture", "origin": "synthetic",
+            "instrument_id": datasets[0].instrument_id.id, "interval": "5m",
+        })
+        with self.assertRaises(ValidationError):
+            self._wizard(["2024-01-04T03:50:00Z,100,103,99,101,100"], dataset=alias).action_import()
         self.viewer.sudo().write({"group_ids": [(4, self.env.ref("base.group_allow_export").id)]})
         with self.assertRaises(AccessError):
             candles.browse(raw.id).export_data(["close_price"])
@@ -1401,7 +1426,7 @@ class TestLab(TransactionCase):
             wizard.action_run()
         with self.assertRaises(AccessError):
             seal.with_user(self.analyst).action_consume()
-        self.assertEqual(seal.action_consume()["res_id"], seal.result_id.id)
+        self.assertEqual(seal.with_user(risk).action_consume()["res_id"], seal.result_id.id)
         with self.assertRaises(ValidationError):
             seal.action_consume()
         with self.assertRaises(ValidationError):
