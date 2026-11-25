@@ -313,7 +313,10 @@ class FixturePaperAccount(models.Model):
                 continue
             entry, stop, target = levels
             size = simulation.size_long(entry, stop, target, tick, bars[-1].volume, cycle.day, exchange, costs, policy)
-            trials.append({"strategy": code, "reason": size.reason})
+            trials.append({"strategy": code, "reason": size.reason, "entry": str(entry), "stop": str(stop),
+                           "target": str(target), "quantity": size.quantity,
+                           "net_reward": str(size.reward) if size.reward is not None else None,
+                           "modeled_loss": str(size.loss) if size.loss is not None else None})
             if size.quantity:
                 contenders.append((targets.rank(size, bars[-1].volume), code, levels, size, proposal))
         scope["strategy_trials"] = trials
@@ -328,7 +331,10 @@ class FixturePaperAccount(models.Model):
             return scope, None, "DAILY_RISK_BUDGET"
         scope.update(entry=str(entry), stop=str(stop), target=str(target), quantity=size.quantity, volume=bars[-1].volume,
                      reward=str(size.reward), loss=str(size.loss), reward_to_risk=str(size.reward / size.loss),
-                     estimated_entry_fee_paise=fee, execution_policy="fixture-candle-1")
+                     expiry_utc=fields.Datetime.to_string(expiry.replace(tzinfo=None)),
+                     estimated_entry_fee_paise=fee, execution_policy="fixture-candle-1",
+                     ranking={"preferred_3r": _rank[0], "net_reward_to_risk": str(_rank[1]),
+                              "planned_net_reward": str(_rank[2]), "liquidity": _rank[3]})
         if proposal:
             scope.update(entry_floor=str(proposal["range"][0]), level_version=proposal["version"],
                          entry_method=proposal["selected"]["entry_method"], stop_method=proposal["selected"]["stop_method"])

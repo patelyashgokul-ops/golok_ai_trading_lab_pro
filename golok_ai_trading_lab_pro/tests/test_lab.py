@@ -588,6 +588,77 @@ class TestLab(TransactionCase):
         self.assertEqual((expired.state, expired.candidate_id.lifecycle), ("cancelled", "expired"))
         self.assertEqual((expiry_account.available, expiry_account.reserved), (expiry_account.opening, 0))
 
+        competitors = admin["golok.lab.session.watch"]
+        for instrument in (self.instrument, second_instrument):
+            competing_data = admin["golok.lab.dataset"].create({
+                "name": f"{instrument.symbol} same-cutoff fixture", "source": "Authored competing prices",
+                "origin": "synthetic", "interval": "5m", "calendar_id": calendar.id, "instrument_id": instrument.id,
+            })
+            competitors |= admin["golok.lab.session.watch"].create({"dataset_id": competing_data.id})
+        competing_account = admin["golok.lab.fixture.account"].create({
+            "name": "Same-cutoff strategy competition", "watch_ids": [(6, 0, competitors.ids)],
+            "tariff_id": tariff.id, "target_policy": "fixed_4r", "strategy": "all",
+        })
+        stronger = [row.replace(b",2000,", b",20000,") for row in rows[:4]]
+        check(20, rows[:4], selected_watch=competitors[0])
+        check(20, stronger, selected_watch=competitors[1])
+        at = (session.opening + timedelta(minutes=20)).replace(tzinfo=None)
+        with patch.object(fields.Datetime, "now", return_value=at):
+            for scheduled in competitors.mapped("cycle_ids").sorted("id"):
+                scheduled.job_id.sudo()._complete_claim()
+                if scheduled.watch_id == competitors[0]:
+                    self.assertFalse(competing_account.order_ids)
+                    self.assertFalse(scheduled.candidate_ids)
+        weaker_result = competitors[0].cycle_ids.candidate_ids
+        better_result = competitors[1].cycle_ids.candidate_ids
+        self.assertEqual(weaker_result.reason, "OUTRANKED_IN_COHORT")
+        self.assertFalse(weaker_result.evidence["decision"]["gates"]["G11"]["passed"])
+        self.assertEqual(competing_account.order_ids.candidate_id, better_result)
+        self.assertEqual(better_result.evidence["fixture_plan"]["competition"]["winning_cycle_id"],
+                         better_result.cycle_id.id)
+        self.assertEqual(len(better_result.evidence["fixture_plan"]["strategy_trials"]), 5)
+        self.assertEqual(competing_account.journal_ids.mapped("kind"), ["reserved"])
+        self.assertEqual(better_result.instrument_id, second_instrument)
+        self.assertEqual(better_result.observation_at, at)
+        self.assertIn('"winning_cycle_id"', better_result.plan_text)
+        self.assertIn('"G11"', weaker_result.gate_text)
+        competing_account.action_pause()
+        competing_account.action_resume()
+        for selected in competitors:
+            check(50, rows[4:], selected_watch=selected)
+        following_weak, following_strong = (
+            [row.replace(b"2024-01-02", b"2024-01-03") for row in samples]
+            for samples in (rows[:4], stronger)
+        )
+        check(20, following_strong, selected_watch=competitors[1], source_session=following)
+        check(20, following_weak, selected_watch=competitors[0], source_session=following)
+        next_at = (following.opening + timedelta(minutes=20)).replace(tzinfo=None)
+        with patch.object(fields.Datetime, "now", return_value=next_at):
+            next_cohort = competitors.mapped("cycle_ids").filtered(lambda item: item.day == following.day).sorted("id")
+            self.assertEqual(next_cohort[0].watch_id, competitors[1])
+            for scheduled in next_cohort:
+                scheduled.job_id.sudo()._complete_claim()
+        self.assertEqual(competing_account.order_ids.filtered(lambda item: item.state == "pending").dataset_id,
+                         competitors[1].dataset_id, (
+                             competing_account.state, next_cohort.mapped("candidate_ids.reason"),
+                             next_cohort.mapped("job_id.state"), competing_account.order_ids.mapped("state")))
+        late_data = admin["golok.lab.dataset"].create({
+            "name": "Cohort deadline fixture", "source": "Independent deadline fixture",
+            "origin": "synthetic", "interval": "5m", "calendar_id": calendar.id, "instrument_id": self.instrument.id,
+        })
+        late_watch = admin["golok.lab.session.watch"].create({"dataset_id": late_data.id})
+        late_account = admin["golok.lab.fixture.account"].create({
+            "name": "Cohort deadline account", "watch_ids": [(6, 0, late_watch.ids)],
+            "tariff_id": tariff.id, "target_policy": "fixed_4r",
+        })
+        check(20, rows[:4], selected_watch=late_watch)
+        deadline = at + timedelta(minutes=5)
+        with patch.object(fields.Datetime, "now", return_value=deadline):
+            late_watch.cycle_ids.job_id.sudo()._complete_claim()
+        self.assertEqual(late_watch.cycle_ids.candidate_ids.reason, "COHORT_EXPIRED")
+        self.assertEqual(late_watch.cycle_ids.candidate_ids.lifecycle, "expired")
+        self.assertFalse(late_account.order_ids)
+
     def test_p09_fixture_account_reservation_risk_and_journal(self):
         spec = json.loads((Path(__file__).parent / "fixtures/p02/spec.json").read_text())
         tariff = self.env["golok.lab.tariff"].with_user(self.admin).create({
@@ -985,6 +1056,11 @@ class TestLab(TransactionCase):
         self.assertEqual(setup.status, "REVIEW REQUIRED")
         self.assertIn("Company historical import permission current: No", setup.details)
         self.assertNotIn("authored-test-value", setup.details)
+        setup.action_review_sources()
+        self.assertIn("Upstox historical | historical", setup.details)
+        self.assertIn("Yahoo Finance | unverified", setup.details)
+        self.assertIn("Current company reviews: 0", setup.details)
+        self.assertEqual(setup.action_open_source_comparisons()["domain"], [("company_id", "=", self.env.company.id)])
 
     def test_p03_job_worker_and_immutable_corporate_source(self):
         actions = self.env["golok.lab.corporate.action"].with_user(self.admin)

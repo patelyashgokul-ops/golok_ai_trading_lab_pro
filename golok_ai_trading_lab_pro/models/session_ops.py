@@ -1,3 +1,4 @@
+import json
 from datetime import timedelta, timezone
 from decimal import Decimal
 
@@ -259,7 +260,8 @@ class ResearchCycle(models.Model):
                 or self.company_id not in requester.company_ids
                 or not requester.has_group("golok_ai_trading_lab_pro.group_admin")):
             raise AccessError(_("The schedule was paused or changed."))
-        available = self.env["golok.lab.candle"].with_user(requester).search_count(
+        candles = self.env["golok.lab.candle"].with_user(requester).with_context(allowed_company_ids=[self.company_id.id])
+        available = candles.search_count(
             [("id", "=", self.observation_id.id)], limit=1)
         if not available:
             raise AccessError(_("The scheduled observation is no longer eligible."))
@@ -282,7 +284,10 @@ class ResearchCycle(models.Model):
             return
         cohort = self.search([("company_id", "=", self.company_id.id), ("day", "=", self.day),
                               ("watch_id", "in", account.bound_watch_ids.ids), ("cutoff", "=", self.cutoff)])
-        if any(job.state in ("queued", "claimed") for job in cohort.job_id):
+        shortest = min((market_data.INTERVALS[row.dataset_id.interval] or 0 for row in cohort), default=0)
+        deadline = self.cutoff + timedelta(seconds=shortest)
+        waiting = any(job.state in ("queued", "claimed") for job in cohort.job_id)
+        if waiting and now < deadline:
             return
         closed_cohort = bool(cohort.candidate_ids)
         profiles = []
@@ -309,11 +314,18 @@ class ResearchCycle(models.Model):
         winner = max((item for item in profiles if item[-1] is not None), key=lambda item: item[-1], default=None)
         for profile in profiles:
             cycle, run, operator_account, scope, reservation, checks, reason, rank = profile
-            scope["competition"] = {"cutoff": fields.Datetime.to_string(self.cutoff), "cycle_ids": sorted(cohort.ids),
-                                    "winning_cycle_id": winner[0].id if winner and not closed_cohort else None}
-            if rank is not None and (profile is not winner or closed_cohort):
+            scope["competition"] = {"version": "fixture-competition-1",
+                                    "cutoff": fields.Datetime.to_string(self.cutoff), "cycle_ids": sorted(cohort.ids),
+                                    "deadline_utc": fields.Datetime.to_string(deadline),
+                                    "winning_cycle_id": winner[0].id if winner and not closed_cohort and now < deadline else None}
+            if rank is not None and now >= deadline:
+                checks["G12"] = ("Cohort deadline reached", "Publication before shortest candle interval", False)
+                reason = "COHORT_EXPIRED"
+            elif rank is not None and (profile is not winner or closed_cohort):
                 checks["G11"] = ("Other or finalized candidate", "One account reservation per cutoff", False)
                 reason = "COHORT_ALREADY_FINALIZED" if closed_cohort else "OUTRANKED_IN_COHORT"
+            elif reservation and rank is None:
+                reason = "GATE_VETO: " + ", ".join(key for key, passed in checks.items() if passed is not True)
             cycle._save_candidate(run, operator_account, now, scope, reservation, checks, reason)
 
     def _candidate_checks(self, run, account, scope, reserved, generated):
@@ -353,7 +365,7 @@ class ResearchCycle(models.Model):
         elif not permitted:
             if reason in ("NO_CAUSAL_SIGNAL_OR_TARGET", "INCOMPLETE_OR_UNAVAILABLE_CANDLES"):
                 state = "watch"
-            elif reason in ("STALE_OBSERVATION", "STALE_TRADING_DAY"):
+            elif reason in ("STALE_OBSERVATION", "STALE_TRADING_DAY", "COHORT_EXPIRED"):
                 state = "expired"
             elif reason != "SUSPENDED_STALE_OR_OUTSIDE_SESSION":
                 state = "rejected"
@@ -375,6 +387,9 @@ class ResearchCandidate(models.Model):
     _order = "id desc"
 
     cycle_id = fields.Many2one("golok.lab.research.cycle", required=True, ondelete="restrict", index=True)
+    dataset_id = fields.Many2one(related="cycle_id.dataset_id")
+    instrument_id = fields.Many2one(related="dataset_id.instrument_id")
+    observation_at = fields.Datetime(related="cycle_id.observation_at")
     company_id = fields.Many2one("res.company", required=True, index=True)
     input_digest = fields.Char(required=True)
     engine_version = fields.Char(required=True)
@@ -385,6 +400,9 @@ class ResearchCandidate(models.Model):
                               ("paper_eligible", "Fixture paper eligible")], required=True, default="no_trade")
     generated_at = fields.Datetime()
     order_ids = fields.One2many("golok.lab.fixture.order", "candidate_id")
+    plan_text = fields.Text(compute="_compute_explanation")
+    gate_text = fields.Text(compute="_compute_explanation")
+    research_text = fields.Text(compute="_compute_explanation")
     lifecycle = fields.Selection([("no_trade", "NO TRADE"), ("experimental", "Experimental"),
                                   ("watch", "Watch"), ("rejected", "Rejected"), ("expired", "Expired"),
                                   ("invalidated", "Invalidated"), ("wait", "Waiting for entry"),
@@ -405,6 +423,14 @@ class ResearchCandidate(models.Model):
                 item.lifecycle = order.state or item.state
 
     _cycle_once = models.Constraint("UNIQUE(cycle_id)", "Research outcome already published.")
+
+    @api.depends("evidence")
+    def _compute_explanation(self):
+        for candidate in self:
+            stored = candidate.evidence or {}
+            candidate.plan_text = json.dumps(stored.get("fixture_plan") or {}, indent=2, sort_keys=True)
+            candidate.gate_text = json.dumps(stored.get("decision") or {}, indent=2, sort_keys=True)
+            candidate.research_text = json.dumps(stored.get("research") or {}, indent=2, sort_keys=True)
 
 
 class ResearchGap(models.Model):

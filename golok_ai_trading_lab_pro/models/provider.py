@@ -9,7 +9,7 @@ from psycopg2 import errors
 from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, ValidationError
 
-from ..services import session_policy, upstox
+from ..services import providers, session_policy, upstox
 from ..services.smartapi import CAPABILITIES, ProviderError, SmartAPI
 
 _ADMIN = "golok_ai_trading_lab_pro.group_admin"
@@ -158,6 +158,55 @@ class ProviderSetup(models.TransientModel):
             _("Verified current connectivity, live data and financial use: Unavailable."),
         ]
         return self._finish(status, "\n".join(details))
+
+    def action_review_sources(self):
+        self._check_setup_rights()
+        company = [("company_id", "=", self.env.company.id)]
+        reviews = self.env["golok.lab.source.review"]
+        sync = self.env["golok.lab.sync"]
+        now = fields.Datetime.now()
+        lines = [_("Provider modes and current company grants. Live data and trading are unavailable.")]
+        for key, source in providers.SOURCES.items():
+            rows = reviews.search(company + [("provider", "=", key), ("revoked_at", "=", False)], limit=20)
+            active = rows.filtered(lambda row: row.lifecycle == "active")
+            # For named local publishers, counted reviews can have different terms.
+            allowed = sorted(permission for permission in source.permissions if any(row[permission] for row in active))
+            lines.append(f"{source.name} | {source.feed} | "
+                         + _("Implemented permission ceiling: %s", ", ".join(sorted(source.permissions)) or _("None")))
+            lines.append(_("Current company reviews: %(count)s. Granted capabilities across those reviews: %(permissions)s.",
+                           count=_("at least %s", len(active)) if len(rows) == 20 else len(active),
+                           permissions=", ".join(allowed) or _("None")))
+            for review in active:
+                lines.append(_("Retention: %(policy)s. Authorization ends %(expires)s. Retention ends %(retention)s.",
+                               policy=review.storage_policy, expires=review.expires,
+                               retention=review.retain_until or _("Unspecified")))
+            if key in ("smartapi", "upstox"):
+                domain = company + [("mapping_id.provider", "=", key), ("mode", "=", "live")]
+                succeeded = sync.search(domain + [("state", "=", "complete")], limit=1)
+                failed = sync.search(domain + [("state", "=", "rejected")], limit=1)
+                budget = self.env["golok.lab.provider.budget"].sudo().search(
+                    [("name", "=", f"{key}_history")], limit=1)
+                lines.append(_("Latest recorded receipt (UTC): %(receipt)s. Latest rejected request: %(failure)s.",
+                               receipt=succeeded.received_at or _("None"), failure=failed.reason or _("None")))
+                lines.append(_("Shared local historical quota: %s",
+                               _("Cooling down") if budget and budget.next_at > now else _("Available")))
+                lines.append(_("Current connectivity and freshness require a permitted acquisition."))
+        return self._finish("PROVIDER STATUS", "\n".join(lines))
+
+    def _open_source_records(self, action_name):
+        self._check_setup_rights()
+        action = self.env["ir.actions.actions"]._for_xml_id(f"golok_ai_trading_lab_pro.{action_name}")
+        action["domain"] = [("company_id", "=", self.env.company.id)]
+        return action
+
+    def action_open_source_reviews(self):
+        return self._open_source_records("action_source_reviews")
+
+    def action_open_sync_plans(self):
+        return self._open_source_records("action_sync_plan")
+
+    def action_open_source_comparisons(self):
+        return self._open_source_records("action_source_comparison")
 
     def action_test_authentication(self):
         self._check_setup_rights()

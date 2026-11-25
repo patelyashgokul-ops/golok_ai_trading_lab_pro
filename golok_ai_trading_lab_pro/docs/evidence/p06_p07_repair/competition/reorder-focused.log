@@ -1,0 +1,70 @@
+2026-11-24 17:37:37,276 5088 INFO ? odoo: Odoo version 20.0
+2026-11-24 17:37:37,277 5088 INFO ? odoo: Using configuration file at c:\pycharmprojects\odoo20\odoo-20.0\odoo.conf
+2026-11-24 17:37:37,278 5088 INFO ? odoo: addons paths: _NamespacePath(['C:\\PycharmProjects\\odoo20\\odoo-20.0\\odoo\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons\\golok_ai_trading_lab_pro\\.local-test\\odoo-data\\addons\\20.0', 'c:\\pycharmprojects\\odoo20\\odoo-20.0\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons'])
+2026-11-24 17:37:37,279 5088 INFO ? odoo: database: golok_test@127.0.0.1:55497
+2026-11-24 17:37:40,128 5088 INFO ? odoo.service.server: HTTP service running on 127.0.0.1:8071
+2026-11-24 17:37:40,171 5088 INFO golok_p09_fresh_r01f odoo.tests.common: Importing test framework
+2026-11-24 17:37:40,403 5088 INFO golok_p09_fresh_r01f odoo.modules.loading: loading 1 modules...
+2026-11-24 17:37:40,412 5088 INFO golok_p09_fresh_r01f odoo.modules.loading: 1 modules loaded in 0.01s, 0 queries (+0 extra)
+2026-11-24 17:37:40,461 5088 INFO golok_p09_fresh_r01f odoo.tools.version_tag_reset: Detected tp_versions_used at offset 410, reset enabled
+2026-11-24 17:37:40,462 5088 INFO golok_p09_fresh_r01f odoo.modules.loading: updating modules list
+2026-11-24 17:37:40,468 5088 INFO golok_p09_fresh_r01f odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via n/a
+2026-11-24 17:37:42,061 5088 WARNING golok_p09_fresh_r01f odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-24 17:37:42,063 5088 WARNING golok_p09_fresh_r01f odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-24 17:37:42,149 5088 WARNING golok_p09_fresh_r01f odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-24 17:37:42,150 5088 WARNING golok_p09_fresh_r01f odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-24 17:37:42,152 5088 WARNING golok_p09_fresh_r01f odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-24 17:37:42,152 5088 WARNING golok_p09_fresh_r01f odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-24 17:37:42,359 5088 INFO golok_p09_fresh_r01f odoo.addons.base.models.ir_module: ALLOW access to module.button_upgrade on ['Golok AI Trading Lab Pro'] to user __system__ #1 via n/a
+2026-11-24 17:37:42,359 5088 INFO golok_p09_fresh_r01f odoo.addons.base.models.ir_module: ALLOW access to module.update_list on ['Golok AI Trading Lab Pro'] to user __system__ #1 via n/a
+2026-11-24 17:37:43,477 5088 WARNING golok_p09_fresh_r01f odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-24 17:37:43,520 5088 WARNING golok_p09_fresh_r01f odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-24 17:37:43,521 5088 WARNING golok_p09_fresh_r01f odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-24 17:37:43,583 5088 INFO golok_p09_fresh_r01f odoo.addons.base.models.ir_module: ALLOW access to module.button_install on [] to user __system__ #1 via n/a
+2026-11-24 17:37:43,695 5088 INFO golok_p09_fresh_r01f odoo.modules.loading: loading 17 modules...
+2026-11-24 17:37:43,929 5088 INFO golok_p09_fresh_r01f odoo.modules.loading: Loading module golok_ai_trading_lab_pro (11/17)
+2026-11-24 17:37:44,277 5088 INFO golok_p09_fresh_r01f odoo.registry: module golok_ai_trading_lab_pro: creating or updating database tables
+2026-11-24 17:37:44,770 5088 INFO golok_p09_fresh_r01f odoo.modules.loading: loading golok_ai_trading_lab_pro/security/groups.xml
+2026-11-24 17:37:44,930 5088 INFO golok_p09_fresh_r01f odoo.modules.loading: loading golok_ai_trading_lab_pro/security/ir.access.csv
+2026-11-24 17:37:45,425 5088 INFO golok_p09_fresh_r01f odoo.modules.loading: loading golok_ai_trading_lab_pro/views/lab.xml
+2026-11-24 17:37:45,724 5088 INFO golok_p09_fresh_r01f odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p03.xml
+2026-11-24 17:37:46,148 5088 INFO golok_p09_fresh_r01f odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p04.xml
+2026-11-24 17:37:46,292 5088 INFO golok_p09_fresh_r01f odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p05.xml
+2026-11-24 17:37:46,427 5088 INFO golok_p09_fresh_r01f odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p06.xml
+2026-11-24 17:37:46,524 5088 INFO golok_p09_fresh_r01f odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p08.xml
+2026-11-24 17:37:46,788 5088 INFO golok_p09_fresh_r01f odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p09.xml
+2026-11-24 17:37:47,141 5088 INFO golok_p09_fresh_r01f odoo.registry: Registry changed, signaling through the database
+2026-11-24 17:37:47,504 5088 INFO golok_p09_fresh_r01f odoo.addons.base.models.res_users: Group change: user 1 with IP n/a changed groups of user 1 who belonged to [10, 9, 5, 15] with changes [(<Command.LINK: 4>, 6, 0)]
+2026-11-24 17:37:47,748 5088 INFO golok_p09_fresh_r01f odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: Starting TestLab.test_p09_candidate_drives_observation_based_fixture_position ...
+2026-11-24 17:37:49,634 5088 INFO golok_p09_fresh_r01f odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: ======================================================================
+2026-11-24 17:37:49,635 5088 ERROR golok_p09_fresh_r01f odoo.addons.golok_ai_trading_lab_pro.tests.test_lab: FAIL: TestLab.test_p09_candidate_drives_observation_based_fixture_position
+Traceback (most recent call last):
+  File "c:\pycharmprojects\odoo20\custom_addons\golok_ai_trading_lab_pro\tests\test_lab.py", line 639, in test_p09_candidate_drives_observation_based_fixture_position
+    self.assertEqual(competing_account.order_ids.filtered(lambda item: item.state == "pending").dataset_id,
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     competitors[1].dataset_id, (
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                         competing_account.state, next_cohort.mapped("candidate_ids.reason"),
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                         next_cohort.mapped("job_id.state"), competing_account.order_ids.mapped("state")))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: golok.lab.dataset() != golok.lab.dataset(37,) : ('active', ['FIXTURE_RISK_AND_COST_CHECKS_PASSED', 'FIXTURE_RISK_AND_COST_CHECKS_PASSED'], ['completed', 'completed'], ['cancelled'])
+
+2026-11-24 17:37:49,657 5088 INFO golok_p09_fresh_r01f odoo.addons.base.models.ir_attachment: filestore gc 7 checked, 3 removed
+2026-11-24 17:37:49,667 5088 INFO golok_p09_fresh_r01f odoo.modules.loading: Module golok_ai_trading_lab_pro loaded in 5.74s (incl. 2.46s test), 1994 queries (+1208 test, +1994 other)
+2026-11-24 17:37:49,667 5088 ERROR golok_p09_fresh_r01f odoo.modules.loading: Module golok_ai_trading_lab_pro: 1 failures, 0 errors of 1 tests
+2026-11-24 17:37:50,400 5088 WARNING golok_p09_fresh_r01f odoo.addons.mail.controllers.attachment: markdown2 is not installed, markdown will not be rendered
+2026-11-24 17:37:50,513 5088 INFO golok_p09_fresh_r01f odoo.modules.loading: 17 modules loaded in 6.82s, 1994 queries (+3202 extra)
+2026-11-24 17:37:51,072 5088 INFO golok_p09_fresh_r01f odoo.registry: verifying fields for every extended model
+2026-11-24 17:37:51,989 5088 ERROR golok_p09_fresh_r01f odoo.modules.loading: At least one test failed when loading the modules.
+2026-11-24 17:37:51,996 5088 INFO golok_p09_fresh_r01f odoo.registry: Registry changed, signaling through the database
+2026-11-24 17:37:52,000 5088 INFO golok_p09_fresh_r01f odoo.registry: Registry loaded in 11.867s
+2026-11-24 17:37:52,001 5088 INFO golok_p09_fresh_r01f odoo.service.server: Starting post tests
+2026-11-24 17:37:52,002 5088 INFO golok_p09_fresh_r01f odoo.service.server: 0 post-tests in 0.00s, 0 queries
+2026-11-24 17:37:52,002 5088 INFO golok_p09_fresh_r01f odoo.tests.stats: golok_ai_trading_lab_pro: 3 tests 2.46s 1208 queries
+2026-11-24 17:37:52,002 5088 ERROR golok_p09_fresh_r01f odoo.tests.result: 1 failed, 0 error(s) of 1 tests when loading database 'golok_p09_fresh_r01f'
+2026-11-24 17:37:52,002 5088 INFO golok_p09_fresh_r01f odoo.service.server.ThreadedServer: Failed: odoo.addons.golok_ai_trading_lab_pro.tests.test_lab.TestLab.test_p09_candidate_drives_observation_based_fixture_position - golok.lab.dataset() != [...]
+2026-11-24 17:37:52,002 5088 INFO golok_p09_fresh_r01f odoo.service.server.ThreadedServer: Initiating shutdown
+2026-11-24 17:37:52,003 5088 INFO golok_p09_fresh_r01f odoo.service.server.ThreadedServer: Hit CTRL-C again or send a second signal to force the shutdown.
+2026-11-24 17:37:52,003 5088 INFO golok_p09_fresh_r01f odoo.addons.bus.websocket: Disconnecting 0 websockets
+2026-11-24 17:37:52,113 5088 INFO golok_p09_fresh_r01f odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 2 connections 

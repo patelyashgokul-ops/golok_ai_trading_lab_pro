@@ -1,0 +1,19 @@
+2026-11-24 17:49:31,408 22444 INFO ? odoo: Odoo version 20.0
+2026-11-24 17:49:31,409 22444 INFO ? odoo: Using configuration file at c:\pycharmprojects\odoo20\odoo-20.0\odoo.conf
+2026-11-24 17:49:31,409 22444 INFO ? odoo: addons paths: _NamespacePath(['C:\\PycharmProjects\\odoo20\\odoo-20.0\\odoo\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons\\golok_ai_trading_lab_pro\\.local-test\\odoo-data\\addons\\20.0', 'c:\\pycharmprojects\\odoo20\\odoo-20.0\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons'])
+2026-11-24 17:49:31,409 22444 INFO ? odoo: database: golok_test@127.0.0.1:55498
+2026-11-24 17:49:35,723 22444 INFO ? odoo.service.server.ThreadedServer: Initiating shutdown
+2026-11-24 17:49:35,723 22444 INFO ? odoo.service.server.ThreadedServer: Hit CTRL-C again or send a second signal to force the shutdown.
+2026-11-24 17:49:36,116 22444 INFO golok_p09_fresh_r01g odoo.modules.loading: loading 1 modules...
+2026-11-24 17:49:36,136 22444 INFO golok_p09_fresh_r01g odoo.modules.loading: 1 modules loaded in 0.02s, 0 queries (+0 extra)
+2026-11-24 17:49:36,173 22444 INFO golok_p09_fresh_r01g odoo.modules.loading: loading 17 modules...
+2026-11-24 17:49:38,087 22444 WARNING golok_p09_fresh_r01g odoo.addons.mail.controllers.attachment: markdown2 is not installed, markdown will not be rendered
+2026-11-24 17:49:38,268 22444 INFO golok_p09_fresh_r01g odoo.modules.loading: 17 modules loaded in 2.10s, 0 queries (+0 extra)
+2026-11-24 17:49:38,456 22444 INFO golok_p09_fresh_r01g odoo.tools.version_tag_reset: Detected tp_versions_used at offset 410, reset enabled
+2026-11-24 17:49:38,464 22444 INFO golok_p09_fresh_r01g odoo.modules.loading: Modules loaded.
+2026-11-24 17:49:38,530 22444 INFO golok_p09_fresh_r01g odoo.registry: Registry loaded in 2.778s
+2026-11-24 17:49:38,682 22444 INFO golok_p09_fresh_r01g odoo.tests.common: Importing test framework
+2026-11-24 17:49:40,531 22444 INFO golok_p09_fresh_r01g odoo.registry: Caches invalidated, signaling through the database: ['default', 'stable']
+2026-11-24 17:49:40,832 22444 ERROR golok_p09_fresh_r01g odoo.sql_db: bad query: b'\n                INSERT INTO golok_lab_replay_guard (instrument_id) VALUES (19)\n                ON CONFLICT (instrument_id) DO UPDATE SET instrument_id = EXCLUDED.instrument_id\n            '
+ERROR: could not serialize access due to concurrent update
+

@@ -274,6 +274,17 @@ def verify(base_url, database, edge):
         page.screenshot(path=EVIDENCE / "screenshots/upstox-readiness.png")
         assert not errors, errors
         print("UI-21 Upstox readiness distinguishes local setup, authorization and historical receipts", flush=True)
+        page.get_by_role("button", name="Review Provider Status").click()
+        expect(page.locator(".o_form_view [name=details]")).to_contain_text("Upstox historical | historical")
+        expect(page.locator(".o_form_view [name=details]")).to_contain_text("Yahoo Finance | unverified")
+        page.screenshot(path=EVIDENCE / "screenshots/provider-status.png")
+        print("UI-23 provider status shows source ceilings and current company grants", flush=True)
+        page.goto(f"{base_url}/odoo/action-{xml_id('action_research_candidates')}")
+        expect(page.locator(".o_list_view")).to_contain_text("Instrument")
+        expect(page.locator(".o_list_view")).to_contain_text("Observation At")
+        page.screenshot(path=EVIDENCE / "screenshots/fixture-candidate-workspace.png")
+        assert not errors, errors
+        print("UI-22 fixture candidate workspace exposes instrument and observation provenance", flush=True)
         browser.close()
 
 

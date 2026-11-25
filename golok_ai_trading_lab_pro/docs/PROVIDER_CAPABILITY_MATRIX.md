@@ -12,3 +12,5 @@
 The router matches the requested feed class, permission set and implementation ceiling. Daily data cannot satisfy an intraday or live request. Upstream identity is tracked separately from the provider label.
 
 Upstox uses an explicitly selected mapping through historical sync. **Provider Diagnostics → Check Upstox Readiness** reports the local switch, credential presence, current company import authorization and the latest recorded successful genuine receipt separately. The diagnostic requires a Trading System Administrator and performs local checks. The capability ceiling is query, display, persist and descriptive research with an effective company review.
+
+**Review Provider Status** brings source ceilings, current company reviews, retention dates, historical receipts, rejected requests and local quota together. The same form links to company-scoped source reviews, sync plans and comparison audits. Current connectivity and freshness remain unavailable without a permitted acquisition.

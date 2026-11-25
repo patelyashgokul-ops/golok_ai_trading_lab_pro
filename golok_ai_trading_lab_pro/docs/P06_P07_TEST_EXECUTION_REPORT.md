@@ -24,4 +24,12 @@ The early numerical fixture run failed two tests because the adopted historical 
 - The Odoo test exercised four folds with 20 training combinations each and verified the selected strategy and policy carry into separate validation and evaluation dates. Fresh installation and update both passed 25 tests. Concurrent worker recovery and journal checks reran. Populated upgrades directly from 20.0.9.1.0 and from 20.0.9.1.1 retained 1,243 and 1,245 existing XML IDs respectively, along with prior table digests.
 - Edge passed 21 checks, including the actual **Check Upstox Readiness** button and its receipt output. The browser screenshots and raw log are in the evidence bundle.
 
+## Release 20.0.9.1.3
+
+- Fresh installation and module update passed all 25 ORM tests. The same-cutoff test verifies no early first-arrival reservation, a stronger candidate win, schedule order reversal, deadline expiry and journal invariants.
+- The first independent attempt used a duplicate fixture source label. The next retry exposed a real context-scope error when the durable worker handed off to a requester who lacked its default company. Explicitly restricting the worker to the authorized job company fixed the problem. The independent PostgreSQL race then selected the stronger instrument with one reservation after retry.
+- The reordered fixture initially left a gap in the previous completed session. Filling that prior session reproduced the same winner under both orders and retained the data quality veto.
+- Populated upgrades from the P09.1 baseline and previous R01 release retained their XML IDs and record hashes.
+- Edge passed all 23 checks. The two latest cases exercise the company provider-status view and the candidate instrument and observation workspace. Screenshots and logs are included.
+
 [Commands, raw logs and screenshots](evidence/p06_p07_repair/INDEX.md)

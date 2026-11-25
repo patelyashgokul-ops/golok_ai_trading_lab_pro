@@ -24,3 +24,13 @@ The `final/` and `release/` logs cover the first R01 release. The `follow-up/` f
 | Populated upgrades | [From P09.1](follow-up/migration-from-p091/upgrade/retention.log) · [From the prior R01 release](follow-up/migration-final/upgrade/retention.log) |
 
 Real provider, genuine market and independent financial results are unavailable.
+
+## Release 20.0.9.1.3
+
+| Evidence | Artifact |
+|---|---|
+| Standalone suite, source and stress | [Unit tests](competition/standalone.log) · [Source scan](competition/source.log) · [Stress baseline parity](competition/stress.log) |
+| Cohort, workspaces and recovery | [Fresh installation](competition/verified/installation/fresh.log) · [Update](competition/verified/installation/upgrade.log) · [Overlap and recovery](competition/verified/security/contention.log) |
+| Actual Edge | [Browser checks](competition/verified/browser/edge.log) · [Candidate workspace](competition/verified/screenshots/fixture-candidate-workspace.png) · [Provider status](competition/verified/screenshots/provider-status.png) |
+| Upgrade retention | [P09.1 direct](competition/migration-from-p091/upgrade/retention.log) · [Prior R01](competition/migration/upgrade/retention.log) |
+| Issues found and repaired | [Independent run](competition/odoo/security/contention.log) · [Reorder diagnosis](competition/reorder-focused.log) · [Deadline-focused rerun](competition/deadline-verified.log) |

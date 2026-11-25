@@ -5225,18 +5225,18 @@ Original identifiers remain stable. The archived report preserves the historical
 | R67-AC-024 | RE-23 target optimization framework verified | PARTIAL | ATR-capped structure option wired into portfolio replay. Training-only favorable excursion statistics remain open. |
 | R67-AC-025 | Historical target-policy baselines preserved | PASSED | The eleven archived P09.1 stress scenarios reproduced and matched. |
 | R67-AC-026 | Existing five strategies regression-tested | PASSED | Five strategy trigger and portfolio regressions reran. |
-| R67-AC-027 | Shared multi-strategy competition verified | PARTIAL | Cross-strategy, cross-symbol ranking reran in historical portfolio replay. A shared engine for all pathways remains open. |
-| R67-AC-028 | Prospective cross-instrument competition verified | PARTIAL | Single-account fixture reservations tested. Full prospective competition across strategies and instruments remains open. |
+| R67-AC-027 | Shared multi-strategy competition verified | PARTIAL | Historical and prospective fixture paths share the cost-aware rank and can evaluate all five strategies. Genuine out-of-sample and regime evidence remains unavailable. |
+| R67-AC-028 | Prospective cross-instrument competition verified | PASSED | Synthetic same-cutoff candidates across instruments and five strategies rank before a single reservation. Reordering, a deadline veto and overlapping PostgreSQL jobs with a fresh retry were verified. |
 | R67-AC-029 | All G01–G14 evidence and vetoes tested | PARTIAL | Structured G01–G14 replay and fixture gates reran. Full scenario-by-gate proof remains open. |
-| R67-AC-030 | Immutable decision provenance verified | PARTIAL | Snapshot digests and immutable fixture provenance reran. Broader shared provenance contract remains open. |
+| R67-AC-030 | Immutable decision provenance verified | PARTIAL | Immutable fixture candidates include hashed inputs, evaluated strategies, cohort and checks. Broader shared provenance remains open. |
 | R67-AC-031 | Training-only parameter optimization verified | PARTIAL | Added 20 strategy and target-policy training combinations per fold with the selected pair frozen across validation and evaluation. Broader per-strategy parameter and cost sensitivity analysis remains open. |
 | R67-AC-032 | Holdout and evaluation contamination prevented | PARTIAL | In-app holdout guards and independent contention verified. Broader data access isolation remains open. |
 | R67-AC-033 | Standardized research contract verified | PARTIAL | Descriptive snapshot versioning retained. Uniform RE-01–RE-30 runtime contract remains open. |
 | R67-AC-034 | Research coverage accurately reconciled | PASSED | Coverage and absent integration explicitly recorded in research report. |
 | R67-AC-035 | Independent indicator reference tests executed | PARTIAL | Independent flat-price ATR/RSI and warm-up numerical checks passed. Complete indicator reference suite remains open. |
 | R67-AC-036 | P09 capital protection and prospective regression passed | PASSED | P09 observation-driven fixture candidates, reservations, exit fills and virtual ledger checks reran. |
-| R67-AC-037 | Provider and research workspaces verified | PARTIAL | Upstox local readiness distinguishes configuration, company permission and a prior genuine receipt. The research replay includes selected levels and veto provenance. Consolidated workspaces remain open. |
-| R67-AC-038 | All applicable P06–P07 dashboard gaps assessed and addressed | PARTIAL | Current Odoo views cover scanner, daily research operations, authorization and the fixture paper journal. Feature parity remains scoped. |
+| R67-AC-037 | Provider and research workspaces verified | PASSED | Edge verified provider status and the fixture candidate list. ORM verified candidate decision evidence, source details and company-scoped navigation. Genuine operational provider states remain unverified. |
+| R67-AC-038 | All applicable P06–P07 dashboard gaps assessed and addressed | PARTIAL | Provider status and explainable fixture outcomes were added alongside scanner, research operations and fixture paper journals. Full coverage across all nine workflows remains open. |
 | R67-AC-039 | Genuine data and financial validation separately evaluated | PASSED | Zero genuine sessions and blocked financial validation reported separately. |
 | R67-AC-040 | Security and company isolation regression passed | PASSED | Current Odoo access and company isolation tests passed. |
 | R67-AC-041 | True concurrency and interruption tests executed | PASSED | Independent PostgreSQL workers overlapped. Termination, rollback and recover-once behavior were observed. |

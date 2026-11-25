@@ -192,7 +192,7 @@ class ResearchJob(models.Model):
             cycle._publish_completed()
 
     def _cycle(self):
-        return self.env["golok.lab.research.cycle"].sudo().with_company(self.company_id).search(
+        return self.env["golok.lab.research.cycle"].sudo().with_context(allowed_company_ids=[self.company_id.id]).search(
             [("job_id", "=", self.id)], limit=1)
 
     def _publish_terminal_cycle(self):

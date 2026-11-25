@@ -148,9 +148,13 @@
     <record id="view_provider_setup" model="ir.ui.view">
         <field name="name">golok.lab.provider.setup.form</field><field name="model">golok.lab.provider.setup</field>
         <field name="arch" type="xml"><form string="Provider Diagnostics">
-            <p>Configure credentials on the Odoo host. Confirm that the owner has approved read-only access and registered its egress IP.</p>
+            <p>Review source rights and acquisition history. Configure any credentials privately on the Odoo host.</p>
             <group><field name="status"/><field name="details"/><field name="checked_at"/></group>
-            <footer><button name="action_check_configuration" type="object" string="Check Local Configuration" class="btn-primary"/>
+            <group><button name="action_open_source_reviews" type="object" string="Source Authorizations"/>
+                <button name="action_open_sync_plans" type="object" string="Historical Sync Plans"/>
+                <button name="action_open_source_comparisons" type="object" string="Source Comparisons"/></group>
+            <footer><button name="action_review_sources" type="object" string="Review Provider Status" class="btn-primary"/>
+                <button name="action_check_configuration" type="object" string="Check Local Configuration" class="btn-secondary"/>
                 <button name="action_test_authentication" type="object" string="Test Authorized Authentication" class="btn-secondary"/>
                 <button name="action_check_upstox" type="object" string="Check Upstox Readiness" class="btn-secondary"/>
                 <button string="Close" special="cancel" class="btn-secondary"/></footer>

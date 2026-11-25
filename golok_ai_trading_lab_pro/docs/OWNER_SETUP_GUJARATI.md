@@ -42,3 +42,9 @@ Publisher સુધારેલી દૈનિક ફાઇલ આપે ત્
 5. **Provider Diagnostics → Check Upstox Readiness** માં local setup, company authorization અને છેલ્લું સફળ અસલી receipt જુઓ.
 6. Historical portfolio wizardમાં **Experimental causal entry, stop and target** પસંદ કરીને synthetic replay ચલાવો. પરિણામમાં signal સમયે નક્કી થયેલી entry range, stop, target અને veto જુઓ. એ જ policy સાથે **Run Walk-forward Experiment** દબાવો તો દરેક training foldમાં 20 strategy–policy જોડીઓ ચકાસાશે. અસલી market data અને નફાકારકતાની ચકાસણી બાકી છે.
 
+## Prospective fixture competition
+
+**Prospective Fixture Paper Accounts** માં અલગ instrumentsની synthetic schedules જોડો. Strategyમાં **Compete across all five strategies** પસંદ કરો. સમાન cutoffના jobs પૂરા થાય પછી યોગ્ય candidates સરખાવવામાં આવે છે અને accountમાંથી એક virtual reservation થાય છે. Expired candidate માટે reservation થતું નથી.
+
+**Fixture Candidate Research** માં instrument, observation, entry, stop, target, rank અને rejectionનું કારણ જુઓ. **Provider Diagnostics → Review Provider Status** માં companyની મંજૂરી, retention અને historical receipt જુદાં દેખાય છે.
+

@@ -227,6 +227,57 @@ def _p09_races(env, runner, dataset, tariff):
     print("PASS: independent fixture reservation and closure races left one order, one fill per side and a reconciled journal")
     _interrupt_fixture_exit(env, account)
     _interrupt_automatic_fixture_exit(env, administrator, dataset, tariff)
+    _race_fixture_competition(env, administrator, dataset, tariff)
+
+
+def _race_fixture_competition(env, administrator, dataset, tariff):
+    from unittest.mock import patch
+
+    from odoo import fields
+
+    company_scope = {"allowed_company_ids": [dataset.company_id.id]}
+    worker = env(user=administrator.id, context=company_scope)
+    asset = worker["golok.lab.instrument"].create({"name": "Competing asset", "symbol": "RACE02"})
+    watches = worker["golok.lab.session.watch"]
+    generated = datetime(2024, 1, 2, 4, 5, tzinfo=timezone.utc)
+    template = Path(__file__).resolve().parents[1] / "tests/fixtures/p02/candles.csv"
+    header, *rows = template.read_bytes().splitlines()[:5]
+    with patch.object(fields.Datetime, "now", return_value=generated.replace(tzinfo=None)):
+        for index, instrument in enumerate((dataset.instrument_id, asset)):
+            fixture = worker["golok.lab.dataset"].create({
+                "name": f"Ranked concurrency fixture {index}", "source": "Authored competition process test", "origin": "synthetic",
+                "interval": "5m", "calendar_id": dataset.calendar_id.id, "instrument_id": instrument.id,
+            })
+            samples = [row.replace(b",2000,", b",20000,") if index else row for row in rows]
+            fixture._import_bars(parse_csv(b"\n".join((header, *samples)), as_of=generated, temporal=True))
+            watches |= worker["golok.lab.session.watch"].create({"dataset_id": fixture.id})
+        account = worker["golok.lab.fixture.account"].create({
+            "name": "Overlapping fixture competition", "tariff_id": tariff.id,
+            "watch_ids": [(6, 0, watches.ids)], "target_policy": "fixed_4r", "strategy": "all",
+        })
+        for watch in watches:
+            watch._dispatch(generated)
+        weak_job, strong_job = [watch.cycle_ids.job_id.id for watch in watches]
+        env.cr.commit()
+
+        def complete(other, job_id):
+            other["golok.lab.research.job"].browse(job_id).sudo()._complete_claim()
+            other.flush_all()
+
+        _overlap(env, lambda: complete(env, weak_job), lambda other: complete(other, strong_job),
+                 SerializationFailure)
+        with env.registry.cursor() as retry:
+            complete(api.Environment(retry, SUPERUSER_ID, {}), strong_job)
+            retry.commit()
+        env.cr.rollback()
+        env.invalidate_all()
+        assert len(account.order_ids) == 1, [
+            (cycle.job_id.state, cycle.candidate_ids.reason) for cycle in watches.cycle_ids
+        ]
+        assert account.order_ids.candidate_id.cycle_id.job_id.id == strong_job
+        assert account.journal_ids.mapped("kind") == ["reserved"]
+    env.cr.commit()
+    print("PASS: overlapping cohort jobs recovered with one reservation for the stronger instrument")
 
 
 def _interrupt_automatic_fixture_exit(env, administrator, dataset, tariff):
