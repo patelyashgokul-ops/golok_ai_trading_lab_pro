@@ -57,9 +57,10 @@ class ProviderBudget(models.Model):
         return self._reserve("authenticate")
 
     def _reserve(self, operation):
-        intervals = {"authenticate": 60, "history": 60, "quote": 60, "upstox_history": 60}
+        intervals = {"authenticate": 60, "history": 60, "quote": 60, "upstox_history": 60,
+                     "upstox_quote": 15, "upstox_stream": 30, "upstox_master": 300}
         keys = {"authenticate": "smartapi_auth", "history": "smartapi_history", "quote": "smartapi_quote",
-                "upstox_history": "upstox_history"}
+                **{key: key for key in ("upstox_history", "upstox_quote", "upstox_stream", "upstox_master")}}
         if operation not in intervals:
             return False
         # A failed call still consumes a slot in this database.

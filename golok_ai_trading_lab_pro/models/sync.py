@@ -68,9 +68,8 @@ class Synchronization(models.Model):
             if wizard.mode == "fixture":
                 return upstox.history("fixture", mapping.token, mapping.isin, wizard.interval, session,
                                       lambda _operation: True, transport=lambda *_args: wizard.fixture_rows.encode())
-            if environ.get("GOLOK_UPSTOX_AUTHORIZED") != "1":
-                raise ProviderError("LOCAL_AUTHORIZATION_REQUIRED")
-            return upstox.history(environ.get("GOLOK_UPSTOX_ANALYTICS_TOKEN"), mapping.token, mapping.isin,
+            token = self.env["golok.lab.analytics.config"]._history_credential()
+            return upstox.history(token, mapping.token, mapping.isin,
                                   wizard.interval, session, reserve)
         if wizard.mode == "fixture":
             raw = json.loads(wizard.fixture_rows)

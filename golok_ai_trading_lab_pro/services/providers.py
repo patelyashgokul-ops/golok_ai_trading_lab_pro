@@ -35,11 +35,16 @@ PURPOSES = {
     "optimization": ("display", "backtest", "optimize"),
     "fitting": ("display", "fit"),
     "automatic_sync": ("query", "display", "persist", "automatic"),
+    "analytics_quote": ("query", "display", "live"),
+    "analytics_collect": ("query", "display", "persist", "automatic", "live"),
+    "analytics_backfill": ("query", "display", "persist", "automatic"),
     "prospective_paper": None,
     "live": None,
     "export": ("display", "export"),
     "redistribution": None,
 }
+
+ANALYTICS_PURPOSES = frozenset({"analytics_quote", "analytics_collect", "analytics_backfill"})
 SOURCES = {
     "fixture": Source("Synthetic fixture", "synthetic", PERMISSIONS - {"live"}, "fixture"),
     "bhavcopy": Source("NSE Bhavcopy local file", "daily", frozenset({"query", "display", "persist", "research"}), "NSE"),

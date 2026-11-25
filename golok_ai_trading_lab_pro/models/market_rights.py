@@ -120,11 +120,14 @@ class SourceReview(models.Model):
         grants = {source: {name: review[name] for name in providers.PERMISSIONS}} if review else {}
         status = (rights_lifecycle.state(fields.Date.today(), review.expires, review.retain_until,
                                          review.revoked_at, review.storage_policy) if review else "insufficient")
+        analytics = purpose in providers.ANALYTICS_PURPOSES
+        permitted = (source == "upstox" and feed == "historical" and review
+                     and all(review[name] for name in required)) if analytics else providers.route([source], feed, required, grants)
         if (not review or (bound is not None and review.id != bound.id)
                 or status != "active" or not all((review.evidence, review.purpose, review.restrictions,
                                                    review.terms_url, review.documentation))
                 or ("persist" in required and not rights_lifecycle.can_persist(status, review.storage_policy))
-                or not providers.route([source], feed, required, grants)):
+                or not permitted):
             raise AccessError(_("The bound source review must permit this operation and be current."))
         return review
 

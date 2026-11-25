@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 from decimal import Decimal
 from urllib.error import HTTPError, URLError
 from urllib.parse import quote
-from urllib.request import HTTPRedirectHandler, Request, build_opener
+from urllib.request import HTTPRedirectHandler, ProxyHandler, Request, build_opener
 
 from . import calendar, market_data
 from .smartapi import ProviderError
@@ -25,7 +25,7 @@ def _https(path, token):
     request = Request(HOST + path, headers={
         "Authorization": "Bearer " + token, "Accept": "application/json",
     }, method="GET")
-    with build_opener(NoRedirect()).open(request, timeout=7) as response:
+    with build_opener(ProxyHandler({}), NoRedirect()).open(request, timeout=7) as response:
         return response.read(MAX_BODY + 1)
 
 
