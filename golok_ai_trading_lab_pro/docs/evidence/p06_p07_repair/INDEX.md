@@ -74,3 +74,12 @@ Real provider, genuine market and independent financial results are unavailable.
 | Populated upgrades | [Direct P09.1](operational-states/migration-direct/upgrade/retention.log) · [Previous R01](operational-states/migration-final/upgrade/retention.log) · [Synthetic ORM sample](operational-states/migration-final/performance/orm.json) |
 | Initial fixture correction | [Lineage-protected dataset copy rejected](operational-states/verified/installation/fresh.log) |
 | Initial chart navigation check | [Browser was still on supplemental findings when it looked for the snapshot button](operational-states/final/browser/edge.log) |
+
+## Release 20.0.9.1.8
+
+| Evidence | Artifact |
+|---|---|
+| Standalone and preserved stress baseline | [Tests](daily-report/standalone.log) · [Source scan](daily-report/source.log) · [Stress parity](daily-report/stress-parity.log) |
+| Day coverage, paper reconciliation and regression | [Fresh installation](daily-report/verified/installation/fresh.log) · [Module update](daily-report/verified/installation/upgrade.log) · [PostgreSQL contention](daily-report/verified/security/contention.log) |
+| Edge | [Browser results](daily-report/verified/browser/edge.log) · [Daily Research Report](daily-report/verified/screenshots/daily-research-report.png) |
+| Populated upgrades | [Previous R01](daily-report/migration/upgrade/retention.log) · [Direct P09.1](daily-report/migration-direct/upgrade/retention.log) |

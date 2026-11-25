@@ -63,4 +63,11 @@ The early numerical fixture run failed two tests because the adopted historical 
 - The populated upgrade from the archived P09.1 schema kept its 1,243 XML IDs and compared record hashes.
 - Edge passed all 26 checks. The added chart case opens the selected snapshot, displays its frozen cutoff, toggles both moving averages, matches the independently known values and hides VWAP without a session calendar. The provider view identifies current connectivity as unverified. The first Edge attempt was still on the supplemental findings form when it looked for the snapshot's chart action. Returning to the snapshot fixed the test navigation.
 
+## Release 20.0.9.1.8
+
+- All 66 standalone tests passed. All eleven archived P09.1 stress scenarios reproduced.
+- Fresh Odoo installation and module update each passed 27 tests. The daily report coverage matches the largest recorded phase per schedule. Viewer access shows unavailable realized net when there are no closed orders and reconciles the recorded net when a candidate-driven fixture order closes. The report includes the recorded strategy trial and exposure veto.
+- Independent PostgreSQL contention, interrupted worker recovery and lease recovery passed. The populated upgrade from release 20.0.9.1.7 retained 1,285 XML IDs and all compared record hashes.
+- The direct populated upgrade from P09.1 kept 1,243 XML IDs and the compared historical hashes. Edge passed 27 checks, including the report's phase count, unavailable realized result, zero recorded broker failures and the risk list's daily realized column.
+
 [Commands, raw logs and screenshots](evidence/p06_p07_repair/INDEX.md)

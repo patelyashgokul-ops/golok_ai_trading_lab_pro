@@ -165,6 +165,9 @@
         <field name="arch" type="xml"><list create="0" edit="0" delete="0">
             <field name="name"/><field name="state"/><field name="day"/><field name="entries"/>
             <field name="loss_streak"/><field name="planned_risk"/><field name="remaining_daily_risk"/>
+            <field name="daily_open" string="Opening Cash (paise)" optional="hide"/>
+            <field name="daily_realized" string="Daily Realized Net (paise)" optional="show"/>
+            <field name="reserved" optional="hide"/><field name="position_cost" optional="hide"/>
         </list></field>
     </record>
     <record id="action_fixture_risk" model="ir.actions.act_window">

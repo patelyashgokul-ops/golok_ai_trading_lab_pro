@@ -494,6 +494,11 @@ class TestLab(TransactionCase):
         recovered = events.search([("watch_id", "=", watch.id), ("recovered", "=", True)])
         self.assertEqual((recovered.phase, recovered.mode, recovered.run_id.as_of),
                          ("post_market", "fixture", session.closing.replace(tzinfo=None)))
+        report = recovered.with_user(self.viewer)
+        totals = report._daily_metrics()
+        self.assertEqual((totals["events"], totals["instruments"], totals["observations"]),
+                         (3, 1, recovered.observation_count))
+        self.assertIn("Realized net (paise): Unavailable", report.daily_report)
         watch._dispatch(cases[-1][0])
         self.assertEqual(events.search_count([("watch_id", "=", watch.id), ("recovered", "=", True)]), 1)
         from unittest.mock import patch
@@ -661,6 +666,12 @@ class TestLab(TransactionCase):
         self.assertEqual((len(account.order_ids), account.entries), (1, 1))
         self.assertEqual(account.journal_ids.mapped("kind"), ["reserved", "opened", "closed"])
         self.assertEqual(account.available, account.opening + account.realized)
+        event = admin["golok.lab.session.event"].search([("watch_id", "=", watch.id), ("day", "=", session.day)], limit=1)
+        report = event.with_user(self.viewer)._daily_metrics()
+        self.assertEqual(report["paper"]["closed"], (1, order.net))
+        self.assertEqual(report["strategies"], [account.strategy])
+        self.assertEqual(report["accepted"], 1)
+        self.assertTrue(any(reason == "EXPOSURE_EXISTS" for _state, reason, _count in report["reasons"]))
         check(50, rows[7:])
         self.assertEqual(watch.gap_ids[:1].missed, 1)
         self.assertEqual(watch.gap_ids[:1].resumed_at, (session.opening + timedelta(minutes=50)).replace(tzinfo=None))

@@ -222,6 +222,7 @@ class SessionEvent(models.Model):
     observation_count = fields.Integer()
     recovered = fields.Boolean(readonly=True)
     run_id = fields.Many2one("golok.lab.run", ondelete="restrict")
+    daily_report = fields.Text(compute="_compute_daily_report", string="Session Report")
 
     _phase_once = models.Constraint("UNIQUE(watch_id,day,phase)", "This phase has already been recorded.")
 
@@ -231,6 +232,88 @@ class SessionEvent(models.Model):
         if operation == "read" and not self.env.su:
             domain &= self.env["golok.lab.holdout"]._day_domain("day", "watch_id.dataset_id.instrument_id")
         return domain
+
+    def _daily_metrics(self):
+        self.ensure_one()
+        self.check_access("read")
+        if self.company_id != self.env.company:
+            return {}
+        scope = Domain("company_id", "=", self.env.company.id)
+        day = Domain("day", "=", self.day)
+        events = self.env["golok.lab.session.event"]
+        cycles = self.env["golok.lab.research.cycle"]
+        candidates = self.env["golok.lab.research.candidate"]
+        seals = self.env["golok.lab.holdout"]
+        coverage = events._read_group(scope & day & Domain("observation_count", ">", 0),
+                                      ["watch_id"], ["observation_count:max"])
+        scanned = cycles._read_group(scope & day & Domain("job_id.run_id", "!=", False), ["dataset_id"], [])
+        instruments = {watch.dataset_id.instrument_id.id for watch, _count in coverage}
+        instruments.update(dataset.instrument_id.id for dataset, in scanned)
+        candidate_scope = scope & Domain("cycle_id.day", "=", self.day)
+        results = candidates._read_group(candidate_scope, ["state", "reason"], ["__count"])
+        audit_rows = candidates.search_fetch(candidate_scope, ["evidence"], order="id", limit=1001)
+        codes = {
+            trial["strategy"]
+            for candidate in audit_rows[:1000]
+            for trial in (candidate.evidence or {}).get("fixture_plan", {}).get("strategy_trials", [])
+            if trial.get("strategy") in strategies.REGISTRY
+        }
+        orders = self.env["golok.lab.fixture.order"]
+        order_scope = scope & Domain("candidate_id.cycle_id.day", "=", self.day) & seals._day_domain(
+            "candidate_id.cycle_id.day", "candidate_id.cycle_id.dataset_id.instrument_id")
+        paper = {
+            state: (count, net or 0)
+            for state, count, net in orders._read_group(order_scope, ["state"], ["__count", "net:sum"])
+        }
+        failures = self.env["golok.lab.sync"].search_count(
+            scope & day & Domain("mode", "=", "live") & Domain("state", "=", "rejected")
+            & seals._day_domain("day", "mapping_id.instrument_id"))
+        return {
+            "events": events.search_count(scope & day),
+            "blocked": events.search_count(scope & day & Domain("state", "=", "blocked")),
+            "observations": sum(count for _watch, count in coverage),
+            "instruments": len(instruments),
+            "strategies": sorted(codes),
+            "strategy_sample_capped": len(audit_rows) > 1000,
+            "accepted": sum(count for state, _reason, count in results if state == "paper_eligible"),
+            "other": sum(count for state, _reason, count in results if state != "paper_eligible"),
+            "reasons": sorted((state, reason, count) for state, reason, count in results if state != "paper_eligible"),
+            "broker_failures": failures,
+            "paper": paper,
+        }
+
+    @api.depends("day", "company_id")
+    @api.depends_context("uid", "company")
+    def _compute_daily_report(self):
+        reports = {}
+        for event in self:
+            key = (event.company_id.id, event.day)
+            if key not in reports:
+                metrics = event._daily_metrics()
+                reports[key] = event._format_daily_report(metrics)
+            event.daily_report = reports[key]
+
+    def _format_daily_report(self, metrics):
+        if not metrics:
+            return _("Open this event in its own company to view the session report.")
+        paper = metrics["paper"]
+        closed, net = paper.get("closed", (0, 0))
+        risk_reasons = {"DAILY_OR_CONSECUTIVE_LOSS_LIMIT", "DAILY_RISK_BUDGET", "EXPOSURE_EXISTS"}
+        risk_denials = sum(count for _state, reason, count in metrics["reasons"] if reason in risk_reasons)
+        return "\n".join([
+            _("Scope: synthetic research and observation-driven virtual orders. Market regime and financial validation are unavailable."),
+            _("Recorded phases: %(events)s. Blocked phases: %(blocked)s. Instruments with research evidence: %(instruments)s.",
+              events=metrics["events"], blocked=metrics["blocked"], instruments=metrics["instruments"]),
+            _("Covered observations (largest recorded phase per schedule): %s.", metrics["observations"]),
+            _("Strategies with recorded trials: %s.", ", ".join(metrics["strategies"]) or _("None recorded")),
+            *([_("Strategy coverage is based on the first 1,000 candidate records.")] if metrics["strategy_sample_capped"] else []),
+            _("Fixture eligible: %(accepted)s. Other outcomes: %(other)s. Risk vetoes: %(risk)s.",
+              accepted=metrics["accepted"], other=metrics["other"], risk=risk_denials),
+            *[f"{state} · {reason} · {count}" for state, reason, count in metrics["reasons"]],
+            _("Paper orders closed: %(count)s. Realized net (paise): %(net)s. Reconciliation required: %(unresolved)s.",
+              count=closed, net=net if closed else _("Unavailable"), unresolved=paper.get("unresolved", (0, 0))[0]),
+            _("Rejected broker requests for this session date: %s.", metrics["broker_failures"]),
+        ])
 
 
 class ResearchCycle(models.Model):
