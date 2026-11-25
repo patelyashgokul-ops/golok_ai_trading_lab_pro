@@ -299,6 +299,7 @@ class Dataset(models.Model):
         reference_field = "comparison_reference" if comparison_only else "replay_publication_evidence"
         if self[digest_field]:
             if self[digest_field] == fingerprint and self[reference_field] == reference:
+                self.env["golok.lab.source.comparison"]._after_intake(self, stored)
                 return
             raise ValidationError(_("This attestation is immutable. Register a separate dataset for corrections."))
         vals = {digest_field: fingerprint, reference_field: reference}

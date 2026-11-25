@@ -6,9 +6,39 @@ from decimal import Decimal
 from urllib.error import HTTPError, URLError
 
 from scripts.reproduce_p05 import fixture
-from services import (calendar, indicators, ingestion, level_research, portfolio, price_integrity,
+from services import (calendar, indicators, ingestion, level_research, market_data, portfolio, price_integrity,
                       providers, rights_lifecycle, simulation, targets, upstox)
 from services.smartapi import ProviderError
+
+
+class IndicatorReferenceTest(unittest.TestCase):
+    def test_numeric_references_for_volatility_band_volume_and_benchmark(self):
+        session = next(iter(calendar.load_schedule(json.dumps([{
+            "date": "2024-01-02", "kind": "regular", "open": "09:15", "close": "11:15",
+            "entry_cutoff": "10:45", "exit_cutoff": "11:15",
+        }])).values()))
+        values = [Decimal(100 if i % 2 == 0 else 102) for i in range(24)]
+        bars = [
+            market_data.Candle(end, value, value + 1, value - 1, value, 200 if i == 20 else 100, start, end)
+            for i, ((start, end), value) in enumerate(zip(session.slots(300), values))
+        ]
+        benchmark = {
+            bars[19].close_time: replace(bars[19], close=Decimal(50)),
+            bars[20].close_time: replace(bars[20], close=Decimal(50), available_at=bars[21].available_at),
+        }
+        result = indicators.calculate(bars, sessions={session.day: session}, benchmark=benchmark)
+        self.assertEqual(result["relative_strength"][19:21], [Decimal("2.04"), None])
+        self.assertIsNone(result["volatility20"][19])
+        # Ten returns of +1/50 and ten of -1/51 yield this population deviation.
+        self.assertAlmostEqual(result["volatility20"][20], Decimal(101) / 5100, places=25)
+        self.assertEqual(result["bollinger20"][19], (Decimal(99), Decimal(101), Decimal(103)))
+        self.assertEqual(result["relative_volume20"][20], Decimal(2))
+        self.assertTrue(result["volume_spike"][20])
+        self.assertFalse(result["volume_spike"][21])
+        self.assertEqual(result["vwap"][20], Decimal(222000) / 2200)
+        self.assertEqual(result["opening_range15"][2], (Decimal(103), Decimal(99)))
+        self.assertEqual(indicators.calculate(bars[:21], sessions={session.day: session}, benchmark=benchmark),
+                         {key: values[:21] for key, values in result.items()})
 
 
 class UpstoxTest(unittest.TestCase):

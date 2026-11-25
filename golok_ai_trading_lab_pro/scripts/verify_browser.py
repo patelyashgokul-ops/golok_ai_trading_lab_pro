@@ -285,6 +285,16 @@ def verify(base_url, database, edge):
         page.screenshot(path=EVIDENCE / "screenshots/fixture-candidate-workspace.png")
         assert not errors, errors
         print("UI-22 fixture candidate workspace exposes instrument and observation provenance", flush=True)
+        page.locator(f"[data-menu-xmlid='{MODULE}.menu_import']").click()
+        proof_dialog = page.get_by_role("dialog").last
+        evidence = proof_dialog.locator("[name=publication_evidence] input")
+        evidence.fill("https://example.test/source-evidence")
+        evidence.press("Tab")
+        expect(proof_dialog.get_by_role("button", name="Verify Comparison Source")).to_be_visible()
+        expect(proof_dialog.get_by_role("button", name="Verify Historical Publication")).to_be_visible()
+        page.screenshot(path=EVIDENCE / "screenshots/comparison-source-review.png")
+        assert not errors, errors
+        print("UI-24 comparison verification and replay publication are exposed as separate controls", flush=True)
         browser.close()
 
 

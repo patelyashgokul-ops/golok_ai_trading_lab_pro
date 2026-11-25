@@ -1,0 +1,20 @@
+2026-11-25 00:55:11,070 8020 WARNING ? odoo.tools.config: option --without-demo: since 19.0, invalid boolean value: 'all', assume True
+2026-11-25 00:55:11,071 8020 INFO ? odoo: Odoo version 20.0
+2026-11-25 00:55:11,071 8020 INFO ? odoo: Using configuration file at c:\pycharmprojects\odoo20\odoo-20.0\odoo.conf
+2026-11-25 00:55:11,071 8020 INFO ? odoo: addons paths: _NamespacePath(['C:\\PycharmProjects\\odoo20\\odoo-20.0\\odoo\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons\\golok_ai_trading_lab_pro\\.local-test\\odoo-data\\addons\\20.0', 'c:\\pycharmprojects\\odoo20\\odoo-20.0\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons'])
+2026-11-25 00:55:11,071 8020 INFO ? odoo: database: golok_test@127.0.0.1:55498
+2026-11-25 00:55:12,559 8020 INFO ? odoo.service.server: HTTP service running on 127.0.0.1:18098
+2026-11-25 00:55:12,592 8020 INFO golok_p09_fresh_r01k odoo.tests.common: Importing test framework
+2026-11-25 00:55:12,678 8020 INFO golok_p09_fresh_r01k odoo.modules.loading: loading 1 modules...
+2026-11-25 00:55:12,683 8020 INFO golok_p09_fresh_r01k odoo.modules.loading: 1 modules loaded in 0.01s, 0 queries (+0 extra)
+2026-11-25 00:55:12,722 8020 INFO golok_p09_fresh_r01k odoo.tools.version_tag_reset: Detected tp_versions_used at offset 410, reset enabled
+2026-11-25 00:55:12,722 8020 INFO golok_p09_fresh_r01k odoo.modules.loading: updating modules list
+2026-11-25 00:55:12,726 8020 INFO golok_p09_fresh_r01k odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via n/a
+2026-11-25 00:55:14,153 8020 WARNING golok_p09_fresh_r01k odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-25 00:55:14,154 8020 WARNING golok_p09_fresh_r01k odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-25 00:55:14,215 8020 WARNING golok_p09_fresh_r01k odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-25 00:55:14,216 8020 WARNING golok_p09_fresh_r01k odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-25 00:55:14,216 8020 WARNING golok_p09_fresh_r01k odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-25 00:55:14,217 8020 WARNING golok_p09_fresh_r01k odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-25 00:55:14,382 8020 INFO golok_p09_fresh_r01k odoo.addons.base.models.ir_module: ALLOW access to module.button_upgrade on ['Golok AI Trading Lab Pro'] to user __system__ #1 via n/a
+2026-11-25 00:55:14,382 8020 INFO golok_p09_fresh_r01k odoo.addons.base.models.ir_module: ALLOW access to module.update_list on ['Golok AI Trading Lab Pro'] to user __system__ #1 via n/a

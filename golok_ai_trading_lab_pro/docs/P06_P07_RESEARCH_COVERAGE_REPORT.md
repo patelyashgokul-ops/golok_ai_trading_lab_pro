@@ -6,6 +6,8 @@ RE-21 and RE-22 are causal research services available together as an optional h
 
 The **Fixture Candidate Research** workspace displays instrument, dataset, observation, levels, strategy trials, gate outcomes and an explicit financial-validation status. Remaining work includes standardized per-engine data contracts, additional independent numerical vectors and use-case coverage across all gates. No genuine statistical validation or market-wide performance conclusion was available.
 
+Independent indicator vectors now cover the 19 implemented outputs across the standalone suites. The follow-up checks known volatility, band widths, volume threshold, VWAP weighting, and benchmark publication alignment. Prefix comparisons ensure observations after the cutoff do not alter earlier output.
+
 ## Nine-workspace audit
 
 | Workspace | Current native entry point | Remaining scope |

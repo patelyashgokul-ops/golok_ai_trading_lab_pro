@@ -32,4 +32,10 @@ The early numerical fixture run failed two tests because the adopted historical 
 - Populated upgrades from the P09.1 baseline and previous R01 release retained their XML IDs and record hashes.
 - Edge passed all 23 checks. The two latest cases exercise the company provider-status view and the candidate instrument and observation workspace. Screenshots and logs are included.
 
+## Release 20.0.9.1.4
+
+- All 61 standalone tests passed. Numerical references verify warm-up, volatility, band width, relative volume spike threshold, weighted VWAP and causal benchmark matching. The archived eleven P09.1 stress outputs reproduced.
+- Both Odoo fresh installation and module update passed 26 tests. The new fixture exercises Bhavcopy and authorized CSV comparison, raw-share attestation, possible split mismatch, no-research quarantine and an independently corroborated replacement. It retains the original observations. The first fixture run used an unsupported reviewed-calendar source and the corrected fixture used the canonical exchange source.
+- Populated upgrades from 20.0.9.1.0 and 20.0.9.1.3 kept 1,243 and 1,261 XML IDs respectively, along with record-level hashes for the prior columns.
+
 [Commands, raw logs and screenshots](evidence/p06_p07_repair/INDEX.md)

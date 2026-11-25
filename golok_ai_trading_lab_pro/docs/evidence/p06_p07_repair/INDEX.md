@@ -34,3 +34,13 @@ Real provider, genuine market and independent financial results are unavailable.
 | Actual Edge | [Browser checks](competition/verified/browser/edge.log) · [Candidate workspace](competition/verified/screenshots/fixture-candidate-workspace.png) · [Provider status](competition/verified/screenshots/provider-status.png) |
 | Upgrade retention | [P09.1 direct](competition/migration-from-p091/upgrade/retention.log) · [Prior R01](competition/migration/upgrade/retention.log) |
 | Issues found and repaired | [Independent run](competition/odoo/security/contention.log) · [Reorder diagnosis](competition/reorder-focused.log) · [Deadline-focused rerun](competition/deadline-verified.log) |
+
+## Release 20.0.9.1.4
+
+| Evidence | Artifact |
+|---|---|
+| Standalone and prior stress parity | [Unit suite](source-closure/standalone.log) · [Source scan](source-closure/source.log) · [P09.1 parity](source-closure/stress-parity.log) |
+| Automatic comparison, adjustment and resolution | [Fresh install](source-closure/release/installation/fresh.log) · [Update](source-closure/release/installation/upgrade.log) · [Focused rerun](source-closure/focused.log) |
+| PostgreSQL and Edge | [Concurrency](source-closure/release/security/contention.log) · [Browser](source-closure/release/browser/edge.log) · [Comparison verification screenshot](source-closure/release/screenshots/comparison-source-review.png) |
+| Populated upgrades | [Direct P09.1](source-closure/migration-from-p091/upgrade/retention.log) · [Previous R01](source-closure/migration/upgrade/retention.log) |
+| Initial failure kept | [Calendar source validation](source-closure/odoo/installation/fresh.log) |

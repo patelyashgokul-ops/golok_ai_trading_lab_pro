@@ -121,6 +121,98 @@ class TestLab(TransactionCase):
         with self.assertRaises((AccessError, ValidationError)):
             wizard.action_run_timing_fixture()
 
+    def test_r01_daily_cross_source_and_corroborated_replacement(self):
+        from base64 import b64encode
+
+        from ..services.bhavcopy import COLUMNS
+
+        admin = self.env(user=self.admin.id)
+        analyst = self.env(user=self.analyst.id)
+        day = "2024-01-02"
+        reference = "https://example.test/source-evidence"
+        revision = admin["golok.lab.calendar"].create({
+            "name": "Reviewed source comparison calendar", "exchange": "NSE", "verification": "reviewed",
+            "source": "https://www.nseindia.com/market-data", "verified_on": "2024-01-01", "schedule": json.dumps([{
+                "date": day, "kind": "regular", "open": "09:15", "close": "15:30",
+                "entry_cutoff": "15:00", "exit_cutoff": "15:20",
+            }]),
+        })
+        symbol = self.instrument.symbol
+        mapping = admin["golok.lab.mapping"].create({
+            "instrument_id": self.instrument.id, "symbol": symbol, "provider": "manual", "token": "777",
+            "starts": day, "tick": ".05", "listing_status": "listed", "source": reference,
+            "revision": "reviewed-fixture", "verification": "reviewed", "isin": "IN0000000001",
+        })
+        grant = {"terms_url": reference, "documentation": reference, "evidence": "Authored comparison fixture",
+                 "purpose": "Descriptive comparison", "restrictions": "Local fixtures", "expires": "2099-01-01",
+                 "query": True, "display": True, "persist": True, "research": True, "storage_policy": "archive",
+                 "raw_share_ohlcv": True}
+        reviews = admin["golok.lab.source.review"]
+        reviews.create({**grant, "provider": "bhavcopy"})
+        action = admin["golok.lab.corporate.action"].create({
+            "name": "Authored 2 for 1 split", "instrument_id": self.instrument.id, "kind": "split",
+            "effective": "2024-01-03", "published_at": "2024-01-01 00:00:00", "source": reference,
+            "revision": "one", "numerator": 2, "denominator": 1,
+        })
+        comparisons = admin["golok.lab.source.comparison"]
+        header = "close_time,open,high,low,close,volume,open_time,available_at\n"
+
+        def upload(publisher, prices, *, reviewed_raw=True):
+            reviews.create({**grant, "provider": "manual", "upstream": publisher, "raw_share_ohlcv": reviewed_raw})
+            dataset = analyst["golok.lab.dataset"].create({
+                "name": publisher, "source": publisher, "origin": "imported", "interval": "1d",
+                "instrument_id": self.instrument.id, "calendar_id": revision.id, "mapping_id": mapping.id,
+            })
+            data = (header + f"{day}T15:30:00+05:30,{prices},100,{day}T09:15:00+05:30,{day}T16:00:00+05:30\n").encode()
+            vals = {"dataset_id": dataset.id, "upload": BinaryBytes(data)}
+            analyst["golok.lab.import"].create(vals).action_import()
+            return dataset, vals
+
+        suspect, v1 = upload("Unverified candidate publisher", "10,12,9,11")
+        raw = ",".join(COLUMNS) + f"\n{symbol},EQ,20,24,18,22,22,20,100,2200,02-JAN-2024,4,IN0000000001"
+        batch = admin["golok.lab.daily.import"].create({
+            "source": "bhavcopy", "day": day, "calendar_id": revision.id,
+            "upload": b64encode(raw.encode()).decode(),
+        })
+        batch.action_normalize()
+        daily = batch.normalized_dataset_ids
+        self.assertFalse(comparisons.search([("left_id", "=", suspect.id)]))
+        with self.assertRaises(AccessError):
+            analyst["golok.lab.import"].create(v1).action_attest_comparison()
+        admin["golok.lab.import"].create({**v1, "publication_evidence": reference}).action_attest_comparison()
+        audit = comparisons.search([("left_id", "=", suspect.id), ("right_id", "=", daily.id)])
+        self.assertEqual(audit.outcome, "CONFLICT")
+        self.assertEqual(json.loads(audit.differences)["possible_adjustment_action_id"], action.id)
+        self.assertTrue(suspect.integrity_conflict and daily.integrity_conflict)
+        self.assertEqual(len(suspect.comparison_digest), 64)
+        self.assertFalse(suspect.replay_publication_digest)
+        adjusted, adjusted_vals = upload("Adjusted-price publisher", "10,12,9,11", reviewed_raw=False)
+        with self.assertRaises(AccessError):
+            admin["golok.lab.import"].create({**adjusted_vals, "publication_evidence": reference}).action_attest_comparison()
+        self.assertFalse(adjusted.comparison_digest)
+
+        replacement, v2 = upload("Replacement publisher", "20,24,18,22")
+        support, v3 = upload("Corroborating publisher", "20,24,18,22")
+        admin["golok.lab.import"].create({**v2, "publication_evidence": reference}).action_attest_comparison()
+        resolver = admin["golok.lab.source.resolution"].create({
+            "comparison_id": audit.id, "replacement_id": replacement.id, "reference": reference,
+        })
+        with self.assertRaises(ValidationError):
+            resolver.action_confirm()
+        support_proof = admin["golok.lab.import"].create({**v3, "publication_evidence": reference})
+        support_proof.action_attest_comparison()
+        support_proof.action_attest_comparison()
+        with self.assertRaises(AccessError):
+            analyst["golok.lab.import"].create(v2).action_import()
+        self.assertEqual(comparisons.search([("left_id", "=", replacement.id), ("right_id", "=", support.id)]).outcome,
+                         "MATCH")
+        resolver.action_confirm()
+        self.assertEqual(audit.replacement_id, replacement)
+        self.assertEqual(audit.resolved_by, self.admin)
+        self.assertTrue(suspect.integrity_conflict and daily.integrity_conflict)
+        with self.assertRaises(ValidationError):
+            resolver.action_confirm()
+
     def test_p07_manual_market_csv_requires_active_company_grant(self):
         analyst = self.env["golok.lab.dataset"].with_user(self.analyst)
         dataset_values = {"name": "External source fixture", "source": "Licensed source test",

@@ -1,0 +1,26 @@
+PASS: upgraded populated clone from 20.0.9.1.3 to 20.0.9.1.4 in 15.9848856 s
+PASS: retained 1261 existing XML IDs and record-level hashes with immutable snapshot digests
+candles:120:51b50d761783f2865e97a7e766b61174
+datasets:10:683829efc0244f28bb664fb205839b96
+instruments:5:ebc7cd47923e33e3b2d88a269abd264c
+runs:8:1e2edcc54af2e6673e3958353c3f0ef4
+calendar:3:45673803ffb6a8e2d706f5bde4e654b6
+fixture_account:4:6f97568fa66b79400274b3649a0b8a8c
+fixture_journal:13:9ae22dda47382bc7cb66a3c602babb55
+fixture_order:5:97cbbf99683d1cdd7a37e770e97fc45a
+holdout:2:30e5ce5bef774903a8439c0ae0c8b80a
+mapping:1:610aeecd786a3a3cd8c50e0ad6fd0550
+performance_report:1:84b4291feaa9a4b1c023699e24ae94ce
+portfolio:5:68d3a67bdbb3aadf091a3c2e097dd853
+provider_budget:0:empty
+research_candidate:5:5f4a864dbc02322480f079d4cf0ac2e3
+research_cycle:5:af7508f434e1b866c93c8c7647133b16
+research_job:7:158b93551f26416bb12bad81006c2ff5
+session_event:5:1e6af139d8c82b1872d9ac8214083130
+session_watch:5:00401d4ded59ef074070be46fe89609c
+source_comparison:0:empty
+source_review:0:empty
+sync:0:empty
+sync_plan:0:empty
+sync_task:0:empty
+walk_experiment:0:empty

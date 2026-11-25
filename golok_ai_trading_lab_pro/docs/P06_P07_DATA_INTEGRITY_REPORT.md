@@ -10,4 +10,12 @@ Fixture chronology and expiry reran. Authenticated polling, real publication lat
 
 The follow-up verifies the operator-run history queue using the same source comparison and veto path. An independent wrong-data suite covers conflicting instrument key and venue, future candle, negative price, adjusted/raw and currency boundaries, scaled price conflict, stale receipt and expired authorization.
 
+## Release 20.0.9.1.4
+
+Mapped intake and verified manual comparison snapshots share one automatic comparison service. Eligible observations include reviewed broker history, authorized raw Bhavcopy daily observations and an administrator-verified local CSV. Analyst uploads require independent evidence and a frozen complete dataset before they can affect another source's eligibility. The attestation records the reviewer and dataset fingerprint. Historical publication approval and backtesting rights use their own controls.
+
+Both sources require matching instrument, ISIN, interval, calendar session windows and candle open/close edges. Each source requires active descriptive research permission. A raw-share declaration is required for authorized market data. A nearby published split or bonus ratio can explain a material disagreement and is logged as a possible adjustment mismatch. It still blocks research from both affected sources. Observations from the same exchange upstream do not count as independent confirmation.
+
+An administrator can record a distinct replacement for an existing conflict after a current independent source matches the same observation. The correction reference, reviewer, timestamp, original audit, original candles and original conflict flags are retained. The application keeps both original datasets blocked. A dataset replacement is evidence for research access and does not authorize financial or executable use.
+
 [Fixture, authorization, concurrency and coverage evidence](evidence/p06_p07_repair/INDEX.md)

@@ -48,3 +48,9 @@ Publisher સુધારેલી દૈનિક ફાઇલ આપે ત્
 
 **Fixture Candidate Research** માં instrument, observation, entry, stop, target, rank અને rejectionનું કારણ જુઓ. **Provider Diagnostics → Review Provider Status** માં companyની મંજૂરી, retention અને historical receipt જુદાં દેખાય છે.
 
+## Data conflict review
+
+મંજૂરીવાળા સ્થાનિક CSVને import કર્યા પછી administrator એ જ પૂર્ણ CSV સાથે **Verify Comparison Source** પસંદ કરી શકે છે. Dataset raw OHLCV હોવું જોઈએ અને exchange calendar તથા ISIN mapping ચકાસેલા હોવા જોઈએ. આ પગલાથી comparison માટે dataset સાચવાઈ જાય છે.
+
+**Compare Sources** માં મતભેદનું કારણ જુઓ. સુધારેલો dataset અને એ જ candle માટે સ્વતંત્ર sourceની પુષ્ટિ હોય ત્યારે **Record Corroborated Replacement** વાપરો. જૂના datasets અને audit નોંધ જળવાય છે.
+
