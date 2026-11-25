@@ -5244,3 +5244,17 @@ Original identifiers remain stable. The archived report preserves the historical
 | R67-AC-043 | Fresh install and populated P09.1 upgrade verified | PASSED | Fresh install, module update and populated 20.0.9.1.0 clone validated. |
 | R67-AC-044 | Consolidated traceability and Gujarati guide delivered | PASSED | Consolidated matrix, traceability and Gujarati setup guide delivered. |
 | R67-AC-045 | Final archive and manifests verified | PASSED | Handoff generator reopens archive and verifies full/source manifests, checkpoint, CRC and external hash. |
+
+### Mandatory Upstox Analytics addendum
+
+| Requirement | Status | Evidence or remaining scope |
+|---|---|---|
+| Disabled-by-default native workspace, write-only credential, administrator restrictions, replacement and expiry | VERIFIED LOCALLY | Windows DPAPI, company scoping, masked form, authorization and expiry checks. |
+| Read-only REST quote and historical coverage check | VERIFIED WITH FIXTURES | Adapter identity and response checks. Historical grid uses receipt-time provenance. REST LTP freshness remains unknown. |
+| Instrument master synchronization | PARTIAL | Fetches and validates the official NSE reference and records verified identity for the selected mapping. Bulk catalog reconciliation remains open. |
+| Authorized automatic backfill and descriptive research | VERIFIED WITH FIXTURES | Existing checkpoint plan and research job queue with current permissions. |
+| V3 WebSocket feed, reconnect, quota and expiry protection | PARTIAL | Binary LTPC decoding and market/time checks, bounded sampling and scheduled retries. Continuous capture remains open. |
+| Direct strategy, backtest and prospective paper integration | PARTIAL | Existing descriptive pipeline receives permitted historical data. Point-in-time and complete executable observation coverage for the direct Upstox pipelines remains open. |
+| Actual connectivity, genuine historical validation and independent prospective financial validation | BLOCKED | No genuine credential or validated production samples were used during development. |
+
+[Upstox configuration and evidence scope](UPSTOX_ANALYTICS_CONFIGURATION.md)

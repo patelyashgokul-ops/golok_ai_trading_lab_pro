@@ -70,4 +70,13 @@ The early numerical fixture run failed two tests because the adopted historical 
 - Independent PostgreSQL contention, interrupted worker recovery and lease recovery passed. The populated upgrade from release 20.0.9.1.7 retained 1,285 XML IDs and all compared record hashes.
 - The direct populated upgrade from P09.1 kept 1,243 XML IDs and the compared historical hashes. Edge passed 27 checks, including the report's phase count, unavailable realized result, zero recorded broker failures and the risk list's daily realized column.
 
+## Release 20.0.9.1.9
+
+- All 70 standalone tests passed. Authored tests cover REST quote identity and clock limits, the NSE gzip instrument schema, binary V3 LTPC messages, initial versus live frames, stale or malformed data, off-provider redirect denial and Windows DPAPI scope binding.
+- Fresh installation and module update each passed 28 tests. The Odoo case denies non-admin credential submission and direct ORM reads, permits a mocked read-only connection after source review, suppresses revoked or expired use and queues descriptive research after an authorized mocked historical plan completes.
+- The first Odoo fixture used a calendar source label where a reviewed HTTPS source was required. The corrected fixture uses the same reviewed-calendar validation as the normal workflow.
+- All eleven archived stress cases matched. Genuine access and prospective financial validation remain blocked.
+- Edge passed 28 workflows. It checked the provider default, opened the masked credential form, submitted an authored credential, verified that the response did not echo it and confirmed that saving left the offline provider disabled. The corrected test reads the Odoo selection input value. The credential form uses the native submit event supported by this OWL version.
+- Populated upgrades from P09.1 and the preceding R01 release retained 1,243 and 1,287 XML IDs respectively and the compared historical record hashes. PostgreSQL contention, interruption and recovery passed.
+
 [Commands, raw logs and screenshots](evidence/p06_p07_repair/INDEX.md)

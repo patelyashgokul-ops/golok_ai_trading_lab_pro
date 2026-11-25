@@ -135,8 +135,10 @@ class ProviderSetup(models.TransientModel):
 
     def action_check_upstox(self):
         self._check_setup_rights()
-        enabled = environ.get("GOLOK_UPSTOX_AUTHORIZED") == "1"
-        configured = upstox.credential_present(environ.get("GOLOK_UPSTOX_ANALYTICS_TOKEN"))
+        settings = self.env["golok.lab.analytics.config"]._current()
+        enabled = settings.enabled if settings else environ.get("GOLOK_UPSTOX_AUTHORIZED") == "1"
+        configured = (bool(settings.envelope and settings.expires_at > fields.Datetime.now())
+                      if settings else upstox.credential_present(environ.get("GOLOK_UPSTOX_ANALYTICS_TOKEN")))
         reviews = self.env["golok.lab.source.review"]
         try:
             reviews._authorize("upstox", "historical", "import")
@@ -197,7 +199,9 @@ class ProviderSetup(models.TransientModel):
 
     def _history_capability(self, key, reviews):
         if key == "upstox":
-            configured = (environ.get("GOLOK_UPSTOX_AUTHORIZED") == "1"
+            settings = self.env["golok.lab.analytics.config"]._current()
+            configured = (bool(settings.enabled and settings.envelope and settings.expires_at > fields.Datetime.now())
+                          if settings else environ.get("GOLOK_UPSTOX_AUTHORIZED") == "1"
                           and upstox.credential_present(environ.get("GOLOK_UPSTOX_ANALYTICS_TOKEN")))
         else:
             # The active session and availability of a fresh OTP are independent of configuration.

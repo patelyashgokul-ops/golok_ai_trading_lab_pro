@@ -492,10 +492,11 @@ class TestLab(TransactionCase):
             "revision": "analytics-fixture", "verification": "reviewed",
         })
         revision = admin["golok.lab.calendar"].create({
-            "name": "Analytics fixture dates", "source": "NSE", "exchange": "NSE", "verification": "reviewed",
+            "name": "Analytics fixture dates", "source": "https://www.nseindia.com/market-data",
+            "exchange": "NSE", "verification": "reviewed",
             "verified_on": "2024-01-01", "schedule": json.dumps([{
-                "date": "2024-01-02", "kind": "regular", "open": "09:15", "close": "15:30",
-                "entry_cutoff": "14:30", "exit_cutoff": "15:20",
+                "date": "2024-01-02", "kind": "regular", "open": "09:15", "close": "09:25",
+                "entry_cutoff": "09:20", "exit_cutoff": "09:25",
             }]),
         })
         workspace = admin["golok.lab.analytics.workspace"].create({
@@ -512,13 +513,13 @@ class TestLab(TransactionCase):
             "documentation": "https://example.test/data", "purpose": "Authored adapter tests",
             "evidence": "Authored fixture only", "restrictions": "Local mock",
             "expires": "2099-01-01", "storage_policy": "archive",
-            "query": True, "display": True, "persist": True, "automatic": True, "live": True,
+            "query": True, "display": True, "persist": True, "automatic": True, "live": True, "research": True,
         })
         with patch.object(upstox_analytics, "quote_snapshot", return_value={"freshness": "UNKNOWN"}) as probe:
             workspace.action_test_connection()
             self.assertEqual(config.connection, "READ_ONLY_QUOTE_VERIFIED")
             self.assertEqual(probe.call_args.args[:3], (authored, mapping.token, mapping.isin))
-        now = datetime(2024, 1, 2, 4, tzinfo=timezone.utc)
+        now = datetime(2024, 1, 2, 3, 48, tzinfo=timezone.utc)
         with patch.object(upstox_analytics, "stream_sample", return_value={
             "event": now - timedelta(seconds=1), "published": now, "receipt": now, "price": "100",
         }) as stream:
@@ -527,6 +528,25 @@ class TestLab(TransactionCase):
             stream.assert_called_once()
         with patch.object(fields.Datetime, "now", return_value=now.replace(tzinfo=None)):
             self.assertEqual(workspace.last_quote, "100")
+        plan = admin["golok.lab.sync.plan"].create({
+            "name": "Analytics backfill fixture", "starts": "2024-01-02", "ends": "2024-01-02",
+            "mode": "live", "interval": "5m", "mapping_ids": [(6, 0, mapping.ids)],
+            "calendar_ids": [(6, 0, revision.ids)],
+        })
+        config.write({"backfill": True, "schedule_research": True})
+        from decimal import Decimal
+
+        session = revision._sessions()[now.date()]
+        rows = [(start, Decimal("100"), Decimal("101"), Decimal("99"), Decimal("100"), 10)
+                for start, _end in session.slots(300)]
+        received = fields.Datetime.now().replace(tzinfo=timezone.utc) - timedelta(seconds=1)
+        with patch("odoo.addons.golok_ai_trading_lab_pro.services.upstox.history", return_value=(rows, received)):
+            service._backfill(config)
+        dataset = plan.task_ids.report_id.dataset_id
+        self.assertEqual((plan.state, config.historical), ("done", "CLOSED_SESSION_GRID_VERIFIED"))
+        self.assertEqual(admin["golok.lab.research.job"].search_count([("dataset_id", "=", dataset.id)]), 1)
+        with self.assertRaises(AccessError):
+            dataset._historical_replay_review()
         review.action_revoke()
         workspace.invalidate_recordset(["last_quote", "last_observed_at"])
         self.assertFalse(workspace.last_quote)

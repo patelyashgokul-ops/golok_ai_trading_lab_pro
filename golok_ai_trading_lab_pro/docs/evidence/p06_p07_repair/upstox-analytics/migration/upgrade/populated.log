@@ -1,0 +1,46 @@
+2026-11-25 05:55:48,895 19328 INFO ? odoo: Odoo version 20.0
+2026-11-25 05:55:48,895 19328 INFO ? odoo: Using configuration file at c:\pycharmprojects\odoo20\odoo-20.0\odoo.conf
+2026-11-25 05:55:48,896 19328 INFO ? odoo: addons paths: _NamespacePath(['C:\\PycharmProjects\\odoo20\\odoo-20.0\\odoo\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons\\golok_ai_trading_lab_pro\\.local-test\\odoo-data\\addons\\20.0', 'c:\\pycharmprojects\\odoo20\\odoo-20.0\\addons', 'c:\\pycharmprojects\\odoo20\\custom_addons'])
+2026-11-25 05:55:48,896 19328 INFO ? odoo: database: golok_test@127.0.0.1:55498
+2026-11-25 05:55:51,836 19328 INFO golok_p09_migration_r01v odoo.modules.loading: loading 1 modules...
+2026-11-25 05:55:51,849 19328 INFO golok_p09_migration_r01v odoo.modules.loading: 1 modules loaded in 0.01s, 0 queries (+0 extra)
+2026-11-25 05:55:51,948 19328 INFO golok_p09_migration_r01v odoo.tools.version_tag_reset: Detected tp_versions_used at offset 410, reset enabled
+2026-11-25 05:55:51,949 19328 INFO golok_p09_migration_r01v odoo.modules.loading: updating modules list
+2026-11-25 05:55:51,957 19328 INFO golok_p09_migration_r01v odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via n/a
+2026-11-25 05:55:54,225 19328 WARNING golok_p09_migration_r01v odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-25 05:55:54,227 19328 WARNING golok_p09_migration_r01v odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-25 05:55:54,339 19328 WARNING golok_p09_migration_r01v odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-25 05:55:54,339 19328 WARNING golok_p09_migration_r01v odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-25 05:55:54,341 19328 WARNING golok_p09_migration_r01v odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-25 05:55:54,341 19328 WARNING golok_p09_migration_r01v odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-25 05:55:54,507 19328 INFO golok_p09_migration_r01v odoo.addons.base.models.ir_module: ALLOW access to module.button_upgrade on ['Golok AI Trading Lab Pro'] to user __system__ #1 via n/a
+2026-11-25 05:55:54,508 19328 INFO golok_p09_migration_r01v odoo.addons.base.models.ir_module: ALLOW access to module.update_list on ['Golok AI Trading Lab Pro'] to user __system__ #1 via n/a
+2026-11-25 05:55:55,958 19328 WARNING golok_p09_migration_r01v odoo.modules.module: Missing `author` key in manifest for 'supplier_shortage_claim_reconciliation', defaulting to ''
+2026-11-25 05:55:56,013 19328 WARNING golok_p09_migration_r01v odoo.modules.module: Missing `author` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to ''
+2026-11-25 05:55:56,013 19328 WARNING golok_p09_migration_r01v odoo.modules.module: Missing `license` key in manifest for 'vendor_price_revision_impact_simulator', defaulting to LGPL-3
+2026-11-25 05:55:56,113 19328 INFO golok_p09_migration_r01v odoo.addons.base.models.ir_module: ALLOW access to module.button_install on [] to user __system__ #1 via n/a
+2026-11-25 05:55:56,251 19328 INFO golok_p09_migration_r01v odoo.modules.loading: loading 17 modules...
+2026-11-25 05:55:56,527 19328 INFO golok_p09_migration_r01v odoo.modules.loading: Loading module golok_ai_trading_lab_pro (11/17)
+2026-11-25 05:55:57,088 19328 INFO golok_p09_migration_r01v odoo.registry: module golok_ai_trading_lab_pro: creating or updating database tables
+2026-11-25 05:55:58,125 19328 INFO golok_p09_migration_r01v odoo.modules.loading: loading golok_ai_trading_lab_pro/security/groups.xml
+2026-11-25 05:55:58,438 19328 INFO golok_p09_migration_r01v odoo.modules.loading: loading golok_ai_trading_lab_pro/security/ir.access.csv
+2026-11-25 05:55:59,131 19328 INFO golok_p09_migration_r01v odoo.modules.loading: loading golok_ai_trading_lab_pro/views/lab.xml
+2026-11-25 05:55:59,526 19328 INFO golok_p09_migration_r01v odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p03.xml
+2026-11-25 05:55:59,997 19328 INFO golok_p09_migration_r01v odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p04.xml
+2026-11-25 05:56:00,113 19328 INFO golok_p09_migration_r01v odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p05.xml
+2026-11-25 05:56:00,243 19328 INFO golok_p09_migration_r01v odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p06.xml
+2026-11-25 05:56:00,410 19328 INFO golok_p09_migration_r01v odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p08.xml
+2026-11-25 05:56:00,752 19328 INFO golok_p09_migration_r01v odoo.modules.loading: loading golok_ai_trading_lab_pro/views/p09.xml
+2026-11-25 05:56:01,102 19328 INFO golok_p09_migration_r01v odoo.modules.loading: loading golok_ai_trading_lab_pro/views/analytics.xml
+2026-11-25 05:56:01,439 19328 INFO golok_p09_migration_r01v odoo.registry: Registry changed, signaling through the database
+2026-11-25 05:56:01,445 19328 INFO golok_p09_migration_r01v odoo.modules.loading: Module golok_ai_trading_lab_pro loaded in 4.92s, 2135 queries (+2135 other)
+2026-11-25 05:56:02,173 19328 WARNING golok_p09_migration_r01v odoo.addons.mail.controllers.attachment: markdown2 is not installed, markdown will not be rendered
+2026-11-25 05:56:02,315 19328 INFO golok_p09_migration_r01v odoo.modules.loading: 17 modules loaded in 6.06s, 2135 queries (+2135 extra)
+2026-11-25 05:56:02,857 19328 INFO golok_p09_migration_r01v odoo.registry: verifying fields for every extended model
+2026-11-25 05:56:03,971 19328 INFO golok_p09_migration_r01v odoo.modules.loading: Modules loaded.
+2026-11-25 05:56:03,982 19328 INFO golok_p09_migration_r01v odoo.registry: Registry changed, signaling through the database
+2026-11-25 05:56:03,985 19328 INFO golok_p09_migration_r01v odoo.registry: Registry loaded in 12.322s
+2026-11-25 05:56:03,986 19328 INFO golok_p09_migration_r01v odoo.service.server.ThreadedServer: Initiating shutdown
+2026-11-25 05:56:03,986 19328 INFO golok_p09_migration_r01v odoo.service.server.ThreadedServer: Hit CTRL-C again or send a second signal to force the shutdown.
+2026-11-25 05:56:03,986 19328 INFO golok_p09_migration_r01v odoo.addons.bus.websocket: Disconnecting 0 websockets
+2026-11-25 05:56:04,098 19328 INFO golok_p09_migration_r01v odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 1 connections 

@@ -35,6 +35,10 @@ Publisher સુધારેલી દૈનિક ફાઇલ આપે ત્
 હાલના offline અભ્યાસ માટે બહારનું ખાતું, static IP કે subscription લેવાની જરૂર નથી. વાસ્તવિક ડેટા માટે સંબંધિત સ્રોતના ઉપયોગ અને સંગ્રહની મંજૂરી જરૂરી છે.
 ## P06P07-R01 માં Upstox historical sync
 
+**Trading Lab → Market Data API Configuration**માં Provider પહેલાં **Offline** છે. અસલી data માટે **Market Data Authorization**, reviewed NSE mapping અને calendar પસંદ કરીને **Apply Settings** દબાવો. **Set or Replace Analytics Token**માં token અને timezone સહિત તેની expiry દાખલ કરો. Token Windows પર સ્થાનિક રીતે encrypt થાય છે. તેને ચેટ કે review ZIPમાં મૂકવાની જરૂર નથી.
+
+**Save and Test Connection** પસંદ કરેલી પરવાનગી મુજબ read-only ટેસ્ટ કરે છે. **Synchronize Instrument Reference** mapping ચકાસે છે. મંજૂર historical plan માટે **Automatically advance permitted historical plans** ચાલુ કરી શકો. મંજૂરી હોય ત્યારે V3 samples માટે **Collect timestamped V3 samples** પસંદ કરો. મોડા અથવા મંજૂરી વગરના samples છુપાય છે. અસલી feed અને paper-trading પરિણામોની ચકાસણી બાકી છે. [સંપૂર્ણ સેટઅપ](UPSTOX_ANALYTICS_CONFIGURATION.md)
+
 1. Offline ચકાસણી માટે Trading System Administrator તરીકે Odooમાં NSE fixture calendar અને Upstox mapping બનાવો. Mappingની key `NSE_EQ|ISIN` સ્વરૂપમાં હોવી જોઈએ.
 2. **Synchronize Historical** ખોલીને **Synthetic fixture** પસંદ કરો. Upstox V3નું synthetic JSON અને પૂર્ણ fixture session આપો. **Historical Sync Plans** માં `mapping_id/YYYY-MM-DD` key હેઠળ એ જ V3 response object આપી **Process Next Session** દબાવી શકો. **Sync History** માં count અને status જુઓ.
 3. અસલી data માટે Upstox accountમાંથી Analytics Tokenની ઉપલબ્ધતા અને query, display, local storage તથા internal researchની લેખિત મંજૂરી ચકાસો. **Market Data Authorization** માં મંજૂરીની નોંધ કરો.

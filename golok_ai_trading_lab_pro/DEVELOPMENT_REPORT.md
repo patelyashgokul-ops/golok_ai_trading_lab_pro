@@ -2,7 +2,7 @@
 
 **P06–P07 REPAIR PARTIAL — TECHNICAL OR EXTERNAL BLOCKERS REMAIN**
 
-Release `20.0.9.1.8` continues P06P07-R01 from verified P09.1 release `20.0.9.1.0`. The P09.1 archive, requirement identifiers, source checkpoint and prior published outputs were retained.
+Release `20.0.9.1.9` continues P06P07-R01 from verified P09.1 release `20.0.9.1.0`. The P09.1 archive, requirement identifiers, source checkpoint and prior published outputs were retained.
 
 ## Implemented
 
@@ -22,11 +22,13 @@ Release `20.0.9.1.8` continues P06P07-R01 from verified P09.1 release `20.0.9.1.
 - Historical and prospective competition records identify the shared ranking version and explicitly leave unmeasured financial inputs unknown.
 - The chart opens from the selected research snapshot and uses its verified input window for OHLC, EMA 20, SMA 20 and VWAP where available. The dashboard gap register covers all nine workspaces.
 - Daily Research Operations opens a company-scoped session report based on persisted phase, candidate, synchronization and paper-order records. It shows covered observations, recorded strategies, candidate reasons, risk vetoes and realized fixture results. The risk list exposes daily realized net and optional opening, reservation and position-cost balances.
+- Market Data API Configuration adds a disabled-by-default Upstox selection, Windows DPAPI credential entry and rotation, a permission-gated read-only connection check, separate history and instrument-reference status, automatic historical plan advancement and optional descriptive research scheduling.
+- The Upstox stream adapter verifies bounded V3 LTPC samples and maintains a retry cooldown. Continuous capture and the direct strategy, point-in-time replay and prospective paper handoff remain incomplete. Genuine provider and financial evidence remain blocked. [Configuration and coverage](docs/UPSTOX_ANALYTICS_CONFIGURATION.md)
 - The handoff reconciles all 180 P06 and P07 criteria and reviews the 97 original unresolved entries and 18 original defects. The 45 focused repair criteria are appended to traceability.
 
 ## Verification
 
-66 standalone tests passed. Fresh Odoo installation and module update each passed 27 tests. Edge passed 27 checks, including the Daily Research Report and risk balances. Independent PostgreSQL contention, worker termination and recovery passed. The populated upgrades preserved 1,243 XML IDs from P09.1 and 1,285 from the previous R01 database, along with the compared historical record digests. All eleven archived P09.1 stress cases matched. Of the 45 focused repair criteria, 41 passed and four remain partial.
+70 standalone tests passed. Fresh Odoo installation and module update each passed 28 tests. Edge passed 28 checks, including actual masked credential submission with an authored value and offline status. Independent PostgreSQL contention, worker termination and recovery passed. Populated upgrades preserved 1,243 XML IDs from P09.1 and 1,287 from the previous R01 database, along with the compared historical record digests. All eleven archived P09.1 stress cases matched. Of the original 45 focused repair criteria, 41 passed and four remain partial. The Upstox addendum has separate traceability.
 
 ## Readiness
 

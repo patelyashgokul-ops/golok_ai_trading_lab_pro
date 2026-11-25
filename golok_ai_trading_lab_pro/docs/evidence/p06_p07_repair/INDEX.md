@@ -83,3 +83,14 @@ Real provider, genuine market and independent financial results are unavailable.
 | Day coverage, paper reconciliation and regression | [Fresh installation](daily-report/verified/installation/fresh.log) · [Module update](daily-report/verified/installation/upgrade.log) · [PostgreSQL contention](daily-report/verified/security/contention.log) |
 | Edge | [Browser results](daily-report/verified/browser/edge.log) · [Daily Research Report](daily-report/verified/screenshots/daily-research-report.png) |
 | Populated upgrades | [Previous R01](daily-report/migration/upgrade/retention.log) · [Direct P09.1](daily-report/migration-direct/upgrade/retention.log) |
+
+## Release 20.0.9.1.9
+
+| Evidence | Artifact |
+|---|---|
+| Quote, instrument master, V3 binary fixtures, DPAPI and source checks | [Standalone](upstox-analytics/standalone.log) · [Runtime source scan](upstox-analytics/source.log) · [Stress parity](upstox-analytics/stress-parity.log) |
+| Role isolation, mock quote permissions, freshness and descriptive backfill | [Fresh install](upstox-analytics/browser-final/installation/fresh.log) · [Module update](upstox-analytics/browser-final/installation/upgrade.log) · [Contention](upstox-analytics/browser-final/security/contention.log) |
+| Edge masked workspace | [Browser](upstox-analytics/browser-final/browser/edge.log) · [Provider settings](upstox-analytics/browser-final/screenshots/analytics-configuration.png) · [Credential form](upstox-analytics/browser-final/screenshots/analytics-vault.png) |
+| Populated upgrades | [Previous R01](upstox-analytics/migration/upgrade/retention.log) · [Direct P09.1](upstox-analytics/migration-direct/upgrade/retention.log) |
+| Earlier fixture error | [Missing HTTPS reference for the reviewed calendar](upstox-analytics/verified/installation/fresh.log) |
+| Earlier browser check | [Initial locator read text instead of the selection value](upstox-analytics/final/browser/edge.log) |

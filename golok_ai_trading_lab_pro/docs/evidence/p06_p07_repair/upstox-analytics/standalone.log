@@ -70,6 +70,6 @@ test_walk_forward_uses_disjoint_trading_windows_and_embargo (unit_p09.Performanc
 test_zero_trades_remain_insufficient (unit_p09.PerformanceTests.test_zero_trades_remain_insufficient) ... ok
 
 ----------------------------------------------------------------------
-Ran 70 tests in 0.285s
+Ran 70 tests in 0.215s
 
 OK

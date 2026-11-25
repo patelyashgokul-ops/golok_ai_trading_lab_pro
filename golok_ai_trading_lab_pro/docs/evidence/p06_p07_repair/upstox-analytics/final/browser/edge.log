@@ -1,0 +1,74 @@
+Browser check database=golok_p09_fresh_r01w
+UI-01 authenticated OWL dashboard and empty state
+UI-02 CSV selected and imported through the Odoo wizard
+UI-06 database-backed OHLC and volume matched the uploaded fixture
+UI-03 historical research, accurate KPIs, refresh and snapshot drill-down
+UI-07 supplemental evidence generated and opened from the research snapshot
+UI-26 snapshot chart shows the frozen cutoff and independently checked indicator values
+UI-04 mobile viewport without horizontal overflow and no uncaught page errors
+UI-05 refresh gracefully recovered from a failed dashboard RPC
+UI-08 company experiment and virtual-account cards opened their native lists
+UI-09 historical scanner opens with instrument, company data and NO TRADE
+UI-10 portfolio KPI reconciles to the company-scoped native portfolio list
+UI-13 closing cash and net portfolio P&L reconcile to the two-instrument synthetic fixture
+UI-11 synthetic replay submitted through Odoo wizard RPC and persisted result, gates and frozen inputs inspected in Edge
+UI-12 end-of-day import list and authorized-file form opened in Edge
+UI-14 risk-authorized holdout consumed through native form and result displayed
+UI-15 persisted fixture-only operational status and NO TRADE visible in native dashboard
+UI-27 daily research report reconciles the persisted phases and labels unavailable results
+UI-16 deterministic fixture generated and immutable provenance displayed
+UI-17 historical timing fixture persisted and opened with its frozen fingerprint
+UI-18 synthetic performance report persisted with its calculation version
+UI-19 fixture-only reservation, entry, exit and journal through native forms
+UI-20 account risk monitor displays the native remaining budget
+UI-21 Upstox readiness distinguishes local setup, authorization and historical receipts
+UI-23 provider status shows source ceilings and current company grants
+UI-22 fixture candidate workspace exposes instrument and observation provenance
+UI-24 comparison verification and replay publication are exposed as separate controls
+UI-25 prospective account and daily event counts reconcile with scoped lists
+Traceback (most recent call last):
+  File "C:\PycharmProjects\odoo20\custom_addons\golok_ai_trading_lab_pro\scripts\verify_browser.py", line 359, in <module>
+    verify(*sys.argv[1:])
+    ~~~~~~^^^^^^^^^^^^^^^
+  File "C:\PycharmProjects\odoo20\custom_addons\golok_ai_trading_lab_pro\scripts\verify_browser.py", line 339, in verify
+    expect(page.locator(".o_form_view [name=provider]")).to_contain_text("Offline")
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\PycharmProjects\odoo20\.venv\Lib\site-packages\playwright\sync_api\_generated.py", line 14994, in to_contain_text
+    self._sync(
+    ~~~~~~~~~~^
+        self._impl_obj.to_contain_text(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+        )
+        ^
+    )
+    ^
+  File "C:\PycharmProjects\odoo20\.venv\Lib\site-packages\playwright\_impl\_sync_base.py", line 124, in _sync
+    return task.result()
+           ~~~~~~~~~~~^^
+  File "C:\PycharmProjects\odoo20\.venv\Lib\site-packages\playwright\_impl\assertions.py", line 306, in to_contain_text
+    await self._expect_impl(
+    ...<9 lines>...
+    )
+  File "C:\PycharmProjects\odoo20\.venv\Lib\site-packages\playwright\_impl\assertions.py", line 122, in _expect_impl
+    _record_soft_or_raise(
+    ~~~~~~~~~~~~~~~~~~~~~^
+        AssertionError(
+        ^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        self._is_soft,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\PycharmProjects\odoo20\.venv\Lib\site-packages\playwright\_impl\_assertions.py", line 50, in _record_soft_or_raise
+    raise error
+AssertionError: Locator expected to contain text 'Offline'
+Actual value:  
+Call log:
+  - Expect "to_contain_text" locator(".o_form_view [name=provider]") with timeout 5000ms
+  - waiting for locator(".o_form_view [name=provider]")
+    14 � locator resolved to <div name="provider" class="o_field_widget o_required_modifier o_field_selection">�</div>
+       - unexpected value ""
+
+Aria snapshot:
+- textbox "Provider": Offline

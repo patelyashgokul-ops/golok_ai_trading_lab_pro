@@ -6,12 +6,13 @@
 | Genuine historical data | External blocker | Acquire one approved completed NSE cash-equity session and document coverage and timestamps. |
 | Real out-of-sample and prospective validation | External blocker | Secure separately authorized data and use, recorded publication timing, an independent sample and applicable fees. |
 | Verified live data and actionable support | Disabled | Requires explicit data-use entitlement, independent production and financial validation. Real order execution is outside this project scope. |
-| Provider coverage and health | Technical partial | Broker history diagnostics distinguish the seven capability stages. Authenticated production health and the wider provider interface are open. NSE MCP remains protocol-fixture only. Yahoo stays disabled. |
+| Provider coverage and health | Technical partial | The Upstox workspace adds encrypted local configuration, REST, instrument-reference matching and bounded V3 LTPC sampling. Continuous capture and genuine production health remain open. NSE MCP remains protocol-fixture only. Yahoo stays disabled. |
 | Data integrity across imports | External evidence outstanding | The negative fixture matrix covers the required rejection cases. An otherwise coherent price series with a uniform scale error requires an independent equivalent observation or an authoritative unit contract. Genuine corporate-action samples remain outstanding. |
 | Research policies | Technical partial | The training-only excursion cap and snapshot evidence envelope are implemented. Expand specialized workflow evidence, strategy cost sensitivity, and the seven capabilities requiring external inputs. |
 | Holdout data for independent evaluation | External blocker | The Odoo date-window guard covers locally tested roles and intake paths. A genuine independent evaluation requires a separately authorized sample. |
 | Workspaces | Technical partial | Chart overlays, candidate timing, provider states, the consolidated session report and risk-list balances are available. Remaining work includes scanner filters, additional chart overlays, portfolio curves and production telemetry. |
 | Scheduled operational validation | Technical partial | Exercise long-running recovery with actual authorized inputs, including disconnect and stale-source recovery. |
+| Upstox Analytics addendum | Technical partial | Complete direct point-in-time replay and prospective paper ingestion from an authorized validated source with executable observations. Receipt-time history and LTPC samples carry different semantics. [Addendum coverage](UPSTOX_ANALYTICS_CONFIGURATION.md) |
 
 The four partial R67 criteria are provider capability states (007), genuine-source freshness and candidate expiry (021), financial evidence in multi-strategy competition (027), and the original dashboard workflow depth (038). The traceability table records the verified portion of each.
 

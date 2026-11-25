@@ -1,6 +1,6 @@
 /** @odoo-module **/
 
-import { Component, onMounted, proxy, useRef } from "@odoo/owl";
+import { Component, onMounted, proxy } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { _t } from "@web/core/l10n/translation";
 
@@ -8,8 +8,6 @@ class AnalyticsCredential extends Component {
     static template = "golok_ai_trading_lab_pro.AnalyticsCredential";
 
     setup() {
-        this.secretInput = useRef("secret");
-        this.expiryInput = useRef("expiry");
         this.state = proxy({ loading: true, banner: "", connection: "", stored: false });
         this.companyId = this.props.action.params.company_id;
         onMounted(() => this.load());
@@ -32,8 +30,10 @@ class AnalyticsCredential extends Component {
         }
     }
 
-    async save() {
-        const input = this.secretInput.el;
+    async save(event) {
+        event.preventDefault();
+        const form = event.currentTarget;
+        const input = form.elements.namedItem("credential");
         const credential = input.value;
         input.value = "";
         this.state.loading = true;
@@ -45,7 +45,7 @@ class AnalyticsCredential extends Component {
                     company_id: this.companyId,
                     csrf_token: this.csrf,
                     credential,
-                    expiry: this.expiryInput.el.value.trim(),
+                    expiry: form.elements.namedItem("expiry").value.trim(),
                 }),
             });
             if (!result.ok) {
